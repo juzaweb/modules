@@ -3,7 +3,7 @@
 namespace Juzaweb\CMS\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Filesystem\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\RateLimiter;
@@ -69,7 +69,6 @@ use Juzaweb\CMS\Support\Validators\ModelUnique;
 use Juzaweb\CMS\Support\XssCleaner;
 use Juzaweb\DevTool\Providers\DevToolServiceProvider;
 use Juzaweb\Frontend\Providers\FrontendServiceProvider;
-use Juzaweb\Multilang\Providers\MultilangServiceProvider;
 use Juzaweb\Network\Providers\NetworkServiceProvider;
 use Juzaweb\Translation\Providers\TranslationServiceProvider;
 use Laravel\Passport\Passport;
@@ -79,7 +78,7 @@ class CmsServiceProvider extends ServiceProvider
 {
     protected string $basePath = __DIR__.'/..';
 
-    public function boot()
+    public function boot(): void
     {
         $this->bootMigrations();
         $this->bootPublishes();
@@ -134,42 +133,6 @@ class CmsServiceProvider extends ServiceProvider
         });*/
     }
 
-    public function register(): void
-    {
-        $this->registerSingleton();
-        $this->registerConfigs();
-        $this->registerProviders();
-        Passport::ignoreMigrations();
-    }
-
-    protected function registerConfigs()
-    {
-        $this->mergeConfigFrom(
-            $this->basePath.'/config/juzaweb.php',
-            'juzaweb'
-        );
-
-        $this->mergeConfigFrom(
-            $this->basePath.'/config/locales.php',
-            'locales'
-        );
-
-        $this->mergeConfigFrom(
-            $this->basePath.'/config/countries.php',
-            'countries'
-        );
-
-        $this->mergeConfigFrom(
-            $this->basePath.'/config/installer.php',
-            'installer'
-        );
-
-        $this->mergeConfigFrom(
-            $this->basePath.'/config/network.php',
-            'network'
-        );
-    }
-
     protected function bootMigrations()
     {
         $mainPath = $this->basePath.'/Database/migrations';
@@ -187,6 +150,25 @@ class CmsServiceProvider extends ServiceProvider
             ],
             'cms_config'
         );
+    }
+
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for(
+            'api',
+            function (Request $request) {
+                return Limit::perMinute(120)
+                    ->by($request->user()?->id ?: get_client_ip());
+            }
+        );
+    }
+
+    public function register(): void
+    {
+        $this->registerSingleton();
+        $this->registerConfigs();
+        $this->registerProviders();
+        Passport::ignoreMigrations();
     }
 
     protected function registerSingleton()
@@ -367,7 +349,35 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->app->bind(
             GoogleTranslateContract::class,
-            fn ($app) => new GoogleTranslate($app[\Illuminate\Contracts\Filesystem\Factory::class])
+            fn($app) => new GoogleTranslate($app[Factory::class])
+        );
+    }
+
+    protected function registerConfigs()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../../../config/juzaweb.php',
+            'juzaweb'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../../config/locales.php',
+            'locales'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../../config/countries.php',
+            'countries'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../../config/installer.php',
+            'installer'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../../../config/network.php',
+            'network'
         );
     }
 
@@ -399,16 +409,5 @@ class CmsServiceProvider extends ServiceProvider
         if (config('juzaweb.api.enable')) {
             $this->app->register(APIServiceProvider::class);
         }
-    }
-
-    protected function configureRateLimiting(): void
-    {
-        RateLimiter::for(
-            'api',
-            function (Request $request) {
-                return Limit::perMinute(120)
-                    ->by($request->user()?->id ?: get_client_ip());
-            }
-        );
     }
 }

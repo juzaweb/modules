@@ -20,25 +20,31 @@ class PluginServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register all plugins.
+     */
+    protected function registerModules(): void
+    {
+        $this->app->register(BootstrapServiceProvider::class);
+    }
+
+    /**
      * Register the service provider.
      */
-    public function register()
+    public function register(): void
     {
         $this->registerNamespaces();
         $this->registerServices();
     }
 
     /**
-     * Get the services provided by the provider.
-     *
-     * @return array
+     * Register package's namespaces.
      */
-    public function provides(): array
+    protected function registerNamespaces(): void
     {
-        return [LocalPluginRepositoryContract::class, 'plugins'];
+        $this->mergeConfigFrom(__DIR__.'/../../../config/plugin.php', 'plugin');
     }
 
-    protected function registerServices()
+    protected function registerServices(): void
     {
         $this->app->singleton(
             LocalPluginRepositoryContract::class,
@@ -64,19 +70,12 @@ class PluginServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register all plugins.
+     * Get the services provided by the provider.
+     *
+     * @return array
      */
-    protected function registerModules()
+    public function provides(): array
     {
-        $this->app->register(BootstrapServiceProvider::class);
-    }
-
-    /**
-     * Register package's namespaces.
-     */
-    protected function registerNamespaces()
-    {
-        $configPath = __DIR__ . '/../config/plugin.php';
-        $this->mergeConfigFrom($configPath, 'plugin');
+        return [LocalPluginRepositoryContract::class, 'plugins'];
     }
 }

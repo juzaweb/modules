@@ -40,7 +40,7 @@ class PermissionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/permission.php',
+            __DIR__.'/../../../config/permission.php',
             'permission'
         );
 
