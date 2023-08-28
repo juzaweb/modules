@@ -116,8 +116,8 @@ class BackendServiceProvider extends ServiceProvider
 
     public function register(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'cms');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'cms');
+        $this->loadViewsFrom(__DIR__ . '/../../../resources/views', 'cms');
+        $this->loadTranslationsFrom(__DIR__ . '/../../../resources/lang', 'cms');
 
         $this->app->register(RouteServiceProvider::class);
         $this->app->register(AuthServiceProvider::class);
@@ -143,21 +143,21 @@ class BackendServiceProvider extends ServiceProvider
     {
         $this->publishes(
             [
-                __DIR__ . '/../resources/views' => resource_path('views/vendor/cms'),
+                __DIR__ . '/../../../resources/views' => resource_path('views/vendor/cms'),
             ],
             'cms_views'
         );
 
         $this->publishes(
             [
-                __DIR__ . '/../resources/lang' => resource_path('lang/cms'),
+                __DIR__ . '/../../../resources/resources/lang' => resource_path('lang/cms'),
             ],
             'cms_lang'
         );
 
         $this->publishes(
             [
-                __DIR__ . '/../resources/assets/public' => public_path('jw-styles/juzaweb'),
+                __DIR__ . '/../../../resources/assets/public' => public_path('jw-styles/juzaweb'),
             ],
             'cms_assets'
         );
