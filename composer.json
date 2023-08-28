@@ -1,6 +1,6 @@
 {
     "name": "juzaweb/modules",
-    "description": "This is Example plugin for Juzaweb CMS",
+    "description": "Modules for Juzaweb CMS",
     "extra": {
         "laravel": {
             "providers": [
