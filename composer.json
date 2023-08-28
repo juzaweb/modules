@@ -1,0 +1,19 @@
+{
+    "name": "juzaweb/modules",
+    "description": "This is Example plugin for Juzaweb CMS",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Juzaweb\\CMS\\Providers\\CmsServiceProvider"
+            ],
+            "files": [
+                "helpers/helpers.php"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Juzaweb\\": "app/"
+        }
+    }
+}
