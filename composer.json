@@ -6,16 +6,16 @@
         "laravel": {
             "providers": [
                 "Juzaweb\\CMS\\Providers\\CmsServiceProvider"
-            ],
-            "files": [
-                "helpers/helpers.php"
             ]
         }
     },
     "autoload": {
         "psr-4": {
             "Juzaweb\\": "app/"
-        }
+        },
+        "files": [
+            "helpers/helpers.php"
+        ]
     },
     "require": {
         "php": "^8.0|^8.1",
