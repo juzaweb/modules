@@ -67,7 +67,6 @@ use Juzaweb\CMS\Support\Translations\TranslationFinder;
 use Juzaweb\CMS\Support\Validators\ModelExists;
 use Juzaweb\CMS\Support\Validators\ModelUnique;
 use Juzaweb\CMS\Support\XssCleaner;
-use Juzaweb\DevTool\Providers\DevToolServiceProvider;
 use Juzaweb\Frontend\Providers\FrontendServiceProvider;
 use Juzaweb\Network\Providers\NetworkServiceProvider;
 use Juzaweb\Translation\Providers\TranslationServiceProvider;
@@ -133,7 +132,7 @@ class CmsServiceProvider extends ServiceProvider
         });*/
     }
 
-    protected function bootMigrations()
+    protected function bootMigrations(): void
     {
         $mainPath = $this->basePath.'/Database/migrations';
         $directories = glob($mainPath.'/*', GLOB_ONLYDIR);
@@ -141,7 +140,7 @@ class CmsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom($paths);
     }
 
-    protected function bootPublishes()
+    protected function bootPublishes(): void
     {
         $this->publishes(
             [
@@ -171,7 +170,7 @@ class CmsServiceProvider extends ServiceProvider
         Passport::ignoreMigrations();
     }
 
-    protected function registerSingleton()
+    protected function registerSingleton(): void
     {
         $this->app->singleton(
             MacroableModelContract::class,
@@ -353,7 +352,7 @@ class CmsServiceProvider extends ServiceProvider
         );
     }
 
-    protected function registerConfigs()
+    protected function registerConfigs(): void
     {
         $this->mergeConfigFrom(
             __DIR__.'/../../../config/juzaweb.php',
@@ -381,7 +380,7 @@ class CmsServiceProvider extends ServiceProvider
         );
     }
 
-    protected function registerProviders()
+    protected function registerProviders(): void
     {
         $this->app->register(RepositoryServiceProvider::class);
         if (config('network.enable')) {

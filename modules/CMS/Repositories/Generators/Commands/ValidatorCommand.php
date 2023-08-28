@@ -60,9 +60,9 @@ class ValidatorCommand extends Command
         try {
             (new ValidatorGenerator(
                 [
-                'name' => $this->argument('name'),
-                'rules' => $this->option('rules'),
-                'force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    'rules' => $this->option('rules'),
+                    'force' => $this->option('force'),
                 ]
             ))->run();
             $this->info("Validator created successfully.");

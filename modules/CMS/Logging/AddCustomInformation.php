@@ -14,19 +14,17 @@ use Illuminate\Http\Request;
 
 class AddCustomInformation
 {
-    protected $request;
+    protected Request $request;
 
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
 
-    public function __invoke($logger)
+    public function __invoke($logger): void
     {
-        if ($this->request) {
-            foreach ($logger->getHandlers() as $handler) {
-                $handler->pushProcessor([$this, 'processLogRecord']);
-            }
+        foreach ($logger->getHandlers() as $handler) {
+            $handler->pushProcessor([$this, 'processLogRecord']);
         }
     }
 

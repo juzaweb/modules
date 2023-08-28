@@ -2,6 +2,8 @@
 
 namespace Juzaweb\CMS\Repositories\Criterias;
 
+use DateTime;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Juzaweb\CMS\Repositories\Contracts\CriteriaInterface;
@@ -9,9 +11,9 @@ use Juzaweb\CMS\Repositories\Contracts\RepositoryInterface;
 
 class CacheCriteria implements CriteriaInterface
 {
-    protected null|int|\DateTime $ttl;
+    protected null|int|DateTime $ttl;
 
-    public function __construct(null|int|\DateTime $ttl)
+    public function __construct(null|int|DateTime $ttl)
     {
         $this->ttl = $ttl;
     }
@@ -23,7 +25,7 @@ class CacheCriteria implements CriteriaInterface
      * @param  RepositoryInterface  $repository
      *
      * @return Builder
-     * @throws \Exception
+     * @throws Exception
      */
     public function apply($model, RepositoryInterface $repository)
     {

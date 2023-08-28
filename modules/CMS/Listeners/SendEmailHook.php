@@ -19,7 +19,7 @@ class SendEmailHook implements ShouldQueue
     public function handle(EmailHook $event): void
     {
         $params = $event->args['params'] ?? [];
-        $templates = EmailTemplate::with(['users' => fn($q) => $q->select(['email'])])
+        $templates = EmailTemplate::with(['users' => fn ($q) => $q->select(['email'])])
             ->where(['email_hook' => $event->hook, 'active' => true])
             ->get();
 

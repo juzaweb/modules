@@ -14,7 +14,7 @@ class PluginServiceProvider extends ServiceProvider
     /**
      * Booting the package.
      */
-    public function boot()
+    public function boot(): void
     {
         $this->registerModules();
     }

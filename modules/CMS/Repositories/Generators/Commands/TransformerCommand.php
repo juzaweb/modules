@@ -60,8 +60,8 @@ class TransformerCommand extends Command
         try {
             (new TransformerGenerator(
                 [
-                'name' => $this->argument('name'),
-                'force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    'force' => $this->option('force'),
                 ]
             ))->run();
             $this->info("Transformer created successfully.");

@@ -57,8 +57,8 @@ class EntityCommand extends Command
             $this->call(
                 'make:presenter',
                 [
-                'name' => $this->argument('name'),
-                '--force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    '--force' => $this->option('force'),
                 ]
             );
         }
@@ -72,9 +72,9 @@ class EntityCommand extends Command
             $this->call(
                 'make:validator',
                 [
-                'name' => $this->argument('name'),
-                '--rules' => $this->option('rules'),
-                '--force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    '--rules' => $this->option('rules'),
+                    '--force' => $this->option('force'),
                 ]
             );
         }
@@ -92,19 +92,19 @@ class EntityCommand extends Command
         $this->call(
             'make:repository',
             [
-            'name' => $this->argument('name'),
-            '--fillable' => $this->option('fillable'),
-            '--rules' => $this->option('rules'),
-            '--validator' => $validator,
-            '--force' => $this->option('force'),
+                'name' => $this->argument('name'),
+                '--fillable' => $this->option('fillable'),
+                '--rules' => $this->option('rules'),
+                '--validator' => $validator,
+                '--force' => $this->option('force'),
             ]
         );
 
         $this->call(
             'make:bindings',
             [
-            'name' => $this->argument('name'),
-            '--force' => $this->option('force'),
+                'name' => $this->argument('name'),
+                '--force' => $this->option('force'),
             ]
         );
     }

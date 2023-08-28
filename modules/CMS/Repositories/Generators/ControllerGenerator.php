@@ -100,12 +100,12 @@ class ControllerGenerator extends Generator
         return array_merge(
             parent::getReplacements(),
             [
-            'controller' => $this->getControllerName(),
-            'plural' => $this->getPluralName(),
-            'singular' => $this->getSingularName(),
-            'validator' => $this->getValidator(),
-            'repository' => $this->getRepository(),
-            'appname' => $this->getAppNamespace(),
+                'controller' => $this->getControllerName(),
+                'plural' => $this->getPluralName(),
+                'singular' => $this->getSingularName(),
+                'validator' => $this->getValidator(),
+                'repository' => $this->getRepository(),
+                'appname' => $this->getAppNamespace(),
             ]
         );
     }
@@ -129,7 +129,7 @@ class ControllerGenerator extends Generator
     {
         $validatorGenerator = new ValidatorGenerator(
             [
-            'name' => $this->name,
+                'name' => $this->name,
             ]
         );
 
@@ -137,9 +137,9 @@ class ControllerGenerator extends Generator
 
         return 'use '.str_replace(
             [
-                "\\",
-                '/',
-            ],
+                    "\\",
+                    '/',
+                ],
             '\\',
             $validator
         ).'Validator;';
@@ -155,7 +155,7 @@ class ControllerGenerator extends Generator
     {
         $repositoryGenerator = new RepositoryInterfaceGenerator(
             [
-            'name' => $this->name,
+                'name' => $this->name,
             ]
         );
 
@@ -163,9 +163,9 @@ class ControllerGenerator extends Generator
 
         return 'use '.str_replace(
             [
-                "\\",
-                '/',
-            ],
+                    "\\",
+                    '/',
+                ],
             '\\',
             $repository
         ).'Repository;';

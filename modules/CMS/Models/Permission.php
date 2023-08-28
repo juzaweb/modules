@@ -2,11 +2,15 @@
 
 namespace Juzaweb\CMS\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Contracts\Permission as PermissionContract;
 use Juzaweb\CMS\Exceptions\PermissionAlreadyExists;
+use Juzaweb\CMS\Exceptions\PermissionDoesNotExist;
 use Juzaweb\CMS\Support\Permission\Guard;
 use Juzaweb\CMS\Support\Permission\PermissionRegistrar;
 use Juzaweb\CMS\Traits\Permission\HasRoles;
@@ -18,29 +22,29 @@ use Juzaweb\CMS\Traits\Permission\RefreshesPermissionCache;
  * @property int $id
  * @property string $name
  * @property string $guard_name
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $description
  * @property-read Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read Collection|\Juzaweb\CMS\Models\Role[] $roles
+ * @property-read Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @property-read Collection|\Juzaweb\CMS\Models\User[] $users
+ * @property-read Collection|User[] $users
  * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder|Permission newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Permission newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Permission permission($permissions)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission query()
- * @method static \Illuminate\Database\Eloquent\Builder|Permission role($roles, $guard = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereGuardName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|Permission newModelQuery()
+ * @method static Builder|Permission newQuery()
+ * @method static Builder|Permission permission($permissions)
+ * @method static Builder|Permission query()
+ * @method static Builder|Permission role($roles, $guard = null)
+ * @method static Builder|Permission whereCreatedAt($value)
+ * @method static Builder|Permission whereDescription($value)
+ * @method static Builder|Permission whereGuardName($value)
+ * @method static Builder|Permission whereId($value)
+ * @method static Builder|Permission whereName($value)
+ * @method static Builder|Permission whereUpdatedAt($value)
+ * @mixin Eloquent
  * @property int $group_id
- * @method static \Illuminate\Database\Eloquent\Builder|Permission whereGroupId($value)
+ * @method static Builder|Permission whereGroupId($value)
  */
 class Permission extends Model implements PermissionContract
 {
@@ -108,18 +112,18 @@ class Permission extends Model implements PermissionContract
     /**
      * Find a permission by its name (and optionally guardName).
      *
-     * @param string $name
-     * @param string|null $guardName
+     * @param  string  $name
+     * @param  string|null  $guardName
      *
-     * @return \Juzaweb\CMS\Contracts\Permission
-     *@throws \Juzaweb\CMS\Exceptions\PermissionDoesNotExist
+     * @return PermissionContract
+     * @throws PermissionDoesNotExist
      *
      */
     public static function findByName(string $name, $guardName = null): ?PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
-        if (! $permission) {
+        if (!$permission) {
             return null;
         }
 
@@ -129,11 +133,11 @@ class Permission extends Model implements PermissionContract
     /**
      * Find a permission by its id (and optionally guardName).
      *
-     * @param int $id
-     * @param string|null $guardName
+     * @param  int  $id
+     * @param  string|null  $guardName
      *
-     * @return \Juzaweb\CMS\Contracts\Permission
-     *@throws \Juzaweb\CMS\Exceptions\PermissionDoesNotExist
+     * @return PermissionContract
+     * @throws PermissionDoesNotExist
      *
      */
     public static function findById(int $id, $guardName = null): ?PermissionContract
@@ -141,7 +145,7 @@ class Permission extends Model implements PermissionContract
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (! $permission) {
+        if (!$permission) {
             return null;
         }
 
@@ -151,17 +155,17 @@ class Permission extends Model implements PermissionContract
     /**
      * Find or create permission by its name (and optionally guardName).
      *
-     * @param string $name
-     * @param string|null $guardName
+     * @param  string  $name
+     * @param  string|null  $guardName
      *
-     * @return \Juzaweb\CMS\Contracts\Permission
+     * @return PermissionContract
      */
     public static function findOrCreate(string $name, $guardName = null): PermissionContract
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermission(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $permission) {
+        if (!$permission) {
             return static::query()->create(['name' => $name, 'guard_name' => $guardName]);
         }
 
@@ -171,10 +175,10 @@ class Permission extends Model implements PermissionContract
     /**
      * Get the current cached permissions.
      *
-     * @param array $params
-     * @param bool $onlyOne
+     * @param  array  $params
+     * @param  bool  $onlyOne
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
     protected static function getPermissions(array $params = [], bool $onlyOne = false): Collection
     {
@@ -186,9 +190,9 @@ class Permission extends Model implements PermissionContract
     /**
      * Get the current cached first permission.
      *
-     * @param array $params
+     * @param  array  $params
      *
-     * @return \Juzaweb\CMS\Contracts\Permission
+     * @return PermissionContract
      */
     protected static function getPermission(array $params = []): ?PermissionContract
     {

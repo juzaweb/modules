@@ -72,14 +72,14 @@ class TransformerGenerator extends Generator
     {
         $modelGenerator = new ModelGenerator(
             [
-            'name' => $this->name,
+                'name' => $this->name,
             ]
         );
         $model = $modelGenerator->getRootNamespace().'\\'.$modelGenerator->getName();
         $model = str_replace(
             [
-            "\\",
-            '/',
+                "\\",
+                '/',
             ],
             '\\',
             $model
@@ -88,7 +88,7 @@ class TransformerGenerator extends Generator
         return array_merge(
             parent::getReplacements(),
             [
-            'model' => $model,
+                'model' => $model,
             ]
         );
     }

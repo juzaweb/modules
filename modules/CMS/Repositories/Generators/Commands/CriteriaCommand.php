@@ -58,8 +58,8 @@ class CriteriaCommand extends Command
         try {
             (new CriteriaGenerator(
                 [
-                'name' => $this->argument('name'),
-                'force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    'force' => $this->option('force'),
                 ]
             ))->run();
 

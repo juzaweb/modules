@@ -108,8 +108,8 @@ class Role extends Model implements RoleContract
     /**
      * Find a role by its name and guard name.
      *
-     * @param string $name
-     * @param string|null $guardName
+     * @param  string  $name
+     * @param  string|null  $guardName
      *
      * @return \Juzaweb\CMS\Contracts\Role|\Spatie\Permission\Models\Role
      *
@@ -121,7 +121,7 @@ class Role extends Model implements RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::named($name);
         }
 
@@ -131,8 +131,8 @@ class Role extends Model implements RoleContract
     /**
      * Find a role by its id (and optionally guardName).
      *
-     * @param int $id
-     * @param string|null $guardName
+     * @param  int  $id
+     * @param  string|null  $guardName
      *
      * @return \Juzaweb\CMS\Contracts\Role|\Spatie\Permission\Models\Role
      */
@@ -142,7 +142,7 @@ class Role extends Model implements RoleContract
 
         $role = static::findByParam([(new static())->getKeyName() => $id, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             throw RoleDoesNotExist::withId($id);
         }
 
@@ -152,8 +152,8 @@ class Role extends Model implements RoleContract
     /**
      * Find or create role by its name (and optionally guardName).
      *
-     * @param string $name
-     * @param string|null $guardName
+     * @param  string  $name
+     * @param  string|null  $guardName
      *
      * @return \Juzaweb\CMS\Contracts\Role|\Spatie\Permission\Models\Role
      */
@@ -163,9 +163,12 @@ class Role extends Model implements RoleContract
 
         $role = static::findByParam(['name' => $name, 'guard_name' => $guardName]);
 
-        if (! $role) {
+        if (!$role) {
             return static::query()
-                ->create(['name' => $name, 'guard_name' => $guardName] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
+                ->create([
+                        'name' => $name,
+                        'guard_name' => $guardName
+                    ] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
         }
 
         return $role;
@@ -198,7 +201,7 @@ class Role extends Model implements RoleContract
     /**
      * Determine if the user may perform the given permission.
      *
-     * @param string|Permission $permission
+     * @param  string|Permission  $permission
      *
      * @return bool
      *
@@ -224,7 +227,7 @@ class Role extends Model implements RoleContract
             return false;
         }
 
-        if (! $this->getGuardNames()->contains($permission->guard_name)) {
+        if (!$this->getGuardNames()->contains($permission->guard_name)) {
             throw GuardDoesNotMatch::create($permission->guard_name, $this->getGuardNames());
         }
 

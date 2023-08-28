@@ -243,7 +243,7 @@ class User extends Authenticatable
     }
 
     /**
-     * @param Builder $builder
+     * @param  Builder  $builder
      * @return Builder
      */
     public function scopeActive(Builder $builder): Builder

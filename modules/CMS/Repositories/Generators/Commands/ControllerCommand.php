@@ -71,7 +71,7 @@ class ControllerCommand extends Command
             $this->call(
                 'make:request',
                 [
-                'name' => $this->argument('name').'CreateRequest',
+                    'name' => $this->argument('name').'CreateRequest',
                 ]
             );
 
@@ -79,14 +79,14 @@ class ControllerCommand extends Command
             $this->call(
                 'make:request',
                 [
-                'name' => $this->argument('name').'UpdateRequest',
+                    'name' => $this->argument('name').'UpdateRequest',
                 ]
             );
 
             (new ControllerGenerator(
                 [
-                'name' => $this->argument('name'),
-                'force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    'force' => $this->option('force'),
                 ]
             ))->run();
 

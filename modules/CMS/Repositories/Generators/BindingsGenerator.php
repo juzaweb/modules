@@ -88,7 +88,7 @@ class BindingsGenerator extends Generator
     {
         $repositoryGenerator = new RepositoryInterfaceGenerator(
             [
-            'name' => $this->name,
+                'name' => $this->name,
             ]
         );
 
@@ -96,9 +96,9 @@ class BindingsGenerator extends Generator
 
         return str_replace(
             [
-                "\\",
-                '/',
-            ],
+                    "\\",
+                    '/',
+                ],
             '\\',
             $repository
         ).'Repository';
@@ -113,7 +113,7 @@ class BindingsGenerator extends Generator
     {
         $repositoryGenerator = new RepositoryEloquentGenerator(
             [
-            'name' => $this->name,
+                'name' => $this->name,
             ]
         );
 
@@ -121,9 +121,9 @@ class BindingsGenerator extends Generator
 
         return str_replace(
             [
-                "\\",
-                '/',
-            ],
+                    "\\",
+                    '/',
+                ],
             '\\',
             $repository
         ).'RepositoryEloquent';
@@ -149,9 +149,9 @@ class BindingsGenerator extends Generator
         return array_merge(
             parent::getReplacements(),
             [
-            'repository' => $this->getRepository(),
-            'eloquent' => $this->getEloquentRepository(),
-            'placeholder' => $this->bindPlaceholder,
+                'repository' => $this->getRepository(),
+                'eloquent' => $this->getEloquentRepository(),
+                'placeholder' => $this->bindPlaceholder,
             ]
         );
     }

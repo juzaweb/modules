@@ -60,8 +60,8 @@ class PresenterCommand extends Command
         try {
             (new PresenterGenerator(
                 [
-                'name' => $this->argument('name'),
-                'force' => $this->option('force'),
+                    'name' => $this->argument('name'),
+                    'force' => $this->option('force'),
                 ]
             ))->run();
             $this->info("Presenter created successfully.");
@@ -70,8 +70,8 @@ class PresenterCommand extends Command
                 if ($this->confirm('Would you like to create a Transformer? [y|N]')) {
                     (new TransformerGenerator(
                         [
-                        'name' => $this->argument('name'),
-                        'force' => $this->option('force'),
+                            'name' => $this->argument('name'),
+                            'force' => $this->option('force'),
                         ]
                     ))->run();
                     $this->info("Transformer created successfully.");

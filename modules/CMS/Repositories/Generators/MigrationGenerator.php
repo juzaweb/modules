@@ -22,6 +22,15 @@ class MigrationGenerator extends Generator
      */
     protected $stub = 'migration/plain';
 
+    /**
+     * Get destination path for generated file.
+     *
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->getBasePath().$this->getFileName().'.php';
+    }
 
     /**
      * Get base path of destination file.
@@ -33,39 +42,15 @@ class MigrationGenerator extends Generator
         return base_path().'/database/migrations/';
     }
 
-
     /**
-     * Get destination path for generated file.
+     * Get file name.
      *
      * @return string
      */
-    public function getPath()
+    public function getFileName()
     {
-        return $this->getBasePath().$this->getFileName().'.php';
+        return date('Y_m_d_His_').$this->getMigrationName();
     }
-
-
-    /**
-     * Get generator path config node.
-     *
-     * @return string
-     */
-    public function getPathConfigNode()
-    {
-        return '';
-    }
-
-
-    /**
-     * Get root namespace.
-     *
-     * @return string
-     */
-    public function getRootNamespace()
-    {
-        return '';
-    }
-
 
     /**
      * Get migration name.
@@ -77,39 +62,25 @@ class MigrationGenerator extends Generator
         return strtolower($this->name);
     }
 
-
     /**
-     * Get file name.
+     * Get generator path config node.
      *
      * @return string
      */
-    public function getFileName()
+    public function getPathConfigNode()
     {
-        return date('Y_m_d_His_').$this->getMigrationName();
+        return '';
     }
-
 
     /**
-     * Get schema parser.
+     * Get root namespace.
      *
-     * @return SchemaParser
+     * @return string
      */
-    public function getSchemaParser()
+    public function getRootNamespace()
     {
-        return new SchemaParser($this->fields);
+        return '';
     }
-
-
-    /**
-     * Get name parser.
-     *
-     * @return NameParser
-     */
-    public function getNameParser()
-    {
-        return new NameParser($this->name);
-    }
-
 
     /**
      * Get stub templates.
@@ -166,5 +137,25 @@ class MigrationGenerator extends Generator
         }
 
         return Stub::create($path."/Stubs/migration/{$file}.stub", $replacements);
+    }
+
+    /**
+     * Get name parser.
+     *
+     * @return NameParser
+     */
+    public function getNameParser()
+    {
+        return new NameParser($this->name);
+    }
+
+    /**
+     * Get schema parser.
+     *
+     * @return SchemaParser
+     */
+    public function getSchemaParser()
+    {
+        return new SchemaParser($this->fields);
     }
 }

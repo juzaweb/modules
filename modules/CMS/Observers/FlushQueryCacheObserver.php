@@ -11,7 +11,7 @@ class FlushQueryCacheObserver
     /**
      * Handle the Model "created" event.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      * @throws Exception
      */
@@ -23,7 +23,7 @@ class FlushQueryCacheObserver
     /**
      * Handle the Model "updated" event.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      * @throws Exception
      */
@@ -35,7 +35,7 @@ class FlushQueryCacheObserver
     /**
      * Handle the Model "deleted" event.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      * @throws Exception
      */
@@ -47,7 +47,7 @@ class FlushQueryCacheObserver
     /**
      * Handle the Model "forceDeleted" event.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      * @throws Exception
      */
@@ -59,7 +59,7 @@ class FlushQueryCacheObserver
     /**
      * Handle the Model "restored" event.
      *
-     * @param Model $model
+     * @param  Model  $model
      * @return void
      */
     public function restored(Model $model): void
@@ -71,7 +71,7 @@ class FlushQueryCacheObserver
      * Invalidate attach for belongsToMany.
      *
      * @param  string  $relation
-     * @param Model $model
+     * @param  Model  $model
      * @param  array  $ids
      * @return void
      */
@@ -84,7 +84,7 @@ class FlushQueryCacheObserver
      * Invalidate detach for belongsToMany.
      *
      * @param  string  $relation
-     * @param Model $model
+     * @param  Model  $model
      * @param  array  $ids
      * @return void
      */
@@ -97,7 +97,7 @@ class FlushQueryCacheObserver
      * Invalidate update pivot for belongsToMany.
      *
      * @param  string  $relation
-     * @param Model $model
+     * @param  Model  $model
      * @param  array  $ids
      * @return void
      */
@@ -110,7 +110,7 @@ class FlushQueryCacheObserver
      * Invalidate attach for morphToMany.
      *
      * @param  string  $relation
-     * @param Model $model
+     * @param  Model  $model
      * @param  array  $ids
      * @return void
      */
@@ -122,13 +122,13 @@ class FlushQueryCacheObserver
     /**
      * Invalidate detach for morphToMany.
      *
-     * @param string $relation
-     * @param Model $model
-     * @param array $ids
+     * @param  string  $relation
+     * @param  Model  $model
+     * @param  array  $ids
      * @return void
      * @throws Exception
      */
-    public function morphToManyDetached(string $relation, Model $model, array $ids)
+    public function morphToManyDetached(string $relation, Model $model, array $ids): void
     {
         $this->invalidateCache($model, $relation, $model->{$relation}()->findMany($ids));
     }
@@ -136,13 +136,13 @@ class FlushQueryCacheObserver
     /**
      * Invalidate update pivot for morphToMany.
      *
-     * @param string $relation
-     * @param Model $model
-     * @param array $ids
+     * @param  string  $relation
+     * @param  Model  $model
+     * @param  array  $ids
      * @return void
      * @throws Exception
      */
-    public function morphToManyUpdatedExistingPivot(string $relation, Model $model, array $ids)
+    public function morphToManyUpdatedExistingPivot(string $relation, Model $model, array $ids): void
     {
         $this->invalidateCache($model, $relation, $model->{$relation}()->findMany($ids));
     }
@@ -150,9 +150,9 @@ class FlushQueryCacheObserver
     /**
      * Invalidate the cache for a model.
      *
-     * @param Model $model
-     * @param string|null  $relation
-     * @param Collection|null  $pivotedModels
+     * @param  Model  $model
+     * @param  string|null  $relation
+     * @param  Collection|null  $pivotedModels
      * @return void
      *
      * @throws Exception
@@ -166,7 +166,7 @@ class FlushQueryCacheObserver
 
         $tags = $model->getCacheTagsToInvalidateOnUpdate($relation, $pivotedModels);
 
-        if (! $tags) {
+        if (!$tags) {
             throw new Exception(
                 'Automatic invalidation for '.$class
                 .' works only if at least one tag to be invalidated is specified.'

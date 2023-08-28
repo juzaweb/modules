@@ -38,6 +38,7 @@ use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 class Language extends Model
 {
     use QueryCacheable;
+
     public string $cachePrefix = 'languages_';
 
     protected $table = 'languages';

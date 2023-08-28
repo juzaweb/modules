@@ -88,7 +88,7 @@ class Search extends Model
     }
 
     /**
-     * @param Builder $builder
+     * @param  Builder  $builder
      *
      * @return Builder
      */
@@ -100,8 +100,8 @@ class Search extends Model
     }
 
     /**
-     * @param Builder $builder
-     * @param array $params
+     * @param  Builder  $builder
+     * @param  array  $params
      *
      * @return Builder
      */
@@ -144,7 +144,7 @@ class Search extends Model
 
                 foreach ($taxonomies as $key => $taxonomy) {
                     $ids = array_filter(Arr::get($params, $key, []), function ($item) {
-                        return ! empty($item);
+                        return !empty($item);
                     });
 
                     if ($ids) {

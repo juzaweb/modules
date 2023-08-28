@@ -58,7 +58,7 @@ class Job extends Model implements RootNetworkModelInterface
     // (since it's a hard task)
     public function getCommandAttribute()
     {
-        if (! $this->unserializedCommand) {
+        if (!$this->unserializedCommand) {
             $this->unserializedCommand = unserialize($this->payload->data->command);
         }
 

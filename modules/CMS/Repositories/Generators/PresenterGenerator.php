@@ -49,14 +49,14 @@ class PresenterGenerator extends Generator
     {
         $transformerGenerator = new TransformerGenerator(
             [
-            'name' => $this->name,
+                'name' => $this->name,
             ]
         );
         $transformer = $transformerGenerator->getRootNamespace().'\\'.$transformerGenerator->getName().'Transformer';
         $transformer = str_replace(
             [
-            "\\",
-            '/',
+                "\\",
+                '/',
             ],
             '\\',
             $transformer
@@ -66,7 +66,7 @@ class PresenterGenerator extends Generator
         return array_merge(
             parent::getReplacements(),
             [
-            'transformer' => $transformer,
+                'transformer' => $transformer,
             ]
         );
     }

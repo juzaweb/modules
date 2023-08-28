@@ -75,8 +75,8 @@ class RepositoryEloquentGenerator extends Generator
         $repository = parent::getRootNamespace().parent::getConfigGeneratorClassPath('interfaces').'\\'.$this->name.'Repository;';
         $repository = str_replace(
             [
-            "\\",
-            '/',
+                "\\",
+                '/',
             ],
             '\\',
             $repository
@@ -85,11 +85,11 @@ class RepositoryEloquentGenerator extends Generator
         return array_merge(
             parent::getReplacements(),
             [
-            'fillable' => $this->getFillable(),
-            'use_validator' => $this->getValidatorUse(),
-            'validator' => $this->getValidatorMethod(),
-            'repository' => $repository,
-            'model' => isset($this->options['model']) ? $this->options['model'] : '',
+                'fillable' => $this->getFillable(),
+                'use_validator' => $this->getValidatorUse(),
+                'validator' => $this->getValidatorMethod(),
+                'repository' => $repository,
+                'model' => isset($this->options['model']) ? $this->options['model'] : '',
             ]
         );
     }
@@ -135,9 +135,9 @@ class RepositoryEloquentGenerator extends Generator
     {
         $validatorGenerator = new ValidatorGenerator(
             [
-            'name' => $this->name,
-            'rules' => $this->rules,
-            'force' => $this->force,
+                'name' => $this->name,
+                'rules' => $this->rules,
+                'force' => $this->force,
             ]
         );
 
@@ -145,9 +145,9 @@ class RepositoryEloquentGenerator extends Generator
 
         return str_replace(
             [
-                "\\",
-                '/',
-            ],
+                    "\\",
+                    '/',
+                ],
             '\\',
             $validator
         ).'Validator';

@@ -74,7 +74,7 @@ class RepositoryInterfaceGenerator extends Generator
         return array_merge(
             parent::getReplacements(),
             [
-            'fillable' => $this->getFillable(),
+                'fillable' => $this->getFillable(),
             ]
         );
     }

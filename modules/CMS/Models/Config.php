@@ -2,6 +2,8 @@
 
 namespace Juzaweb\CMS\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Juzaweb\CMS\Facades\GlobalData;
 
 /**
@@ -10,15 +12,15 @@ use Juzaweb\CMS\Facades\GlobalData;
  * @property int $id
  * @property string $code
  * @property string|null $value
- * @method static \Illuminate\Database\Eloquent\Builder|Config newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Config newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Config query()
- * @method static \Illuminate\Database\Eloquent\Builder|Config whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Config whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Config whereValue($value)
- * @mixin \Eloquent
+ * @method static Builder|Config newModelQuery()
+ * @method static Builder|Config newQuery()
+ * @method static Builder|Config query()
+ * @method static Builder|Config whereCode($value)
+ * @method static Builder|Config whereId($value)
+ * @method static Builder|Config whereValue($value)
+ * @mixin Eloquent
  * @property int|null $site_id
- * @method static \Illuminate\Database\Eloquent\Builder|Config whereSiteId($value)
+ * @method static Builder|Config whereSiteId($value)
  */
 class Config extends Model
 {
