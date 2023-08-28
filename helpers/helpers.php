@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . '/define.php';
-require_once __DIR__ . '/permissions.php';
-require_once __DIR__ . '/../../Backend/Helpers/helpers.php';
-require_once __DIR__ . '/../../Frontend/Helpers/helpers.php';
+require __DIR__ . '/define.php';
+require __DIR__ . '/backend/helpers.php';
+require __DIR__ . '/frontend/helpers.php';

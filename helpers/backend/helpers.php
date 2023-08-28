@@ -1,9 +1,10 @@
 <?php
 
+require __DIR__ . '/permissions.php';
 require __DIR__ . '/html_dom.php';
-require __DIR__ . '/data_helpers.php';
+require __DIR__ . '/data-get.php';
 require __DIR__ . '/plugin.php';
-require __DIR__ . '/url_helpers.php';
+require __DIR__ . '/url.php';
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
