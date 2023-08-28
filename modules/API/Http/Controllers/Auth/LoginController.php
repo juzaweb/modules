@@ -32,6 +32,19 @@ class LoginController extends ApiController
         return $this->respondWithToken($token, $user);
     }
 
+    protected function respondWithToken($token, User $user): JsonResponse
+    {
+        return $this->restSuccess(
+            [
+                'access_token' => $token->accessToken,
+                'token_type' => 'Bearer',
+                'expires_at' => $token->token->expires_at,
+                'user' => new UserResource($user),
+            ],
+            'Successfully login.'
+        );
+    }
+
     public function profile(Request $request): JsonResponse
     {
         $user = $request->user('api');
@@ -61,18 +74,5 @@ class LoginController extends ApiController
         $request->user('api')->token()->delete();
 
         return $this->restSuccess([], 'Successfully logged out.');
-    }
-
-    protected function respondWithToken($token, User $user): JsonResponse
-    {
-        return $this->restSuccess(
-            [
-                'access_token' => $token->accessToken,
-                'token_type' => 'Bearer',
-                'expires_at' => $token->token->expires_at,
-                'user' => new UserResource($user),
-            ],
-            'Successfully login.'
-        );
     }
 }

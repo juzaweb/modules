@@ -29,6 +29,22 @@ class DataTableController extends ApiController
         return $this->restSuccess($table->toArray());
     }
 
+    private function getTable(Request $request): UserDataTable
+    {
+        $table = new UserDataTable();
+        $table->mountData('posts');
+        $table->currentUrl = $request->get('currentUrl');
+
+        /*if (method_exists($table, 'mount')) {
+            $data = json_decode(urldecode($request->get('data')), true);
+            if ($data) {
+                $table->mount(...$data);
+            }
+        }*/
+
+        return $table;
+    }
+
     public function getData(Request $request): JsonResponse
     {
         $table = $this->getTable($request);
@@ -60,21 +76,5 @@ class DataTableController extends ApiController
                 'rows' => $results,
             ]
         );
-    }
-
-    private function getTable(Request $request): UserDataTable
-    {
-        $table = new UserDataTable();
-        $table->mountData('posts');
-        $table->currentUrl = $request->get('currentUrl');
-
-        /*if (method_exists($table, 'mount')) {
-            $data = json_decode(urldecode($request->get('data')), true);
-            if ($data) {
-                $table->mount(...$data);
-            }
-        }*/
-
-        return $table;
     }
 }

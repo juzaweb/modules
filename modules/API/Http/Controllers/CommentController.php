@@ -10,6 +10,8 @@
 
 namespace Juzaweb\API\Http\Controllers;
 
+use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
@@ -20,12 +22,13 @@ use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Http\Controllers\ApiController;
 use Juzaweb\Frontend\Http\Requests\CommentRequest;
+use Throwable;
 
 class CommentController extends ApiController
 {
     public function __construct(
         protected CommentRepository $commentRepository,
-        protected PostRepository    $postRepository
+        protected PostRepository $postRepository
     ) {
     }
 
@@ -50,9 +53,9 @@ class CommentController extends ApiController
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function store(CommentRequest $request, $type, $slug): \Illuminate\Http\JsonResponse
+    public function store(CommentRequest $request, $type, $slug): JsonResponse
     {
         $post = $this->postRepository->findBySlug($slug);
 
@@ -77,7 +80,7 @@ class CommentController extends ApiController
             $data['object_type'] = Str::plural($type);
             $comment = $this->commentRepository->create($data);
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }

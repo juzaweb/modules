@@ -10,11 +10,12 @@
 
 namespace Juzaweb\API\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Juzaweb\CMS\Http\Controllers\ApiController;
 
 class SidebarController extends ApiController
 {
-    public function show(string $sidebar): \Illuminate\Http\JsonResponse
+    public function show(string $sidebar): JsonResponse
     {
         $config = get_theme_config("sidebar_{$sidebar}", []);
 

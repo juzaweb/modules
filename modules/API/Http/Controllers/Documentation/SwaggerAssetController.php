@@ -13,10 +13,10 @@ class SwaggerAssetController extends BaseController
     public function index(Request $request, $asset)
     {
         $fileSystem = new Filesystem();
-        
+
         try {
             $path = swagger_ui_dist_path('default', $asset);
-            
+
             return (new Response(
                 $fileSystem->get($path),
                 200,

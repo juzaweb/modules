@@ -38,7 +38,7 @@ class RegisterController extends ApiController
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"name","email","password","password_confirmation"},
- *                      @OA\Property(property="name",
+     *                      @OA\Property(property="name",
      *                      type="string",
      *                      example="string",
      *                      description="name"
@@ -68,7 +68,7 @@ class RegisterController extends ApiController
      */
     public function register(RegisterRequest $request): JsonResponse
     {
-        if (! get_config('users_can_register', 1)) {
+        if (!get_config('users_can_register', 1)) {
             return $this->restFail(
                 [
                     [

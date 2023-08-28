@@ -22,7 +22,7 @@ class SwaggerController extends BackendController
     {
         do_action(Action::API_DOCUMENT_INIT);
     }
-    
+
     /**
      * Display Swagger API page.
      *
@@ -32,7 +32,7 @@ class SwaggerController extends BackendController
     public function index(Request $request): Response
     {
         do_action(Action::API_DOCUMENT_INIT);
-        
+
         $urls = $this->hookAction->getAPIDocuments()->map(
             function ($item, $name) {
                 return [
@@ -41,9 +41,9 @@ class SwaggerController extends BackendController
                 ];
             }
         )->values()->toArray();
-        
+
         $useAbsolutePath = config('l5-swagger.documentations.default.paths.use_absolute_path');
-        
+
         return ResponseFacade::make(
             view(
                 'api::swagger.index',
@@ -56,7 +56,7 @@ class SwaggerController extends BackendController
             200
         );
     }
-    
+
     /**
      * Display Oauth2 callback pages.
      *
@@ -69,7 +69,7 @@ class SwaggerController extends BackendController
     public function oauth2Callback(Request $request): string
     {
         $fileSystem = new Filesystem();
-        
+
         return $fileSystem->get(swagger_ui_dist_path('default', 'oauth2-redirect.html'));
     }
 }
