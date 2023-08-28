@@ -10,7 +10,7 @@ if (!defined('JW_PLUGIN_AUTOLOAD')) {
 }
 
 if (!defined('JW_BASE_PATH')) {
-    define('JW_BASE_PATH', __DIR__ . '/../../..');
+    define('JW_BASE_PATH', __DIR__ . '/../../../..');
 }
 
 if (!defined('JW_PLUGIN_PATH')) {
