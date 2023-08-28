@@ -14,6 +14,7 @@
 
 namespace Juzaweb\CMS\Abstracts;
 
+use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
+use RuntimeException;
 
 abstract class DataTable implements Arrayable
 {
@@ -66,7 +68,7 @@ abstract class DataTable implements Arrayable
      */
     protected ?string $actionUrl = null;
 
-     /**
+    /**
      * Array of characters to escape.
      *
      * @var array
@@ -102,7 +104,7 @@ abstract class DataTable implements Arrayable
     /**
      * Query data datatable
      *
-     * @param array $data
+     * @param  array  $data
      * @return Builder
      */
     abstract public function query(array $data);
@@ -110,7 +112,7 @@ abstract class DataTable implements Arrayable
     /**
      * Retrieves data based on the given request parameters.
      *
-     * @param Request $request The request object containing the parameters for data retrieval.
+     * @param  Request  $request  The request object containing the parameters for data retrieval.
      * @return array The retrieved data in the form of an array with two elements: the total count and the rows.
      */
     public function getData(Request $request): array
@@ -133,9 +135,9 @@ abstract class DataTable implements Arrayable
     /**
      * Mounts the data by converting the parameters to an array and calling the mount method if it exists.
      *
-     * @param mixed ...$params The parameters to be mounted.
+     * @param  mixed  ...$params  The parameters to be mounted.
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function mountData(...$params)
     {
@@ -179,8 +181,8 @@ abstract class DataTable implements Arrayable
     /**
      * A description of the entire PHP function.
      *
-     * @param string $action description
-     * @param array $ids description
+     * @param  string  $action  description
+     * @param  array  $ids  description
      */
     public function bulkActions($action, $ids)
     {
@@ -206,7 +208,7 @@ abstract class DataTable implements Arrayable
     /**
      * Generate an array of actions for a given row.
      *
-     * @param mixed $row The row for which actions are generated.
+     * @param  mixed  $row  The row for which actions are generated.
      * @return array The array of actions for the given row.
      */
     public function rowAction($row)
@@ -214,7 +216,7 @@ abstract class DataTable implements Arrayable
         return [
             'edit' => [
                 'label' => trans('cms::app.edit'),
-                'url' => $this->currentUrl .'/'. $row->id . '/edit',
+                'url' => $this->currentUrl.'/'.$row->id.'/edit',
             ],
             'delete' => [
                 'label' => trans('cms::app.delete'),
@@ -227,9 +229,9 @@ abstract class DataTable implements Arrayable
     /**
      * Generates a formatted row action for the given value, row, and index.
      *
-     * @param mixed $value The value for the row action.
-     * @param mixed $row The row object.
-     * @param int $index The index of the row.
+     * @param  mixed  $value  The value for the row action.
+     * @param  mixed  $row  The row object.
+     * @param  int  $index  The index of the row.
      * @return string The HTML rendered output of the row action.
      */
     public function rowActionsFormatter($value, $row, $index): string
@@ -240,7 +242,7 @@ abstract class DataTable implements Arrayable
                 'value' => $value,
                 'row' => $row,
                 'actions' => $this->rowAction($row),
-                'editUrl' => $this->currentUrl .'/'. $row->id . '/edit',
+                'editUrl' => $this->currentUrl.'/'.$row->id.'/edit',
             ]
         )
             ->render();
@@ -249,9 +251,9 @@ abstract class DataTable implements Arrayable
     /**
      * Sets the data URL for the object.
      *
-     * @param string $url The URL to set as the data URL.
-     * @throws \Exception
+     * @param  string  $url  The URL to set as the data URL.
      * @return void
+     * @throws Exception
      */
     public function setDataUrl(string $url): void
     {
@@ -261,7 +263,7 @@ abstract class DataTable implements Arrayable
     /**
      * Sets the action URL for the function.
      *
-     * @param string $url The URL to set as the action URL.
+     * @param  string  $url  The URL to set as the action URL.
      * @return void
      */
     public function setActionUrl(string $url): void
@@ -272,7 +274,7 @@ abstract class DataTable implements Arrayable
     /**
      * Set the current URL.
      *
-     * @param string $url The URL to set as the current URL.
+     * @param  string  $url  The URL to set as the current URL.
      * @return void
      */
     public function setCurrentUrl(string $url): void
@@ -364,15 +366,15 @@ abstract class DataTable implements Arrayable
      */
     protected function getUniqueId(): string
     {
-        return 'juzaweb_' . Str::random(10);
+        return 'juzaweb_'.Str::random(10);
     }
 
     /**
      * Convert the given parameters into an array.
      *
-     * @param mixed $params The parameters to convert.
-     * @throws \RuntimeException If the parameters contain unsupported types.
+     * @param  mixed  $params  The parameters to convert.
      * @return mixed The converted parameters as an array.
+     * @throws RuntimeException If the parameters contain unsupported types.
      */
     protected function paramsToArray($params)
     {
@@ -381,8 +383,8 @@ abstract class DataTable implements Arrayable
                 continue;
             }
 
-            if (! in_array(gettype($var), ['string', 'array', 'integer'])) {
-                throw new \RuntimeException('Mount data can\'t support. Only supported string, array, integer');
+            if (!in_array(gettype($var), ['string', 'array', 'integer'])) {
+                throw new RuntimeException('Mount data can\'t support. Only supported string, array, integer');
             }
         }
 

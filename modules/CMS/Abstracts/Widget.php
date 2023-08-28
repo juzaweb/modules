@@ -34,7 +34,7 @@ abstract class Widget
     /**
      * Creating widget Backend
      *
-     * @param array $data
+     * @param  array  $data
      * @return View
      */
     abstract public function form($data);
@@ -42,7 +42,7 @@ abstract class Widget
     /**
      * Creating widget front-end
      *
-     * @param array $data
+     * @param  array  $data
      * @return View
      */
     abstract public function show($data);
@@ -50,7 +50,7 @@ abstract class Widget
     /**
      * Updating data block
      *
-     * @param array $data
+     * @param  array  $data
      * @return array
      */
     public function update($data)
@@ -68,7 +68,7 @@ abstract class Widget
         if ($form = Arr::get($this->data, 'form')) {
             $resourcePath = base_path('packages/backend/src/resources');
             $file = str_replace(['cms::', '.'], ["{$resourcePath}/", '/'], $form);
-            $dataFile = $file . '.json';
+            $dataFile = $file.'.json';
         } else {
             $dataFile = ThemeLoader::getThemePath(
                 $this->theme,

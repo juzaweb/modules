@@ -60,12 +60,12 @@ abstract class Action
     /**
      * Adds an action hook.
      *
-     * @param string   $tag       The name of the action hook.
-     * @param callable $callback  The callback function to be executed when the action is triggered.
-     * @param int      $priority  Optional. The priority of the action. Default is 20.
-     * @param int      $arguments Optional. The number of arguments that the callback function accepts. Default is 1.
-     * @throws Some_Exception_Class Description of the exception that can be thrown.
+     * @param  string  $tag  The name of the action hook.
+     * @param  callable  $callback  The callback function to be executed when the action is triggered.
+     * @param  int  $priority  Optional. The priority of the action. Default is 20.
+     * @param  int  $arguments  Optional. The number of arguments that the callback function accepts. Default is 1.
      * @return void
+     * @throws Some_Exception_Class Description of the exception that can be thrown.
      */
     protected function addAction($tag, $callback, $priority = 20, $arguments = 1): void
     {
@@ -75,12 +75,12 @@ abstract class Action
     /**
      * Adds a filter to the specified tag.
      *
-     * @param string $tag The tag to add the filter to.
-     * @param callable $callback The callback function to execute when the filter is applied.
-     * @param int $priority The priority of the filter. Default is 20.
-     * @param int $arguments The number of arguments the callback function accepts. Default is 1.
-     * @throws Some_Exception_Class A description of the exception that may be thrown.
+     * @param  string  $tag  The tag to add the filter to.
+     * @param  callable  $callback  The callback function to execute when the filter is applied.
+     * @param  int  $priority  The priority of the filter. Default is 20.
+     * @param  int  $arguments  The number of arguments the callback function accepts. Default is 1.
      * @return void
+     * @throws Some_Exception_Class A description of the exception that may be thrown.
      */
     protected function addFilter($tag, $callback, $priority = 20, $arguments = 1): void
     {
@@ -90,9 +90,9 @@ abstract class Action
     /**
      * Apply filters to a given value using a specified tag.
      *
-     * @param string $tag The tag to apply filters with.
-     * @param mixed $value The value to apply filters to.
-     * @param mixed ...$args Additional arguments to pass to the filters.
+     * @param  string  $tag  The tag to apply filters with.
+     * @param  mixed  $value  The value to apply filters to.
+     * @param  mixed  ...$args  Additional arguments to pass to the filters.
      * @return mixed The filtered value.
      */
     protected function applyFilters($tag, $value, ...$args): mixed

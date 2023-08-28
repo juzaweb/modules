@@ -30,7 +30,7 @@ abstract class PageBlock
     /**
      * Creating widget front-end
      *
-     * @param array $data
+     * @param  array  $data
      * @return View
      */
     abstract public function show($data);
@@ -58,8 +58,8 @@ abstract class PageBlock
     /**
      * Renders a Twig view with the given parameters.
      *
-     * @param string $view The name of the Twig view to render.
-     * @param array $params An associative array of parameters to pass to the view
+     * @param  string  $view  The name of the Twig view to render.
+     * @param  array  $params  An associative array of parameters to pass to the view
      * @return string The rendered Twig view.
      */
     protected function view($view, $params = [])

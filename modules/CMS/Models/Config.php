@@ -48,7 +48,7 @@ class Config extends Model
         $value = $value->value;
 
         if (is_json($value)) {
-            return json_decode($value, true);
+            return json_decode($value, true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $value;

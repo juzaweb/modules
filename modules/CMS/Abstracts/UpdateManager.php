@@ -10,6 +10,7 @@
 
 namespace Juzaweb\CMS\Abstracts;
 
+use Exception;
 use GuzzleHttp\Psr7\Utils;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Support\Facades\Artisan;
@@ -19,12 +20,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
 use Juzaweb\CMS\Support\Curl;
+use ZipArchive;
 
 /**
  * @method void beforeFinish()
  * @method void afterFinish()
  * @method void afterUpdateFileAndFolder()
-*/
+ */
 abstract class UpdateManager
 {
     protected Curl $curl;
@@ -55,7 +57,7 @@ abstract class UpdateManager
 
     public function update(): bool
     {
-        for ($i=1; $i<=$this->maxStep; $i++) {
+        for ($i = 1; $i <= $this->maxStep; $i++) {
             $this->updateByStep($i);
         }
 
@@ -109,7 +111,7 @@ abstract class UpdateManager
             }
         }
 
-        $tmpFile = $tmpFolder.'/zip/'. Str::lower(Str::random(5)).'.zip';
+        $tmpFile = $tmpFolder.'/zip/'.Str::lower(Str::random(5)).'.zip';
         $tmpFilePath = $this->storage->path($tmpFile);
 
         if (!$this->downloadFile($this->getCacheData('response')->data->link, $tmpFilePath)) {
@@ -126,7 +128,7 @@ abstract class UpdateManager
     public function unzipFile(): bool
     {
         $this->setProcess('unzip');
-        $zip = new \ZipArchive();
+        $zip = new ZipArchive();
         $op = $zip->open($this->getCacheData('tmpFilePath'));
 
         if ($op !== true) {
@@ -284,7 +286,7 @@ abstract class UpdateManager
     protected function responseErrors(object $response): void
     {
         if (isset($response->errors) && is_array($response->errors)) {
-            throw new \Exception($response->errors[0]->message);
+            throw new Exception($response->errors[0]->message);
         }
     }
 

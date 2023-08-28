@@ -19,7 +19,7 @@ abstract class MenuBox
     /**
      * Get data from request
      *
-     * @param array $data
+     * @param  array  $data
      * @return array
      *
      * Return multi data to map menu_items table
@@ -29,7 +29,7 @@ abstract class MenuBox
     /**
      * Get data for item menu
      *
-     * @param array $item //
+     * @param  array  $item  //
      *
      *
      * @return array
@@ -47,7 +47,7 @@ abstract class MenuBox
     /**
      * Get view for edit item
      *
-     * @param MenuItem $item
+     * @param  MenuItem  $item
      * @return View
      */
     abstract public function editView($item);
@@ -55,7 +55,7 @@ abstract class MenuBox
     /**
      * Get link for item
      *
-     * @param Collection $menuItems
+     * @param  Collection  $menuItems
      * @return array // array url
      */
     abstract public function getLinks($menuItems);

@@ -21,6 +21,35 @@ class FlushQueryCacheObserver
     }
 
     /**
+     * Invalidate the cache for a model.
+     *
+     * @param  Model  $model
+     * @param  string|null  $relation
+     * @param  Collection|null  $pivotedModels
+     * @return void
+     *
+     * @throws Exception
+     */
+    protected function invalidateCache(
+        Model $model,
+        ?string $relation = null,
+        Collection|null $pivotedModels = null
+    ): void {
+        $class = get_class($model);
+
+        $tags = $model->getCacheTagsToInvalidateOnUpdate($relation, $pivotedModels);
+
+        if (!$tags) {
+            throw new Exception(
+                'Automatic invalidation for '.$class
+                .' works only if at least one tag to be invalidated is specified.'
+            );
+        }
+
+        $class::flushQueryCache($tags);
+    }
+
+    /**
      * Handle the Model "updated" event.
      *
      * @param  Model  $model
@@ -145,34 +174,5 @@ class FlushQueryCacheObserver
     public function morphToManyUpdatedExistingPivot(string $relation, Model $model, array $ids): void
     {
         $this->invalidateCache($model, $relation, $model->{$relation}()->findMany($ids));
-    }
-
-    /**
-     * Invalidate the cache for a model.
-     *
-     * @param  Model  $model
-     * @param  string|null  $relation
-     * @param  Collection|null  $pivotedModels
-     * @return void
-     *
-     * @throws Exception
-     */
-    protected function invalidateCache(
-        Model $model,
-        ?string $relation = null,
-        Collection|null $pivotedModels = null
-    ): void {
-        $class = get_class($model);
-
-        $tags = $model->getCacheTagsToInvalidateOnUpdate($relation, $pivotedModels);
-
-        if (!$tags) {
-            throw new Exception(
-                'Automatic invalidation for '.$class
-                .' works only if at least one tag to be invalidated is specified.'
-            );
-        }
-
-        $class::flushQueryCache($tags);
     }
 }

@@ -23,7 +23,7 @@ abstract class ResourcePolicy
     /**
      * Check if the user is authorized to view the index page of the resource.
      *
-     * @param User $user The user to check authorization for.
+     * @param  User  $user  The user to check authorization for.
      *
      * @return bool True if the user is authorized, false otherwise.
      */
@@ -39,8 +39,8 @@ abstract class ResourcePolicy
     /**
      * Check if the user is authorized to edit the resource.
      *
-     * @param User  $user  The user to check authorization for.
-     * @param Model $model The model representing the resource.
+     * @param  User  $user  The user to check authorization for.
+     * @param  Model  $model  The model representing the resource.
      *
      * @return bool True if the user is authorized, false otherwise.
      */
@@ -56,7 +56,7 @@ abstract class ResourcePolicy
     /**
      * Check if the user is authorized to create a new resource.
      *
-     * @param User $user The user to check authorization for.
+     * @param  User  $user  The user to check authorization for.
      *
      * @return bool True if the user is authorized, false otherwise.
      */
@@ -72,8 +72,8 @@ abstract class ResourcePolicy
     /**
      * Check if the user is authorized to delete the resource.
      *
-     * @param User  $user  The user to check authorization for.
-     * @param Model $model The model representing the resource.
+     * @param  User  $user  The user to check authorization for.
+     * @param  Model  $model  The model representing the resource.
      *
      * @return bool True if the user is authorized, false otherwise.
      */
