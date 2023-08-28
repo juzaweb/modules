@@ -12,7 +12,6 @@ use Illuminate\Support\ServiceProvider;
  */
 class RepositoryServiceProvider extends ServiceProvider
 {
-
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -35,7 +34,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../../../config/repository.php', 'repository');
     }
 
-
     /**
      * Register the service provider.
      *
@@ -51,7 +49,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->commands('Juzaweb\CMS\Repositories\Generators\Commands\ControllerCommand');
         $this->commands('Juzaweb\CMS\Repositories\Generators\Commands\BindingsCommand');
         $this->commands('Juzaweb\CMS\Repositories\Generators\Commands\CriteriaCommand');
-        $this->app->register('Juzaweb\CMS\Repositories\Providers\EventServiceProvider');
+        $this->app->register(EventServiceProvider::class);
     }
 
 
@@ -60,7 +58,7 @@ class RepositoryServiceProvider extends ServiceProvider
      *
      * @return array
      */
-    public function provides()
+    public function provides(): array
     {
         return [];
     }
