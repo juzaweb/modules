@@ -1,6 +1,7 @@
 {
     "name": "juzaweb/modules",
     "description": "Modules for Juzaweb CMS",
+    "license": "GPL-2.0",
     "extra": {
         "laravel": {
             "providers": [
@@ -45,5 +46,8 @@
         "kirschbaum-development/eloquent-power-joins": "^3.2",
         "google/apiclient": "^2.13",
         "laravel/breeze": "^1.14"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
     }
 }
