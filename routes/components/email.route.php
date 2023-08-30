@@ -9,15 +9,17 @@
  */
 
 use Juzaweb\Backend\Http\Controllers\Backend\Email\EmailHookController;
+use Juzaweb\Backend\Http\Controllers\Backend\EmailTemplateController;
+use Juzaweb\Backend\Http\Controllers\Backend\EmailController;
 
 Route::group(
     ['prefix' => 'email'],
     function () {
-        Route::post('/', 'Backend\EmailController@save')->name('admin.setting.email.save');
-
-        Route::post('send-test-mail', 'Backend\EmailController@sendTestMail')->name('admin.setting.email.test-email');
+        Route::post('/', [EmailController::class, 'save'])->name('admin.setting.email.save');
+        Route::post('send-test-mail', [EmailController::class, 'sendTestMail'])
+            ->name('admin.setting.email.test-email');
     }
 );
 
-Route::jwResource('email-template', 'Backend\EmailTemplateController');
+Route::jwResource('email-template', EmailTemplateController::class);
 Route::jwResource('email-hooks', EmailHookController::class);

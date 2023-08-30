@@ -9,8 +9,8 @@
  */
 
 use Juzaweb\Backend\Http\Controllers\Backend\DashboardController;
+use Juzaweb\Backend\Http\Controllers\Backend\DatatableController;
 use Juzaweb\Backend\Http\Controllers\Backend\LoadDataController;
-use Juzaweb\Backend\Http\Controllers\Backend\UpdateController;
 use Juzaweb\Backend\Http\Controllers\Backend\AjaxController;
 
 Route::group(
@@ -18,17 +18,17 @@ Route::group(
     function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-        Route::get('/load-data/{func}', 'Backend\LoadDataController@loadData')->name('admin.load_data');
+        Route::get('/load-data/{func}', [LoadDataController::class, 'loadData'])->name('admin.load_data');
 
         Route::get(
             '/dashboard/users',
-            'Backend\DashboardController@getDataUser'
+            [DashboardController::class, 'getDataUsers']
         )
             ->name('admin.dashboard.users');
 
         Route::get(
             '/dashboard/top-views',
-            'Backend\DashboardController@getDataTopViews'
+            [DashboardController::class, 'getDataTopViews']
         )->name('admin.dashboard.top_views');
 
         Route::get(
@@ -38,13 +38,13 @@ Route::group(
 
         Route::get(
             '/datatable/get-data',
-            'Backend\DatatableController@getData'
+            [DatatableController::class, 'getData']
         )
             ->name('admin.datatable.get-data');
 
         Route::post(
             '/datatable/bulk-actions',
-            'Backend\DatatableController@bulkActions'
+            [DatatableController::class, 'bulkActions']
         )->name('admin.datatable.bulk-actions');
 
         Route::post(
@@ -54,4 +54,6 @@ Route::group(
     }
 );
 
-Route::any('/ajax/{slug}', 'Backend\AjaxController@handle')->name('admin.ajax')->where('slug', '[a-z0-9\-\/]+');
+Route::any('/ajax/{slug}', [AjaxController::class, 'handle'])
+    ->name('admin.ajax')
+    ->where('slug', '[a-z0-9\-\/]+');
