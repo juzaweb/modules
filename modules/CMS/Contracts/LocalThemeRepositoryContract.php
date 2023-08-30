@@ -31,12 +31,12 @@ interface LocalThemeRepositoryContract
      */
     public function scan(bool $collection = false): array|Collection;
 
-     /**
-     * Find a theme by name.
-     *
-     * @param string $name The name of the theme to find.
-     * @return ThemeInterface|null The theme object if found, null otherwise.
-     */
+    /**
+    * Find a theme by name.
+    *
+    * @param string $name The name of the theme to find.
+    * @return ThemeInterface|null The theme object if found, null otherwise.
+    */
     public function find(string $name): ?ThemeInterface;
 
     /**
@@ -50,12 +50,12 @@ interface LocalThemeRepositoryContract
      */
     public function findOrFail(string $name): ThemeInterface;
 
-     /**
-     * Retrieves all items from the collection.
-     *
-     * @param bool $collection Determines if the items should be returned as a collection.
-     * @return array|Collection The scanned items.
-     */
+    /**
+    * Retrieves all items from the collection.
+    *
+    * @param bool $collection Determines if the items should be returned as a collection.
+    * @return array|Collection The scanned items.
+    */
     public function all(bool $collection = false): array|Collection;
 
     /**

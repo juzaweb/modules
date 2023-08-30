@@ -100,12 +100,23 @@ if (!function_exists('jw_current_theme')) {
     /**
      * Get current active theme
      *
-     * @return string
+     * @return ?string
      */
-    function jw_current_theme(): string
+    function jw_current_theme(): ?string
     {
-        $theme = get_config('theme_statuses', []);
-        return Arr::get($theme, 'name', 'default');
+        return current_theme();
+    }
+}
+
+if (!function_exists('current_theme')) {
+    /**
+     * Get current active theme
+     *
+     * @return ?string
+     */
+    function current_theme(): ?string
+    {
+        return Theme::currentTheme()?->getName();
     }
 }
 

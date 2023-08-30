@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Facades\HookAction;
-use Juzaweb\CMS\Facades\ThemeLoader;
+use Juzaweb\CMS\Facades\Theme;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Support\Notification;
 use Juzaweb\CMS\Support\Theme\CustomMenuBox;
@@ -339,18 +339,21 @@ class MenuAction extends Action
 
     public function addPostTypes(): void
     {
-        $templates = ThemeLoader::getTemplates(jw_current_theme());
         $data = [
             'options' => ['' => trans('cms::app.choose_template')],
         ];
 
-        foreach ($templates as $key => $template) {
-            $data['options'][$key] = [
-                'label' => $template['label'],
-                'data' => [
-                    'has-block' => ($template['blocks'] ?? 0) ? 1 : 0
-                ],
-            ];
+        if ($currentTheme = Theme::currentTheme()) {
+            $templates = $currentTheme->getTemplates();
+
+            foreach ($templates as $key => $template) {
+                $data['options'][$key] = [
+                    'label' => $template['label'],
+                    'data' => [
+                        'has-block' => ($template['blocks'] ?? 0) ? 1 : 0
+                    ],
+                ];
+            }
         }
 
         HookAction::registerPostType(

@@ -34,5 +34,7 @@ interface ThemeInterface
 
     public function getTemplate(): string;
 
+    public function getTemplates(string $template = null): array|null;
+
     public function getRegister($key = null, $default = null): string|array|null;
 }

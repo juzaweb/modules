@@ -13,6 +13,7 @@ namespace Juzaweb\CMS\Support;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Inertia\Response;
@@ -109,7 +110,15 @@ class LocalThemeRepository implements LocalThemeRepositoryContract
             return $this->currentTheme;
         }
 
-        return $this->currentTheme = $this->findOrFail(jw_current_theme());
+        $theme = get_config('theme_statuses', []);
+
+        $currentTheme = $this->find(Arr::get($theme, 'name', 'default'));
+
+        if ($currentTheme === null) {
+            $currentTheme = $this->find('default');
+        }
+
+        return $this->currentTheme = $currentTheme;
     }
 
     public function all(bool $collection = false): array|Collection

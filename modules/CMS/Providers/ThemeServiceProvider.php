@@ -56,6 +56,12 @@ class ThemeServiceProvider extends ServiceProvider
 
     protected function registerTheme(): void
     {
+        $currentTheme = current_theme();
+
+        if ($currentTheme === null) {
+            return;
+        }
+
         Lang::addJsonPath(ThemeLoader::getPath(jw_current_theme(), 'lang'));
 
         ActionRegister::register(

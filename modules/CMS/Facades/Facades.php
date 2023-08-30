@@ -57,7 +57,7 @@ class Facades
             /*
              * Package Service Providers...
              */
-            \Juzaweb\CMS\Providers\CmsServiceProvider::class,
+            //\Juzaweb\CMS\Providers\CmsServiceProvider::class,
         ];
     }
 

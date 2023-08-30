@@ -99,6 +99,15 @@ class Theme implements ThemeInterface, Arrayable
         return $this->getInfo()->get('template', 'twig');
     }
 
+    public function getTemplates(string $template = null): array|null
+    {
+        if ($template) {
+            return Arr::get($this->getRegister(null, []), "templates.{$template}");
+        }
+
+        return $this->getRegister('templates', []);
+    }
+
     /**
      * @throws FileNotFoundException
      * @throws \Exception
