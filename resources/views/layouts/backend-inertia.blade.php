@@ -17,7 +17,7 @@
     @viteReactRefresh
 
     @vite(
-        ["resources/js/app.tsx", "resources/css/app.css", "resources/js/pages/{$page['component']}.tsx"],
+        ["vendor/juzaweb/modules/resources/js/app.tsx", "vendor/juzaweb/modules/resources/css/app.css", "vendor/juzaweb/modules/resources/js/pages/{$page['component']}.tsx"],
         'jw-styles/juzaweb/build'
     )
 
