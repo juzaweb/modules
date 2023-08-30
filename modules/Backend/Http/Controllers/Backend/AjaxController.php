@@ -24,7 +24,7 @@ class AjaxController extends BackendController
 
         $ajax = HookAction::getAdminAjaxs($key);
 
-        if (empty($ajax) || !$ajax instanceof Collection) {
+        if ($ajax === null || !$ajax instanceof Collection) {
             return response('Ajax function not found.', 404);
         }
 
