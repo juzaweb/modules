@@ -10,10 +10,11 @@
     <link rel="icon" href="{{ asset('jw-styles/juzaweb/images/favicon.ico') }}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,400i,700&display=swap"/>
 
-
     @include('cms::components.juzaweb_langs')
 
     @do_action('juzaweb_header')
+
+    @do_action('juzaweb_header_blade')
 
     @yield('header')
 
@@ -152,6 +153,8 @@
 </script>
 
 @do_action('juzaweb_footer')
+
+@do_action('juzaweb_footer_blade')
 
 @yield('footer')
 </body>

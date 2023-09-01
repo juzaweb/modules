@@ -34,7 +34,9 @@ abstract class Action
     public const RESOURCE_FORM_RIGHT_ACTION = 'resource.{name}.form_right';
     public const PERMALINKS_SAVED_ACTION = 'permalinks.saved';
     public const BACKEND_HEADER_ACTION = 'juzaweb_header';
+    public const BACKEND_HEADER_BLADE_ACTION = 'juzaweb_header_blade';
     public const BACKEND_FOOTER_ACTION = 'juzaweb_footer';
+    public const BACKEND_FOOTER_BLADE_ACTION = 'juzaweb_footer_blade';
     public const WIDGETS_INIT = 'juzaweb.widget_init';
     public const BLOCKS_INIT = 'juzaweb.block_init';
     public const BACKEND_USER_FORM_RIGHT = 'user.form.right';

@@ -12,18 +12,18 @@
 
     @include('cms::components.juzaweb_langs')
 
-    @do_action('juzaweb_header')
-
     @viteReactRefresh
 
     @php
-    $component = explode('::', $page['component'])[1];
+        $component = explode('::', $page['component'])[1];
     @endphp
 
     @vite(
-        ["resources/js/app.tsx", "vendor/juzaweb/modules/resources/css/app.css", "vendor/juzaweb/modules/resources/js/pages/{$component}.tsx"],
+        ["resources/js/app.tsx", "vendor/juzaweb/modules/resources/css/app.scss", "vendor/juzaweb/modules/resources/js/pages/{$component}.tsx"],
         'jw-styles/juzaweb/build'
     )
+
+    @do_action('juzaweb_header')
 
     @php
         $__inertiaSsrDispatched = true;

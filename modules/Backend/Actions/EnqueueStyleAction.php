@@ -15,13 +15,13 @@ use Juzaweb\CMS\Facades\HookAction;
 
 class EnqueueStyleAction extends Action
 {
-    public function handle()
+    public function handle(): void
     {
-        $this->addAction(self::BACKEND_HEADER_ACTION, [$this, 'enqueueStylesHeader']);
-        $this->addAction(self::BACKEND_FOOTER_ACTION, [$this, 'enqueueStylesFooter']);
+        $this->addAction(self::BACKEND_HEADER_BLADE_ACTION, [$this, 'enqueueStylesHeader']);
+        $this->addAction(self::BACKEND_FOOTER_BLADE_ACTION, [$this, 'enqueueStylesFooter']);
     }
 
-    public function enqueueStylesHeader()
+    public function enqueueStylesHeader(): void
     {
         $scripts = HookAction::getEnqueueScripts();
         $styles = HookAction::getEnqueueStyles();
@@ -32,7 +32,7 @@ class EnqueueStyleAction extends Action
         )->render();
     }
 
-    public function enqueueStylesFooter()
+    public function enqueueStylesFooter(): void
     {
         $scripts = HookAction::getEnqueueScripts(true);
         $styles = HookAction::getEnqueueStyles(true);

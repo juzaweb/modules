@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
+use Inertia\Response;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\Backend\Models\MediaFile;
@@ -17,7 +18,9 @@ use Juzaweb\CMS\Models\User;
 
 class DashboardController extends BackendController
 {
-    public function index(): View
+    //protected string $template = 'inertia';
+
+    public function index(): View|Response
     {
         do_action(Action::BACKEND_DASHBOARD_ACTION);
 
@@ -33,7 +36,7 @@ class DashboardController extends BackendController
         $diskFree = Cache::store('file')->remember(
             cache_prefix('storage_free_disk'),
             3600,
-            fn() => format_size_units(disk_free_space('/')),
+            fn () => format_size_units(disk_free_space('/')),
         );
 
         return $this->view(

@@ -61,11 +61,11 @@ export default function Dashboard({ posts, pages, users, storage, diskFree }) {
                 </div>
             </div>
 
-            @do_action('backend.dashboard.statis')
+            {/*@do_action('backend.dashboard.statis')*/}
 
             <div className="row">
                 <div className="col-md-12">
-                    <canvas id="curve_chart" style="width: 100%; height: 300px"></canvas>
+                    <canvas id="curve_chart" style={{width: '100%', height: '300px'}}></canvas>
                 </div>
             </div>
 
@@ -112,7 +112,7 @@ export default function Dashboard({ posts, pages, users, storage, diskFree }) {
                 </div>
             </div>
 
-            @do_action('backend.dashboard.view')
+            {/*@do_action('backend.dashboard.view')*/}
         </>
     );
 }
