@@ -34,7 +34,8 @@
             3600,
             function () {
                 return app(\Juzaweb\CMS\Support\Manager\TranslationManager::class)->locale('cms')
-                    ->languages();
+                    ->languages()
+                    ->values();
             }
         );
 

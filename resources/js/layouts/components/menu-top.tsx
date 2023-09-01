@@ -2,7 +2,7 @@ import {__, admin_url, url} from "../../helpers/functions";
 import {usePage} from "@inertiajs/react";
 
 export default function MenuTop() {
-    const {user} = usePage<{ user?: any }>().props;
+    const {user, langs, currentLang, total_notifications} = usePage<{ user?: any, langs?: Array<{ code: string, name: string }>, currentLang: string, total_notifications: number }>().props;
 
     return <div className="juzaweb__topbar">
         <div className="mr-3">
@@ -36,32 +36,35 @@ export default function MenuTop() {
         <div className="mr-auto"></div>
 
         <div className="dropdown mr-4 d-none d-sm-block">
-            <a href="javascript:void(0)"
+            <a href="#"
                className="dropdown-toggle text-nowrap"
                data-toggle="dropdown"
                data-offset="5,15"
                aria-expanded="false"
             >
-                <span className="dropdown-toggle-text text-uppercase">0</span>
+                <span className="dropdown-toggle-text text-uppercase">{currentLang}</span>
             </a>
-            <div className="dropdown-menu dropdown-menu-right" role="menu">
-                {/*@foreach($langs as $lang)
-                @if($current == $lang['code'])
-                @continue
-                @endif
 
-                <a className="dropdown-item " href="{{ url()->current() }}?hl={{ $lang['code'] }}">
-                    <span className="text-uppercase font-size-12 mr-1">{{ $lang['code'] }}</span>
-                    {{ $lang['name'] }}</a>
-                @endforeach*/}
+            <div className="dropdown-menu dropdown-menu-right" role="menu">
+                {langs?.map((lang) => {
+                    if (lang.code == currentLang) {
+                        return null;
+                    }
+
+                    return (
+                        <a key={lang.code} className="dropdown-item " href={url('/?hl=' + lang.code)}>
+                            <span className="text-uppercase font-size-12 mr-1">{lang.code}</span>
+                            {lang.name}
+                        </a>
+                    )
+                })}
             </div>
         </div>
-
 
         <div className="juzaweb__topbar__notify dropdown mr-4 d-none d-sm-block">
             <a href="#" className="dropdown-toggle text-nowrap" data-toggle="dropdown"
                aria-expanded="false" data-offset="0,15">
-                <i className="dropdown-toggle-icon fa fa-bell-o"></i> <span>0</span>
+                <i className="dropdown-toggle-icon fa fa-bell-o"></i> <span>{total_notifications}</span>
             </a>
 
             <div className="juzaweb__topbar__actionsDropdownMenu dropdown-menu dropdown-menu-right" role="menu">
@@ -70,7 +73,7 @@ export default function MenuTop() {
                         <div className="tab-content">
                             <div className="jw__l1">
                                 <div
-                                    className="text-uppercase mb-2 text-gray-6 mb-2 font-weight-bold">{__('cms::app.notifications')} (0)
+                                    className="text-uppercase mb-2 text-gray-6 mb-2 font-weight-bold">{__('cms::app.notifications')} ({total_notifications})
                                 </div>
                                 <hr/>
                                 <ul className="list-unstyled">
@@ -111,13 +114,13 @@ export default function MenuTop() {
             </a>
 
             <div className="dropdown-menu dropdown-menu-right" role="menu">
-                <a className="dropdown-item" href="{{ route('admin.profile') }}">
+                <a className="dropdown-item" href={admin_url('profile')}>
                     <i className="dropdown-icon fa fa-user"></i>
                     {__('cms::app.profile')}
                 </a>
 
                 <div className="dropdown-divider"></div>
-                <a href="javascript:void(0)" data-turbolinks="false" className="dropdown-item auth-logout">
+                <a href="#" data-turbolinks="false" className="dropdown-item auth-logout">
                     <i className="dropdown-icon fa fa-sign-out"></i> {__('cms::app.logout')}
                 </a>
             </div>

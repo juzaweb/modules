@@ -117,7 +117,7 @@ class TranslationManager implements TranslationManagerContract
                         'title' => 'CMS',
                         'namespace' => 'cms',
                         'type' => 'cms',
-                        'lang_path' => base_path('modules/Backend/resources/lang'),
+                        'lang_path' => base_path('vendor/juzaweb/modules/resources/lang'),
                         'src_path' => base_path('modules'),
                         'publish_path' => resource_path('lang/vendor/cms'),
                     ]

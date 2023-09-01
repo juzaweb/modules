@@ -1,11 +1,14 @@
 import {getSidebar} from "@/helpers/fetch";
 import axios, {AxiosRequestConfig} from "axios";
+import {usePage} from "@inertiajs/react";
 
 export function __(key: string, args = {}): string {
-    // let lang = juzaweb.lang[key.replace('cms::app.', '')];
-    // if (lang) {
-    //     return lang;
-    // }
+    let {trans} = usePage<{trans: any}>().props;
+    let lang = key.replace('cms::app.', '');
+
+    if (lang) {
+        return trans[lang];
+    }
 
     return key;
 }

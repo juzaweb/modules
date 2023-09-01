@@ -4,6 +4,7 @@ namespace Juzaweb\Backend\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -37,21 +38,51 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $user = Arr::only($request->user()->toArray(), ['id', 'name', 'email']);
-        $user['avatar'] = $request->user()->getAvatar();
-
         return array_merge(
             parent::share($request),
-            [
-                'flash' => function () use ($request) {
-                    return [
-                        'success' => $request->session()->get('success'),
-                        'error' => $request->session()->get('error'),
-                    ];
-                },
-                'current_theme' => current_theme(),
-                'user' => $user,
-            ]
+            $this->getShareDate($request)
         );
+    }
+
+    protected function getShareDate(Request $request): array
+    {
+        $user = $request->user();
+        $userData = Arr::only($user->toArray(), ['id', 'name', 'email']);
+        $userData['avatar'] = $user->getAvatar();
+        $langs = Cache::remember(
+            'top_menu_languages',
+            3600,
+            function () {
+                return app(\Juzaweb\CMS\Support\Manager\TranslationManager::class)
+                    ->locale('cms')
+                    ->languages()
+                    ->values();
+            }
+        );
+
+        $currentLang = $user->language ?? get_config('language', 'en');
+        $trans = [
+            'cms' => [
+                'app' => array_merge(trans('cms::app', [], 'en'), trans('cms::app')),
+                'message' => array_merge(trans('cms::message', [], 'en'), trans('cms::message')),
+            ]
+        ];
+
+        return [
+            'flash' => function () use ($request) {
+                return [
+                    'success' => $request->session()->get('success'),
+                    'error' => $request->session()->get('error'),
+                ];
+            },
+            'current_theme' => current_theme(),
+            'user' => $userData,
+            'langs' => $langs,
+            'currentLang' => $currentLang,
+            'trans' => $trans,
+            'admin_url' => admin_url(),
+            'admin_prefix' => config('juzaweb.admin_prefix'),
+            'total_notifications' => count_unread_notifications(),
+        ];
     }
 }
