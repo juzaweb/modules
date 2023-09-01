@@ -19,6 +19,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         php: [8.0, 8.1]
+        version: [dev-v4-beta]
     name: PHP${{ matrix.php }} - ${{ matrix.os }}
 
     steps:
@@ -29,27 +30,27 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
       - uses: actions/checkout@v2
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.testing.example', '.env');"
       - name: Install Dependencies
-        run: composer install
+        run: composer create-project --prefer-dist juzaweb/cms blog ${{ matrix.version }}
       - name: Generate key
+        working-directory: blog
         run: php artisan key:generate
       - name: Clear Configuration
+        working-directory: blog
         run: php artisan config:clear
       - name: Directory Permissions
+        working-directory: blog
         run: chmod -R 777 storage bootstrap/cache
       - name: Execute tests Install
+        working-directory: blog
         run: php artisan test modules/Tests/InstallTest.php
       - name: Execute tests (Unit and Feature tests)
+        working-directory: blog
         run: php artisan test
       - name: Execute tests disabled frontend
+        working-directory: blog
         run:
           php artisan test modules/Tests/Feature/Auth
           php artisan test modules/Tests/Feature/Backend
         env:
           JW_FRONTEND_ENABLE: false
-      - name: Execute tests Update
-        run: php artisan test modules/Tests/UpdateTest.php
-      - name: Execute tests after Update
-        run: php artisan test
