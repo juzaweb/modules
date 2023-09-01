@@ -1,9 +1,9 @@
 import TopOptions from "@/pages/dev-tool/components/top-options";
 import Admin from "@/layouts/admin";
 import {useState} from "react";
-import Button from "@/components/form/buttons/button";
-import Input from "@/components/form/inputs/input";
-import Textarea from "@/components/form/inputs/textarea";
+import Button from "@/components/elements/buttons/button";
+import Input from "@/components/elements/inputs/input";
+import Textarea from "@/components/elements/inputs/textarea";
 import axios from "axios";
 import {admin_url, message_in_response} from "@/helpers/functions";
 

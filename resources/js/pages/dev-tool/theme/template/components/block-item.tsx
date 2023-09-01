@@ -1,5 +1,5 @@
-import Input from "@/components/form/inputs/input";
-import Button from "@/components/form/buttons/button";
+import Input from "@/components/elements/inputs/input";
+import Button from "@/components/elements/buttons/button";
 import {PageTempate} from "@/types/themes";
 import {useState} from "react";
 import {convert_to_label_field, convert_to_name_field} from "@/helpers/functions";

@@ -1,7 +1,7 @@
-import Input from "@/components/form/inputs/input";
-import Textarea from "@/components/form/inputs/textarea";
-import Checkbox from "@/components/form/inputs/checkbox";
-import Button from "@/components/form/buttons/button";
+import Input from "@/components/elements/inputs/input";
+import Textarea from "@/components/elements/inputs/textarea";
+import Checkbox from "@/components/elements/inputs/checkbox";
+import Button from "@/components/elements/buttons/button";
 import {convert_to_label_field, convert_to_slug} from "@/helpers/functions";
 import {useState} from "react";
 

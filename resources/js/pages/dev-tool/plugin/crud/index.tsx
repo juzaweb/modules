@@ -2,9 +2,9 @@ import {Plugin} from "@/types/plugins";
 import axios from "axios";
 import {admin_url, message_in_response} from "@/helpers/functions";
 import {useState} from "react";
-import Input from "@/components/form/inputs/input";
-import Button from "@/components/form/buttons/button";
-import Checkbox from "@/components/form/inputs/checkbox";
+import Input from "@/components/elements/inputs/input";
+import Button from "@/components/elements/buttons/button";
+import Checkbox from "@/components/elements/inputs/checkbox";
 import Admin from "@/layouts/admin";
 import TopOptions from "@/pages/dev-tool/components/top-options";
 

@@ -5,7 +5,7 @@ import {Theme} from "@/types/themes";
 import {Plugin} from "@/types/plugins";
 import {Configs} from "@/pages/dev-tool/types/module";
 import {Link, router, usePage} from "@inertiajs/react";
-import Select from "@/components/form/inputs/select";
+import Select from "@/components/elements/inputs/select";
 
 export default function TopOptions(
     {moduleSelected, moduleType, optionSelected}: {

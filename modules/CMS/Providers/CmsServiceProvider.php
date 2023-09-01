@@ -47,6 +47,8 @@ use Juzaweb\CMS\Support\ActionRegister;
 use Juzaweb\CMS\Support\CacheGroup;
 use Juzaweb\CMS\Support\Config as DbConfig;
 use Juzaweb\CMS\Support\DatabaseTableGroup;
+use Juzaweb\CMS\Support\Element\Contracts\ElementBuilder as ElementBuilderContract;
+use Juzaweb\CMS\Support\Element\ElementBuilder;
 use Juzaweb\CMS\Support\GlobalData;
 use Juzaweb\CMS\Support\GoogleTranslate;
 use Juzaweb\CMS\Support\HookAction;
@@ -348,8 +350,10 @@ class CmsServiceProvider extends ServiceProvider
 
         $this->app->bind(
             GoogleTranslateContract::class,
-            fn($app) => new GoogleTranslate($app[Factory::class])
+            fn ($app) => new GoogleTranslate($app[Factory::class])
         );
+
+        $this->app->bind(ElementBuilderContract::class, ElementBuilder::class);
     }
 
     protected function registerConfigs(): void

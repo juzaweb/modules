@@ -50,27 +50,27 @@ class MenuAction extends Action
             ]
         );
 
-        if (config('juzaweb.plugin.enable_upload')) {
-            HookAction::addAdminMenu(
-                trans('cms::app.dashboard'),
-                'dashboard',
-                [
-                    'icon' => 'fa fa-dashboard',
-                    'position' => 1,
-                    'parent' => 'dashboard',
-                ]
-            );
-
-            HookAction::addAdminMenu(
-                trans('cms::app.updates'),
-                'updates',
-                [
-                    'icon' => 'fa fa-arrow-circle-o-up',
-                    'position' => 1,
-                    'parent' => 'dashboard',
-                ]
-            );
-        }
+        // if (config('juzaweb.plugin.enable_upload')) {
+        //     HookAction::addAdminMenu(
+        //         trans('cms::app.dashboard'),
+        //         'dashboard',
+        //         [
+        //             'icon' => 'fa fa-dashboard',
+        //             'position' => 1,
+        //             'parent' => 'dashboard',
+        //         ]
+        //     );
+        //
+        //     HookAction::addAdminMenu(
+        //         trans('cms::app.updates'),
+        //         'updates',
+        //         [
+        //             'icon' => 'fa fa-arrow-circle-o-up',
+        //             'position' => 1,
+        //             'parent' => 'dashboard',
+        //         ]
+        //     );
+        // }
 
         HookAction::addAdminMenu(
             trans('cms::app.media'),

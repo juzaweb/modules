@@ -1,11 +1,11 @@
 import Admin from "@/layouts/admin";
 import TopOptions from "@/pages/dev-tool/components/top-options";
 import {Theme} from "@/types/themes";
-import Button from "@/components/form/buttons/button";
+import Button from "@/components/elements/buttons/button";
 import {InputField, InputFieldTypes} from "@/types/fields";
 import {useState} from "react";
 import {__, admin_url, convert_to_label_field, convert_to_name_field, message_in_response} from "@/helpers/functions";
-import SuccessButton from "@/components/form/buttons/success-button";
+import SuccessButton from "@/components/elements/buttons/success-button";
 import axios from "axios";
 
 export interface SettingField extends InputField {

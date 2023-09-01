@@ -1,9 +1,9 @@
 import {Theme} from "@/types/themes";
 import {Plugin} from "@/types/plugins";
 import React, {useState} from "react";
-import Button from "@/components/form/buttons/button";
+import Button from "@/components/elements/buttons/button";
 import ColumnRow from "@/pages/dev-tool/components/plugins/migration/column-row";
-import Checkbox from "@/components/form/inputs/checkbox";
+import Checkbox from "@/components/elements/inputs/checkbox";
 
 export interface Column {
     name?: string;

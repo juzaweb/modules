@@ -1,7 +1,7 @@
-import Input from "@/components/form/inputs/input";
-import Checkbox from "@/components/form/inputs/checkbox";
-import Button from "@/components/form/buttons/button";
-import Select from "@/components/form/inputs/select";
+import Input from "@/components/elements/inputs/input";
+import Checkbox from "@/components/elements/inputs/checkbox";
+import Button from "@/components/elements/buttons/button";
+import Select from "@/components/elements/inputs/select";
 import {convert_to_label_field, convert_to_slug} from "@/helpers/functions";
 import {useState} from "react";
 

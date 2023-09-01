@@ -1,10 +1,10 @@
 import Admin from "@/layouts/admin";
 import TopOptions from "@/pages/dev-tool/components/top-options";
 import {PageTempate, Theme} from "@/types/themes";
-import Button from "@/components/form/buttons/button";
+import Button from "@/components/elements/buttons/button";
 import {useState} from "react";
 import {__, admin_url, convert_to_label_field, convert_to_name_field, message_in_response} from "@/helpers/functions";
-import SuccessButton from "@/components/form/buttons/success-button";
+import SuccessButton from "@/components/elements/buttons/success-button";
 import axios from "axios";
 import BlockItem from "@/pages/dev-tool/theme/template/components/block-item";
 

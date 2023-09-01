@@ -18,7 +18,7 @@ use Juzaweb\CMS\Models\User;
 
 class DashboardController extends BackendController
 {
-    //protected string $template = 'inertia';
+    protected string $template = 'inertia';
 
     public function index(): View|Response
     {

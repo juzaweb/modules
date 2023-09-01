@@ -1,8 +1,9 @@
 import {__} from "@/helpers/functions";
+import Admin from "../layouts/admin";
 
 export default function Dashboard({ posts, pages, users, storage, diskFree }) {
     return (
-        <>
+        <Admin>
             <div className="row">
                 <div className="col-md-3">
                     <div className="card border-0 bg-gray-2">
@@ -113,6 +114,6 @@ export default function Dashboard({ posts, pages, users, storage, diskFree }) {
             </div>
 
             {/*@do_action('backend.dashboard.view')*/}
-        </>
+        </Admin>
     );
 }

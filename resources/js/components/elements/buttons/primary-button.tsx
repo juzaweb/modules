@@ -1,4 +1,4 @@
-import Button, {ButtonProps} from "@/components/form/buttons/button";
+import Button, {ButtonProps} from "@/components/elements/buttons/button";
 
 export default function PrimaryButton(props: ButtonProps) {
     return (

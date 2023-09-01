@@ -4,8 +4,6 @@ namespace Juzaweb\CMS\Support\Element;
 
 use Juzaweb\CMS\Support\Element\Contracts\ElementBuilder as ElementBuilderContract;
 use Juzaweb\CMS\Support\Element\Elements\Form;
-use Juzaweb\CMS\Support\Element\Inputs\Input;
-use Juzaweb\CMS\Support\Element\Inputs\Textarea;
 use Juzaweb\CMS\Support\Element\Interfaces\Element;
 
 class ElementBuilder implements ElementBuilderContract
@@ -30,8 +28,8 @@ class ElementBuilder implements ElementBuilderContract
     {
         return match ($element) {
             'form' => new Form($configs),
-            'input' => new Input($configs),
-            'textarea' => new Textarea($configs),
+            'input' => new Inputs\Input($configs),
+            'textarea' => new Inputs\Textarea($configs),
             'row' => new Elements\Row($configs),
             default => throw new \Exception("Element type {$element} not found"),
         };
