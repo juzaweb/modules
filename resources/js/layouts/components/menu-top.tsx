@@ -1,4 +1,4 @@
-import {__, url} from "../../helpers/functions";
+import {__, admin_url, url} from "../../helpers/functions";
 import {usePage} from "@inertiajs/react";
 
 export default function MenuTop() {
@@ -23,16 +23,15 @@ export default function MenuTop() {
 
                 <div className="dropdown-menu" role="menu">
                     <a className="dropdown-item"
-                       href="{{ route('admin.posts.create', ['posts']) }}">{__('cms::app.post')}</a>
+                       href={admin_url('post-type/posts/create')}>{__('cms::app.post')}</a>
 
                     <a className="dropdown-item"
-                       href="{{ route('admin.posts.create', ['pages']) }}">{__('cms::app.page')}</a>
+                       href={admin_url('post-type/pages/create')}>{__('cms::app.page')}</a>
 
-                    <a className="dropdown-item" href="{{ route('admin.users.create') }}">{__('cms::app.user')}</a>
+                    <a className="dropdown-item" href={admin_url('users/create')}>{__('cms::app.user')}</a>
                 </div>
             </div>
         </div>
-
 
         <div className="mr-auto"></div>
 

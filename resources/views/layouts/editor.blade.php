@@ -13,6 +13,8 @@
 
     @include('cms::components.juzaweb_langs')
 
+    @do_action('juzaweb_header_blade')
+
     @do_action('juzaweb_header')
 
     @yield('header')
@@ -121,6 +123,8 @@
         $('.form-logout').submit();
     });
 </script>
+
+@do_action('juzaweb_footer_blade')
 
 @do_action('juzaweb_footer')
 
