@@ -26,52 +26,15 @@ class DashboardController extends BackendController
         do_action(Action::BACKEND_DASHBOARD_ACTION);
 
         $title = trans('cms::app.dashboard');
-        $users = User::count();
-        $posts = Post::where('type', '!=', 'pages')
-            ->wherePublish()
-            ->count();
-        $pages = Post::where('type', '=', 'pages')
-            ->wherePublish()
-            ->count();
-        $storage = format_size_units(MediaFile::sum('size'));
-        $diskFree = Cache::store('file')->remember(
-            cache_prefix('storage_free_disk'),
-            3600,
-            fn () => format_size_units(disk_free_space('/')),
-        );
-
         $builder = app()->make(ElementBuilder::class);
-        $row = $builder->row();
-        $cols = [
-            [
-                'title' => trans('cms::app.posts'),
-                'data' => trans('cms::app.total').": {$posts}",
-                'class' => 'border-0 bg-gray-2',
-            ],
-            [
-                'title' => trans('cms::app.pages'),
-                'data' => trans('cms::app.total').": {$pages}",
-                'class' => 'border-0 bg-info text-white',
-            ],
-            [
-                'title' => trans('cms::app.users'),
-                'data' => trans('cms::app.total').": {$users}",
-                'class' => 'border-0 bg-primary text-white',
-            ],
-            [
-                'title' => trans('cms::app.storage'),
-                'data' => trans('cms::app.total')."/Free: {$storage}/{$diskFree}",
-                'class' => 'border-0 bg-success text-white',
-            ]
-        ];
+        $this->buildStatistics($builder);
 
-        foreach ($cols as $col) {
-            $row->col(['cols' => 3])
-                ->statsCard()
-                ->title($col['title'])
-                ->data($col['data'])
-                ->addClass($col['class']);
-        }
+        $builder->row()->col(['cols' => 12])->chart(
+            [
+                'title' => trans('cms::app.views'),
+                'labels' => ['Jun', 'Jul', 'Aug'],
+            ]
+        );
 
         return $this->view(
             'cms::backend.builder',
@@ -200,6 +163,55 @@ class DashboardController extends BackendController
                 'message' => trans('cms::app.successfully')
             ]
         );
+    }
+
+    protected function buildStatistics(ElementBuilder $builder): void
+    {
+        $users = User::count();
+        $posts = Post::where('type', '!=', 'pages')
+            ->wherePublish()
+            ->count();
+        $pages = Post::where('type', '=', 'pages')
+            ->wherePublish()
+            ->count();
+        $storage = format_size_units(MediaFile::sum('size'));
+        $diskFree = Cache::store('file')->remember(
+            cache_prefix('storage_free_disk'),
+            3600,
+            fn () => format_size_units(disk_free_space('/')),
+        );
+
+        $row = $builder->row();
+        $cols = [
+            [
+                'title' => trans('cms::app.posts'),
+                'data' => trans('cms::app.total').": {$posts}",
+                'class' => 'border-0 bg-gray-2',
+            ],
+            [
+                'title' => trans('cms::app.pages'),
+                'data' => trans('cms::app.total').": {$pages}",
+                'class' => 'border-0 bg-info text-white',
+            ],
+            [
+                'title' => trans('cms::app.users'),
+                'data' => trans('cms::app.total').": {$users}",
+                'class' => 'border-0 bg-primary text-white',
+            ],
+            [
+                'title' => trans('cms::app.storage'),
+                'data' => "{$storage}/{$diskFree}",
+                'class' => 'border-0 bg-success text-white',
+            ]
+        ];
+
+        foreach ($cols as $col) {
+            $row->col(['cols' => 3])
+                ->statsCard()
+                ->title($col['title'])
+                ->data($col['data'])
+                ->addClass($col['class']);
+        }
     }
 
     protected function countViewByDay(string $day): int

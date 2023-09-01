@@ -3,7 +3,7 @@ import ElementBuilderChildren from "../ElementBuilderChildren";
 export interface ColProps {
     className: string;
     id?: string;
-    children: Array<any>
+    children?: Array<any>
 }
 
 export default function Col({ className, id, children }: ColProps) {

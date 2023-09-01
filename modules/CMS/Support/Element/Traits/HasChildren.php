@@ -55,6 +55,13 @@ trait HasChildren
         return $form;
     }
 
+    public function chart(array $configs = []): Elements\Charts\Chart
+    {
+        $chart = new Elements\Charts\Chart($configs);
+        $this->pushChild($chart);
+        return $chart;
+    }
+
     public function getChildren(): Collection
     {
         return $this->children ?? new Collection();
