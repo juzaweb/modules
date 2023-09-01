@@ -5,7 +5,7 @@ import MenuLeft from "./components/menu-left";
 import {upload_url, url} from "../helpers/functions";
 
 export default function Admin({children}: { children: React.ReactNode }) {
-    const {title} = usePage<{ title?: string }>().props;
+    const {title, config} = usePage<{ title?: string, config: { title: string } }>().props;
 
     return (
         <>
@@ -76,7 +76,7 @@ export default function Admin({children}: { children: React.ReactNode }) {
                                 </a>
                                 <br/>
                                 <p className="mb-0">
-                                    Copyright © 2020 {title} - Provided by Juzaweb
+                                    Copyright © 2020 {config.title} - Provided by Juzaweb
                                 </p>
                             </div>
                         </div>
