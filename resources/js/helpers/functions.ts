@@ -6,8 +6,8 @@ export function __(key: string, args = {}): string {
     let {trans} = usePage<{trans: any}>().props;
     let lang = key.replace('cms::app.', '');
 
-    if (lang) {
-        return trans[lang];
+    if (trans?.cms?.app[lang]) {
+        return trans.cms.app[lang];
     }
 
     return key;

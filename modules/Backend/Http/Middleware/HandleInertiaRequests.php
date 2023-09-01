@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
+use Juzaweb\CMS\Support\Manager\TranslationManager;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -16,6 +17,10 @@ class HandleInertiaRequests extends Middleware
      * @var string
      */
     protected $rootView = 'cms::layouts.backend-inertia';
+
+    public function __construct(protected TranslationManager $translationManager)
+    {
+    }
 
     /**
      * Determines the current asset version.
@@ -53,7 +58,7 @@ class HandleInertiaRequests extends Middleware
             'top_menu_languages',
             3600,
             function () {
-                return app(\Juzaweb\CMS\Support\Manager\TranslationManager::class)
+                return $this->translationManager
                     ->locale('cms')
                     ->languages()
                     ->values();
