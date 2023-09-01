@@ -79,11 +79,32 @@ class MenuCollection implements Arrayable
             return [];
         }
 
+        $adminPrefix = config('juzaweb.admin_prefix');
+        $segment3 = request()?->segment(3);
+        $segment2 = request()?->segment(2);
+
         $item = $this->item->toArray();
         $item['url'] = admin_url($this->getUrl());
+        $item['active'] = $this->get('url') == 'dashboard'
+            ? request()?->is($adminPrefix)
+            : request()?->is($adminPrefix .'/'. $this->get('url') . '*');
 
         if ($this->hasChildren()) {
-            $item['children'] = $this->getChildrens()->toArray();
+            $children = $this->getChildrens();
+
+            foreach ($children as $child) {
+                if (empty($segment2)) {
+                    $active = empty($child->getUrl());
+                } else {
+                    $active = request()?->is($adminPrefix .'/'. $child->get('url') . '*');
+                }
+
+                if ($active) {
+                    $item['active'] = true;
+                }
+            }
+
+            $item['children'] = $children->toArray();
         }
 
         return $item;
