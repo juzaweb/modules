@@ -1,6 +1,5 @@
 import {usePage} from "@inertiajs/react";
 import MenuLeftItem from "./menu-left-item";
-import {forEach} from "lodash";
 
 export default function MenuLeft() {
     const {leftMenuItems} = usePage<{ leftMenuItems: any[] }>().props;

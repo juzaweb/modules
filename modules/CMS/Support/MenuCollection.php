@@ -34,12 +34,12 @@ class MenuCollection implements Arrayable
             $results[] = $item;
         }
 
-        return new Collection($results);
+        return (new Collection($results))->filter(fn ($item) => !empty($item));
     }
 
     public function __construct($item)
     {
-        $this->item = collect($item);
+        $this->item = new Collection($item);
     }
 
     public function hasChildren(): bool
@@ -73,6 +73,12 @@ class MenuCollection implements Arrayable
 
     public function toArray(): array
     {
+        $user = auth()->user();
+
+        if (!$user->canAny($this->get('permissions', ['admin']))) {
+            return [];
+        }
+
         $item = $this->item->toArray();
         $item['url'] = admin_url($this->getUrl());
 
