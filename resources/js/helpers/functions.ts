@@ -1,4 +1,4 @@
-import {getSidebar} from "@/helpers/fetch";
+import {getSidebar} from "./fetch";
 import axios, {AxiosRequestConfig} from "axios";
 import {usePage} from "@inertiajs/react";
 import {forEach} from "lodash";
