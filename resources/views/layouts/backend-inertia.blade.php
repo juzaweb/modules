@@ -16,8 +16,12 @@
 
     @viteReactRefresh
 
+    @php
+    $component = explode('::', $page['component'])[1];
+    @endphp
+
     @vite(
-        ["vendor/juzaweb/modules/resources/js/app.tsx", "vendor/juzaweb/modules/resources/css/app.css", "vendor/juzaweb/modules/resources/js/pages/{$page['component']}.tsx"],
+        ["resources/js/app.tsx", "vendor/juzaweb/modules/resources/css/app.css", "vendor/juzaweb/modules/resources/js/pages/{$component}.tsx"],
         'jw-styles/juzaweb/build'
     )
 

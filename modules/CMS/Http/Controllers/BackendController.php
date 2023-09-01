@@ -63,7 +63,7 @@ class BackendController extends Controller
     protected function inertiaViewRender(?string $view = null, array $data = []): Response
     {
         // Remove backend blade prifix
-        $view = Str::replace('cms::backend.', '', $view);
+        $view = Str::replace('cms::backend.', 'cms::', $view);
 
         // Replate . to /
         $view = Str::replace('.', '/', $view);
