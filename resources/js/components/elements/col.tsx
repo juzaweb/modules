@@ -1,7 +1,13 @@
-import ElementBuilder from "../ElementBuilder";
+import ElementBuilderChildren from "../ElementBuilderChildren";
 
-export default function Col({ config }: { config: any }) {
-    return <div className={config.class} id={config.id}>
-        <ElementBuilder builder={config} />
+export interface ColProps {
+    className: string;
+    id?: string;
+    children: Array<any>
+}
+
+export default function Col({ className, id, children }: ColProps) {
+    return <div className={className} id={id}>
+        <ElementBuilderChildren children={children} />
     </div>;
 }

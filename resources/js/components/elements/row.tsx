@@ -1,7 +1,13 @@
-import ElementBuilder from "../ElementBuilder";
+import ElementBuilderChildren from "../ElementBuilderChildren";
 
-export default function Row({ config }: { config: any }) {
-    return <div className={config.class} id={config.id}>
-        <ElementBuilder builder={config} />
+export interface RowProps {
+    className: string;
+    id?: string;
+    children: Array<any>
+}
+
+export default function Row({ className, id, children }: RowProps) {
+    return <div className={className} id={id}>
+        <ElementBuilderChildren children={children} />
     </div>;
 }

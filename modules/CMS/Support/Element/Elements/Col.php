@@ -37,7 +37,7 @@ class Col implements Element
     {
         return [
             'element' => 'col',
-            'class' => "{$this->class} col-{$this->size}-{$this->cols}",
+            'className' => "{$this->class} col-{$this->size}-{$this->cols}",
             'id' => $this->getId(),
             'children' => $this->getChildren()->toArray(),
         ];

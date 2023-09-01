@@ -23,7 +23,7 @@ class Card implements Element, WithChildren
     public function toArray(): array
     {
         return [
-            'class' => $this->class,
+            'className' => $this->class,
             'children' => $this->getChildren()->toArray(),
         ];
     }

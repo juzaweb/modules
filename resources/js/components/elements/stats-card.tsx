@@ -1,22 +1,19 @@
-export interface StatsCardConfig {
+export interface StatsCardProps {
     title: string;
     data: string;
-    class: string;
+    className: string;
     icon?: string;
 }
 
-export default function StatsCard(
-    {config}: {config: StatsCardConfig}
-) {
-    console.log(config);
+export default function StatsCard({title, data, className, icon}: StatsCardProps) {
     return (
-        <div className={config.class}>
+        <div className={className}>
             <div className="card-body">
                 <div className="d-flex flex-wrap align-items-center">
-                    <i className={`fa ${config.icon || 'fa-list'} font-size-50 mr-3`}></i>
+                    <i className={`fa ${icon || 'fa-list'} font-size-50 mr-3`}></i>
                     <div>
-                        <div className="font-size-21 font-weight-bold">{config.title}</div>
-                        <div className="font-size-15">{config.data}</div>
+                        <div className="font-size-21 font-weight-bold">{title}</div>
+                        <div className="font-size-15">{data}</div>
                     </div>
                 </div>
             </div>

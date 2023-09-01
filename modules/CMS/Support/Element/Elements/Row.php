@@ -27,7 +27,7 @@ class Row implements Element
         return [
             'element' => 'row',
             'id' => $this->getId(),
-            'class' => $this->class,
+            'className' => $this->class,
             'children' => $this->getChildren()->toArray(),
         ];
     }
