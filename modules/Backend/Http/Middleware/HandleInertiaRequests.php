@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
+use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Support\Manager\TranslationManager;
+use Juzaweb\CMS\Support\MenuCollection;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -65,6 +67,7 @@ class HandleInertiaRequests extends Middleware
             }
         );
 
+        $leftMenuItems = MenuCollection::make(apply_filters('get_admin_menu', HookAction::getAdminMenu()));
         $currentLang = $user->language ?? get_config('language', 'en');
         $trans = [
             'cms' => [
@@ -88,6 +91,7 @@ class HandleInertiaRequests extends Middleware
             'admin_url' => admin_url(),
             'admin_prefix' => config('juzaweb.admin_prefix'),
             'total_notifications' => count_unread_notifications(),
+            'leftMenuItems' => $leftMenuItems,
         ];
     }
 }

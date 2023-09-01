@@ -2,10 +2,11 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 
-class MenuCollection
+class MenuCollection implements Arrayable
 {
     protected Collection $item;
 
@@ -20,6 +21,7 @@ class MenuCollection
     {
         $results = [];
         $items = collect($items)->sortBy($sortBy);
+
         foreach ($items as $item) {
             if ($children = Arr::get($item, 'children')) {
                 $item['permissions'] = array_merge(
@@ -66,6 +68,18 @@ class MenuCollection
 
     public function getChildrens(): array|Collection
     {
-        return static::make($this->item->get('children'));
+        return static::make($this->item->get('children', []));
+    }
+
+    public function toArray(): array
+    {
+        $item = $this->item->toArray();
+        $item['url'] = admin_url($this->getUrl());
+
+        if ($this->hasChildren()) {
+            $item['children'] = $this->getChildrens()->toArray();
+        }
+
+        return $item;
     }
 }

@@ -17,7 +17,7 @@ class AdminApiController extends ApiController
 {
     public function callAction($method, $parameters): \Symfony\Component\HttpFoundation\Response
     {
-        do_action(Action::BACKEND_CALL_ACTION, $method, $parameters);
+        do_action(Action::BACKEND_INIT, $method, $parameters);
 
         return parent::callAction($method, $parameters);
     }

@@ -1,16 +1,22 @@
 import {getSidebar} from "@/helpers/fetch";
 import axios, {AxiosRequestConfig} from "axios";
 import {usePage} from "@inertiajs/react";
+import {forEach} from "lodash";
 
 export function __(key: string, args = {}): string {
     let {trans} = usePage<{trans: any}>().props;
-    let lang = key.replace('cms::app.', '');
+    let lang = key.replace('::', '.').split('.');
+    let tran = null;
 
-    if (trans?.cms?.app[lang]) {
-        return trans.cms.app[lang];
-    }
+    forEach(lang, (item: string) => {
+        if (typeof trans[item] === 'string') {
+            tran = trans[item];
+        } else {
+            trans = trans[item];
+        }
+    });
 
-    return key;
+    return tran || key;
 }
 
 export function url(uri: string): string {
