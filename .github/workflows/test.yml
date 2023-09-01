@@ -43,14 +43,14 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Execute tests Install
         working-directory: blog
-        run: php artisan test modules/Tests/InstallTest.php
+        run: php artisan test vendor/juzaweb/modules/Tests/InstallTest.php
       - name: Execute tests (Unit and Feature tests)
         working-directory: blog
         run: php artisan test
       - name: Execute tests disabled frontend
         working-directory: blog
         run:
-          php artisan test modules/Tests/Feature/Auth
-          php artisan test modules/Tests/Feature/Backend
+          php artisan test vendor/juzaweb/modules/Tests/Feature/Auth
+          php artisan test vendor/juzaweb/modules/Tests/Feature/Backend
         env:
           JW_FRONTEND_ENABLE: false

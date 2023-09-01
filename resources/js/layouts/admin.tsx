@@ -2,7 +2,7 @@ import {Head, usePage} from "@inertiajs/react";
 import React from "react";
 import MenuTop from "./components/menu-top";
 import MenuLeft from "./components/menu-left";
-import {upload_url, url} from "../helpers/functions";
+import {url} from "../helpers/functions";
 
 export default function Admin({children}: { children: React.ReactNode }) {
     const {title, config} = usePage<{ title?: string, config: { title: string } }>().props;
@@ -44,18 +44,18 @@ export default function Admin({children}: { children: React.ReactNode }) {
 
                     <div className="juzaweb__layout__content">
                         {/*@if(!request()->is(config('juzaweb.admin_prefix')))
-                    {{
-                        jw_breadcrumb(
-                        'admin',
-                        [
-                            [
-                                'title' => $page['props']['title'] ?? '',
-                        ]
-                        ]
-                        )
-                    }}
-                    @else
-                    <div className="mb-3"></div>
+                            {{
+                                jw_breadcrumb(
+                                'admin',
+                                [
+                                    [
+                                        'title' => $page['props']['title'] ?? '',
+                                ]
+                                ]
+                                )
+                            }}
+                            @else
+                            <div className="mb-3"></div>
                     @endif*/}
 
                         <h4 className="font-weight-bold ml-3 text-capitalize">{title || ''}</h4>

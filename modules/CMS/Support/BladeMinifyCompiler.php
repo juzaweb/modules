@@ -12,12 +12,10 @@ class BladeMinifyCompiler extends BaseCompiler
      * @param  string  $value
      * @return string
      */
-    public function compileString($value)
+    public function compileString($value): string
     {
         $contents = parent::compileString($value);
-        $contents = $this->minifyString($contents);
-
-        return $contents;
+        return $this->minifyString($contents);
     }
 
     /**
@@ -26,7 +24,7 @@ class BladeMinifyCompiler extends BaseCompiler
      * @param  string  $value
      * @return string
      */
-    protected function minifyString($value)
+    protected function minifyString($value): string
     {
         return Blade::minify($value, [
             //'cssMinifier' => [CSSMin::class, 'minify'],

@@ -14,27 +14,25 @@ class Blade extends MinifyHtml
 {
     /** @var string */
     protected const BLOCK_TAGS_REGEX = 'area|article|aside|base(?:font)?|blockquote|body|'
-    . 'canvas|caption|center|col(?:group)?|dd|dir|div|dl|dt|fieldset|figcaption|figure|'
-    . 'footer|form|frame(?:set)?|h[1-6]|head|header|hgroup|hr|html|legend|li|link|main|'
-    . 'map|menu|meta|nav|ol|opt(?:group|ion)|output|p|param|section|table|tbody|thead|'
-    . 'td|th|tr|tfoot|title|ul|video';
+    .'canvas|caption|center|col(?:group)?|dd|dir|div|dl|dt|fieldset|figcaption|figure|'
+    .'footer|form|frame(?:set)?|h[1-6]|head|header|hgroup|hr|html|legend|li|link|main|'
+    .'map|menu|meta|nav|ol|opt(?:group|ion)|output|p|param|section|table|tbody|thead|'
+    .'td|th|tr|tfoot|title|ul|video';
 
     /** @var string */
     protected const INLINE_TAGS_REGEX = 'a|abbr|acronym|b|bdo|big|br|button|cite|dfn|em|i|'
-    . 'img|input|kbd|label|map|object|q|samp|select|small|span|strong|sub|sup|time|tt|var';
+    .'img|input|kbd|label|map|object|q|samp|select|small|span|strong|sub|sup|time|tt|var';
 
     /**
      * "Minify" an Blade page
      *
-     * @param string $blade
-     * @param array $options
+     * @param  string  $blade
+     * @param  array  $options
      * @return string
      */
     public static function minify($blade, $options = [])
     {
-        $minifier = new self($blade, $options);
-
-        return $minifier->process();
+        return (new self($blade, $options))->process();
     }
 
     /**
@@ -42,19 +40,19 @@ class Blade extends MinifyHtml
      *
      * @return string
      */
-    public function process()
+    public function process(): string
     {
         if ($this->_isXhtml === null) {
             $this->_isXhtml = (false !== strpos($this->_html, '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML'));
         }
 
-        $this->_replacementHash = 'MINIFYHTML' . md5($_SERVER['REQUEST_TIME']);
+        $this->_replacementHash = 'MINIFYHTML'.md5($_SERVER['REQUEST_TIME']);
         $this->_placeholders = [];
 
         // replace PHPs with placeholders
         $this->_html = preg_replace_callback(
             '/<\?php(\\b[^?>]*?[\\s\\S]*?\?>)/iu',
-            [$this, '_removePhpCB'],
+            [$this, 'removePhpCB'],
             $this->_html
         );
 
@@ -96,14 +94,14 @@ class Blade extends MinifyHtml
         // replace NOSCRIPTs with placeholders
         $this->_html = preg_replace_callback(
             '/<noscript(\\b[^>]*?>[\\s\\S]*?<\\/noscript>)/iu',
-            [$this, '_removeNoscriptCB'],
+            [$this, 'removeNoscriptCB'],
             $this->_html
         );
 
         // replace CODEs with placeholders
         $this->_html = preg_replace_callback(
             '/<code(\\b[^>]*?>[\\s\\S]*?<\\/code>)/iu',
-            [$this, '_removeCodeCB'],
+            [$this, 'removeCodeCB'],
             $this->_html
         );
 
@@ -112,13 +110,13 @@ class Blade extends MinifyHtml
 
         // trim string in inline tags
         $this->_html = preg_replace(
-            '/>\\s?([^<]|(?!%' . $this->_replacementHash . '[0-9]+%)\\S+)\\s?<\\//iu',
+            '/>\\s?([^<]|(?!%'.$this->_replacementHash.'[0-9]+%)\\S+)\\s?<\\//iu',
             '>$1</',
             $this->_html
         );
 
         // remove ws around block/undisplayed elements
-        $this->_html = preg_replace('/\\s+(<\\/?(?:' . self::BLOCK_TAGS_REGEX . ')\\b[^>]*>)/iu', '$1', $this->_html);
+        $this->_html = preg_replace('/\\s+(<\\/?(?:'.self::BLOCK_TAGS_REGEX.')\\b[^>]*>)/iu', '$1', $this->_html);
 
         // remove ws before and after a single string in tags
         $this->_html = preg_replace(
@@ -142,24 +140,24 @@ class Blade extends MinifyHtml
 
         // remove ws between block and inline tags
         $this->_html = preg_replace(
-            '/(<\\/?(?:' . self::BLOCK_TAGS_REGEX . ')\\b[^>]*>)'
-            . '\\s+(<\\/?(?:' . self::INLINE_TAGS_REGEX . ')\\b[^>]*>)/iu',
+            '/(<\\/?(?:'.self::BLOCK_TAGS_REGEX.')\\b[^>]*>)'
+            .'\\s+(<\\/?(?:'.self::INLINE_TAGS_REGEX.')\\b[^>]*>)/iu',
             '$1$2',
             $this->_html
         );
 
         // remove ws at the front of opening inline tags (ex. <a>hello <span>world)
         $this->_html = preg_replace(
-            '/(<(?:' . self::INLINE_TAGS_REGEX . ')\\b[^>]*>)'
-            . '\\s([^\\s][^<]+[\\s]?)?(<(?:' . self::INLINE_TAGS_REGEX . ')\\b[^>]*>)/iu',
+            '/(<(?:'.self::INLINE_TAGS_REGEX.')\\b[^>]*>)'
+            .'\\s([^\\s][^<]+[\\s]?)?(<(?:'.self::INLINE_TAGS_REGEX.')\\b[^>]*>)/iu',
             '$1$2$3',
             $this->_html
         );
 
         // remove ws closing adjacent inline tags (ex. </span></label>)
         $this->_html = preg_replace(
-            '/(<\\/(?:' . self::INLINE_TAGS_REGEX . ')>)'
-            . '\\s+(<\\/(?:' . self::INLINE_TAGS_REGEX . ')>)/iu',
+            '/(<\\/(?:'.self::INLINE_TAGS_REGEX.')>)'
+            .'\\s+(<\\/(?:'.self::INLINE_TAGS_REGEX.')>)/iu',
             '$1$2',
             $this->_html
         );
@@ -184,7 +182,7 @@ class Blade extends MinifyHtml
      * @param $m
      * @return string
      */
-    protected function _removePhpCB($m)
+    protected function removePhpCB($m): string
     {
         return $this->_reservePlace("<?php{$m[1]}");
     }
@@ -193,7 +191,7 @@ class Blade extends MinifyHtml
      * @param $m
      * @return string
      */
-    protected function _removeCodeCB($m)
+    protected function removeCodeCB($m): string
     {
         return $this->_reservePlace("<code{$m[1]}");
     }
@@ -202,7 +200,7 @@ class Blade extends MinifyHtml
      * @param $m
      * @return string
      */
-    protected function _removeNoscriptCB($m)
+    protected function removeNoscriptCB($m): string
     {
         return $this->_reservePlace("<noscript{$m[1]}");
     }

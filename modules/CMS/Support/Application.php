@@ -14,7 +14,7 @@ use Illuminate\Foundation\Application as BaseApplication;
 
 class Application extends BaseApplication
 {
-    public function getNamespace()
+    public function getNamespace(): string
     {
         if (! is_null($this->namespace)) {
             return $this->namespace;

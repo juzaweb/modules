@@ -10,9 +10,12 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+
 class Breadcrumb
 {
-    public static function render($name, $items = [])
+    public static function render($name, $items = []): Factory|View
     {
         return view(static::getNameView($name), [
             'items' => $items,
