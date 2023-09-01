@@ -15,6 +15,7 @@ use Juzaweb\Backend\Models\MediaFile;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\PostView;
 use Juzaweb\CMS\Models\User;
+use Juzaweb\CMS\Support\Element\ElementBuilder;
 
 class DashboardController extends BackendController
 {
@@ -39,15 +40,44 @@ class DashboardController extends BackendController
             fn () => format_size_units(disk_free_space('/')),
         );
 
+        $builder = app()->make(ElementBuilder::class);
+        $row = $builder->row();
+        $cols = [
+            [
+                'title' => trans('cms::app.posts'),
+                'data' => trans('cms::app.total').": {$posts}",
+                'class' => 'border-0 bg-gray-2',
+            ],
+            [
+                'title' => trans('cms::app.pages'),
+                'data' => trans('cms::app.total').": {$pages}",
+                'class' => 'border-0 bg-info text-white',
+            ],
+            [
+                'title' => trans('cms::app.users'),
+                'data' => trans('cms::app.total').": {$users}",
+                'class' => 'border-0 bg-primary text-white',
+            ],
+            [
+                'title' => trans('cms::app.storage'),
+                'data' => trans('cms::app.total')."/Free: {$storage}/{$diskFree}",
+                'class' => 'border-0 bg-success text-white',
+            ]
+        ];
+
+        foreach ($cols as $col) {
+            $row->col(['cols' => 3])
+                ->statsCard()
+                ->title($col['title'])
+                ->data($col['data'])
+                ->addClass($col['class']);
+        }
+
         return $this->view(
-            'cms::backend.dashboard',
+            'cms::backend.builder',
             compact(
                 'title',
-                'users',
-                'posts',
-                'pages',
-                'storage',
-                'diskFree'
+                'builder'
             )
         );
     }

@@ -4,8 +4,6 @@ namespace Juzaweb\CMS\Support\Element\Traits;
 
 trait HasClass
 {
-    protected string $class;
-
     public function class(string $class): static
     {
         $this->class = $class;

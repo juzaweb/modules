@@ -2,8 +2,6 @@
 
 namespace Juzaweb\CMS\Support\Element\Traits;
 
-use Illuminate\Support\Str;
-
 trait HasId
 {
     protected ?string $id;
@@ -15,8 +13,8 @@ trait HasId
         return $this;
     }
 
-    public function getId(): string
+    public function getId(): ?string
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 }

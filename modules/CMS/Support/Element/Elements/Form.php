@@ -93,7 +93,7 @@ class Form implements Element, WithChildren
     public function toArray(): array
     {
         $atributes = get_object_vars($this);
-        $atributes['children'] = $this->children->toArray();
+        $atributes['children'] = $this->getChildren()->toArray();
         return $atributes;
     }
 

@@ -11,6 +11,8 @@ class Row implements Element
 {
     use HasClass, HasChildren, HasId;
 
+    protected string $class = 'row';
+
     public function __construct(array $configs = [])
     {
         foreach ($configs as $key => $value) {
@@ -23,8 +25,10 @@ class Row implements Element
     public function toArray(): array
     {
         return [
+            'element' => 'row',
+            'id' => $this->getId(),
             'class' => $this->class,
-            'children' => $this->children,
+            'children' => $this->getChildren()->toArray(),
         ];
     }
 

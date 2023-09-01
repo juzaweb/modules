@@ -11,6 +11,12 @@ class Col implements Element
 {
     use HasClass, HasChildren, HasId;
 
+    protected string $class = 'col';
+
+    protected int $cols = 12;
+
+    protected string $size = 'md';
+
     public function __construct(array $configs = [])
     {
         foreach ($configs as $key => $value) {
@@ -20,12 +26,20 @@ class Col implements Element
         }
     }
 
+    public function cols(int $cols): static
+    {
+        $this->cols = $cols;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
         return [
-            'class' => $this->class,
+            'element' => 'col',
+            'class' => "{$this->class} col-{$this->size}-{$this->cols}",
             'id' => $this->getId(),
-            'children' => $this->children,
+            'children' => $this->getChildren()->toArray(),
         ];
     }
 
