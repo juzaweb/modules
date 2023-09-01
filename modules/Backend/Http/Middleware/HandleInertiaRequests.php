@@ -3,6 +3,7 @@
 namespace Juzaweb\Backend\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -36,6 +37,9 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = Arr::only($request->user()->toArray(), ['id', 'name', 'email']);
+        $user['avatar'] = $request->user()->getAvatar();
+
         return array_merge(
             parent::share($request),
             [
@@ -45,7 +49,8 @@ class HandleInertiaRequests extends Middleware
                         'error' => $request->session()->get('error'),
                     ];
                 },
-                'current_theme' => jw_current_theme(),
+                'current_theme' => current_theme(),
+                'user' => $user,
             ]
         );
     }

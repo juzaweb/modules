@@ -39,72 +39,8 @@
     </div>
 </div>
 
-<div class="juzaweb__layout juzaweb__layout--hasSider">
+@inertia
 
-    <div class="juzaweb__menuLeft">
-        <div class="juzaweb__menuLeft__mobileTrigger"><span></span></div>
-
-        <div class="juzaweb__menuLeft__outer">
-            <div class="juzaweb__menuLeft__logo__container">
-                <a href="/{{ config('juzaweb.admin_prefix') }}">
-                    <div class="juzaweb__menuLeft__logo">
-                        <img src="{{ asset('jw-styles/juzaweb/images/logo.svg') }}" class="mr-1" alt="Juzaweb">
-                        <div class="juzaweb__menuLeft__logo__name">JuzaWeb</div>
-                        <div class="juzaweb__menuLeft__logo__descr">Cms</div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="juzaweb__menuLeft__scroll jw__customScroll">
-                @include('cms::backend.menu_left')
-            </div>
-        </div>
-    </div>
-    <div class="juzaweb__menuLeft__backdrop"></div>
-
-    <div class="juzaweb__layout">
-        <div class="juzaweb__layout__header">
-            @include('cms::backend.menu_top')
-        </div>
-
-        <div class="juzaweb__layout__content">
-            @if(!request()->is(config('juzaweb.admin_prefix')))
-                {{
-                    jw_breadcrumb(
-                        'admin',
-                         [
-                            [
-                                'title' => $page['props']['title'] ?? '',
-                            ]
-                        ]
-                    )
-                }}
-            @else
-                <div class="mb-3"></div>
-            @endif
-
-                @inertia
-
-
-        </div>
-
-        <div class="juzaweb__layout__footer">
-            <div class="juzaweb__footer">
-                <div class="juzaweb__footer__inner">
-                    <a href="https://juzaweb.com" target="_blank" rel="noopener noreferrer"
-                       class="juzaweb__footer__logo">
-                        Juzaweb - Build website professional
-                        <span></span>
-                    </a>
-                    <br/>
-                    <p class="mb-0">
-                        Copyright © 2020 {{ get_config('title') }} - Provided by Juzaweb
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <form action="{{ route('logout') }}" method="post" class="form-logout box-hidden">
     @csrf
