@@ -38,16 +38,18 @@ class DashboardController extends BackendController
             $labels[] = $day->format('Y-m-d');
         }
 
-        $builder->row()->col(['cols' => 12])->lineChart(
+        $builder->row()->addClass('mt-5')->col(['cols' => 12])->lineChart(
             [
                 'labels' => $labels,
                 'dataUrl' => action([static::class, 'viewsChart']),
             ]
         );
 
-        $row = $builder->row()->addClass('mt-3');
+        $row = $builder->row()->addClass('mt-5');
         $row->col(['cols' => 6])
             ->card()
+            ->headerClass('bg-primary')
+            ->titleClass('text-white')
             ->title(trans('cms::app.new_users'))
             ->dataTable()
             ->columns([
@@ -65,6 +67,8 @@ class DashboardController extends BackendController
 
         $row->col(['cols' => 6])
             ->card()
+            ->headerClass('bg-primary')
+            ->titleClass('text-white')
             ->title(trans('cms::app.top_views'))
             ->dataTable()
             ->columns([

@@ -24,6 +24,33 @@ class Card implements Element, WithChildren
 
     protected string $title;
 
+    protected string $headerClassName;
+
+    protected string $titleClassName;
+
+    public function __construct(array $configs = [])
+    {
+        foreach ($configs as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
+    }
+
+    public function headerClass(string $class): static
+    {
+        $this->headerClassName = $class;
+
+        return $this;
+    }
+
+    public function titleClass(string $class): static
+    {
+        $this->titleClassName = $class;
+
+        return $this;
+    }
+
     public function title(string $title): static
     {
         $this->title = $title;
@@ -33,12 +60,10 @@ class Card implements Element, WithChildren
 
     public function toArray(): array
     {
-        return [
-            'element' => $this->element,
-            'title' => $this->title ?? null,
-            'className' => $this->class,
-            'children' => $this->getChildren()->toArray(),
-        ];
+        $data = get_object_vars($this);
+        $data['className'] = $this->class;
+        $data['children'] = $this->getChildren()->toArray();
+        return $data;
     }
 
     public function render(): string
