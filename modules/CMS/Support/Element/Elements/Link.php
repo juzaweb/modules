@@ -29,7 +29,11 @@ class Link extends ElementAbstract
 
     public function __construct(array $configs = [])
     {
-        //
+        foreach ($configs as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->{$key} = $value;
+            }
+        }
     }
 
     public function text(string $text): static

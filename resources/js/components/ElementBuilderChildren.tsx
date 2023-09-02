@@ -16,7 +16,10 @@ const Elements = (config: any, index: number) => {
         case 'line-chart': return <Line {...config} key={index} />;
         case 'data-table': return <DataTable {...config} key={index} />;
         case 'button-group': return <ButtonGroup {...config} key={index} />;
-        case 'link': return <Link {...config} key={index}>{config.text || ''}</Link>;
+        case 'link': return <Link {...config} key={index}>
+            <ElementBuilderChildren children={config.children} />
+            {config.text || ''}
+        </Link>;
     }
 
     return null;
