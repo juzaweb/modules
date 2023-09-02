@@ -10,7 +10,7 @@
 
 namespace Juzaweb\Backend\Http\Datatables;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\CMS\Abstracts\DataTable;
@@ -18,9 +18,9 @@ use Juzaweb\Backend\Models\Taxonomy;
 
 class TaxonomyDataTable extends DataTable
 {
-    protected $taxonomy;
+    protected array $taxonomy;
 
-    public function mount($taxonomy)
+    public function mount($taxonomy): void
     {
         $this->taxonomy = $taxonomy;
     }
@@ -66,10 +66,10 @@ class TaxonomyDataTable extends DataTable
     /**
      * Query data datatable
      *
-     * @param array $data
+     * @param  array  $data
      * @return Builder
      */
-    public function query($data)
+    public function query(array $data): Builder
     {
         /**
          * @var Builder $query

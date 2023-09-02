@@ -10,6 +10,7 @@
 
 namespace Juzaweb\Network\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +86,7 @@ class SiteController extends BackendController
         return trans('cms::app.network.sites');
     }
 
-    protected function getDataForForm($model, ...$params): array
+    protected function getDataForForm(Model $model, ...$params): array
     {
         $data = $this->DataForForm($model, ...$params);
         $data['statuses'] = Site::getAllStatus();

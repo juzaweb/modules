@@ -88,14 +88,14 @@ class UserController extends BackendController
         return new UserDataTable();
     }
 
-    protected function getDataForForm($model, ...$params): array
+    protected function getDataForForm(\Illuminate\Database\Eloquent\Model $model, ...$params): array
     {
         $data = $this->DataForForm($model);
         $data['allStatus'] = User::getAllStatus();
         return $data;
     }
 
-    protected function afterSave($data, $model, ...$params)
+    protected function afterSave(array $data, Model $model, ...$params)
     {
         $this->tAfterSave($data, $model);
 

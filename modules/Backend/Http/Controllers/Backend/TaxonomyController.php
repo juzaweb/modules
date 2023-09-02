@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Backend\Http\Controllers\Backend;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -148,7 +149,7 @@ class TaxonomyController extends BackendController
         return $data;
     }
 
-    protected function getDataForForm($model, ...$params): array
+    protected function getDataForForm(Model $model, ...$params): array
     {
         $data = $this->DataForForm($model, ...$params);
         $data['taxonomy'] = $params[1];

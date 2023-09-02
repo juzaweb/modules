@@ -10,6 +10,7 @@
 
 namespace Juzaweb\Backend\Http\Controllers\Backend;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Juzaweb\Backend\Http\Datatables\ResourceDatatable;
 use Juzaweb\Backend\Models\Resource;
@@ -39,7 +40,7 @@ class ResourceController extends BackendController
         return parent::callAction($method, $parameters);
     }*/
 
-    protected function afterSave($data, $model, ...$params)
+    protected function afterSave(array $data, \Juzaweb\CMS\Models\Model $model, ...$params)
     {
         if (method_exists($model, 'syncMetasWithoutDetaching')) {
             $model->syncMetasWithoutDetaching($data['meta'] ?? []);
@@ -128,7 +129,7 @@ class ResourceController extends BackendController
         );
     }
 
-    protected function getDataForForm($model, ...$params): array
+    protected function getDataForForm(Model $model, ...$params): array
     {
         $data = $this->DataForForm($model, ...$params);
         $data['setting'] = $this->getSetting(...$params);

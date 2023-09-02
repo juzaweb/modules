@@ -8,9 +8,9 @@
  * @license    GNU V2
  */
 
+use Juzaweb\Backend\Http\Controllers\Backend\Email\EmailController;
 use Juzaweb\Backend\Http\Controllers\Backend\Email\EmailHookController;
-use Juzaweb\Backend\Http\Controllers\Backend\EmailTemplateController;
-use Juzaweb\Backend\Http\Controllers\Backend\EmailController;
+use Juzaweb\Backend\Http\Controllers\Backend\Email\EmailTemplateController;
 
 Route::group(
     ['prefix' => 'email'],

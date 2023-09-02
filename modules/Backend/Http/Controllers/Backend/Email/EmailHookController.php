@@ -11,6 +11,7 @@
 namespace Juzaweb\Backend\Http\Controllers\Backend\Email;
 
 use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Validator;
 use Juzaweb\Backend\Http\Controllers\Backend\PageController;
@@ -49,7 +50,7 @@ class EmailHookController extends PageController
         return trans('cms::app.email_hooks');
     }
 
-    protected function getDataForForm($model, ...$params): array
+    protected function getDataForForm(Model $model, ...$params): array
     {
         $data = $this->DataForForm($model);
         $data['emailHooks'] = HookAction::getEmailHooks();
@@ -64,7 +65,7 @@ class EmailHookController extends PageController
         return $attributes;
     }
 
-    protected function afterSave($data, $model, ...$params): void
+    protected function afterSave(array $data, \Juzaweb\CMS\Models\Model $model, ...$params): void
     {
         $model->users()->sync(Arr::get($data, 'to_users', []));
     }

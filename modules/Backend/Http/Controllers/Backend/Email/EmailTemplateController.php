@@ -1,8 +1,9 @@
 <?php
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\Email;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -10,7 +11,6 @@ use Juzaweb\Backend\Http\Datatables\EmailTemplateDataTable;
 use Juzaweb\Backend\Models\EmailTemplate;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Http\Controllers\BackendController;
-use Illuminate\Database\Eloquent\Model;
 use Juzaweb\CMS\Traits\ResourceController;
 
 class EmailTemplateController extends BackendController
@@ -43,7 +43,7 @@ class EmailTemplateController extends BackendController
         return EmailTemplateDataTable::make();
     }
 
-    protected function validator(array $attributes, ...$params): \Illuminate\Contracts\Validation\Validator
+    protected function validator(array $attributes, ...$params): array|Validator
     {
         $code = $attributes['code'] ?? null;
 

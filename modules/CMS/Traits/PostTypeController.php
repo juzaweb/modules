@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Traits;
 
 use Exception;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -100,13 +101,13 @@ trait PostTypeController
     }
 
     /**
-     * @param array $data
-     * @param Post $model
+     * @param  array  $data
+     * @param  Model  $model
      * @param mixed ...$params
      * @return void
      * @throws Exception
      */
-    protected function afterSave($data, $model, ...$params): void
+    protected function afterSave(array $data, Model $model, ...$params): void
     {
         $this->traitAfterSave($data, $model, ...$params);
         $model->syncTaxonomies($data);
@@ -141,7 +142,7 @@ trait PostTypeController
         return $this->getSetting()->get('label');
     }
 
-    protected function validator(array $attributes, ...$params): \Illuminate\Validation\Validator
+    protected function validator(array $attributes, ...$params): ValidatorContract|array
     {
         $taxonomies = HookAction::getTaxonomies($this->getPostType());
         $keys = $taxonomies->keys()->toArray();
@@ -189,14 +190,14 @@ trait PostTypeController
     /**
      * Get data for form
      *
-     * @param Model $model
+     * @param  Model  $model
      * @param mixed ...$params
      * @return array
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    protected function getDataForForm($model, ...$params): array
+    protected function getDataForForm(Model $model, ...$params): array
     {
         do_action(Action::BLOCKS_INIT);
 
@@ -254,8 +255,7 @@ trait PostTypeController
 
     protected function hasPermission($ability, $arguments = [], ...$params): bool
     {
-        $response = Gate::inspect($ability, [$arguments, $this->getPostType()]);
-        return $response->allowed();
+        return Gate::inspect($ability, [$arguments, $this->getPostType()])->allowed();
     }
 
     protected function updateSuccessResponse($model, $request, ...$params): JsonResponse|RedirectResponse
@@ -288,13 +288,14 @@ trait PostTypeController
     }
 
     /**
-     * @param Model|Post $model
+     * @param  Model|Post  $model
+     * @return string|null
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
     private function getTemplate(Model|Post $model): ?string
     {
-        $template = request()->get('template');
+        $template = request()?->get('template');
         if (empty($template)) {
             $template = $model->getMeta('template');
         }
@@ -310,7 +311,7 @@ trait PostTypeController
     private function getPostType(): ?string
     {
         if (empty($this->postType)) {
-            return request()->segment(3);
+            return request()?->segment(3);
         }
 
         return $this->postType;

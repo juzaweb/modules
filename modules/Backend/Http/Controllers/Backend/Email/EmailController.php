@@ -8,7 +8,7 @@
  * @license    MIT
  */
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\Email;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

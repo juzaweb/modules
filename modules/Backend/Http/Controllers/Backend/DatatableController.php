@@ -21,7 +21,7 @@ class DatatableController extends BackendController
     public function getData(Request $request): JsonResponse
     {
         $table = $this->getTable($request);
-        list($count, $rows) = $table->getData($request);
+        [$count, $rows] = $table->getData($request);
 
         $results = [];
         $columns = $table->columns();
@@ -76,6 +76,7 @@ class DatatableController extends BackendController
      *
      * @param Request $request
      * @return DataTable
+     * @throws \JsonException
      */
     protected function getTable(Request $request): DataTable
     {
@@ -84,7 +85,7 @@ class DatatableController extends BackendController
         $table->currentUrl = $request->get('currentUrl');
 
         if (method_exists($table, 'mount')) {
-            $data = json_decode(urldecode($request->get('data')), true);
+            $data = json_decode(urldecode($request->get('data')), true, 512, JSON_THROW_ON_ERROR);
             if ($data) {
                 $table->mount(...$data);
             }
