@@ -40,116 +40,6 @@ class DashboardController extends BackendController
         );
     }
 
-    protected function buildStatistics(ElementBuilder $builder): void
-    {
-        $users = User::count();
-        $posts = Post::where('type', '!=', 'pages')
-            ->wherePublish()
-            ->count();
-        $pages = Post::where('type', '=', 'pages')
-            ->wherePublish()
-            ->count();
-        $storage = format_size_units(MediaFile::sum('size'));
-        $diskFree = Cache::store('file')->remember(
-            cache_prefix('storage_free_disk'),
-            3600,
-            fn() => format_size_units(disk_free_space('/')),
-        );
-
-        $row = $builder->row();
-        $cols = [
-            [
-                'title' => trans('cms::app.posts'),
-                'data' => trans('cms::app.total').": {$posts}",
-                'class' => 'border-0 bg-gray-2',
-            ],
-            [
-                'title' => trans('cms::app.pages'),
-                'data' => trans('cms::app.total').": {$pages}",
-                'class' => 'border-0 bg-info text-white',
-            ],
-            [
-                'title' => trans('cms::app.users'),
-                'data' => trans('cms::app.total').": {$users}",
-                'class' => 'border-0 bg-primary text-white',
-            ],
-            [
-                'title' => trans('cms::app.storage'),
-                'data' => "{$storage}/{$diskFree}",
-                'class' => 'border-0 bg-success text-white',
-            ]
-        ];
-
-        foreach ($cols as $col) {
-            $row->col(['cols' => 3])
-                ->statsCard()
-                ->title($col['title'])
-                ->data($col['data'])
-                ->addClass($col['class']);
-        }
-    }
-
-    protected function buildTopViewsChart(ElementBuilder $builder): void
-    {
-        $today = Carbon::today();
-        $minDay = $today->subDays(7);
-        $labels = [];
-
-        for ($i = 1; $i <= 7; $i++) {
-            $day = $minDay->addDay();
-            $labels[] = $day->format('Y-m-d');
-        }
-
-        $builder->row()->addClass('mt-5')->col(['cols' => 12])->lineChart(
-            [
-                'labels' => $labels,
-                'dataUrl' => action([static::class, 'viewsChart']),
-            ]
-        );
-    }
-
-    protected function buildViewsTable(ElementBuilder $builder): void
-    {
-        $row = $builder->row()->addClass('mt-5');
-        $row->col(['cols' => 6])
-            ->card()
-            ->headerClass('bg-primary')
-            ->titleClass('text-white')
-            ->title(trans('cms::app.new_users'))
-            ->dataTable()
-            ->columns([
-                [
-                    'key' => 'name',
-                    'label' => trans('cms::app.name'),
-                ],
-                [
-                    'key' => 'created',
-                    'label' => trans('cms::app.created_at'),
-                ]
-            ])
-            ->dataUrl(action([static::class, 'getDataUser']))
-            ->perPage(10);
-
-        $row->col(['cols' => 6])
-            ->card()
-            ->headerClass('bg-primary')
-            ->titleClass('text-white')
-            ->title(trans('cms::app.top_views'))
-            ->dataTable()
-            ->columns([
-                [
-                    'key' => 'title',
-                    'label' => trans('cms::app.title'),
-                ],
-                [
-                    'key' => 'views',
-                    'label' => trans('cms::app.views'),
-                ]
-            ])
-            ->dataUrl(action([static::class, 'getDataTopViews']))
-            ->perPage(10);
-    }
-
     public function getDataUser(Request $request): JsonResponse
     {
         $offset = $request->get('offset', 0);
@@ -254,6 +144,116 @@ class DashboardController extends BackendController
         );
 
         return response()->json($result);
+    }
+
+    protected function buildStatistics(ElementBuilder $builder): void
+    {
+        $users = User::count();
+        $posts = Post::where('type', '!=', 'pages')
+            ->wherePublish()
+            ->count();
+        $pages = Post::where('type', '=', 'pages')
+            ->wherePublish()
+            ->count();
+        $storage = format_size_units(MediaFile::sum('size'));
+        $diskFree = Cache::store('file')->remember(
+            cache_prefix('storage_free_disk'),
+            3600,
+            fn () => format_size_units(disk_free_space('/')),
+        );
+
+        $row = $builder->row();
+        $cols = [
+            [
+                'title' => trans('cms::app.posts'),
+                'data' => trans('cms::app.total').": {$posts}",
+                'class' => 'border-0 bg-gray-2',
+            ],
+            [
+                'title' => trans('cms::app.pages'),
+                'data' => trans('cms::app.total').": {$pages}",
+                'class' => 'border-0 bg-info text-white',
+            ],
+            [
+                'title' => trans('cms::app.users'),
+                'data' => trans('cms::app.total').": {$users}",
+                'class' => 'border-0 bg-primary text-white',
+            ],
+            [
+                'title' => trans('cms::app.storage'),
+                'data' => "{$storage}/{$diskFree}",
+                'class' => 'border-0 bg-success text-white',
+            ]
+        ];
+
+        foreach ($cols as $col) {
+            $row->col(['cols' => 3])
+                ->statsCard()
+                ->title($col['title'])
+                ->data($col['data'])
+                ->addClass($col['class']);
+        }
+    }
+
+    protected function buildTopViewsChart(ElementBuilder $builder): void
+    {
+        $today = Carbon::today();
+        $minDay = $today->subDays(7);
+        $labels = [];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $day = $minDay->addDay();
+            $labels[] = $day->format('Y-m-d');
+        }
+
+        $builder->row()->addClass('mt-5')->col(['cols' => 12])->lineChart(
+            [
+                'labels' => $labels,
+                'dataUrl' => action([static::class, 'viewsChart']),
+            ]
+        );
+    }
+
+    protected function buildViewsTable(ElementBuilder $builder): void
+    {
+        $row = $builder->row()->addClass('mt-5');
+        $row->col(['cols' => 6])
+            ->card()
+            ->headerClass('bg-primary')
+            ->titleClass('text-white')
+            ->title(trans('cms::app.new_users'))
+            ->dataTable()
+            ->columns([
+                [
+                    'key' => 'name',
+                    'label' => trans('cms::app.name'),
+                ],
+                [
+                    'key' => 'created',
+                    'label' => trans('cms::app.created_at'),
+                ]
+            ])
+            ->dataUrl(action([static::class, 'getDataUser']))
+            ->perPage(10);
+
+        $row->col(['cols' => 6])
+            ->card()
+            ->headerClass('bg-primary')
+            ->titleClass('text-white')
+            ->title(trans('cms::app.top_views'))
+            ->dataTable()
+            ->columns([
+                [
+                    'key' => 'title',
+                    'label' => trans('cms::app.title'),
+                ],
+                [
+                    'key' => 'views',
+                    'label' => trans('cms::app.views'),
+                ]
+            ])
+            ->dataUrl(action([static::class, 'getDataTopViews']))
+            ->perPage(10);
     }
 
     protected function countViewByDay(string $day): int

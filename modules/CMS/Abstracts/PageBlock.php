@@ -28,7 +28,7 @@ abstract class PageBlock
      * @param  array  $data
      * @return View
      */
-    abstract public function show(array $data): View;
+    abstract public function show(array $data): View|string;
 
     /**
      * Retrieves the data from a JSON file.

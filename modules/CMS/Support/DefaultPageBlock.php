@@ -10,6 +10,7 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Illuminate\View\View;
 use Juzaweb\CMS\Abstracts\PageBlock;
 
 class DefaultPageBlock extends PageBlock
@@ -18,9 +19,9 @@ class DefaultPageBlock extends PageBlock
      * Creating widget front-end
      *
      * @param  array  $data
-     * @return \Illuminate\View\View
+     * @return View|string
      */
-    public function show(array $data)
+    public function show(array $data): View|string
     {
         return $this->view(
             $this->data['view'],
