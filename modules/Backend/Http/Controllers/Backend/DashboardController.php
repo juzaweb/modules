@@ -45,7 +45,40 @@ class DashboardController extends BackendController
             ]
         );
 
-        $builder->row()->col(['cols' => 6])->dataTable();
+        $row = $builder->row()->addClass('mt-3');
+        $row->col(['cols' => 6])
+            ->card()
+            ->title(trans('cms::app.new_users'))
+            ->dataTable()
+            ->columns([
+                [
+                    'key' => 'name',
+                    'label' => trans('cms::app.name'),
+                ],
+                [
+                    'key' => 'created',
+                    'label' => trans('cms::app.created_at'),
+                ]
+            ])
+            ->dataUrl(action([static::class, 'getDataUser']))
+            ->perPage(10);
+
+        $row->col(['cols' => 6])
+            ->card()
+            ->title(trans('cms::app.top_views'))
+            ->dataTable()
+            ->columns([
+                [
+                    'key' => 'title',
+                    'label' => trans('cms::app.title'),
+                ],
+                [
+                    'key' => 'views',
+                    'label' => trans('cms::app.views'),
+                ]
+            ])
+            ->dataUrl(action([static::class, 'getDataTopViews']))
+            ->perPage(10);
 
         return $this->view(
             'cms::backend.builder',

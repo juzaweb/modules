@@ -1,21 +1,22 @@
+import ElementBuilderChildren from "../ElementBuilderChildren";
+
 export interface CardProps {
-    title: string;
-    data: string;
+    title?: string;
     className: string;
-    icon?: string;
+    children?: Array<any>
 }
 
-export default function Card({title, data, className, icon}: CardProps) {
+export default function Card({title, className, children}: CardProps) {
     return (
         <div className={className}>
-            <div className="card-body">
-                <div className="d-flex flex-wrap align-items-center">
-                    <i className={`fa ${icon || 'fa-list'} font-size-50 mr-3`}></i>
-                    <div>
-                        <div className="font-size-21 font-weight-bold">{title}</div>
-                        <div className="font-size-15">{data}</div>
-                    </div>
+            {title ? (
+                <div className="card-header">
+                    <h3 className="card-title">{title}</h3>
                 </div>
+            ) : ''}
+
+            <div className="card-body">
+                <ElementBuilderChildren children={children} />
             </div>
         </div>
     );

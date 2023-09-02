@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\CMS\Support\Element\Elements\Charts;
+namespace Juzaweb\CMS\Support\Element\Components;
 
 use Illuminate\Contracts\Support\Arrayable;
 

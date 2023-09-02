@@ -6,6 +6,7 @@ import Line from "./charts/line";
 import DataTable from "./elements/data-table";
 
 const Elements = (config: any, index: number) => {
+    console.log(config);
     switch (config.element) {
         case 'row': return <Row {...config} key={index} />;
         case 'col': return <Col {...config} key={index} />;

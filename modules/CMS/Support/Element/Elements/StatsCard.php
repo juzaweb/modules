@@ -12,16 +12,7 @@ namespace Juzaweb\CMS\Support\Element\Elements;
 
 class StatsCard extends Card
 {
-    protected string $title;
-
     protected string $data;
-
-    public function title(string $title): static
-    {
-        $this->title = $title;
-
-        return $this;
-    }
 
     public function data(string $data): static
     {

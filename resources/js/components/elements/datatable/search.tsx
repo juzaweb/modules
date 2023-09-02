@@ -1,12 +1,12 @@
-import {DatatableProps, DatatableSearchField} from "@/types/datatable";
-import {__} from "@/helpers/functions";
+import {DatatableProps, DatatableSearchField} from "../../../types/datatable";
+import {__} from "../../../helpers/functions";
 
-export default function Search({config}: { config: DatatableProps }) {
+export default function Search({searchable, searchFields}: DatatableProps) {
     return (
-        config.searchable && (
+        searchable && (
             <div className="col-md-10">
                 <form method="get" className="form-inline" id="form-search">
-                    {config.searchFields.map((field: DatatableSearchField, index: number) => (
+                    {searchFields.map((field: DatatableSearchField, index: number) => (
                         <input
                             type="text"
                             name={field.type}

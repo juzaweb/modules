@@ -1,42 +1,64 @@
-import {DatatableColumn, DatatableProps} from "@/types/datatable";
+import {DatatableColumn, DatatableProps} from "../../types/datatable";
 import BulkActions from "./datatable/bulk-actions";
 import Search from "./datatable/search";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function DataTable({config}: { config: DatatableProps }) {
+const dataUrlBuider = (props: DatatableProps) => {
+    let url = props.dataUrl;
+    if (props.perPage) {
+        url += `?limit=${props.perPage}`;
+    }
+
+    if (props.sortName) {
+        url += `&sortName=${props.sortName}`;
+    }
+
+    if (props.sortOder) {
+        url += `&sortOder=${props.sortOder}`;
+    }
+
+    return url;
+}
+
+export default function DataTable(props: DatatableProps) {
+    const {columns, dataUrl, uniqueId, actions} = props;
+
     const [data, setData] = useState<{ rows: Array<any>, total: number }>({rows: [], total: 0});
 
     useEffect(() => {
-        axios.get(config.dataUrl).then((res) => {
+        axios.get(dataUrlBuider(props)).then((res) => {
             setData(res.data);
         });
-    }, [config])
+    }, [dataUrl]);
 
     return (
         <>
             <div className="row">
-                <BulkActions config={config}/>
+                <BulkActions {...props}/>
 
-                <Search config={config}/>
+                <Search {...props}/>
             </div>
 
             <div className="table-responsive">
                 <table
                     className="table jw-table"
-                    id={config.uniqueId}
+                    id={uniqueId}
                 >
                     <thead>
                     <tr>
-                        <th data-width="3%" data-checkbox="true">
-                            <input
-                                type="checkbox"
-                                className={'jw-checkbox'}
-                                value={'all'}
-                                //onChange={() => setCheckedAll(this.checkedAll)}
-                            />
-                        </th>
-                        {config.columns.map((column: DatatableColumn, index: number) => (
+                        {actions && actions.length > 0 && (
+                            <th data-width="3%" data-checkbox="true">
+                                <input
+                                    type="checkbox"
+                                    className={'jw-checkbox'}
+                                    value={'all'}
+                                    //onChange={() => setCheckedAll(this.checkedAll)}
+                                />
+                            </th>
+                        )}
+
+                        {columns.map((column: DatatableColumn, index: number) => (
                             <th
                                 key={index}
                                 data-width={column.width || 'auto'}
@@ -50,7 +72,8 @@ export default function DataTable({config}: { config: DatatableProps }) {
                     </thead>
                     <tbody>
                     {data && data.rows.map((row: any, index: number) => (
-                        <tr>
+                        <tr key={index}>
+                            {actions && actions.length > 0 && (
                             <td>
                                 <input
                                     type="checkbox"
@@ -59,7 +82,9 @@ export default function DataTable({config}: { config: DatatableProps }) {
                                     //checked={checkedAll}
                                 />
                             </td>
-                            {config.columns.map((column: DatatableColumn, index: number) => (
+                            )}
+
+                            {columns.map((column: DatatableColumn, index: number) => (
                                 <td
                                     key={index}
                                 >

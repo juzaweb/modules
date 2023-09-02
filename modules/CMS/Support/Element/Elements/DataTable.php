@@ -12,6 +12,7 @@ namespace Juzaweb\CMS\Support\Element\Elements;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Support\Element\Interfaces\Element;
 use Juzaweb\CMS\Support\Element\Traits\HasClass;
@@ -79,7 +80,7 @@ class DataTable implements Element
      *
      * @var bool
      */
-    protected bool $searchable = true;
+    protected bool $searchable = false;
 
     /**
      * Current URL.
@@ -203,6 +204,11 @@ class DataTable implements Element
         $this->rowActions = $rowActions;
 
         return $this;
+    }
+
+    public function getId() : ?string
+    {
+        return $this->id ?? 'juzaweb_'. Str::random(10);
     }
 
     public function toArray(): array

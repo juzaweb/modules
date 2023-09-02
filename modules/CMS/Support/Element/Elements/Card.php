@@ -16,13 +16,26 @@ use Juzaweb\CMS\Support\Element\Traits;
 
 class Card implements Element, WithChildren
 {
-    use Traits\HasClass, Traits\HasChildren, Traits\HasName, Traits\HasId;
+    use Traits\HasClass, Traits\HasChildren, Traits\HasId;
+
+    protected string $element = 'card';
 
     protected string $class = 'card';
+
+    protected string $title;
+
+    public function title(string $title): static
+    {
+        $this->title = $title;
+
+        return $this;
+    }
 
     public function toArray(): array
     {
         return [
+            'element' => $this->element,
+            'title' => $this->title ?? null,
             'className' => $this->class,
             'children' => $this->getChildren()->toArray(),
         ];
