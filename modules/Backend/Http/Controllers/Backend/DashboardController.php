@@ -28,61 +28,8 @@ class DashboardController extends BackendController
         $title = trans('cms::app.dashboard');
         $builder = app()->make(ElementBuilder::class);
         $this->buildStatistics($builder);
-
-        $today = Carbon::today();
-        $minDay = $today->subDays(7);
-        $labels = [];
-
-        for ($i = 1; $i <= 7; $i++) {
-            $day = $minDay->addDay();
-            $labels[] = $day->format('Y-m-d');
-        }
-
-        $builder->row()->addClass('mt-5')->col(['cols' => 12])->lineChart(
-            [
-                'labels' => $labels,
-                'dataUrl' => action([static::class, 'viewsChart']),
-            ]
-        );
-
-        $row = $builder->row()->addClass('mt-5');
-        $row->col(['cols' => 6])
-            ->card()
-            ->headerClass('bg-primary')
-            ->titleClass('text-white')
-            ->title(trans('cms::app.new_users'))
-            ->dataTable()
-            ->columns([
-                [
-                    'key' => 'name',
-                    'label' => trans('cms::app.name'),
-                ],
-                [
-                    'key' => 'created',
-                    'label' => trans('cms::app.created_at'),
-                ]
-            ])
-            ->dataUrl(action([static::class, 'getDataUser']))
-            ->perPage(10);
-
-        $row->col(['cols' => 6])
-            ->card()
-            ->headerClass('bg-primary')
-            ->titleClass('text-white')
-            ->title(trans('cms::app.top_views'))
-            ->dataTable()
-            ->columns([
-                [
-                    'key' => 'title',
-                    'label' => trans('cms::app.title'),
-                ],
-                [
-                    'key' => 'views',
-                    'label' => trans('cms::app.views'),
-                ]
-            ])
-            ->dataUrl(action([static::class, 'getDataTopViews']))
-            ->perPage(10);
+        $this->buildTopViewsChart($builder);
+        $this->buildViewsTable($builder);
 
         return $this->view(
             'cms::backend.builder',
@@ -140,6 +87,67 @@ class DashboardController extends BackendController
                 ->data($col['data'])
                 ->addClass($col['class']);
         }
+    }
+
+    protected function buildTopViewsChart(ElementBuilder $builder): void
+    {
+        $today = Carbon::today();
+        $minDay = $today->subDays(7);
+        $labels = [];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $day = $minDay->addDay();
+            $labels[] = $day->format('Y-m-d');
+        }
+
+        $builder->row()->addClass('mt-5')->col(['cols' => 12])->lineChart(
+            [
+                'labels' => $labels,
+                'dataUrl' => action([static::class, 'viewsChart']),
+            ]
+        );
+    }
+
+    protected function buildViewsTable(ElementBuilder $builder): void
+    {
+        $row = $builder->row()->addClass('mt-5');
+        $row->col(['cols' => 6])
+            ->card()
+            ->headerClass('bg-primary')
+            ->titleClass('text-white')
+            ->title(trans('cms::app.new_users'))
+            ->dataTable()
+            ->columns([
+                [
+                    'key' => 'name',
+                    'label' => trans('cms::app.name'),
+                ],
+                [
+                    'key' => 'created',
+                    'label' => trans('cms::app.created_at'),
+                ]
+            ])
+            ->dataUrl(action([static::class, 'getDataUser']))
+            ->perPage(10);
+
+        $row->col(['cols' => 6])
+            ->card()
+            ->headerClass('bg-primary')
+            ->titleClass('text-white')
+            ->title(trans('cms::app.top_views'))
+            ->dataTable()
+            ->columns([
+                [
+                    'key' => 'title',
+                    'label' => trans('cms::app.title'),
+                ],
+                [
+                    'key' => 'views',
+                    'label' => trans('cms::app.views'),
+                ]
+            ])
+            ->dataUrl(action([static::class, 'getDataTopViews']))
+            ->perPage(10);
     }
 
     public function getDataUser(Request $request): JsonResponse
