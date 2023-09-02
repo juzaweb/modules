@@ -45,7 +45,7 @@ class DashboardController extends BackendController
             ]
         );
 
-        $builder->row()->col(['cols' => 12])->lineChart();
+        $builder->row()->col(['cols' => 6])->dataTable();
 
         return $this->view(
             'cms::backend.builder',

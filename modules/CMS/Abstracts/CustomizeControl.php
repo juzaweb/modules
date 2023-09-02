@@ -18,16 +18,16 @@ abstract class CustomizeControl
     /**
      * @var Customize
      */
-    protected $customize;
+    protected Customize $customize;
 
-    protected $key;
+    protected string $key;
 
     /**
      * @var Collection
      */
-    protected $args;
+    protected Collection $args;
 
-    public function __construct(Customize $customize, $key, $args = [])
+    public function __construct(Customize $customize, string $key, array $args = [])
     {
         $this->customize = $customize;
         $this->key = $key;
@@ -36,12 +36,12 @@ abstract class CustomizeControl
 
     abstract public function contentTemplate();
 
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    public function getArgs()
+    public function getArgs(): Collection
     {
         return $this->args;
     }

@@ -1,11 +1,11 @@
 import {DatatableColumn, DatatableProps} from "@/types/datatable";
-import BulkActions from "@/components/datatable/bulk-actions";
-import Search from "@/components/datatable/search";
+import BulkActions from "./datatable/bulk-actions";
+import Search from "./datatable/search";
 import {useEffect, useState} from "react";
 import axios from "axios";
 
 export default function DataTable({config}: { config: DatatableProps }) {
-    const [data, setData] = useState<{rows: Array<any>, total: number}>({rows: [], total: 0});
+    const [data, setData] = useState<{ rows: Array<any>, total: number }>({rows: [], total: 0});
 
     useEffect(() => {
         axios.get(config.dataUrl).then((res) => {
@@ -16,9 +16,9 @@ export default function DataTable({config}: { config: DatatableProps }) {
     return (
         <>
             <div className="row">
-                <BulkActions config={config} />
+                <BulkActions config={config}/>
 
-                <Search config={config} />
+                <Search config={config}/>
             </div>
 
             <div className="table-responsive">
@@ -43,7 +43,7 @@ export default function DataTable({config}: { config: DatatableProps }) {
                                 data-align={column.align || 'left'}
                                 data-field={column.key}
                                 data-sortable={column.sortable || true}
-                            >{ column.label }
+                            >{column.label}
                             </th>
                         ))}
                     </tr>
@@ -63,7 +63,7 @@ export default function DataTable({config}: { config: DatatableProps }) {
                                 <td
                                     key={index}
                                 >
-                                    { row[column.key] }
+                                    {row[column.key]}
                                 </td>
                             ))}
                         </tr>

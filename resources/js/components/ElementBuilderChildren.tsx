@@ -3,6 +3,7 @@ import Card from "./elements/card";
 import Row from "./elements/row";
 import Col from "./elements/col";
 import Line from "./charts/line";
+import DataTable from "./elements/data-table";
 
 const Elements = (config: any, index: number) => {
     switch (config.element) {
@@ -11,6 +12,7 @@ const Elements = (config: any, index: number) => {
         case 'card': return <Card {...config} key={index} />;
         case 'stats-card': return <StatsCard {...config} key={index} />;
         case 'line-chart': return <Line {...config} key={index} />;
+        case 'data-table': return <DataTable {...config} key={index} />;
     }
 
     return null;

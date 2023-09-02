@@ -62,9 +62,11 @@ trait HasChildren
         return $chart;
     }
 
-    public function dataTable()
+    public function dataTable(array $configs = []): Elements\DataTable
     {
-
+        $dataTable = new Elements\DataTable($configs);
+        $this->pushChild($dataTable);
+        return $dataTable;
     }
 
     public function getChildren(): Collection
