@@ -14,8 +14,8 @@ class ElementBuilder implements ElementBuilderContract
     {
         return match ($element) {
             'form' => new Form($configs),
-            'input' => new Inputs\Input($configs),
-            'textarea' => new Inputs\Textarea($configs),
+            'input' => new Elements\Inputs\Input($configs),
+            'textarea' => new Elements\Inputs\Textarea($configs),
             'row' => new Elements\Row($configs),
             default => throw new \Exception("Element type {$element} not found"),
         };

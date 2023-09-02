@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\CMS\Support\Element\Inputs;
+namespace Juzaweb\CMS\Support\Element\Elements\Inputs;
 
 use Juzaweb\CMS\Support\Element\Abstracts\InputAbstract;
 

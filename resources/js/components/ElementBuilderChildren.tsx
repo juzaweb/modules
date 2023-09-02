@@ -4,9 +4,10 @@ import Row from "./elements/row";
 import Col from "./elements/col";
 import Line from "./charts/line";
 import DataTable from "./elements/data-table";
+import ButtonGroup from "./elements/buttons/button-group";
+import {Link} from "@inertiajs/react";
 
 const Elements = (config: any, index: number) => {
-    console.log(config);
     switch (config.element) {
         case 'row': return <Row {...config} key={index} />;
         case 'col': return <Col {...config} key={index} />;
@@ -14,6 +15,8 @@ const Elements = (config: any, index: number) => {
         case 'stats-card': return <StatsCard {...config} key={index} />;
         case 'line-chart': return <Line {...config} key={index} />;
         case 'data-table': return <DataTable {...config} key={index} />;
+        case 'button-group': return <ButtonGroup {...config} key={index} />;
+        case 'link': return <Link {...config} key={index}>{config.text || ''}</Link>;
     }
 
     return null;

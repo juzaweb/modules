@@ -16,7 +16,7 @@ class CommentController extends BackendController
         ResourceController::getDataForIndex as DataForIndex;
     }
 
-    protected string $viewPrefix = 'cms::backend.comment';
+    protected string $template = 'inertia';
 
     protected function validator(array $attributes, ...$params): Validator|array
     {

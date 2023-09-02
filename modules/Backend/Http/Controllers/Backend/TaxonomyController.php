@@ -130,19 +130,14 @@ class TaxonomyController extends BackendController
      */
     protected function getTitle(...$params): string
     {
-        $postType = $params[0];
-        $taxonomy = $params[1];
+        [$postType, $taxonomy] = $params;
 
-        $setting = $this->getSetting($postType, $taxonomy);
-
-        return $setting->get('label');
+        return $this->getSetting($postType, $taxonomy)->get('label');
     }
 
     protected function getDataForIndex(...$params): array
     {
-        $postType = $params[0];
-        $taxonomy = $params[1];
-
+        [$postType, $taxonomy] = $params;
         $data = $this->DataForIndex($postType, $taxonomy);
         $data['taxonomy'] = $taxonomy;
         $data['setting'] = $this->getSetting($postType, $taxonomy);
@@ -157,7 +152,7 @@ class TaxonomyController extends BackendController
         return $data;
     }
 
-    protected function checkPermission($ability, $arguments = [], ...$params)
+    protected function checkPermission($ability, $arguments = [], ...$params): void
     {
         if (!is_array($arguments)) {
             $arguments = [$arguments];
@@ -177,7 +172,6 @@ class TaxonomyController extends BackendController
         $arguments[] = $params[0];
         $arguments[] = $params[1];
 
-        $response = Gate::inspect($ability, $arguments);
-        return $response->allowed();
+        return Gate::inspect($ability, $arguments)->allowed();
     }
 }

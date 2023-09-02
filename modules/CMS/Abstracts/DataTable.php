@@ -296,7 +296,7 @@ abstract class DataTable implements Arrayable
                 $item['key'] = $key;
                 return $item;
             }
-        )->values();
+        )->values()->toArray();
 
         $columns = collect($this->columns())->map(
             function ($item, $key) {
@@ -305,15 +305,20 @@ abstract class DataTable implements Arrayable
                 unset($item['formatter']);
                 return $item;
             }
-        )->values();
+        )->values()->toArray();
 
         $actions = collect($this->actions())->map(
             function ($label, $key) {
                 $item['key'] = $key;
-                $item['label'] = $label;
+                if (is_string($label)) {
+                    $item['label'] = $label;
+                } else {
+                    $item['label'] = $label['label'];
+                }
+
                 return $item;
             }
-        )->values();
+        )->values()->toArray();
 
         return [
             'columns' => $columns,

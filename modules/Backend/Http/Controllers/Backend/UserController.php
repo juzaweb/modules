@@ -2,23 +2,22 @@
 
 namespace Juzaweb\Backend\Http\Controllers\Backend;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Juzaweb\Backend\Http\Datatables\UserDataTable;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Http\Controllers\BackendController;
-use Juzaweb\Backend\Http\Datatables\UserDataTable;
-use Juzaweb\CMS\Models\Model;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Traits\ResourceController;
-use Illuminate\Support\Facades\Validator;
 
 class UserController extends BackendController
 {
     use ResourceController {
         getDataForForm as DataForForm;
-        afterSave as tAfterSave;
     }
 
     protected string $viewPrefix = 'cms::backend.user';
@@ -88,17 +87,15 @@ class UserController extends BackendController
         return new UserDataTable();
     }
 
-    protected function getDataForForm(\Illuminate\Database\Eloquent\Model $model, ...$params): array
+    protected function getDataForForm(Model $model, ...$params): array
     {
         $data = $this->DataForForm($model);
         $data['allStatus'] = User::getAllStatus();
         return $data;
     }
 
-    protected function afterSave(array $data, Model $model, ...$params)
+    protected function afterSave(array $data, Model $model, ...$params): void
     {
-        $this->tAfterSave($data, $model);
-
         do_action('user.after_save', $data, $model);
     }
 
@@ -107,9 +104,10 @@ class UserController extends BackendController
      *
      * @param  array  $data
      * @param  Model  $model
+     * @param  mixed  ...$params
      * @throws ValidationException
      */
-    protected function beforeSave(&$data, &$model, ...$params)
+    protected function beforeSave(array &$data, Model $model, ...$params): void
     {
         if ($password = Arr::get($data, 'password')) {
             Validator::make(

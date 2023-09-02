@@ -4,11 +4,12 @@ namespace Juzaweb\CMS\Support\Element\Traits;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Support\Element\Elements;
 
 trait HasChildren
 {
-    use HasInputElement;
+    use HasInputElement, HasButtonElement;
 
     protected Collection $children;
 
@@ -28,6 +29,15 @@ trait HasChildren
         $this->pushChild($col);
 
         return $col;
+    }
+
+    public function link(array $configs = []): Elements\Link
+    {
+        $link = new Elements\Link($configs);
+
+        $this->pushChild($link);
+
+        return $link;
     }
 
     public function card(): Elements\Card
@@ -62,7 +72,7 @@ trait HasChildren
         return $chart;
     }
 
-    public function dataTable(array $configs = []): Elements\DataTable
+    public function dataTable(array|DataTable $configs = []): Elements\DataTable
     {
         $dataTable = new Elements\DataTable($configs);
         $this->pushChild($dataTable);

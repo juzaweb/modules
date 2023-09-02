@@ -2,8 +2,8 @@
 
 namespace Juzaweb\CMS\Support\Element\Traits;
 
-use Juzaweb\CMS\Support\Element\Inputs\Input;
-use Juzaweb\CMS\Support\Element\Inputs\Textarea;
+use Juzaweb\CMS\Support\Element\Elements\Inputs\Input;
+use Juzaweb\CMS\Support\Element\Elements\Inputs\Textarea;
 
 trait HasInputElement
 {

@@ -17,6 +17,10 @@ trait HasClass
             $class = implode(' ', $class);
         }
 
+        if (!isset($this->class)) {
+            $this->class = '';
+        }
+
         $this->class .= ' ' . trim($class);
 
         return $this;

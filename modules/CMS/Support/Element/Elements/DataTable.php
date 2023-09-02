@@ -14,6 +14,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 use Juzaweb\CMS\Abstracts\Action;
+use Juzaweb\CMS\Abstracts\DataTable as DataTableAbstract;
 use Juzaweb\CMS\Support\Element\Interfaces\Element;
 use Juzaweb\CMS\Support\Element\Traits\HasClass;
 use Juzaweb\CMS\Support\Element\Traits\HasId;
@@ -99,8 +100,12 @@ class DataTable implements Element
 
     protected array $rowActions = [];
 
-    public function __construct(array $configs)
+    public function __construct(array|DataTableAbstract $configs)
     {
+        if ($configs instanceof DataTableAbstract) {
+            $configs = $configs->toArray();
+        }
+
         foreach ($configs as $key => $value) {
             if (property_exists($this, $key)) {
                 $this->{$key} = $value;
