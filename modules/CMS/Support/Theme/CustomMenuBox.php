@@ -10,18 +10,20 @@
 
 namespace Juzaweb\CMS\Support\Theme;
 
+use Illuminate\Support\Collection;
+use Juzaweb\Backend\Models\MenuItem;
 use Juzaweb\CMS\Abstracts\MenuBox;
 
 class CustomMenuBox extends MenuBox
 {
-    public function mapData($data)
+    public function mapData(array $data)
     {
         $result[] = $this->getData($data);
 
         return $result;
     }
 
-    public function getData($item)
+    public function getData(array $item)
     {
         return [
             'label' => $item['label'],
@@ -34,14 +36,14 @@ class CustomMenuBox extends MenuBox
         return view('cms::backend.menu.boxs.custom_add');
     }
 
-    public function editView($item)
+    public function editView(MenuItem $item)
     {
         return view('cms::backend.menu.boxs.custom_edit', [
             'item' => $item,
         ]);
     }
 
-    public function getLinks($menuItems)
+    public function getLinks(Collection $menuItems)
     {
         return $menuItems;
     }

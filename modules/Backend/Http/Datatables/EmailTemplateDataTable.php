@@ -47,7 +47,7 @@ class EmailTemplateDataTable extends DataTable
         ];
     }
 
-    public function rowActionsFormatter($value, $row, $index): string
+    public function rowActionsFormatter(mixed $value, mixed $row, int $index): string
     {
         return view(
             'cms::backend.items.datatable_item',
@@ -60,7 +60,7 @@ class EmailTemplateDataTable extends DataTable
         )->render();
     }
 
-    public function rowAction($row): array
+    public function rowAction(mixed $row): array
     {
         return [
             'edit' => [
@@ -133,7 +133,7 @@ class EmailTemplateDataTable extends DataTable
         return [$count, $rows];
     }
 
-    public function bulkActions($action, $ids): void
+    public function bulkActions(string $action, array $ids): void
     {
         switch ($action) {
             case 'delete':

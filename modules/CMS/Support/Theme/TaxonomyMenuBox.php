@@ -10,6 +10,8 @@
 
 namespace Juzaweb\CMS\Support\Theme;
 
+use Illuminate\Support\Collection;
+use Juzaweb\Backend\Models\MenuItem;
 use Juzaweb\CMS\Abstracts\MenuBox;
 use Juzaweb\CMS\Facades\HookAction;
 
@@ -27,7 +29,7 @@ class TaxonomyMenuBox extends MenuBox
         $this->taxonomy = $taxonomy;
     }
 
-    public function mapData($data)
+    public function mapData(array $data)
     {
         $result = [];
         $items = $data['items'];
@@ -48,7 +50,7 @@ class TaxonomyMenuBox extends MenuBox
         return $result;
     }
 
-    public function getData($item)
+    public function getData(array $item)
     {
         return [
             'label' => $item['label'],
@@ -65,7 +67,7 @@ class TaxonomyMenuBox extends MenuBox
         ]);
     }
 
-    public function editView($item)
+    public function editView(MenuItem $item)
     {
         return view('cms::backend.menu.boxs.taxonomy_edit', [
             'taxonomy' => $this->taxonomy,
@@ -74,7 +76,7 @@ class TaxonomyMenuBox extends MenuBox
         ]);
     }
 
-    public function getLinks($menuItems)
+    public function getLinks(Collection $menuItems)
     {
         $permalink = HookAction::getPermalinks($this->taxonomy->get('taxonomy'));
         $base = $permalink->get('base');

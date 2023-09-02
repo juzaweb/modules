@@ -17,10 +17,10 @@ class DefaultPageBlock extends PageBlock
     /**
      * Creating widget front-end
      *
-     * @param array $data
+     * @param  array  $data
      * @return \Illuminate\View\View
      */
-    public function show($data)
+    public function show(array $data)
     {
         return $this->view(
             $this->data['view'],

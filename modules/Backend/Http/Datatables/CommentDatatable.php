@@ -124,7 +124,7 @@ class CommentDatatable extends DataTable
         return array_merge($actions, parent::actions());
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         $comments = Comment::whereIn('id', $ids)->get();
         foreach ($comments as $comment) {

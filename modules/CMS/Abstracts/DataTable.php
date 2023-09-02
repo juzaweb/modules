@@ -99,7 +99,7 @@ abstract class DataTable implements Arrayable
      *
      * @return array
      */
-    abstract public function columns();
+    abstract public function columns(): array;
 
     /**
      * Query data datatable
@@ -107,7 +107,7 @@ abstract class DataTable implements Arrayable
      * @param  array  $data
      * @return Builder
      */
-    abstract public function query(array $data);
+    abstract public function query(array $data): Builder;
 
     /**
      * Retrieves data based on the given request parameters.
@@ -139,7 +139,7 @@ abstract class DataTable implements Arrayable
      * @return void
      * @throws Exception
      */
-    public function mountData(...$params)
+    public function mountData(...$params): void
     {
         $params = $this->paramsToArray($params);
         if (method_exists($this, 'mount')) {
@@ -184,7 +184,7 @@ abstract class DataTable implements Arrayable
      * @param  string  $action  description
      * @param  array  $ids  description
      */
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         //
     }
@@ -211,7 +211,7 @@ abstract class DataTable implements Arrayable
      * @param  mixed  $row  The row for which actions are generated.
      * @return array The array of actions for the given row.
      */
-    public function rowAction($row)
+    public function rowAction(mixed $row): array
     {
         return [
             'edit' => [
@@ -234,7 +234,7 @@ abstract class DataTable implements Arrayable
      * @param  int  $index  The index of the row.
      * @return string The HTML rendered output of the row action.
      */
-    public function rowActionsFormatter($value, $row, $index): string
+    public function rowActionsFormatter(mixed $value, mixed $row, int $index): string
     {
         return view(
             'cms::backend.items.datatable_item',
@@ -243,6 +243,7 @@ abstract class DataTable implements Arrayable
                 'row' => $row,
                 'actions' => $this->rowAction($row),
                 'editUrl' => $this->currentUrl.'/'.$row->id.'/edit',
+                'index' => $index,
             ]
         )
             ->render();
@@ -372,11 +373,11 @@ abstract class DataTable implements Arrayable
     /**
      * Convert the given parameters into an array.
      *
-     * @param  mixed  $params  The parameters to convert.
-     * @return mixed The converted parameters as an array.
+     * @param  array  $params  The parameters to convert.
+     * @return array The converted parameters as an array.
      * @throws RuntimeException If the parameters contain unsupported types.
      */
-    protected function paramsToArray($params)
+    protected function paramsToArray(array $params): array
     {
         foreach ($params as $key => $var) {
             if (is_null($var)) {
@@ -396,7 +397,7 @@ abstract class DataTable implements Arrayable
      *
      * @return array An array of search field types.
      */
-    protected function getSearchFieldTypes()
+    protected function getSearchFieldTypes(): array
     {
         return apply_filters(Action::DATATABLE_SEARCH_FIELD_TYPES_FILTER, []);
     }

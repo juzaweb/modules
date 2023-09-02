@@ -10,21 +10,16 @@
 
 namespace Juzaweb\CMS\Abstracts;
 
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Juzaweb\CMS\Facades\ThemeLoader;
 use TwigBridge\Facade\Twig;
 
 abstract class PageBlock
 {
-    protected $data;
-    protected $theme;
-
-    public function __construct(
-        $data,
-        $theme
-    ) {
-        $this->data = $data;
-        $this->theme = $theme;
+    public function __construct(protected Collection|array $data, protected string $theme)
+    {
+        //
     }
 
     /**
@@ -33,14 +28,15 @@ abstract class PageBlock
      * @param  array  $data
      * @return View
      */
-    abstract public function show($data);
+    abstract public function show(array $data): View;
 
     /**
      * Retrieves the data from a JSON file.
      *
-     * @return Illuminate\Support\Collection The data retrieved from the JSON file.
+     * @return array|Collection The data retrieved from the JSON file.
+     * @throws \JsonException
      */
-    public function getData()
+    public function getData(): array|Collection
     {
         $dataFile = ThemeLoader::getThemePath(
             $this->theme,
@@ -51,8 +47,7 @@ abstract class PageBlock
             return [];
         }
 
-        $data = collect(json_decode(file_get_contents($dataFile), true));
-        return $data;
+        return collect(json_decode(file_get_contents($dataFile), true, 512, JSON_THROW_ON_ERROR));
     }
 
     /**
@@ -62,7 +57,7 @@ abstract class PageBlock
      * @param  array  $params  An associative array of parameters to pass to the view
      * @return string The rendered Twig view.
      */
-    protected function view($view, $params = [])
+    protected function view(string $view, array $params = [])
     {
         return Twig::render($view, $params);
     }

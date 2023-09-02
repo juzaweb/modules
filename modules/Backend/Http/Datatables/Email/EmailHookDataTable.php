@@ -54,7 +54,7 @@ class EmailHookDataTable extends DataTable
             ->getQuery();
     }
 
-    public function bulkActions($action, $ids): void
+    public function bulkActions(string $action, array $ids): void
     {
         switch ($action) {
             case 'delete':

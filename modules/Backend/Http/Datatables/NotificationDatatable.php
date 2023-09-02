@@ -56,7 +56,7 @@ class NotificationDatatable extends DataTable
         return $actions;
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         switch ($action) {
             case 'delete':

@@ -40,7 +40,7 @@ class LanguageDatatable extends DataTable
         ];
     }
 
-    public function rowAction($row)
+    public function rowAction(mixed $row)
     {
         return [
             'delete' => [
@@ -70,7 +70,7 @@ class LanguageDatatable extends DataTable
         return $query;
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         $count = Language::count(['id']);
         if ($count <= 1) {

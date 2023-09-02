@@ -62,6 +62,11 @@ trait HasChildren
         return $chart;
     }
 
+    public function dataTable()
+    {
+
+    }
+
     public function getChildren(): Collection
     {
         return $this->children ?? new Collection();

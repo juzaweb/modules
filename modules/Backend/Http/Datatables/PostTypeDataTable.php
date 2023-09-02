@@ -129,7 +129,7 @@ class PostTypeDataTable extends DataTable
         return $statuses;
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         $statuses = array_keys($this->makeModel()->getStatuses());
         $posts = $this->makeModel()->whereIn('id', $ids)->get();
@@ -185,7 +185,7 @@ class PostTypeDataTable extends DataTable
         return $data;
     }
 
-    public function rowAction($row): array
+    public function rowAction(mixed $row): array
     {
         $data = parent::rowAction($row);
 
@@ -219,7 +219,7 @@ class PostTypeDataTable extends DataTable
         return $query;
     }
 
-    public function rowActionsFormatter($value, $row, $index): string
+    public function rowActionsFormatter(mixed $value, mixed $row, int $index): string
     {
         return view(
             'cms::backend.items.datatable_item',

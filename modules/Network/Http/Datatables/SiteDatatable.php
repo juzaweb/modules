@@ -47,7 +47,7 @@ class SiteDatatable extends DataTable
         ];
     }
 
-    public function rowAction($row): array
+    public function rowAction(mixed $row): array
     {
         $rows = parent::rowAction($row);
         $networkDomain = config('network.domain');
@@ -91,7 +91,7 @@ class SiteDatatable extends DataTable
         ];
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         switch ($action) {
             case 'delete':

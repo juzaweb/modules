@@ -161,7 +161,7 @@ class ResourceDatatable extends DataTable
         return [$count, $rows];
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         $rows = $this->getQuery()->whereIn('id', $ids)->get();
         foreach ($rows as $row) {

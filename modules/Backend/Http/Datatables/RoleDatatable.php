@@ -56,7 +56,7 @@ class RoleDatatable extends DataTable
         return $query;
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         switch ($action) {
             case 'delete':

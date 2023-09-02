@@ -86,7 +86,7 @@ class TaxonomyDataTable extends DataTable
         return $query;
     }
 
-    public function rowAction($row): array
+    public function rowAction(mixed $row): array
     {
         $data = parent::rowAction($row);
 
@@ -99,7 +99,7 @@ class TaxonomyDataTable extends DataTable
         return $data;
     }
 
-    public function bulkActions($action, $ids): void
+    public function bulkActions(string $action, array $ids): void
     {
         foreach ($ids as $id) {
             DB::beginTransaction();

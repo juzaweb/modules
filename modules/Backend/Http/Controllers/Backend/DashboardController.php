@@ -9,13 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Response;
-use Juzaweb\CMS\Abstracts\Action;
-use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\Backend\Models\MediaFile;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\PostView;
+use Juzaweb\CMS\Abstracts\Action;
+use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Models\User;
-use Juzaweb\CMS\Support\Element\ElementBuilder;
+use Juzaweb\CMS\Support\Element\Contracts\ElementBuilder;
 
 class DashboardController extends BackendController
 {
@@ -45,6 +45,8 @@ class DashboardController extends BackendController
             ]
         );
 
+        $builder->row()->col(['cols' => 12])->lineChart();
+
         return $this->view(
             'cms::backend.builder',
             compact(
@@ -52,6 +54,55 @@ class DashboardController extends BackendController
                 'builder'
             )
         );
+    }
+
+    protected function buildStatistics(ElementBuilder $builder): void
+    {
+        $users = User::count();
+        $posts = Post::where('type', '!=', 'pages')
+            ->wherePublish()
+            ->count();
+        $pages = Post::where('type', '=', 'pages')
+            ->wherePublish()
+            ->count();
+        $storage = format_size_units(MediaFile::sum('size'));
+        $diskFree = Cache::store('file')->remember(
+            cache_prefix('storage_free_disk'),
+            3600,
+            fn() => format_size_units(disk_free_space('/')),
+        );
+
+        $row = $builder->row();
+        $cols = [
+            [
+                'title' => trans('cms::app.posts'),
+                'data' => trans('cms::app.total').": {$posts}",
+                'class' => 'border-0 bg-gray-2',
+            ],
+            [
+                'title' => trans('cms::app.pages'),
+                'data' => trans('cms::app.total').": {$pages}",
+                'class' => 'border-0 bg-info text-white',
+            ],
+            [
+                'title' => trans('cms::app.users'),
+                'data' => trans('cms::app.total').": {$users}",
+                'class' => 'border-0 bg-primary text-white',
+            ],
+            [
+                'title' => trans('cms::app.storage'),
+                'data' => "{$storage}/{$diskFree}",
+                'class' => 'border-0 bg-success text-white',
+            ]
+        ];
+
+        foreach ($cols as $col) {
+            $row->col(['cols' => 3])
+                ->statsCard()
+                ->title($col['title'])
+                ->data($col['data'])
+                ->addClass($col['class']);
+        }
     }
 
     public function getDataUser(Request $request): JsonResponse
@@ -160,6 +211,16 @@ class DashboardController extends BackendController
         return response()->json($result);
     }
 
+    protected function countViewByDay(string $day): int
+    {
+        return PostView::where('day', '=', $day)->sum('views');
+    }
+
+    protected function countUserByDay(string $day): int
+    {
+        return User::whereDate('created_at', '=', $day)->count('id');
+    }
+
     public function removeMessage(Request $request): JsonResponse|RedirectResponse
     {
         $request->validate(
@@ -179,64 +240,5 @@ class DashboardController extends BackendController
                 'message' => trans('cms::app.successfully')
             ]
         );
-    }
-
-    protected function buildStatistics(ElementBuilder $builder): void
-    {
-        $users = User::count();
-        $posts = Post::where('type', '!=', 'pages')
-            ->wherePublish()
-            ->count();
-        $pages = Post::where('type', '=', 'pages')
-            ->wherePublish()
-            ->count();
-        $storage = format_size_units(MediaFile::sum('size'));
-        $diskFree = Cache::store('file')->remember(
-            cache_prefix('storage_free_disk'),
-            3600,
-            fn () => format_size_units(disk_free_space('/')),
-        );
-
-        $row = $builder->row();
-        $cols = [
-            [
-                'title' => trans('cms::app.posts'),
-                'data' => trans('cms::app.total').": {$posts}",
-                'class' => 'border-0 bg-gray-2',
-            ],
-            [
-                'title' => trans('cms::app.pages'),
-                'data' => trans('cms::app.total').": {$pages}",
-                'class' => 'border-0 bg-info text-white',
-            ],
-            [
-                'title' => trans('cms::app.users'),
-                'data' => trans('cms::app.total').": {$users}",
-                'class' => 'border-0 bg-primary text-white',
-            ],
-            [
-                'title' => trans('cms::app.storage'),
-                'data' => "{$storage}/{$diskFree}",
-                'class' => 'border-0 bg-success text-white',
-            ]
-        ];
-
-        foreach ($cols as $col) {
-            $row->col(['cols' => 3])
-                ->statsCard()
-                ->title($col['title'])
-                ->data($col['data'])
-                ->addClass($col['class']);
-        }
-    }
-
-    protected function countViewByDay(string $day): int
-    {
-        return PostView::where('day', '=', $day)->sum('views');
-    }
-
-    protected function countUserByDay(string $day): int
-    {
-        return User::whereDate('created_at', '=', $day)->count('id');
     }
 }

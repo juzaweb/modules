@@ -47,7 +47,7 @@ class ResourceManagementDatatable extends DataTable
         return $this->repository->query();
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         foreach ($ids as $id) {
             DB::beginTransaction();

@@ -52,7 +52,7 @@ class UserDataTable extends DataTable
         ];
     }
 
-    public function rowAction($row)
+    public function rowAction(mixed $row)
     {
         $data = parent::rowAction($row);
 
@@ -90,7 +90,7 @@ class UserDataTable extends DataTable
         return $query;
     }
 
-    public function bulkActions($action, $ids)
+    public function bulkActions(string $action, array $ids)
     {
         /* Only update are not master admin  */
         $ids = User::whereIn('id', $ids)
