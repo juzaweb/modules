@@ -29,10 +29,19 @@ class DashboardController extends BackendController
         $builder = app()->make(ElementBuilder::class);
         $this->buildStatistics($builder);
 
-        $builder->row()->col(['cols' => 12])->chart(
+        $today = Carbon::today();
+        $minDay = $today->subDays(7);
+        $labels = [];
+
+        for ($i = 1; $i <= 7; $i++) {
+            $day = $minDay->addDay();
+            $labels[] = $day->format('Y-m-d');
+        }
+
+        $builder->row()->col(['cols' => 12])->lineChart(
             [
-                'title' => trans('cms::app.views'),
-                'labels' => ['Jun', 'Jul', 'Aug'],
+                'labels' => $labels,
+                'dataUrl' => action([static::class, 'viewsChart']),
             ]
         );
 
@@ -128,13 +137,20 @@ class DashboardController extends BackendController
                 $today = Carbon::today();
                 $minDay = $today->subDays(7);
 
+                $result[] = [
+                    'label' => __('Page Views'),
+                    'backgroundColor' => 'rgba(255, 99, 132, 0.5)',
+                ];
+
+                $result[] = [
+                    'label' => __('New Users'),
+                    'backgroundColor' => 'rgba(53, 162, 235, 0.5)',
+                ];
+
                 for ($i = 1; $i <= 7; $i++) {
                     $day = $minDay->addDay();
-                    $result[] = [
-                        $day->format('Y-m-d'),
-                        $this->countViewByDay($day->format('Y-m-d')),
-                        $this->countUserByDay($day->format('Y-m-d')),
-                    ];
+                    $result[0]['data'][] = $this->countViewByDay($day->format('Y-m-d'));
+                    $result[1]['data'][] = $this->countUserByDay($day->format('Y-m-d'));
                 }
 
                 return $result;

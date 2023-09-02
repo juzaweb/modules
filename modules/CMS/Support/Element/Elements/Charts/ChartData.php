@@ -10,7 +10,12 @@
 
 namespace Juzaweb\CMS\Support\Element\Elements\Charts;
 
-class Line extends Chart
+use Illuminate\Contracts\Support\Arrayable;
+
+class ChartData implements Arrayable
 {
-    protected string $element = 'line-chart';
+    public function toArray()
+    {
+        // TODO: Implement toArray() method.
+    }
 }

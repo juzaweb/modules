@@ -12,17 +12,17 @@ namespace Juzaweb\CMS\Support\Element\Elements\Charts;
 
 use Juzaweb\CMS\Support\Element\Interfaces\Element;
 
-class Chart implements Element
+abstract class Chart implements Element
 {
     protected ?string $class = null;
 
-    protected string $element = 'chart-line';
-
-    protected string $title = '';
+    protected ?string $title = null;
 
     protected array $labels = [];
 
     protected array $data = [];
+
+    protected string $dataUrl;
 
     public function __construct(array $configs = [])
     {
@@ -57,14 +57,16 @@ class Chart implements Element
         return $this;
     }
 
+    public function dataFromUrl(string $url): static
+    {
+        $this->dataUrl = $url;
+
+        return $this;
+    }
+
     public function toArray(): array
     {
-        return [
-            'element' => $this->element,
-            'title' => $this->title,
-            'data' => $this->data,
-            'labels' => $this->labels,
-        ];
+        return get_object_vars($this);
     }
 
     public function render(): string

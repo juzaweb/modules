@@ -10,7 +10,7 @@ const Elements = (config: any, index: number) => {
         case 'col': return <Col {...config} key={index} />;
         case 'card': return <Card {...config} key={index} />;
         case 'stats-card': return <StatsCard {...config} key={index} />;
-        case 'chart-line': return <Line {...config} key={index} />;
+        case 'line-chart': return <Line {...config} key={index} />;
     }
 
     return null;

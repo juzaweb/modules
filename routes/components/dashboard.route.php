@@ -22,7 +22,7 @@ Route::group(
 
         Route::get(
             '/dashboard/users',
-            [DashboardController::class, 'getDataUsers']
+            [DashboardController::class, 'getDataUser']
         )
             ->name('admin.dashboard.users');
 

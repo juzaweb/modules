@@ -9,17 +9,17 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 export interface LineProps {
-    title: string;
+    title?: string;
     labels: string[];
-    data: {
-        labels: string[];
-        datasets: {
-            label: string;
-            data: number[];
-        }
-    };
+    data?: Array<{
+        label: string;
+        data: number[];
+    }>;
+    dataUrl?: string
 }
 
 ChartJS.register(
@@ -32,44 +32,37 @@ ChartJS.register(
     Legend
 );
 
-export default function Line({ title, labels, data }: LineProps) {
+export default function Line({ title, labels, data, dataUrl }: LineProps) {
+    const [datasets, setDatasets] = useState<Array<any>>(data || []);
+
+    useEffect(() => {
+        if (dataUrl) {
+            axios.get(dataUrl).then((response) => {
+                setDatasets(response.data);
+            });
+        }
+    }, []);
+
     const options = {
         plugins: {
             legend: {
                 position: 'top' as const,
             },
             title: {
-                display: true,
+                display: !!title,
                 text: title,
             },
         }
     }
 
     return (
-        <div style={{width: undefined, height: '450px'}}>
-            <LineChart
-                datasetIdKey='id'
-                options={options}
-                data={{
-                    labels: labels,
-                    datasets: [
-                        {
-                            id: 1,
-                            label: 'Dataset 1',
-                            data: [5, 6, 7],
-                            borderColor: 'rgb(255, 99, 132)',
-                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                        },
-                        {
-                            id: 2,
-                            label: 'Dataset 2',
-                            data: [3, 2, 1],
-                            borderColor: 'rgb(53, 162, 235)',
-                            backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                        },
-                    ],
-                }}
-            />
-        </div>
+        <LineChart
+            height={80}
+            options={options}
+            data={{
+                labels: labels,
+                datasets: datasets,
+            }}
+        />
     );
 }

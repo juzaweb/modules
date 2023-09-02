@@ -55,9 +55,9 @@ trait HasChildren
         return $form;
     }
 
-    public function chart(array $configs = []): Elements\Charts\Chart
+    public function lineChart(array $configs = []): Elements\Charts\Chart
     {
-        $chart = new Elements\Charts\Chart($configs);
+        $chart = new Elements\Charts\Line($configs);
         $this->pushChild($chart);
         return $chart;
     }
