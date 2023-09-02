@@ -10,8 +10,9 @@
 
 namespace Juzaweb\CMS\Abstracts;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
-use Illuminate\View\View;
 use Juzaweb\Backend\Models\MenuItem;
 
 abstract class MenuBox
@@ -42,7 +43,7 @@ abstract class MenuBox
      *
      * @return View
      */
-    abstract public function addView(): View;
+    abstract public function addView(): Factory|View;
 
     /**
      * Get view for edit item
@@ -50,13 +51,13 @@ abstract class MenuBox
      * @param  MenuItem  $item
      * @return View
      */
-    abstract public function editView(MenuItem $item): View;
+    abstract public function editView(MenuItem $item): Factory|View;
 
     /**
      * Get link for item
      *
-     * @param  Collection<MenuItem> $menuItems
-     * @return array // array url
+     * @param  Collection<MenuItem>  $menuItems
+     * @return array|Collection // array url
      */
-    abstract public function getLinks(Collection $menuItems): array;
+    abstract public function getLinks(Collection $menuItems): array|Collection;
 }

@@ -10,6 +10,8 @@
 
 namespace Juzaweb\CMS\Support\Theme;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Juzaweb\Backend\Models\MenuItem;
 use Juzaweb\CMS\Abstracts\MenuBox;
@@ -17,11 +19,9 @@ use Juzaweb\CMS\Facades\HookAction;
 
 class TaxonomyMenuBox extends MenuBox
 {
-    protected $key;
-    /**
-     * @var \Illuminate\Support\Collection
-     */
-    protected $taxonomy;
+    protected string $key;
+
+    protected Collection $taxonomy;
 
     public function __construct($key, $taxonomy)
     {
@@ -29,7 +29,7 @@ class TaxonomyMenuBox extends MenuBox
         $this->taxonomy = $taxonomy;
     }
 
-    public function mapData(array $data)
+    public function mapData(array $data): array
     {
         $result = [];
         $items = $data['items'];
@@ -50,7 +50,7 @@ class TaxonomyMenuBox extends MenuBox
         return $result;
     }
 
-    public function getData(array $item)
+    public function getData(array $item): array
     {
         return [
             'label' => $item['label'],
@@ -59,7 +59,7 @@ class TaxonomyMenuBox extends MenuBox
         ];
     }
 
-    public function addView()
+    public function addView(): Factory|View
     {
         return view('cms::backend.menu.boxs.taxonomy_add', [
             'taxonomy' => $this->taxonomy,
@@ -67,7 +67,7 @@ class TaxonomyMenuBox extends MenuBox
         ]);
     }
 
-    public function editView(MenuItem $item)
+    public function editView(MenuItem $item): Factory|View
     {
         return view('cms::backend.menu.boxs.taxonomy_edit', [
             'taxonomy' => $this->taxonomy,
@@ -76,7 +76,7 @@ class TaxonomyMenuBox extends MenuBox
         ]);
     }
 
-    public function getLinks(Collection $menuItems)
+    public function getLinks(Collection $menuItems): array|Collection
     {
         $permalink = HookAction::getPermalinks($this->taxonomy->get('taxonomy'));
         $base = $permalink->get('base');
@@ -85,8 +85,8 @@ class TaxonomyMenuBox extends MenuBox
             ->get(['id', 'slug'])->keyBy('id');
 
         return $menuItems->map(function ($item) use ($base, $items) {
-            if (! empty($items[$item->model_id])) {
-                $item->link = url()->to($base . '/' . $items[$item->model_id]->slug);
+            if (!empty($items[$item->model_id])) {
+                $item->link = url()->to($base.'/'.$items[$item->model_id]->slug);
             }
 
             return $item;

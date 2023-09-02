@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Juzaweb\Backend\Http\Resources\MenuItemResource;
 use Juzaweb\Backend\Models\MenuItem;
 use Juzaweb\CMS\Facades\HookAction;
+use Throwable;
 
 class MenuBuilder implements Arrayable
 {
@@ -43,11 +44,11 @@ class MenuBuilder implements Arrayable
     /**
      * Build menu item by view
      *
-     * @param Collection $items
+     * @param  Collection  $items
      * @return string
-     * @throws \Throwable
+     * @throws Throwable
      */
-    protected function buildMenu($items)
+    protected function buildMenu(Collection $items): string
     {
         $items = $this->buildItems($items);
 
@@ -58,7 +59,7 @@ class MenuBuilder implements Arrayable
         );
     }
 
-    protected function buildItems($items): array
+    protected function buildItems(Collection $items): array
     {
         $result = [];
         $request = request();
@@ -66,8 +67,7 @@ class MenuBuilder implements Arrayable
         foreach ($items as $item) {
             $children = $this->items($item->id);
 
-            $itemResource = (new MenuItemResource($item))
-                ->toArray($request);
+            $itemResource = (new MenuItemResource($item))->toArray($request);
 
             if ($children) {
                 $itemResource['children'] = $this->buildItems($children);
@@ -79,7 +79,7 @@ class MenuBuilder implements Arrayable
         return $result;
     }
 
-    protected function items($parentId = null)
+    protected function items(int $parentId = null)
     {
         $items = $this->items->where('parent_id', $parentId);
         $groups = $items->groupBy('box_key')->keys()->toArray();

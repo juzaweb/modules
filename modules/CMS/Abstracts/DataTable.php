@@ -16,6 +16,7 @@ namespace Juzaweb\CMS\Abstracts;
 
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -152,9 +153,9 @@ abstract class DataTable implements Arrayable
     /**
      * Renders the view for the PHP function.
      *
-     * @return View
+     * @return Factory|View
      */
-    public function render(): View
+    public function render(): Factory|View
     {
         if (empty($this->currentUrl)) {
             $this->currentUrl = url()->current();
