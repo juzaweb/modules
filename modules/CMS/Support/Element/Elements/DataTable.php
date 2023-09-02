@@ -207,23 +207,33 @@ class DataTable implements Element
 
     public function toArray(): array
     {
-        return [
-            'columns' => $this->columns,
-            'actions' => $this->actions,
-            'params' => $this->params,
-            'searchFields' => $this->searchFields,
-            'perPage' => $this->perPage,
-            'sortName' => $this->sortName,
-            'sortOder' => $this->sortOder,
-            'dataUrl' => $this->dataUrl,
-            'actionUrl' => $this->actionUrl,
-            'escapes' => $this->escapes,
-            'searchable' => $this->searchable,
+        $data = Arr::only(
+            get_object_vars($this),
+            [
+                'class',
+                'element',
+                'id',
+                'perPage',
+                'sortName',
+                'sortOder',
+                'dataUrl',
+                'actionUrl',
+                'escapes',
+                'searchable',
+                'currentUrl',
+                'columns',
+                'actions',
+                'bulkActions',
+                'searchFields',
+                'params',
+            ]
+        );
+
+        return array_merge($data, [
             'searchFieldTypes' => $this->getSearchFieldTypes(),
             'table' => Crypt::encryptString(static::class),
             'uniqueId' => $this->getId(),
-            ...Arr::only(get_object_vars($this), ['class', 'element', 'id'])
-        ];
+        ]);
     }
 
     public function render(): string
