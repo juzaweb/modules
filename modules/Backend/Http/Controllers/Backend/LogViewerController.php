@@ -103,9 +103,9 @@ class LogViewerController extends BackendController
     /**
      * Show the log with the search query.
      *
-     * @param Request $request
-     * @param string $date
-     * @param string $level
+     * @param  Request  $request
+     * @param  string  $date
+     * @param  string  $level
      *
      * @return RedirectResponse|View
      */
@@ -161,7 +161,7 @@ class LogViewerController extends BackendController
     /**
      * Delete a log.
      *
-     * @param Request $request
+     * @param  Request  $request
      *
      * @return JsonResponse
      * @throws FilesystemException
@@ -185,8 +185,8 @@ class LogViewerController extends BackendController
     /**
      * Paginate logs.
      *
-     * @param array $data
-     * @param Request $request
+     * @param  array  $data
+     * @param  Request  $request
      *
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
@@ -208,7 +208,7 @@ class LogViewerController extends BackendController
     /**
      * Get a log or fail
      *
-     * @param string $date
+     * @param  string  $date
      *
      * @return Log|null
      */

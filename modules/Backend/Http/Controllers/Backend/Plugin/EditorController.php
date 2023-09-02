@@ -126,7 +126,7 @@ class EditorController extends BackendController
         $files = File::files($folder);
         foreach ($files as $file) {
             $path = str_replace(
-                convert_linux_path(realpath($sourcePath)) . '/',
+                convert_linux_path(realpath($sourcePath)).'/',
                 '',
                 convert_linux_path($file->getRealPath())
             );

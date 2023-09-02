@@ -28,6 +28,7 @@ use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
+use RuntimeException;
 
 trait PostTypeController
 {
@@ -109,7 +110,9 @@ trait PostTypeController
      */
     protected function afterSave(array $data, Model $model, ...$params): void
     {
+        /** @var Post $model */
         $this->traitAfterSave($data, $model, ...$params);
+
         $model->syncTaxonomies($data);
 
         if ($blocks = Arr::get($data, 'blocks', [])) {
@@ -166,8 +169,8 @@ trait PostTypeController
         $postType = $this->getPostType();
         $setting = HookAction::getPostTypes($postType);
 
-        if (empty($setting)) {
-            throw new Exception('Post type does not exists.');
+        if ($setting === null) {
+            throw new RuntimeException('Post type does not exists.');
         }
 
         return $setting;

@@ -26,8 +26,8 @@ class UserController extends BackendController
     /**
      * Validator for store and update
      *
-     * @param array $attributes
-     * @param mixed ...$params
+     * @param  array  $attributes
+     * @param  mixed  ...$params
      * @return array
      */
     protected function validator(array $attributes, ...$params): array
@@ -51,14 +51,14 @@ class UserController extends BackendController
                 'max:150',
                 Rule::modelUnique(User::class, 'email'),
             ],
-            'status' => 'required|in:' . implode(',', $allStatus),
+            'status' => 'required|in:'.implode(',', $allStatus),
         ];
     }
 
     /**
      * Get model resource
      *
-     * @param mixed ...$params
+     * @param  mixed  ...$params
      * @return string
      */
     protected function getModel(...$params): string
@@ -69,7 +69,7 @@ class UserController extends BackendController
     /**
      * Get title resource
      *
-     * @param mixed ...$params
+     * @param  mixed  ...$params
      * @return string
      */
     protected function getTitle(...$params): string
@@ -80,7 +80,7 @@ class UserController extends BackendController
     /**
      * Get data table resource
      *
-     * @param mixed ...$params
+     * @param  mixed  ...$params
      * @return UserDataTable|DataTable
      */
     protected function getDataTable(...$params): UserDataTable|DataTable
@@ -105,8 +105,8 @@ class UserController extends BackendController
     /**
      * After Save model
      *
-     * @param array $data
-     * @param Model $model
+     * @param  array  $data
+     * @param  Model  $model
      * @throws ValidationException
      */
     protected function beforeSave(&$data, &$model, ...$params)

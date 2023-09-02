@@ -54,7 +54,7 @@ class ChildResourceController extends ResourceController
         );
 
         return view(
-            $this->viewPrefix . '.index',
+            $this->viewPrefix.'.index',
             $this->getDataForIndex($type, $postId, $parentId)
         );
     }
@@ -114,7 +114,7 @@ class ChildResourceController extends ResourceController
         $model = $this->makeModel($type, $postId, $parentId);
 
         return view(
-            $this->viewPrefix . '.form',
+            $this->viewPrefix.'.form',
             array_merge(
                 [
                     'title' => trans('cms::app.add_new'),
@@ -186,7 +186,7 @@ class ChildResourceController extends ResourceController
         $this->authorize('update', $model);
 
         return view(
-            $this->viewPrefix . '.form',
+            $this->viewPrefix.'.form',
             array_merge(
                 [
                     'title' => $model->{$model->getFieldName()}

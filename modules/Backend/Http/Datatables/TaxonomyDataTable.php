@@ -104,11 +104,9 @@ class TaxonomyDataTable extends DataTable
         foreach ($ids as $id) {
             DB::beginTransaction();
             try {
-                switch ($action) {
-                    case 'delete':
-                        $model = $this->makeModel()->find($id);
-                        $model->delete($id);
-                        break;
+                if ($action == 'delete') {
+                    $model = $this->makeModel()->find($id);
+                    $model->delete();
                 }
 
                 DB::commit();

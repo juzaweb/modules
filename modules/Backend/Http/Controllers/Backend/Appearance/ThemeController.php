@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Backend\Http\Controllers\Backend\Appearance;
 
+use Exception;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -19,6 +20,7 @@ use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Support\ArrayPagination;
 use Juzaweb\CMS\Version;
+use Throwable;
 
 class ThemeController extends BackendController
 {
@@ -132,7 +134,7 @@ class ThemeController extends BackendController
             $theme->activate();
             $this->addRequireThemeActive($theme);
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             report($e);
             return $this->error($e->getMessage());
@@ -177,7 +179,7 @@ class ThemeController extends BackendController
                         Theme::delete($name);
                         break;
                 }
-            } catch (\Throwable $e) {
+            } catch (Throwable $e) {
                 report($e);
 
                 return $this->error(
@@ -266,7 +268,7 @@ class ThemeController extends BackendController
                     }
 
                     return $response->data;
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     return (object) [];
                 }
             }

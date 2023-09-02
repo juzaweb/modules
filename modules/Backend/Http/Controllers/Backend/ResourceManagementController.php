@@ -201,7 +201,7 @@ class ResourceManagementController extends BackendController
         foreach ($rows as $index => $row) {
             $columns['id'] = $row->id;
             foreach ($columns as $col => $column) {
-                if (! empty($column['formatter'])) {
+                if (!empty($column['formatter'])) {
                     $results[$index][$col] = $column['formatter'](
                         $row->{$col} ?? null,
                         $row,
@@ -289,7 +289,7 @@ class ResourceManagementController extends BackendController
             return $this->modelClass;
         }
 
-        $this->modelClass =  get_class($this->getRepository($key)->getModel());
+        $this->modelClass = get_class($this->getRepository($key)->getModel());
 
         return $this->modelClass;
     }

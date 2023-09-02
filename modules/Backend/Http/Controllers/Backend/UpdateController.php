@@ -200,14 +200,14 @@ class UpdateController extends BackendController
 
         $updates = $response->data ?? [];
 
-        $update = collect((array)$updates)
+        $update = collect((array) $updates)
             ->filter(
                 function ($item) {
                     return $item->update == true;
                 }
             )->map(
                 function ($item) {
-                    return (array)$item;
+                    return (array) $item;
                 }
             )
             ->toArray();
@@ -259,7 +259,7 @@ class UpdateController extends BackendController
 
         $updates = $response->data ?? [];
 
-        $update = collect((array)$updates)
+        $update = collect((array) $updates)
             ->filter(
                 function ($item) {
                     return $item->update == true;
@@ -267,7 +267,7 @@ class UpdateController extends BackendController
             )
             ->map(
                 function ($item) {
-                    return (array)$item;
+                    return (array) $item;
                 }
             )
             ->toArray();

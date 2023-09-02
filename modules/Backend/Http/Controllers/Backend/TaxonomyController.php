@@ -76,7 +76,7 @@ class TaxonomyController extends BackendController
     /**
      * Get post type by url
      *
-     * @param string $postType
+     * @param  string  $postType
      * @return string
      */
     protected function getPostType(string $postType): string
@@ -88,7 +88,7 @@ class TaxonomyController extends BackendController
      * Get taxonomy setting
      *
      * @param $postType
-     * @param string $taxonomy
+     * @param  string  $taxonomy
      * @return Collection
      */
     protected function getSetting(...$params): Collection
@@ -101,8 +101,8 @@ class TaxonomyController extends BackendController
     /**
      * Validator for store and update
      *
-     * @param array $attributes
-     * @param mixed ...$params
+     * @param  array  $attributes
+     * @param  mixed  ...$params
      * @return array
      */
     protected function validator(array $attributes, ...$params): array
@@ -125,7 +125,7 @@ class TaxonomyController extends BackendController
     /**
      * Get title resource
      *
-     * @param mixed ...$params
+     * @param  mixed  ...$params
      * @return string
      */
     protected function getTitle(...$params): string

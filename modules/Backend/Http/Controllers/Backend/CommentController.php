@@ -2,7 +2,9 @@
 
 namespace Juzaweb\Backend\Http\Controllers\Backend;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Str;
+use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\Backend\Http\Datatables\CommentDatatable;
 use Juzaweb\Backend\Models\Comment;
@@ -14,9 +16,9 @@ class CommentController extends BackendController
         ResourceController::getDataForIndex as DataForIndex;
     }
 
-    protected $viewPrefix = 'cms::backend.comment';
+    protected string $viewPrefix = 'cms::backend.comment';
 
-    protected function validator(array $attributes, ...$params)
+    protected function validator(array $attributes, ...$params): Validator|array
     {
         $statuses = array_keys(Comment::allStatuses());
 
@@ -25,28 +27,28 @@ class CommentController extends BackendController
             'name' => 'nullable',
             'website' => 'nullable',
             'content' => 'required',
-            'status' => 'required|in:' . implode(',', $statuses),
+            'status' => 'required|in:'.implode(',', $statuses),
         ];
     }
 
-    protected function getModel(...$params)
+    protected function getModel(...$params): string
     {
         return Comment::class;
     }
 
-    protected function getTitle(...$params)
+    protected function getTitle(...$params): string
     {
         return trans('cms::app.comments');
     }
 
-    protected function getDataTable(...$params)
+    protected function getDataTable(...$params): DataTable
     {
         $dataTable = new CommentDatatable();
         $dataTable->mountData($this->getPostType());
         return $dataTable;
     }
 
-    protected function getDataForIndex(...$params)
+    protected function getDataForIndex(...$params): array
     {
         $type = $params[0];
         $postType = $this->getPostType();
@@ -56,8 +58,8 @@ class CommentController extends BackendController
         return $data;
     }
 
-    protected function getPostType()
+    protected function getPostType(): string
     {
-        return Str::plural(request()->segment(3));
+        return Str::plural(request()?->segment(3));
     }
 }

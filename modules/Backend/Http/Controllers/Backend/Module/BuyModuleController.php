@@ -133,6 +133,6 @@ class BuyModuleController extends BackendController
     protected function getModuleName(string $module, string $name): string
     {
         $module = $module == 'theme' ? trans('cms::app.theme') : trans('cms::app.plugin');
-        return ucfirst($name) .' ' . $module;
+        return ucfirst($name).' '.$module;
     }
 }

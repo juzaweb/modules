@@ -29,7 +29,7 @@ class DatatableController extends BackendController
         foreach ($rows as $index => $row) {
             $columns['id'] = $row->id;
             foreach ($columns as $col => $column) {
-                if (! empty($column['formatter'])) {
+                if (!empty($column['formatter'])) {
                     $results[$index][$col] = $column['formatter'](
                         $row->{$col} ?? null,
                         $row,
@@ -74,7 +74,7 @@ class DatatableController extends BackendController
     /**
      * Get datatable
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return DataTable
      * @throws \JsonException
      */

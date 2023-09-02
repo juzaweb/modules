@@ -399,7 +399,7 @@ trait ResourceController
         //
     }
 
-    protected function updateSuccessResponse($model, $request, ...$params)
+    protected function updateSuccessResponse($model, $request, ...$params): JsonResponse|RedirectResponse
     {
         return $this->success(
             [

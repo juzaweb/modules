@@ -104,14 +104,14 @@ class WidgetController extends BackendController
 
         return response()->json(
             [
-            'key' => $key,
-            'html' => view(
-                'cms::backend.post.components.page_block_item',
-                compact(
-                    'widget',
-                    'key'
-                )
-            )->render(),
+                'key' => $key,
+                'html' => view(
+                    'cms::backend.post.components.page_block_item',
+                    compact(
+                        'widget',
+                        'key'
+                    )
+                )->render(),
             ]
         );
     }

@@ -139,7 +139,7 @@ class PostResourceController extends ResourceController
         $this->authorize('update', $model);
 
         return view(
-            $this->viewPrefix . '.form',
+            $this->viewPrefix.'.form',
             array_merge(
                 [
                     'title' => $model->{$model->getFieldName()},

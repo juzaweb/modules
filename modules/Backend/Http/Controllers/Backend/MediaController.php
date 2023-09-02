@@ -178,9 +178,9 @@ class MediaController extends BackendController
     /**
      * Get files in folder
      *
-     * @param Collection $sQuery
-     * @param int $limit
-     * @param int|null $folderId
+     * @param  Collection  $sQuery
+     * @param  int  $limit
+     * @param  int|null  $folderId
      * @return LengthAwarePaginator
      */
     protected function getFiles(Collection $sQuery, int $limit = 40, ?int $folderId = null): LengthAwarePaginator
@@ -200,8 +200,8 @@ class MediaController extends BackendController
     /**
      * Get directories in folder
      *
-     * @param Collection $sQuery
-     * @param int|null $folderId
+     * @param  Collection  $sQuery
+     * @param  int|null  $folderId
      * @return \Illuminate\Database\Eloquent\Collection
      */
     protected function getDirectories(Collection $sQuery, ?int $folderId): \Illuminate\Database\Eloquent\Collection
