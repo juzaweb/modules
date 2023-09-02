@@ -33,7 +33,6 @@ use RuntimeException;
 trait PostTypeController
 {
     use ResourceController {
-        ResourceController::afterSave as traitAfterSave;
         ResourceController::getDataForIndex as DataForIndex;
         ResourceController::getDataForForm as DataForForm;
     }
@@ -111,17 +110,12 @@ trait PostTypeController
     protected function afterSave(array $data, Model $model, ...$params): void
     {
         /** @var Post $model */
-        $this->traitAfterSave($data, $model, ...$params);
-
         $model->syncTaxonomies($data);
 
         if ($blocks = Arr::get($data, 'blocks', [])) {
             $data['meta']['block_content'] = collect($blocks)
-                ->mapWithKeys(
-                    function ($item, $key) {
-                        return [$key => array_values($item)];
-                    }
-                )->toArray();
+                ->mapWithKeys(fn ($item, $key) => [$key => array_values($item)])
+                ->toArray();
         }
 
         if (Arr::has($data, 'meta')) {

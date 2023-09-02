@@ -2,7 +2,6 @@ import {__} from "../../../helpers/functions";
 import {DatatableAction, DatatableProps} from "../../../types/datatable";
 
 export default function BulkActions({actions}: DatatableProps) {
-    console.log(actions);
     return (
         actions.length > 0 && (
             <div className="col-md-2">

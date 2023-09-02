@@ -10,12 +10,12 @@
 
 namespace Juzaweb\CMS\Support\Element\Elements;
 
-use Juzaweb\CMS\Support\Element\Interfaces\Element;
+use Juzaweb\CMS\Support\Element\Abstracts\ElementAbstract;
 use Juzaweb\CMS\Support\Element\Traits\HasChildren;
 use Juzaweb\CMS\Support\Element\Traits\HasClass;
 use Juzaweb\CMS\Support\Element\Traits\HasId;
 
-class Link implements Element
+class Link extends ElementAbstract
 {
     use HasClass, HasId, HasChildren;
 
@@ -37,11 +37,6 @@ class Link implements Element
         $this->text = $text;
 
         return $this;
-    }
-
-    public function toArray(): array
-    {
-        return get_object_vars($this);
     }
 
     public function render(): string

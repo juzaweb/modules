@@ -10,6 +10,7 @@
 
 namespace Juzaweb\CMS\Support\Element\Elements\Buttons;
 
+use Illuminate\Support\Arr;
 use Juzaweb\CMS\Support\Element\Interfaces\Element;
 use Juzaweb\CMS\Support\Element\Traits\HasChildren;
 use Juzaweb\CMS\Support\Element\Traits\HasClass;
@@ -24,9 +25,11 @@ class ButtonGroup implements Element
 
     public function toArray(): array
     {
-        $data = get_object_vars($this);
+        $data = Arr::except(get_object_vars($this), ['class', 'children']);
 
         $data['className'] = $this->class;
+
+        $data['children'] = $this->getChildren()->toArray();
 
         return $data;
     }
