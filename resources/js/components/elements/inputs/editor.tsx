@@ -1,6 +1,7 @@
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import {useState} from "react";
+import React, {useState} from "react";
+
+const CKEditor = React.lazy(() => import('@ckeditor/ckeditor5-react'));
+const ClassicEditor = React.lazy(() => import('@ckeditor/ckeditor5-build-classic'));
 
 export interface EditorProps {
     name?: string;

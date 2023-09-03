@@ -15,6 +15,9 @@ use Juzaweb\Frontend\Http\Controllers\AssetController;
 
 $pathRegex = '[0-9a-zA-Z\/\-\.\_]+';
 
+Route::get('jw-styles/juzaweb/{path}', [AssetController::class, 'assetCMS'])
+    ->where('path', $pathRegex);
+
 Route::get('jw-styles/themes/{theme}/{path}', [AssetController::class, 'assetTheme'])
     ->where('theme', '[0-9a-z\-_]+')
     ->where('path', $pathRegex);

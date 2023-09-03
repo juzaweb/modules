@@ -21,17 +21,28 @@ class AssetController extends Controller
     {
     }
 
+    public function assetCMS(string $path): HttpResponse
+    {
+        $assetPath = base_path("vendor/juzaweb/modules/resources/assets/public/{$path}");
+
+        return $this->responseWithPath($assetPath);
+    }
+    
     public function assetPlugin($vendor, $plugin, $path): HttpResponse
     {
         $path = str_replace('assets/', '', $path);
+        
         $assetPath = plugin_path("{$vendor}/{$plugin}", 'assets/public/' . $path);
+        
         return $this->responseWithPath($assetPath);
     }
 
     public function assetTheme($theme, $path): HttpResponse
     {
         $path = str_replace('assets/', '', $path);
-        $assetPath = ThemeLoader::getPath($theme, 'assets/public/' . $path);
+
+        $assetPath = ThemeLoader::getPath($theme, "assets/public/{$path}");
+
         return $this->responseWithPath($assetPath);
     }
 
@@ -49,7 +60,7 @@ class AssetController extends Controller
             $path = public_path('jw-styles/juzaweb/images/thumb-default.png');
         }
 
-        list($width, $height) = explode('x', $size);
+        [$width, $height] = explode('x', $size);
         $width = $width == 'auto' ? null : $width;
         $height = $height == 'auto' ? null : $height;
         $aspectRatio = empty($width) || empty($height) ? fn($constraint) => $constraint->aspectRatio() : null;
@@ -88,13 +99,12 @@ class AssetController extends Controller
         if (Storage::fileExists($cacheFile) && !config('app.debug')) {
             $path = Storage::path($cacheFile);
             $content = File::get($path);
-            $length = Storage::size($cacheFile);
         } else {
             $langs['cms'] = Lang::get('cms::app');
-            $content = 'const langs = '. json_encode($langs);
+            $content = 'const langs = '.json_encode($langs, JSON_THROW_ON_ERROR);
             Storage::put($cacheFile, $content);
-            $length = Storage::size($cacheFile);
         }
+        $length = Storage::size($cacheFile);
 
         $response = Response::make($content);
         $response->header('Content-Type', 'application/javascript');

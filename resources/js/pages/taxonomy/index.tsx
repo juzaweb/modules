@@ -1,7 +1,6 @@
-import DataTable from "@/components/DataTable";
+import DataTable from "@/components/elements/data-table";
 
 export default function Index({ dataTable }) {
-    console.log(dataTable);
     return (
         <>
             <DataTable config={dataTable} />
