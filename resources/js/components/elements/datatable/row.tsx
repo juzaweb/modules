@@ -1,11 +1,22 @@
 import {DatatableColumn, DatatableProps} from "../../../types/datatable";
 import React, {useEffect, useState} from "react";
 
-export default function Row({table, row, checked}: {table: DatatableProps, row: any, checked?: boolean}) {
+export default function Row({table, row, checked, hasChecked, setHasChecked}: {
+    table: DatatableProps,
+    row: any,
+    checked?: boolean,
+    hasChecked: boolean,
+    setHasChecked: any
+}) {
     const [isChecked, setIsChecked] = useState(checked);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsChecked(e.target.checked);
+        // if (e.target.checked) {
+        //     setHasChecked(true);
+        // } else {
+        //     setHasChecked(false);
+        // }
     }
 
     useEffect(() => {
@@ -15,13 +26,17 @@ export default function Row({table, row, checked}: {table: DatatableProps, row: 
     return <tr>
         {table.actions && table.actions.length > 0 && (
             <td>
-                <input
-                    type="checkbox"
-                    name={'ids[]'}
-                    className={'jw-checkbox'} value={row.id}
-                    checked={isChecked}
-                    onChange={handleChange}
-                />
+                <label className="jw__utils__control jw__utils__control__checkbox">
+                    <input
+                        type="checkbox"
+                        className={`form-control jw-checkbox`}
+                        name={'ids[]'}
+                        checked={isChecked}
+                        onChange={handleChange}
+                    />
+
+                    <span className="jw__utils__control__indicator"></span>
+                </label>
             </td>
         )}
 
