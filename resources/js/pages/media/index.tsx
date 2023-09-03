@@ -9,7 +9,6 @@ export interface MediaFilesProps {
 }
 
 export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<MediaFolder>, mediaFiles: MediaFilesProps}) {
-
     return (
         <Admin>
             <div className="container-m-nx container-m-ny bg-lightest mb-3">
@@ -20,18 +19,22 @@ export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<M
                         </button>*/}
                         <div className="btn-group mr-2">
                             <button type="button" className="btn btn-default md-btn-flat dropdown-toggle px-2" data-toggle="dropdown">
-                                <i className="ion ion-ios-settings"></i>
+                                <i className="ion ion-ios-settings"></i> {__('cms::app.actions')}
                             </button>
                             <div className="dropdown-menu">
-                                <a className="dropdown-item" href="#">Move</a>
-                                <a className="dropdown-item" href="#">Copy</a>
-                                <a className="dropdown-item" href="#">Remove</a>
+                                {/*<a className="dropdown-item" href="#">Move</a>*/}
+                                {/*<a className="dropdown-item" href="#">Copy</a>*/}
+                                <a className="dropdown-item" href="#">{__('cms::app.remove')}</a>
                             </div>
                         </div>
                     </div>
                     <div>
-                        <button type="button" className="btn btn-primary mr-2">
-                            <i className="ion ion-md-cloud-upload"></i>&nbsp; Upload
+                        <button type="button" className="btn btn-primary mr-2" data-toggle="modal" data-target="#upload-modal">
+                            <i className="ion ion-md-cloud-upload"></i>&nbsp; {__('cms::app.upload')}
+                        </button>
+
+                        <button type="button" className="btn btn-success mr-2">
+                            <i className="fa fa-plus"></i>&nbsp; {__('cms::app.make_folder')}
                         </button>
                     </div>
                     {/*<div>
@@ -45,8 +48,6 @@ export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<M
                         </div>
                     </div>*/}
                 </div>
-
-                <hr className="m-0" />
             </div>
 
             <div className="file-manager-container file-manager-col-view">
@@ -56,7 +57,7 @@ export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<M
                 </div>
 
                 <div className="file-item">
-                    <div className="file-item-icon file-item-level-up fas fa-level-up-alt text-secondary"></div>
+                    <div className="file-item-icon file-item-level-up fa fa-level-up text-secondary"></div>
                     <a href="#" className="file-item-name">
                         ..
                     </a>
@@ -77,7 +78,9 @@ export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<M
                         </Link>
                         <div className="file-item-changed">02/13/2018</div>
                         <div className="file-item-actions btn-group">
-                            <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
+                            <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown">
+                                <i className="ion ion-ios-more"></i>
+                            </button>
                             <div className="dropdown-menu dropdown-menu-right">
                                 <a className="dropdown-item" href="#">Rename</a>
                                 <a className="dropdown-item" href="#">Move</a>
@@ -111,7 +114,6 @@ export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<M
                         </div>
                     </div>
                 ))}
-
 
                 <div className="file-item">
                     <div className="file-item-select-bg bg-primary"></div>

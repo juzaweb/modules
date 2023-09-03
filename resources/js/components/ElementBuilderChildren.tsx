@@ -6,6 +6,7 @@ import Line from "./charts/line";
 import DataTable from "./elements/data-table";
 import ButtonGroup from "./elements/buttons/button-group";
 import {Link} from "@inertiajs/react";
+import Editor from "./elements/inputs/editor";
 
 const Elements = (config: any, index: number) => {
     switch (config.element) {
@@ -20,6 +21,7 @@ const Elements = (config: any, index: number) => {
             <ElementBuilderChildren children={config.children} />
             {config.text || ''}
         </Link>;
+        case 'editor': return <Editor {...config} />
     }
 
     return null;

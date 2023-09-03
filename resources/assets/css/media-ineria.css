@@ -96,14 +96,15 @@
     line-height: 4rem;
 }
 
-.file-manager-col-view .file-item-level-up {
+/*.file-manager-col-view .file-item-level-up {
     font-size: 1.5rem;
-}
+}*/
 
 .file-manager-col-view .file-item-checkbox,
 .file-manager-col-view .file-item-actions {
     position: absolute;
     top: 6px;
+    display: none;
 }
 
 .file-manager-col-view .file-item-checkbox {
@@ -195,6 +196,10 @@
     display: block;
 }
 
+.file-item:hover .file-item-checkbox {
+    display: block;
+}
+
 .file-item .file-item-actions .btn-default {
     background-color: #fff;
     border-color: #fff;
@@ -242,7 +247,6 @@
 .light-style .file-item.selected .file-item-select-bg {
     opacity: 0.15;
 }
-
 
 @media (min-width: 768px) {
     .light-style .file-manager-row-view .file-item-changed {
