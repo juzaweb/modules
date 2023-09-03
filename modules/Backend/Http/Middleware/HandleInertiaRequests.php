@@ -92,6 +92,8 @@ class HandleInertiaRequests extends Middleware
             'adminPrefix' => config('juzaweb.admin_prefix'),
             'totalNotifications' => count_unread_notifications(),
             'leftMenuItems' => $leftMenuItems,
+            'currentUrl' => $request->url(),
+            'currentPath' => $request->path(),
             'config' => [
                 'title' => get_config('title'),
                 'description' => get_config('description'),

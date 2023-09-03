@@ -23,7 +23,7 @@ export default function Index() {
                             </div>
                         </div>
                     </div>
-                    <div>
+                    {/*<div>
                         <div className="btn-group btn-group-toggle" data-toggle="buttons">
                             <label className="btn btn-default icon-btn md-btn-flat active">
                                 <input type="radio" name="file-manager-view" value="file-manager-col-view" checked={true} /> 
@@ -32,7 +32,7 @@ export default function Index() {
                             <label className="btn btn-default icon-btn md-btn-flat"> <input type="radio" name="file-manager-view" value="file-manager-row-view" />
                                 <span className="ion ion-md-menu"></span> </label>
                         </div>
-                    </div>
+                    </div>*/}
                 </div>
 
                 <hr className="m-0" />

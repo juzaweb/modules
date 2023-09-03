@@ -5,10 +5,11 @@ import MenuLeft from "./components/menu-left";
 import {__, admin_url, url} from "../helpers/functions";
 
 export default function Admin({children}: { children: React.ReactNode }) {
-    const {title, config, adminPrefix, breadcrumbItems} = usePage<{
+    const {title, config, adminPrefix, currentPath, breadcrumbItems} = usePage<{
         title?: string,
         config: { title: string },
         adminPrefix: string,
+        currentPath: string,
         breadcrumbItems: Array<{
             title: string,
             url?: string
@@ -51,7 +52,7 @@ export default function Admin({children}: { children: React.ReactNode }) {
                     </div>
 
                     <div className="juzaweb__layout__content">
-                        {window.location.pathname !== `/${adminPrefix}` ? (
+                        {currentPath !== adminPrefix ? (
                             <nav aria-label="breadcrumb">
                                 <ol className="breadcrumb">
                                     <li className="breadcrumb-item">

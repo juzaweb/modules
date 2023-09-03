@@ -2,7 +2,7 @@ import {__, admin_url, url} from "../../helpers/functions";
 import {usePage} from "@inertiajs/react";
 
 export default function MenuTop() {
-    const {user, langs, currentLang, total_notifications} = usePage<{ user?: any, langs?: Array<{ code: string, name: string }>, currentLang: string, total_notifications: number }>().props;
+    const {user, langs, currentLang, totalNotifications} = usePage<{ user?: any, langs?: Array<{ code: string, name: string }>, currentLang: string, totalNotifications: number }>().props;
 
     return <div className="juzaweb__topbar">
         <div className="mr-3">
@@ -64,7 +64,7 @@ export default function MenuTop() {
         <div className="juzaweb__topbar__notify dropdown mr-4 d-none d-sm-block">
             <a href="#" className="dropdown-toggle text-nowrap" data-toggle="dropdown"
                aria-expanded="false" data-offset="0,15">
-                <i className="dropdown-toggle-icon fa fa-bell-o"></i> <span>{total_notifications}</span>
+                <i className="dropdown-toggle-icon fa fa-bell-o"></i> <span>{totalNotifications}</span>
             </a>
 
             <div className="juzaweb__topbar__actionsDropdownMenu dropdown-menu dropdown-menu-right" role="menu">
@@ -73,7 +73,7 @@ export default function MenuTop() {
                         <div className="tab-content">
                             <div className="jw__l1">
                                 <div
-                                    className="text-uppercase mb-2 text-gray-6 mb-2 font-weight-bold">{__('cms::app.notifications')} ({total_notifications})
+                                    className="text-uppercase mb-2 text-gray-6 mb-2 font-weight-bold">{__('cms::app.notifications')} ({totalNotifications})
                                 </div>
                                 <hr/>
                                 <ul className="list-unstyled">
