@@ -21,7 +21,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Juzaweb\Backend\Events\AfterPostSave;
-use Juzaweb\Backend\Http\Datatables\PostTypeDataTable;
+use Juzaweb\Backend\Http\Datatables\PostType\PostTypeDataTable;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Abstracts\DataTable;

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
-use Juzaweb\Backend\Http\Datatables\TaxonomyDataTable;
+use Juzaweb\Backend\Http\Datatables\PostType\TaxonomyDataTable;
 use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Facades\GlobalData;
 use Juzaweb\CMS\Http\Controllers\BackendController;

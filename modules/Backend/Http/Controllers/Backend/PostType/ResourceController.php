@@ -12,7 +12,7 @@ namespace Juzaweb\Backend\Http\Controllers\Backend\PostType;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Juzaweb\Backend\Http\Datatables\ResourceDatatable;
+use Juzaweb\Backend\Http\Datatables\PostType\ResourceDatatable;
 use Juzaweb\Backend\Models\Resource;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;

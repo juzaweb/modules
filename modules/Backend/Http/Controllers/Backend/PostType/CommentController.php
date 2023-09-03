@@ -4,7 +4,7 @@ namespace Juzaweb\Backend\Http\Controllers\Backend\PostType;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Str;
-use Juzaweb\Backend\Http\Datatables\CommentDatatable;
+use Juzaweb\Backend\Http\Datatables\PostType\CommentDatatable;
 use Juzaweb\Backend\Models\Comment;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Http\Controllers\BackendController;

@@ -8,13 +8,13 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Datatables;
+namespace Juzaweb\Backend\Http\Datatables\PostType;
 
 use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\Backend\Models\Taxonomy;
+use Juzaweb\CMS\Abstracts\DataTable;
 
 class TaxonomyDataTable extends DataTable
 {

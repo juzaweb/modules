@@ -8,12 +8,12 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Datatables;
+namespace Juzaweb\Backend\Http\Datatables\PostType;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
-use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\Backend\Models\Comment;
+use Juzaweb\CMS\Abstracts\DataTable;
 
 class CommentDatatable extends DataTable
 {

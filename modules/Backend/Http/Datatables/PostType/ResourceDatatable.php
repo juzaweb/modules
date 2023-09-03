@@ -8,12 +8,12 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Datatables;
+namespace Juzaweb\Backend\Http\Datatables\PostType;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Backend\Models\Resource;
 use Juzaweb\CMS\Abstracts\DataTable;
@@ -31,13 +31,13 @@ class ResourceDatatable extends DataTable
     protected Collection $setting;
     protected ?Collection $childs;
 
-    public function mount($type, $postId, $parentId = null)
+    public function mount(string $type, ?int $postId, ?int $parentId = null): void
     {
         $this->type = $type;
         $this->postId = $postId;
         $this->parentId = $parentId;
 
-        $childs = $this->getSetting()->where('parent', $type);
+        $childs = $this->getSetting()?->where('parent', $type);
         if ($childs->isNotEmpty()) {
             $this->childs = $childs;
         }
@@ -97,10 +97,10 @@ class ResourceDatatable extends DataTable
     /**
      * Query data datatable
      *
-     * @param array $data
+     * @param  array  $data
      * @return Builder
      */
-    public function query($data): Builder
+    public function query(array $data): Builder
     {
         $query = $this->getQuery();
 
@@ -131,7 +131,7 @@ class ResourceDatatable extends DataTable
         $offset = $request->get('offset', 0);
         $limit = (int) $request->get('limit', 20);
 
-        if ($repository = $this->getSetting($this->type)->get('repository')) {
+        if ($repository = $this->getSetting($this->type)?->get('repository')) {
             /**
              * @var BaseRepository $repository
              */
@@ -161,7 +161,7 @@ class ResourceDatatable extends DataTable
         return [$count, $rows];
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         $rows = $this->getQuery()->whereIn('id', $ids)->get();
         foreach ($rows as $row) {
@@ -196,7 +196,7 @@ class ResourceDatatable extends DataTable
 
     protected function getQuery(): Builder
     {
-        if ($repository = $this->getSetting($this->type)->get('repository')) {
+        if ($repository = $this->getSetting($this->type)?->get('repository')) {
             $query = app($repository)->query();
         } else {
             $query = Resource::query();

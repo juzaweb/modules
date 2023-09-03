@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Datatables;
+namespace Juzaweb\Backend\Http\Datatables\PostType;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
