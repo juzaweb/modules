@@ -26,10 +26,13 @@ class BackendController extends Controller
 {
     use ResponseMessage;
 
+    public const BLADE_TEMPLATE = 'blade';
+    public const INERTIA_TEMPLATE = 'inertia';
+
     /**
      * @var string $template Support blade,inertia
      */
-    protected string $template = 'blade';
+    protected string $template = self::BLADE_TEMPLATE;
 
     public function callAction($method, $parameters)
     {
@@ -67,6 +70,7 @@ class BackendController extends Controller
 
         // Replate . to /
         $view = Str::replace('.', '/', $view);
+        $data['breadcrumbItems'] = apply_filters('admin_breadcrumb', []);
 
         // Render Inertia view
         return Inertia::render($view, $data);

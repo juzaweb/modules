@@ -1,11 +1,19 @@
-import {Head, usePage} from "@inertiajs/react";
+import {Head, Link, usePage} from "@inertiajs/react";
 import React from "react";
 import MenuTop from "./components/menu-top";
 import MenuLeft from "./components/menu-left";
-import {url} from "../helpers/functions";
+import {__, admin_url, url} from "../helpers/functions";
 
 export default function Admin({children}: { children: React.ReactNode }) {
-    const {title, config} = usePage<{ title?: string, config: { title: string } }>().props;
+    const {title, config, adminPrefix, breadcrumbItems} = usePage<{
+        title?: string,
+        config: { title: string },
+        adminPrefix: string,
+        breadcrumbItems: Array<{
+            title: string,
+            url?: string
+        }>
+    }>().props;
 
     return (
         <>
@@ -21,7 +29,7 @@ export default function Admin({children}: { children: React.ReactNode }) {
                         <div className="juzaweb__menuLeft__logo__container">
                             <a href="/admin-cp">
                                 <div className="juzaweb__menuLeft__logo">
-                                    <img src={ url('/jw-styles/juzaweb/images/logo.svg') } className="mr-1"
+                                    <img src={url('/jw-styles/juzaweb/images/logo.svg')} className="mr-1"
                                          alt="Juzaweb"/>
                                     <div className="juzaweb__menuLeft__logo__name">JuzaWeb</div>
                                     <div className="juzaweb__menuLeft__logo__descr">Cms</div>
@@ -30,7 +38,7 @@ export default function Admin({children}: { children: React.ReactNode }) {
                         </div>
 
                         <div className="juzaweb__menuLeft__scroll jw__customScroll">
-                            <MenuLeft />
+                            <MenuLeft/>
                         </div>
                     </div>
                 </div>
@@ -43,20 +51,31 @@ export default function Admin({children}: { children: React.ReactNode }) {
                     </div>
 
                     <div className="juzaweb__layout__content">
-                        {/*@if(!request()->is(config('juzaweb.admin_prefix')))
-                            {{
-                                jw_breadcrumb(
-                                'admin',
-                                [
-                                    [
-                                        'title' => $page['props']['title'] ?? '',
-                                ]
-                                ]
-                                )
-                            }}
-                            @else
-                            <div className="mb-3"></div>
-                    @endif*/}
+                        {window.location.pathname !== `/${adminPrefix}` ? (
+                            <nav aria-label="breadcrumb">
+                                <ol className="breadcrumb">
+                                    <li className="breadcrumb-item">
+                                        <Link href={admin_url()}>{__('cms::app.dashboard')}</Link>
+                                    </li>
+
+                                    {breadcrumbItems.map((item, index) => {
+                                        if (item.url) {
+                                            return (
+                                                <li key={index} className="breadcrumb-item">
+                                                    <Link href={item.url} className="text-capitalize">{item.title}</Link>
+                                                </li>
+                                            );
+                                        }
+
+                                        return (
+                                            <li className="breadcrumb-item text-capitalize active" aria-current="page">{ item.title }</li>
+                                        );
+                                    })}
+
+                                    <li className="breadcrumb-item text-capitalize active" aria-current="page">{ title }</li>
+                                </ol>
+                            </nav>
+                        ) : (<div className="mb-3"></div>)}
 
                         <h4 className="font-weight-bold ml-3 text-capitalize">{title || ''}</h4>
 

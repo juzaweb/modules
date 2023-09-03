@@ -27,7 +27,7 @@ export function upload_url(path: string): string {
     return path;
 }
 
-export function admin_url(path: string): string {
+export function admin_url(path: string = ''): string {
     return '/admin-cp/' + path;
 }
 

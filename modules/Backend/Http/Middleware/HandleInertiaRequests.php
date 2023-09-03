@@ -88,9 +88,9 @@ class HandleInertiaRequests extends Middleware
             'langs' => $langs,
             'currentLang' => $currentLang,
             'trans' => $trans,
-            'admin_url' => admin_url(),
-            'admin_prefix' => config('juzaweb.admin_prefix'),
-            'total_notifications' => count_unread_notifications(),
+            'adminUrl' => admin_url(),
+            'adminPrefix' => config('juzaweb.admin_prefix'),
+            'totalNotifications' => count_unread_notifications(),
             'leftMenuItems' => $leftMenuItems,
             'config' => [
                 'title' => get_config('title'),

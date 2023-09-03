@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Response;
 use Juzaweb\Backend\Events\AddFolderSuccess;
 use Juzaweb\Backend\Http\Requests\Media\AddFolderRequest;
 use Juzaweb\Backend\Http\Requests\Media\UpdateRequest;
@@ -31,13 +32,15 @@ use Juzaweb\Backend\Models\MediaFolder;
 
 class MediaController extends BackendController
 {
+    protected string $template = self::INERTIA_TEMPLATE;
+
     public function __construct(
         protected MediaFileRepository $fileRepository,
         protected MediaFolderRepository $folderRepository
     ) {
     }
 
-    public function index(Request $request, $folderId = null): View
+    public function index(Request $request, $folderId = null): View|Response
     {
         $title = trans('cms::app.media');
         $type = $request->get('type', 'file');
@@ -69,7 +72,7 @@ class MediaController extends BackendController
             $mimeTypes = config("juzaweb.filemanager.types.file.valid_mime");
         }
 
-        return view(
+        return $this->view(
             'cms::backend.media.index',
             [
                 'fileTypes' => $this->getFileTypes(),

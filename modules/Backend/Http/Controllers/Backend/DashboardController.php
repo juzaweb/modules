@@ -53,10 +53,10 @@ class DashboardController extends BackendController
         $diskFree = Cache::store('file')->remember(
             cache_prefix('storage_free_disk'),
             3600,
-            fn() => format_size_units(disk_free_space('/')),
+            fn () => format_size_units(disk_free_space('/')),
         );
 
-        $row = $builder->row();
+        $row = $builder->row()->addClass('mt-3');
         $cols = [
             [
                 'title' => trans('cms::app.posts'),
