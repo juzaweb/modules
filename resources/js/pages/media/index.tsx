@@ -1,7 +1,15 @@
 import Admin from "../../layouts/admin";
 import '../../../assets/css/media-ineria.css';
+import {__} from "../../helpers/functions";
+import {Link} from "@inertiajs/react";
+import {MediaFile, MediaFolder} from "../../types/media";
 
-export default function Index() {
+export interface MediaFilesProps {
+    data: Array<MediaFile>
+}
+
+export default function Index({mediaFolders, mediaFiles}: {mediaFolders: Array<MediaFolder>, mediaFiles: MediaFilesProps}) {
+
     return (
         <Admin>
             <div className="container-m-nx container-m-ny bg-lightest mb-3">
@@ -54,27 +62,56 @@ export default function Index() {
                     </a>
                 </div>
 
-                <div className="file-item">
-                    <div className="file-item-select-bg bg-primary"></div>
-                    <label className="file-item-checkbox custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" />
-                        <span className="custom-control-label"></span>
-                    </label>
-                    <div className="file-item-icon fa fa-folder text-secondary"></div>
-                    <a href="#" className="file-item-name">
-                        Images
-                    </a>
-                    <div className="file-item-changed">02/13/2018</div>
-                    <div className="file-item-actions btn-group">
-                        <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
-                        <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item" href="#">Rename</a>
-                            <a className="dropdown-item" href="#">Move</a>
-                            <a className="dropdown-item" href="#">Copy</a>
-                            <a className="dropdown-item" href="#">Remove</a>
+                {mediaFolders.map((folder) => (
+                    <div className="file-item">
+                        <div className="file-item-select-bg bg-primary"></div>
+
+                        <label className="file-item-checkbox custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" />
+                            <span className="custom-control-label"></span>
+                        </label>
+
+                        <div className="file-item-icon fa fa-folder text-secondary"></div>
+                        <Link href="#" className="file-item-name">
+                            {folder.name}
+                        </Link>
+                        <div className="file-item-changed">02/13/2018</div>
+                        <div className="file-item-actions btn-group">
+                            <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
+                            <div className="dropdown-menu dropdown-menu-right">
+                                <a className="dropdown-item" href="#">Rename</a>
+                                <a className="dropdown-item" href="#">Move</a>
+                                <a className="dropdown-item" href="#">Copy</a>
+                                <a className="dropdown-item" href="#">Remove</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                ))}
+
+                {mediaFiles.data.map((file) => (
+                    <div className="file-item">
+                        <div className="file-item-select-bg bg-primary"></div>
+                        <label className="file-item-checkbox custom-control custom-checkbox">
+                            <input type="checkbox" className="custom-control-input" />
+                            <span className="custom-control-label"></span>
+                        </label>
+                        <div className="file-item-icon fa fa-file-archive text-secondary"></div>
+                        <a href="#" className="file-item-name">
+                            {file.name}
+                        </a>
+                        <div className="file-item-changed">02/16/2018</div>
+                        <div className="file-item-actions btn-group">
+                            <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
+                            <div className="dropdown-menu dropdown-menu-right">
+                                <a className="dropdown-item" href="#">Rename</a>
+                                <a className="dropdown-item" href="#">Move</a>
+                                <a className="dropdown-item" href="#">Copy</a>
+                                <a className="dropdown-item" href="#">Remove</a>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+
 
                 <div className="file-item">
                     <div className="file-item-select-bg bg-primary"></div>
@@ -82,73 +119,7 @@ export default function Index() {
                         <input type="checkbox" className="custom-control-input" />
                         <span className="custom-control-label"></span>
                     </label>
-                    <div className="file-item-icon fa fa-folder text-secondary"></div>
-                    <a href="#" className="file-item-name">
-                        Scripts
-                    </a>
-                    <div className="file-item-changed">02/14/2018</div>
-                    <div className="file-item-actions btn-group">
-                        <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
-                        <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item" href="#">Rename</a>
-                            <a className="dropdown-item" href="#">Move</a>
-                            <a className="dropdown-item" href="#">Copy</a>
-                            <a className="dropdown-item" href="#">Remove</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="file-item">
-                    <div className="file-item-select-bg bg-primary"></div>
-                    <label className="file-item-checkbox custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" />
-                        <span className="custom-control-label"></span>
-                    </label>
-                    <div className="file-item-icon fa fa-folder text-secondary"></div>
-                    <a href="#" className="file-item-name">
-                        Utils
-                    </a>
-                    <div className="file-item-changed">02/15/2018</div>
-                    <div className="file-item-actions btn-group">
-                        <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
-                        <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item" href="#">Rename</a>
-                            <a className="dropdown-item" href="#">Move</a>
-                            <a className="dropdown-item" href="#">Copy</a>
-                            <a className="dropdown-item" href="#">Remove</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="file-item">
-                    <div className="file-item-select-bg bg-primary"></div>
-                    <label className="file-item-checkbox custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" />
-                        <span className="custom-control-label"></span>
-                    </label>
-                    <div className="file-item-icon fa fa-file-archive text-secondary"></div>
-                    <a href="#" className="file-item-name">
-                        Archive.zip
-                    </a>
-                    <div className="file-item-changed">02/16/2018</div>
-                    <div className="file-item-actions btn-group">
-                        <button type="button" className="btn btn-default btn-sm rounded-pill icon-btn borderless md-btn-flat hide-arrow dropdown-toggle" data-toggle="dropdown"><i className="ion ion-ios-more"></i></button>
-                        <div className="dropdown-menu dropdown-menu-right">
-                            <a className="dropdown-item" href="#">Rename</a>
-                            <a className="dropdown-item" href="#">Move</a>
-                            <a className="dropdown-item" href="#">Copy</a>
-                            <a className="dropdown-item" href="#">Remove</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="file-item">
-                    <div className="file-item-select-bg bg-primary"></div>
-                    <label className="file-item-checkbox custom-control custom-checkbox">
-                        <input type="checkbox" className="custom-control-input" />
-                        <span className="custom-control-label"></span>
-                    </label>
-                    <div className="file-item-icon fab fa-js text-secondary"></div>
+                    <div className="file-item-icon fa fa-js text-secondary"></div>
                     <a href="#" className="file-item-name">
                         Build.js
                     </a>
@@ -192,7 +163,7 @@ export default function Index() {
                         <input type="checkbox" className="custom-control-input" />
                         <span className="custom-control-label"></span>
                     </label>
-                    <div className="file-item-icon fab fa-html5 text-secondary"></div>
+                    <div className="file-item-icon fa fa-html5 text-secondary"></div>
                     <a href="#" className="file-item-name">
                         Index.html
                     </a>
@@ -281,7 +252,7 @@ export default function Index() {
                         <input type="checkbox" className="custom-control-input" />
                         <span className="custom-control-label"></span>
                     </label>
-                    <div className="file-item-icon fab fa-js text-secondary"></div>
+                    <div className="file-item-icon fa fa-js text-secondary"></div>
                     <a href="#" className="file-item-name">
                         Main.js
                     </a>
@@ -369,7 +340,7 @@ export default function Index() {
                         <input type="checkbox" className="custom-control-input" />
                         <span className="custom-control-label"></span>
                     </label>
-                    <div className="file-item-icon fab fa-css3 text-secondary"></div>
+                    <div className="file-item-icon fa fa-css3 text-secondary"></div>
                     <a href="#" className="file-item-name">
                         Style.css
                     </a>
@@ -425,6 +396,26 @@ export default function Index() {
                             <a className="dropdown-item" href="#">Move</a>
                             <a className="dropdown-item" href="#">Copy</a>
                             <a className="dropdown-item" href="#">Remove</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="modal fade" id="upload-modal" tabIndex={-1} role="dialog" aria-labelledby="upload-modal-label" aria-hidden="true">
+                <div className="modal-dialog" role="document">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="upload-modal-label">{__('cms::app.upload')}</h5>
+                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            ...
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>

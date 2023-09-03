@@ -3,18 +3,10 @@ import React from "react";
 import MenuTop from "./components/menu-top";
 import MenuLeft from "./components/menu-left";
 import {__, admin_url, url} from "../helpers/functions";
+import {BaseAdminPageProps} from "../types/config";
 
 export default function Admin({children}: { children: React.ReactNode }) {
-    const {title, config, adminPrefix, currentPath, breadcrumbItems} = usePage<{
-        title?: string,
-        config: { title: string },
-        adminPrefix: string,
-        currentPath: string,
-        breadcrumbItems: Array<{
-            title: string,
-            url?: string
-        }>
-    }>().props;
+    const {title, config, adminPrefix, adminUrl, currentPath, breadcrumbItems} = usePage<BaseAdminPageProps>().props;
 
     return (
         <>
@@ -28,14 +20,14 @@ export default function Admin({children}: { children: React.ReactNode }) {
 
                     <div className="juzaweb__menuLeft__outer">
                         <div className="juzaweb__menuLeft__logo__container">
-                            <a href="/admin-cp">
+                            <Link href={adminUrl}>
                                 <div className="juzaweb__menuLeft__logo">
                                     <img src={url('/jw-styles/juzaweb/images/logo.svg')} className="mr-1"
                                          alt="Juzaweb"/>
                                     <div className="juzaweb__menuLeft__logo__name">JuzaWeb</div>
                                     <div className="juzaweb__menuLeft__logo__descr">Cms</div>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
 
                         <div className="juzaweb__menuLeft__scroll jw__customScroll">

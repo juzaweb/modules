@@ -83,7 +83,7 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
-            'current_theme' => current_theme(),
+            'currentTheme' => current_theme(),
             'user' => $userData,
             'langs' => $langs,
             'currentLang' => $currentLang,
