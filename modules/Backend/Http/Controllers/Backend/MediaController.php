@@ -12,6 +12,7 @@ namespace Juzaweb\Backend\Http\Controllers\Backend;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -55,7 +56,7 @@ class MediaController extends BackendController
             $title = $folder->name;
         }
 
-        $query = collect(request()->query());
+        $query = collect($request->query());
         $mediaFolders = collect([]);
         if ($request->input('page', 1) == 1) {
             $mediaFolders = $this->getDirectories($query, $folderId);
@@ -157,7 +158,7 @@ class MediaController extends BackendController
         return config('juzaweb.filemanager.types');
     }
 
-    protected function addBreadcrumbFolder($folder)
+    protected function addBreadcrumbFolder($folder): void
     {
         $parent = $folder->parent;
         if ($parent) {
@@ -202,13 +203,11 @@ class MediaController extends BackendController
      *
      * @param  Collection  $sQuery
      * @param  int|null  $folderId
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return EloquentCollection
      */
-    protected function getDirectories(Collection $sQuery, ?int $folderId): \Illuminate\Database\Eloquent\Collection
+    protected function getDirectories(Collection $sQuery, ?int $folderId): EloquentCollection
     {
-        $query = MediaFolder::whereFolderId($folderId);
-
-        return $query->get();
+        return MediaFolder::whereFolderId($folderId)->get();
     }
 
     protected function getTypeExtensions(string $type)

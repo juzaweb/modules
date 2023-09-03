@@ -1,25 +1,24 @@
 <?php
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Juzaweb\Backend\Http\Datatables\RoleDatatable;
+use Juzaweb\Backend\Models\Role;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;
+use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Models\Permission;
 use Juzaweb\CMS\Traits\ResourceController;
-use Illuminate\Support\Facades\Validator;
-use Juzaweb\CMS\Http\Controllers\BackendController;
-use Juzaweb\Backend\Http\Datatables\RoleDatatable;
-use Juzaweb\Backend\Models\Role;
 
 class RoleController extends BackendController
 {
     use ResourceController {
         getDataForForm as DataForForm;
-        afterSave as tAfterSave;
     }
 
     protected string $viewPrefix = 'cms::backend.role';
@@ -54,7 +53,7 @@ class RoleController extends BackendController
         );
     }
 
-    protected function afterSave(array $data, \Juzaweb\CMS\Models\Model $model, ...$params)
+    protected function afterSave(array $data, \Juzaweb\CMS\Models\Model $model, ...$params): void
     {
         $permissions = Arr::get($data, 'permissions', []);
         $exists = Permission::whereIn('name', $permissions)

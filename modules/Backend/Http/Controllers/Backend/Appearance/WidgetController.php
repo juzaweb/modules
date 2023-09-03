@@ -8,8 +8,11 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\Appearance;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Juzaweb\CMS\Abstracts\Action;
@@ -23,7 +26,7 @@ class WidgetController extends BackendController
         do_action(Action::WIDGETS_INIT);
     }
 
-    public function index(): \Illuminate\Contracts\View\View
+    public function index(): View
     {
         $title = trans('cms::app.widgets');
         $widgets = HookAction::getWidgets();
@@ -39,7 +42,7 @@ class WidgetController extends BackendController
         );
     }
 
-    public function update(Request $request, $key): \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+    public function update(Request $request, $key): JsonResponse|RedirectResponse
     {
         $content = collect($request->input('content', []))
             ->keyBy('key');
@@ -59,7 +62,7 @@ class WidgetController extends BackendController
         );
     }
 
-    public function getWidgetItem(Request $request)
+    public function getWidgetItem(Request $request): JsonResponse
     {
         $this->validate(
             $request,
@@ -97,7 +100,7 @@ class WidgetController extends BackendController
         );
     }
 
-    public function getWidgetForm($key)
+    public function getWidgetForm(string $key): JsonResponse
     {
         $widget = HookAction::getWidgets($key);
         $key = Str::random(10);

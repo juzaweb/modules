@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\PostType;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;

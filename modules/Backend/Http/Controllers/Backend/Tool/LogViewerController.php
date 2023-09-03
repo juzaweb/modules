@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\Tool;
 
 use Arcanedev\LogViewer\Contracts\LogViewer;
 use Arcanedev\LogViewer\Entities\Log;

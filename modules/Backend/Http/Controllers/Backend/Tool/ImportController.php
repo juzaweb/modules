@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\Tool;
 
 use Juzaweb\Backend\Http\Requests\Tool\ImportRequest;
 use Juzaweb\CMS\Http\Controllers\BackendController;

@@ -12,6 +12,7 @@ namespace Juzaweb\Backend\Http\Controllers\Backend;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Route;
+use Juzaweb\Backend\Http\Controllers\Backend\PostType\ResourceController;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\CMS\Facades\HookAction;
 

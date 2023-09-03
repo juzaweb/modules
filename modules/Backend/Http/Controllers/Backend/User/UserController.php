@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Backend\Http\Controllers\Backend;
+namespace Juzaweb\Backend\Http\Controllers\Backend\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;

@@ -7,8 +7,8 @@
  */
 
 use Juzaweb\Backend\Http\Controllers\Backend\Profile\ProfileController;
-use Juzaweb\Backend\Http\Controllers\Backend\RoleController;
-use Juzaweb\Backend\Http\Controllers\Backend\UserController;
+use Juzaweb\Backend\Http\Controllers\Backend\User\RoleController;
+use Juzaweb\Backend\Http\Controllers\Backend\User\UserController;
 
 Route::jwResource('users', UserController::class);
 
