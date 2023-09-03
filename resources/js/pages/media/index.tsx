@@ -7,11 +7,9 @@ export default function Index() {
             <div className="container-m-nx container-m-ny bg-lightest mb-3">
                 <div className="file-manager-actions container-p-x py-2">
                     <div>
-                        <button type="button" className="btn btn-primary mr-2">
-                            <i className="ion ion-md-cloud-upload"></i>&nbsp; Upload</button>
-                        <button type="button" className="btn btn-secondary icon-btn mr-2" disabled={true}>
+                        {/*<button type="button" className="btn btn-secondary icon-btn mr-2" disabled={true}>
                             <i className="ion ion-md-cloud-download"></i>
-                        </button>
+                        </button>*/}
                         <div className="btn-group mr-2">
                             <button type="button" className="btn btn-default md-btn-flat dropdown-toggle px-2" data-toggle="dropdown">
                                 <i className="ion ion-ios-settings"></i>
@@ -22,6 +20,11 @@ export default function Index() {
                                 <a className="dropdown-item" href="#">Remove</a>
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        <button type="button" className="btn btn-primary mr-2">
+                            <i className="ion ion-md-cloud-upload"></i>&nbsp; Upload
+                        </button>
                     </div>
                     {/*<div>
                         <div className="btn-group btn-group-toggle" data-toggle="buttons">
