@@ -41,6 +41,8 @@ jobs:
       - name: Directory Permissions
         working-directory: blog
         run: chmod -R 777 storage bootstrap/cache
+      - name: Install Example plugin for Testing
+        run: composer require juzaweb/example:dev-master
       - name: Execute tests Install
         working-directory: blog
         run: php artisan test vendor/juzaweb/modules/modules/Tests/InstallTest.php
