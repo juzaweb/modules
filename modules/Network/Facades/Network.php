@@ -15,7 +15,7 @@ use Juzaweb\Network\Contracts\NetworkRegistionContract;
 
 /**
  * @method static void init()
- * @method static bool isRootSite($domain = null)
+ * @method static bool isRootSite(?string $domain = null)
  * @method static string getCurrentDomain()
  * @method static object getCurrentSite()
  * @method static null|int getCurrentSiteId()

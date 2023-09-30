@@ -41,16 +41,16 @@ class Site extends Model implements RootNetworkModelInterface
 {
     use RootNetworkModel;
 
-    const STATUS_ACTIVE = 'active';
-    const STATUS_INACTIVE = 'inactive';
-    const STATUS_VERIFICATION = 'verification';
-    const STATUS_BANNED = 'banned';
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_INACTIVE = 'inactive';
+    public const STATUS_VERIFICATION = 'verification';
+    public const STATUS_BANNED = 'banned';
 
     protected $table = 'network_sites';
 
     protected $fillable = [
         'domain',
-        'status'
+        'status',
     ];
 
     public static function getAllStatus(): array

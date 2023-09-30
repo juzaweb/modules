@@ -11,7 +11,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(
             'network_databases',
@@ -52,7 +52,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('network_sites');
         Schema::dropIfExists('network_databases');

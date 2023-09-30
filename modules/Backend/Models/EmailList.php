@@ -2,9 +2,11 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\File;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Models\Model;
@@ -24,27 +26,27 @@ use TwigBridge\Facade\Twig;
  * @property int $priority
  * @property array|null $error
  * @property array|null $data
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Juzaweb\Backend\Models\EmailTemplate|null $template
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList query()
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereData($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereError($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereParams($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList wherePriority($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereTemplateId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereSiteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmailList whereTemplate($code)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read EmailTemplate|null $template
+ * @method static Builder|EmailList newModelQuery()
+ * @method static Builder|EmailList newQuery()
+ * @method static Builder|EmailList query()
+ * @method static Builder|EmailList whereCreatedAt($value)
+ * @method static Builder|EmailList whereData($value)
+ * @method static Builder|EmailList whereEmail($value)
+ * @method static Builder|EmailList whereError($value)
+ * @method static Builder|EmailList whereId($value)
+ * @method static Builder|EmailList whereParams($value)
+ * @method static Builder|EmailList wherePriority($value)
+ * @method static Builder|EmailList whereStatus($value)
+ * @method static Builder|EmailList whereTemplateId($value)
+ * @method static Builder|EmailList whereUpdatedAt($value)
+ * @method static Builder|EmailList whereSiteId($value)
+ * @method static Builder|EmailList whereTemplate($code)
  * @property int|null $site_id
  * @method static Builder|EmailList whereTemplateCode($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class EmailList extends Model implements RootNetworkModelInterface
 {
@@ -76,8 +78,7 @@ class EmailList extends Model implements RootNetworkModelInterface
 
     public static function mapParams($string, $params = []): string
     {
-        $temp = Twig::createTemplate($string);
-        return $temp->render($params);
+        return Twig::createTemplate($string)->render($params);
     }
 
     public function template(): BelongsTo

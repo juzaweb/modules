@@ -1,5 +1,6 @@
 {
     "name": "juzaweb/modules",
+    "homepage": "https://juzaweb.com",
     "description": "Modules for Juzaweb CMS",
     "license": "GPL-2.0",
     "extra": {
