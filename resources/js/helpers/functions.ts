@@ -8,6 +8,10 @@ export function __(key: string, args = {}): string {
     let lang = key.replace('::', '.').split('.');
     let tran = null;
 
+    if (!trans) {
+        return key;
+    }
+
     forEach(lang, (item: string) => {
         if (typeof trans[item] === 'string') {
             tran = trans[item];

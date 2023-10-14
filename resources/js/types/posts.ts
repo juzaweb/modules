@@ -21,12 +21,13 @@ export interface Post {
     url: string
     status: string
     thumbnail?: string
+    origin_thumbnail?: string
     description?: string
     created_at?: string
-    rating: Number
-    total_comment: Number
-    total_rating: Number
-    views: Number
+    rating: number
+    total_comment: number
+    total_rating: number
+    views: number
     type: string
     updated_at?: string
     taxonomies?: Array<Taxonomy>

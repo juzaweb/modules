@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Frontend\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Juzaweb\Backend\Repositories\PostRepository;
@@ -39,17 +40,11 @@ class HomeController extends FrontendController
     {
         $params = get_configs(['title', 'description', 'banner']);
 
+        $postType = get_config('home_post_type');
+
         $params['page'] = $this->postRepository
-            ->scopeQuery(fn($q) => $q->where(['type' => 'posts']))
+            ->scopeQuery(fn(Builder $q) => $q->when($postType, fn($q2) => $q2->where(['type' => 'posts'])))
             ->frontendListPaginate(get_config('posts_per_page', 12));
-
-        /*if ($this->template === 'twig') {
-            $page = PostResourceCollection::make($posts)->response()->getData(true);
-
-            $params['page'] = $page;
-
-            return $params;
-        }*/
 
         return $params;
     }

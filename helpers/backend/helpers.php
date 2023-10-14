@@ -152,6 +152,10 @@ if (!function_exists('count_unread_notifications')) {
     {
         global $jw_user;
 
+        if (!isset($jw_user)) {
+            return 0;
+        }
+
         if (method_exists($jw_user, 'unreadNotifications')) {
             return $jw_user->unreadNotifications()->cacheFor(3600)->count(['id']);
         }

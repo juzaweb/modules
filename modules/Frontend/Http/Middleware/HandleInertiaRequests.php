@@ -81,6 +81,7 @@ class HandleInertiaRequests extends Middleware
                 'auth' => (bool) $user,
                 'guest' => ! $user,
                 'menu_items' => $primaryMenuItems,
+                'total_notifications' => count_unread_notifications(),
             ]
         );
     }
