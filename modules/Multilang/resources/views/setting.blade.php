@@ -76,5 +76,10 @@
             let marker = (new Date()).getTime();
             $('#subdomain-table tbody').append(replace_template(temp, {marker: marker}));
         });
+
+        $(document).on('change', '.select-language', function () {
+            let val = $(this).val();
+            $(this).closest('tr').find('.sub-domain').val(val);
+        });
     </script>
 @endsection
