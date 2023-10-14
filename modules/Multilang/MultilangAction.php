@@ -53,7 +53,7 @@ class MultilangAction extends Action
     public function addSelectLangPost($model): void
     {
         $default = get_config('language', 'en');
-        $selected = $default;
+        $selected = $model->locale ?? $default;
         $languages = Language::get()->mapWithKeys(function ($item) {
             return [
                 $item->code => $item->name
