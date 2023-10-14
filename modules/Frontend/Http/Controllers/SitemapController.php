@@ -101,7 +101,7 @@ class SitemapController extends BaseSitemapController
                     'page',
                     $page
                 )
-            );
+        );
 
         foreach ($items as $item) {
             $sitemap->add($item->getLink(), $item->updated_at, '0.8', 'weekly');

@@ -17,7 +17,7 @@ use Juzaweb\CMS\Http\Controllers\Controller;
 
 abstract class BaseSitemapController extends Controller
 {
-    protected int $perPage = 500;
+    protected int $perPage = 10000;
     protected int $limitTaxonomyPage = 10;
     protected int $limitPostPage = 200;
 
