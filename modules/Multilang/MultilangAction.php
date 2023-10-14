@@ -18,7 +18,7 @@ class MultilangAction extends Action
 
     public function changeFrontendQueryBuilder($builder)
     {
-        if ($locale = session()->get('jw_locale')) {
+        if (get_config('mlla_type') && $locale = app()->getLocale()) {
             $builder->where('locale', $locale);
         }
 

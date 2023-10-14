@@ -32,7 +32,7 @@ class Multilang
             ]
         );*/
 
-        $type = get_config('mlla_type', 'session');
+        $type = get_config('mlla_type');
         if ($type == 'session') {
             $locale = $request->get('hl');
             if ($locale) {
@@ -67,7 +67,7 @@ class Multilang
             $acceptLanguage = explode(',', $request->header('accept-language'))[0];
             $acceptLanguage = explode('-', $acceptLanguage)[0];
 
-            if (in_array($acceptLanguage, $this->getSupportLanguages()) && $acceptLanguage != 'en') {
+            if ($acceptLanguage != 'en' && in_array($acceptLanguage, $this->getSupportLanguages())) {
                 $this->setLocaleSession($acceptLanguage);
                 return $acceptLanguage;
             }
@@ -76,12 +76,14 @@ class Multilang
             return $acceptLanguage;
         }
 
-        if ($type == 'domain') {
+        if ($type == 'subdomain') {
             $domains = get_config('mlla_subdomain');
 
             if ($domain = Arr::get($domains, $request->getHost())) {
                 return $domain['language'];
             }
+
+            return Language::where(['default' => true])->first()->code;
         }
 
         return false;

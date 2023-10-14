@@ -5,7 +5,7 @@
         <div class="col-md-4"></div>
 
         @php
-            $type = get_config('mlla_type', 'session');
+            $type = get_config('mlla_type');
         @endphp
 
         <div class="col-md-8">
@@ -13,6 +13,7 @@
                 {{ Field::select(trans('cms::app.type'), 'mlla_type', [
                     'value' => $type,
                     'options' => [
+                        '' => '-----',
                         'session' => trans('cms::app.multilingual_settings.session'),
                         'subdomain' => trans('cms::app.multilingual_settings.sub_domain'),
                     ],

@@ -79,7 +79,7 @@ class SettingController extends PageController
                 ->keyBy('domain');
 
             $domains = $subdomain->pluck('domain')->toArray();
-            $subdomain = $subdomain->values();
+            $subdomain = $subdomain->values()->keyBy('domain');
         }
 
         DB::beginTransaction();
