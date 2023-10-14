@@ -2,7 +2,7 @@
 
 namespace Juzaweb\Backend\Http\Datatables;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\Backend\Models\Role;
@@ -14,7 +14,7 @@ class RoleDatatable extends DataTable
      *
      * @return array
      */
-    public function columns()
+    public function columns(): array
     {
         return [
             'name' => [
@@ -41,7 +41,7 @@ class RoleDatatable extends DataTable
      * @param array $data
      * @return Builder
      */
-    public function query($data)
+    public function query($data): Builder
     {
         $query = Role::query();
 
@@ -56,7 +56,7 @@ class RoleDatatable extends DataTable
         return $query;
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         switch ($action) {
             case 'delete':

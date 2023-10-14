@@ -482,6 +482,13 @@ return [
     'last_update' => 'Last update',
     'size' => 'Size',
     'captcha' => 'Captcha',
+    'multilingual' => 'Multilingual',
+    'multilingual_settings' => [
+        'multi_language' => 'Multi language',
+        'add_subdomain' => 'Add subdomain',
+        'sub_domain' => 'Subdomain',
+        'session' => 'Session',
+    ],
     'update_process' => [
         'step1' => [
             'before' => 'Getting update data...',

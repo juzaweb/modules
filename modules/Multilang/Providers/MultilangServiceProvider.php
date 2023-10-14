@@ -9,7 +9,7 @@ use Juzaweb\Multilang\MultilangAction;
 
 class MultilangServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         /** @var Router $router */
         $router = $this->app['router'];
@@ -18,5 +18,10 @@ class MultilangServiceProvider extends ServiceProvider
         $this->registerHookActions([MultilangAction::class]);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mlla');
+    }
+
+    public function register(): void
+    {
+        $this->app->register(RouteServiceProvider::class);
     }
 }

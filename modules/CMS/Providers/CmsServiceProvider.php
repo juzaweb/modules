@@ -70,6 +70,7 @@ use Juzaweb\CMS\Support\Validators\ModelExists;
 use Juzaweb\CMS\Support\Validators\ModelUnique;
 use Juzaweb\CMS\Support\XssCleaner;
 use Juzaweb\Frontend\Providers\FrontendServiceProvider;
+use Juzaweb\Multilang\Providers\MultilangServiceProvider;
 use Juzaweb\Network\Providers\NetworkServiceProvider;
 use Juzaweb\Translation\Providers\TranslationServiceProvider;
 use Laravel\Passport\Passport;
@@ -400,7 +401,7 @@ class CmsServiceProvider extends ServiceProvider
         $this->app->register(NotificationServiceProvider::class);
         //$this->app->register(DevToolServiceProvider::class);
         $this->app->register(ThemeServiceProvider::class);
-        //$this->app->register(MultilangServiceProvider::class);
+        $this->app->register(MultilangServiceProvider::class);
         $this->app->register(BackendServiceProvider::class);
         $this->app->register(FrontendServiceProvider::class);
         $this->app->register(ShortCodeServiceProvider::class);

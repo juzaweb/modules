@@ -2,7 +2,7 @@
 
 namespace Juzaweb\Multilang\Http\Datatables;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Models\Language;
@@ -11,7 +11,7 @@ class LanguageDatatable extends DataTable
 {
     protected string $sortName = 'default';
 
-    public function columns()
+    public function columns(): array
     {
         return [
             'name' => [
@@ -40,7 +40,7 @@ class LanguageDatatable extends DataTable
         ];
     }
 
-    public function rowAction(mixed $row)
+    public function rowAction(mixed $row): array
     {
         return [
             'delete' => [
@@ -57,7 +57,7 @@ class LanguageDatatable extends DataTable
      * @param array $data
      * @return Builder
      */
-    public function query($data)
+    public function query($data): Builder
     {
         $query = Language::query();
         if ($keyword = Arr::get($data, 'keyword')) {
@@ -70,7 +70,7 @@ class LanguageDatatable extends DataTable
         return $query;
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         $count = Language::count(['id']);
         if ($count <= 1) {

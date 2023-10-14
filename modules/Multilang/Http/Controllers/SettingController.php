@@ -2,15 +2,20 @@
 
 namespace Juzaweb\Multilang\Http\Controllers;
 
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Juzaweb\Backend\Http\Controllers\Backend\PageController;
 use Juzaweb\CMS\Models\Language;
 
 class SettingController extends PageController
 {
-    public function index()
+    public function index(): Factory|View
     {
         $title = trans('cms::app.setting');
         $languages = Language::get();
@@ -28,10 +33,10 @@ class SettingController extends PageController
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Validation\ValidationException
+     * @return JsonResponse
+     * @throws ValidationException
      */
-    public function save(Request $request)
+    public function save(Request $request): JsonResponse
     {
         $this->validate(
             $request,
@@ -82,21 +87,21 @@ class SettingController extends PageController
             set_config('mlla_type', $type);
             set_config('mlla_subdomain', $subdomain);
 
-            DomainMapping::where('plugin', '=', 'multilang')
-                ->whereNotIn('domain', $domains)
-                ->delete();
-
-            foreach ($subdomain as $sub) {
-                DomainMapping::firstOrCreate(
-                    [
-                        'domain' => $sub['domain'],
-                        'plugin' => 'multilang',
-                    ]
-                );
-            }
+            // DomainMapping::where('plugin', '=', 'multilang')
+            //     ->whereNotIn('domain', $domains)
+            //     ->delete();
+            //
+            // foreach ($subdomain as $sub) {
+            //     DomainMapping::firstOrCreate(
+            //         [
+            //             'domain' => $sub['domain'],
+            //             'plugin' => 'multilang',
+            //         ]
+            //     );
+            // }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }

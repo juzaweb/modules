@@ -10,7 +10,7 @@
 
 namespace Juzaweb\Backend\Http\Datatables;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Models\User;
@@ -52,7 +52,7 @@ class UserDataTable extends DataTable
         ];
     }
 
-    public function rowAction(mixed $row)
+    public function rowAction(mixed $row): array
     {
         $data = parent::rowAction($row);
 
@@ -70,7 +70,7 @@ class UserDataTable extends DataTable
      * @param array $data
      * @return Builder
      */
-    public function query($data)
+    public function query($data): Builder
     {
         $query = User::query();
 
@@ -90,7 +90,7 @@ class UserDataTable extends DataTable
         return $query;
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         /* Only update are not master admin  */
         $ids = User::whereIn('id', $ids)
