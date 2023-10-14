@@ -150,7 +150,9 @@ class GoogleTranslate implements GoogleTranslateContract
                 CURLOPT_ENCODING => 'UTF-8',
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
-            ]
+            ],
+            'timeout' => 20,
+            'connect_timeout' => 10,
         ];
 
         if ($this->proxy) {

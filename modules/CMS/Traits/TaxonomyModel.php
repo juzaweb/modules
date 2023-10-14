@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Juzaweb\Backend\Models\Post;
 use Juzaweb\CMS\Facades\HookAction;
 
 trait TaxonomyModel
@@ -54,9 +55,8 @@ trait TaxonomyModel
     public function posts($postType = null): BelongsToMany
     {
         $postType = $postType ?: $this->getPostType('key');
-        $postModel = $this->getPostType('model');
 
-        return $this->belongsToMany($postModel, 'term_taxonomies', 'taxonomy_id', 'term_id')
+        return $this->belongsToMany(Post::class, 'term_taxonomies', 'taxonomy_id', 'term_id')
             ->withPivot(['term_type'])
             ->wherePivot('term_type', '=', $postType);
     }

@@ -159,7 +159,7 @@ class Field implements FieldContract
             'a'. Str::random(5) . '-' . $name
         );
 
-        $options['id'] = Str::slug($options['id']);
+        //$options['id'] = Str::slug($options['id']);
 
         if ($label instanceof Model) {
             $options['value'] = Arr::get(
