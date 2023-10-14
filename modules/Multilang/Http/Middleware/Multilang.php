@@ -54,12 +54,12 @@ class Multilang
 
     protected function getLocaleByRequest(Request $request, ?string $type)
     {
-        // Exclude bots
-        if (str_contains(strtolower($request->userAgent()), 'bot')) {
-            return false;
-        }
-
         if ($type == 'session') {
+            // Exclude bots
+            if (str_contains(strtolower($request->userAgent()), 'bot')) {
+                return false;
+            }
+
             if ($locale = $this->getLocaleSession()) {
                 return $locale;
             }
