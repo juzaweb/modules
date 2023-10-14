@@ -52,7 +52,7 @@ class Multilang
         return $next($request);
     }
 
-    protected function getLocaleByRequest(Request $request, string $type)
+    protected function getLocaleByRequest(Request $request, ?string $type)
     {
         // Exclude bots
         if (str_contains(strtolower($request->userAgent()), 'bot')) {
