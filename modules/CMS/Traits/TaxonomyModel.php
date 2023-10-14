@@ -67,7 +67,7 @@ trait TaxonomyModel
      *
      * @return Builder
      */
-    public function scopeWhereFilter($builder, $params = [])
+    public function scopeWhereFilter($builder, $params = []): Builder
     {
         if ($taxonomy = Arr::get($params, 'taxonomy')) {
             $builder->where('taxonomy', '=', $taxonomy);
@@ -78,10 +78,14 @@ trait TaxonomyModel
         }
 
         if ($keyword = Arr::get($params, 'keyword')) {
+            $connection = config('database.default');
+            $driver = config("database.connections.{$connection}.driver");
+            $condition = $driver == 'pgsql' ? 'ilike' : 'like';
+            
             $builder->where(
-                function (Builder $q) use ($keyword) {
-                    $q->where('name', JW_SQL_LIKE, '%'. $keyword .'%');
-                    $q->orWhere('description', JW_SQL_LIKE, '%'. $keyword .'%');
+                function (Builder $q) use ($keyword, $condition) {
+                    $q->where('name', $condition, '%'. $keyword .'%');
+                    $q->orWhere('description', $condition, '%'. $keyword .'%');
                 }
             );
         }
@@ -114,7 +118,7 @@ trait TaxonomyModel
         return $permalink->get($key);
     }
 
-    public function getLink()
+    public function getLink(): bool|string
     {
         $permalink = $this->getPermalink('base');
         if (empty($permalink)) {
@@ -124,7 +128,7 @@ trait TaxonomyModel
         return url()->to($permalink . '/' . $this->slug);
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

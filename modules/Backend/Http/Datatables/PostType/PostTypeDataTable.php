@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;
+use Juzaweb\CMS\Models\Language;
 
 class PostTypeDataTable extends DataTable
 {
@@ -67,8 +68,10 @@ class PostTypeDataTable extends DataTable
                 'sortable' => false,
                 'align' => 'center',
                 'formatter' => function ($value, $row, $index) {
-                    return $row->thumbnail ? '<img class="lazyload w-100" data-src="'. $row->getThumbnail('150x150') .'"'
-                        .' src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>' : '_';
+                    return $row->thumbnail
+                        ? '<img class="lazyload w-100" data-src="'. $row->getThumbnail('150x150') .'"'
+                        .' src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>'
+                        : '_';
                 },
             ];
         }
@@ -129,7 +132,7 @@ class PostTypeDataTable extends DataTable
         return $statuses;
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         $statuses = array_keys($this->makeModel()->getStatuses());
         $posts = $this->makeModel()->whereIn('id', $ids)->get();
@@ -170,6 +173,12 @@ class PostTypeDataTable extends DataTable
                 'width' => '100px',
                 'label' => trans('cms::app.status'),
                 'options' => $this->makeModel()->getStatuses(),
+            ],
+            'locale' => [
+                'type' => 'select',
+                'width' => '100px',
+                'label' => trans('cms::app.language'),
+                'options' => Language::cacheFor(3600)->pluck('name', 'code')->all(),
             ],
         ];
 

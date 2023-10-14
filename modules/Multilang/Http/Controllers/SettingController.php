@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Juzaweb\Backend\Http\Controllers\Backend\PageController;
 use Juzaweb\CMS\Models\Language;
+use Juzaweb\Multilang\Http\Requests\SaveSettingRequest;
 
 class SettingController extends PageController
 {
@@ -31,30 +32,10 @@ class SettingController extends PageController
         );
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws ValidationException
-     */
-    public function save(Request $request): JsonResponse
+    public function save(SaveSettingRequest $request): JsonResponse
     {
-        $this->validate(
-            $request,
-            [
-                'mlla_type' => [
-                    'required',
-                    'in:session,subdomain'
-                ],
-                'mlla_subdomain' => [
-                    'required_if:mlla_type,==,subdomain',
-                    'array'
-                ],
-            ]
-        );
-
         $type = $request->post('mlla_type');
         $subdomain = [];
-        $domains = [];
 
         if ($type == 'subdomain') {
             $languages = Language::get();
@@ -69,7 +50,7 @@ class SettingController extends PageController
                     return [
                         'language' => $item['language'],
                         'sub' => $sub,
-                        'domain' => $sub . '.' . str_replace('www.', '', $request->getHost()),
+                        'domain' => $sub.'.'.str_replace('www.', '', $request->getHost()),
                     ];
                 })
                 ->filter(function ($item) use ($langCodes) {
@@ -78,7 +59,6 @@ class SettingController extends PageController
                 })
                 ->keyBy('domain');
 
-            $domains = $subdomain->pluck('domain')->toArray();
             $subdomain = $subdomain->values()->keyBy('domain');
         }
 
@@ -86,19 +66,6 @@ class SettingController extends PageController
         try {
             set_config('mlla_type', $type);
             set_config('mlla_subdomain', $subdomain);
-
-            // DomainMapping::where('plugin', '=', 'multilang')
-            //     ->whereNotIn('domain', $domains)
-            //     ->delete();
-            //
-            // foreach ($subdomain as $sub) {
-            //     DomainMapping::firstOrCreate(
-            //         [
-            //             'domain' => $sub['domain'],
-            //             'plugin' => 'multilang',
-            //         ]
-            //     );
-            // }
 
             DB::commit();
         } catch (Exception $e) {

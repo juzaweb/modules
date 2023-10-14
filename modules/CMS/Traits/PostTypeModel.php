@@ -189,6 +189,10 @@ trait PostTypeModel
             );
         }
 
+        if ($locale = Arr::get($params, 'locale')) {
+            $builder->where('locale', '=', $locale);
+        }
+
         if ($status = Arr::get($params, 'status')) {
             $builder->where('status', '=', $status);
         }

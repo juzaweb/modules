@@ -3,6 +3,7 @@
 namespace Juzaweb\Backend\Http\Controllers\Backend;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Juzaweb\Backend\Models\Menu;
@@ -16,7 +17,7 @@ use Juzaweb\CMS\Support\ArrayPagination;
 
 class LoadDataController extends BackendController
 {
-    public function loadData($func, Request $request): \Illuminate\Http\JsonResponse
+    public function loadData($func, Request $request): JsonResponse
     {
         if (method_exists($this, $func)) {
             return $this->{$func}($request);
@@ -30,7 +31,7 @@ class LoadDataController extends BackendController
         );
     }
 
-    protected function generateSlug(Request $request): \Illuminate\Http\JsonResponse
+    protected function generateSlug(Request $request): JsonResponse
     {
         $title = Str::words($request->input('title'), 15);
 
@@ -42,12 +43,16 @@ class LoadDataController extends BackendController
         );
     }
 
-    protected function loadTaxonomies(Request $request)
+    protected function loadTaxonomies(Request $request): JsonResponse
     {
         $search = $request->get('search');
         $explodes = $request->get('explodes');
         $postType = $request->get('post_type');
         $taxonomy = $request->get('taxonomy');
+
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+        $condition = $driver == 'pgsql' ? 'ilike' : 'like';
 
         $query = Taxonomy::query();
         $query->select(
@@ -66,7 +71,7 @@ class LoadDataController extends BackendController
         }
 
         if ($search) {
-            $query->where('name', JW_SQL_LIKE, '%'.$search.'%');
+            $query->where('name', $condition, '%'.$search.'%');
         }
 
         if ($explodes) {
@@ -83,10 +88,14 @@ class LoadDataController extends BackendController
         return response()->json($data);
     }
 
-    protected function loadUsers(Request $request)
+    protected function loadUsers(Request $request): JsonResponse
     {
         $search = $request->get('search');
         $explodes = $request->get('explodes');
+
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+        $condition = $driver == 'pgsql' ? 'ilike' : 'like';
 
         $query = User::query();
         $query->select(
@@ -98,9 +107,9 @@ class LoadDataController extends BackendController
 
         if ($search) {
             $query->where(
-                function (Builder $q) use ($search) {
-                    $q->where('name', JW_SQL_LIKE, '%'.$search.'%');
-                    $q->orWhere('email', JW_SQL_LIKE, '%'.$search.'%');
+                function (Builder $q) use ($search, $condition) {
+                    $q->where('name', $condition, '%'.$search.'%');
+                    $q->orWhere('email', $condition, '%'.$search.'%');
                 }
             );
         }
@@ -118,10 +127,14 @@ class LoadDataController extends BackendController
         return response()->json($data);
     }
 
-    protected function loadMenu(Request $request)
+    protected function loadMenu(Request $request): JsonResponse
     {
         $search = $request->get('search');
         $explodes = $request->get('explodes');
+
+        $connection = config('database.default');
+        $driver = config("database.connections.{$connection}.driver");
+        $condition = $driver == 'pgsql' ? 'ilike' : 'like';
 
         $query = Menu::query();
         $query->select(
@@ -133,8 +146,8 @@ class LoadDataController extends BackendController
 
         if ($search) {
             $query->where(
-                function (Builder $q) use ($search) {
-                    $q->orWhere('name', JW_SQL_LIKE, '%'.$search.'%');
+                function (Builder $q) use ($search, $condition) {
+                    $q->orWhere('name', $condition, '%'.$search.'%');
                 }
             );
         }
@@ -152,7 +165,7 @@ class LoadDataController extends BackendController
         return response()->json($data);
     }
 
-    protected function loadLocales(Request $request)
+    protected function loadLocales(Request $request): JsonResponse
     {
         $search = strtolower($request->get('search', ''));
 
@@ -188,7 +201,7 @@ class LoadDataController extends BackendController
         return response()->json($data);
     }
 
-    protected function loadPages(Request $request)
+    protected function loadPages(Request $request): JsonResponse
     {
         $search = $request->get('search');
         $explodes = $request->get('explodes');
@@ -219,7 +232,7 @@ class LoadDataController extends BackendController
         return response()->json($data);
     }
 
-    protected function loadPosts(Request $request)
+    protected function loadPosts(Request $request): JsonResponse
     {
         $type = $request->get('type');
         $search = $request->get('search');
@@ -257,7 +270,7 @@ class LoadDataController extends BackendController
         return response()->json($data);
     }
 
-    protected function loadPostType(Request $request)
+    protected function loadPostType(Request $request): JsonResponse
     {
         $search = $request->get('search');
         $postType = $request->get('post_type');
