@@ -83,7 +83,7 @@ class Multilang
                 return $domain['language'];
             }
 
-            return Language::where(['default' => true])->first()->code;
+            return Language::cacheFor(86400)->where(['default' => true])->first()->code;
         }
 
         return false;

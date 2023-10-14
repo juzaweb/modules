@@ -69,7 +69,7 @@ class SettingController extends PageController
                     return [
                         'language' => $item['language'],
                         'sub' => $sub,
-                        'domain' => $sub . '.' . $request->getHost(),
+                        'domain' => $sub . '.' . str_replace('www.', '', $request->getHost()),
                     ];
                 })
                 ->filter(function ($item) use ($langCodes) {
