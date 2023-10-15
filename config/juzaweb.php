@@ -100,10 +100,10 @@ return [
         /**
          * Themes path
          *
-         * This path used for save the generated theme. This path also will added
+         * This path used for save the generated theme. This path also will add
          * automatically to list of scanned folders.
          */
-        'path' => JW_THEME_PATH,
+        'path' => base_path('themes'),
     ],
 
     'plugin' => [
@@ -119,7 +119,7 @@ return [
          *
          * Default: plugins
          */
-        'path' => JW_PLUGIN_PATH,
+        'path' => base_path('plugins'),
 
         /**
          * Plugins assets path

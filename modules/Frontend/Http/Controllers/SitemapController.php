@@ -68,9 +68,9 @@ class SitemapController extends BaseSitemapController
         $items = Cache::store('file')->remember(
             "sitemap_post_{$type}_{$page}",
             3600,
-            fn() => Post::wherePublish()
+            fn() => Post::selectFrontendBuilder()
                 ->where('type', '=', $type)
-                ->orderBy('id', 'DESC')
+                ->orderBy('id', 'ASC')
                 ->paginate(
                     $this->perPage,
                     ['updated_at', 'slug', 'type'],
