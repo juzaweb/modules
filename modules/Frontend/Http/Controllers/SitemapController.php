@@ -4,6 +4,7 @@ namespace Juzaweb\Frontend\Http\Controllers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Facades\HookAction;
@@ -14,7 +15,7 @@ class SitemapController extends BaseSitemapController
     public function index()
     {
         $sitemap = App::make("sitemap");
-        $sitemap->setCache(cache_prefix("sitemap-index"), 3600);
+        $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-index")), 3600);
 
         $taxonomies = HookAction::getTaxonomies()
             ->mapWithKeys(fn($item) => array_keys($item))
@@ -56,7 +57,7 @@ class SitemapController extends BaseSitemapController
     public function pages()
     {
         $sitemap = App::make("sitemap");
-        $sitemap->setCache(cache_prefix("sitemap"), 3600);
+        $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap")), 3600);
         $sitemap->add(url('/'), now(), '1', 'daily');
         return $sitemap->render('xml');
     }
@@ -64,9 +65,9 @@ class SitemapController extends BaseSitemapController
     public function sitemapPost($type, $page)
     {
         $sitemap = App::make("sitemap");
-        $sitemap->setCache(cache_prefix("sitemap-{$type}-{$page}"), 3600);
+        $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-{$type}-{$page}")), 3600);
         $items = Cache::store('file')->remember(
-            "sitemap_post_{$type}_{$page}",
+            $this->getCacheKey("sitemap_post_{$type}_{$page}"),
             3600,
             fn() => Post::selectFrontendBuilder()
                 ->where('type', '=', $type)
@@ -89,9 +90,9 @@ class SitemapController extends BaseSitemapController
     public function sitemapTaxonomy($taxonomy, $page)
     {
         $sitemap = App::make("sitemap");
-        $sitemap->setCache(cache_prefix("sitemap-taxonomy-{$taxonomy}-{$page}"), 3600);
+        $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-taxonomy-{$taxonomy}-{$page}")), 3600);
         $items = Cache::store('file')->remember(
-            "sitemap_post_{$taxonomy}_{$page}",
+            $this->getCacheKey("sitemap_post_{$taxonomy}_{$page}"),
             3600,
             fn() => Taxonomy::where('taxonomy', '=', $taxonomy)
                 ->where('total_post', '>', 0)
@@ -108,5 +109,10 @@ class SitemapController extends BaseSitemapController
         }
 
         return $sitemap->render('xml');
+    }
+
+    protected function getCacheKey(string $key): string
+    {
+        return Str::slug(request()?->getHost()) . "-{$key}";
     }
 }
