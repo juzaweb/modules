@@ -37,7 +37,7 @@
 
                             @foreach($subdomains as $subdomain)
                                 @component('mlla::components.subdomain_item', [
-                                    'marker' => '{marker}',
+                                    'marker' => $subdomain['sub'],
                                     'languages' => $languages,
                                     'item' => $subdomain,
                                 ])
