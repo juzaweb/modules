@@ -21,6 +21,7 @@ abstract class BaseSitemapController extends Controller
     protected int $perPage = 2000;
     protected int $limitTaxonomyPage = 10;
     protected int $limitPostPage = 200;
+    protected int $cacheTimeout = 86400;
 
     public function __construct()
     {

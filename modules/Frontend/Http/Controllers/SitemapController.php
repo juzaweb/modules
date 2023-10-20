@@ -14,7 +14,7 @@ class SitemapController extends BaseSitemapController
     public function index()
     {
         $sitemap = App::make("sitemap");
-        $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-index")), 3600);
+        $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-index")), $this->cacheTimeout);
 
         $taxonomies = HookAction::getTaxonomies()
             ->mapWithKeys(fn($item) => array_keys($item))
@@ -67,7 +67,7 @@ class SitemapController extends BaseSitemapController
         $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-{$type}-{$page}")), 3600);
         $items = Cache::store('file')->remember(
             $this->getCacheKey("sitemap_post_{$type}_{$page}"),
-            3600,
+            $this->cacheTimeout,
             fn() => Post::selectFrontendBuilder()
                 ->where('type', '=', $type)
                 ->orderBy('id', 'ASC')
@@ -92,7 +92,7 @@ class SitemapController extends BaseSitemapController
         $sitemap->setCache(cache_prefix($this->getCacheKey("sitemap-taxonomy-{$taxonomy}-{$page}")), 3600);
         $items = Cache::store('file')->remember(
             $this->getCacheKey("sitemap_post_{$taxonomy}_{$page}"),
-            3600,
+            $this->cacheTimeout,
             fn() => Taxonomy::where('taxonomy', '=', $taxonomy)
                 ->where('total_post', '>', 0)
                 ->paginate(
