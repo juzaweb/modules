@@ -17,7 +17,7 @@ use Juzaweb\CMS\Http\Controllers\Controller;
 
 abstract class BaseSitemapController extends Controller
 {
-    protected int $perPage = 1000;
+    protected int $perPage = 2000;
     protected int $limitTaxonomyPage = 10;
     protected int $limitPostPage = 200;
 
@@ -33,7 +33,7 @@ abstract class BaseSitemapController extends Controller
         return Cache::store('file')->remember(
             cache_prefix("sitemap_post_total_{$type}"),
             3600,
-            fn() => Post::wherePublish()
+            fn() => Post::selectFrontendBuilder()
                 ->where('type', '=', $type)
                 ->count(['id'])
         );

@@ -42,9 +42,9 @@ class SitemapController extends BaseSitemapController
             $items = $this->totalPost($key);
             $total = ceil($items / $this->perPage);
 
-            if ($total > $this->limitPostPage) {
-                $total = $this->limitPostPage;
-            }
+            // if ($total > $this->limitPostPage) {
+            //     $total = $this->limitPostPage;
+            // }
 
             for ($page = 1; $page <= $total; $page++) {
                 $sitemap->addSitemap(route('sitemap.posts', [$key, $page]));
