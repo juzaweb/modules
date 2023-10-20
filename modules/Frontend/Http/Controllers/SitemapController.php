@@ -4,7 +4,6 @@ namespace Juzaweb\Frontend\Http\Controllers;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Str;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Facades\HookAction;
@@ -109,10 +108,5 @@ class SitemapController extends BaseSitemapController
         }
 
         return $sitemap->render('xml');
-    }
-
-    protected function getCacheKey(string $key): string
-    {
-        return Str::slug(request()?->getHost()) . "-{$key}";
     }
 }

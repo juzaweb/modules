@@ -11,6 +11,7 @@
 namespace Juzaweb\Frontend\Http\Controllers\Abstracts;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Http\Controllers\Controller;
@@ -31,7 +32,7 @@ abstract class BaseSitemapController extends Controller
     protected function totalPost(string $type): int
     {
         return Cache::store('file')->remember(
-            cache_prefix("sitemap_post_total_{$type}"),
+            cache_prefix($this->getCacheKey("sitemap_post_total_{$type}")),
             3600,
             fn() => Post::selectFrontendBuilder()
                 ->where('type', '=', $type)
@@ -48,5 +49,10 @@ abstract class BaseSitemapController extends Controller
                 ->where('total_post', '>', 0)
                 ->count(['id'])
         );
+    }
+
+    protected function getCacheKey(string $key): string
+    {
+        return Str::slug(request()?->getHost()) . "-{$key}";
     }
 }
