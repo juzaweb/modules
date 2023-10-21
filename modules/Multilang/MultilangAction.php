@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Multilang;
 
+use Juzaweb\Backend\Models\Post;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Models\Language;
@@ -14,6 +15,14 @@ class MultilangAction extends Action
         $this->addAction(Action::POSTS_FORM_RIGHT_ACTION, [$this, 'addSelectLangPost'], 5);
         $this->addAction(Action::INIT_ACTION, [$this, 'addConfigs']);
         $this->addFilter('post.selectFrontendBuilder', [$this, 'changeFrontendQueryBuilder']);
+        $this->addAction('frontend.post_type.posts.detail.post', [$this, 'showPostDetailFrontend']);
+    }
+
+    public function showPostDetailFrontend(Post $post): void
+    {
+        if (get_config('mlla_type') && $locale = app()->getLocale()) {
+            abort_if($post->locale !== $locale, 404);
+        }
     }
 
     public function changeFrontendQueryBuilder($builder)

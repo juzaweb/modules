@@ -77,7 +77,21 @@ class PostController extends FrontendController
             $post = $this->postRepository->findBySlug($slug[1]);
         }
 
-        abort_unless(isset($post), 404);
+        abort_if($post === null, 404);
+
+        do_action(
+            "frontend.post_type.detail",
+            $post,
+            $postSlug,
+            $permalink
+        );
+
+        do_action(
+            "frontend.post_type.{$permalink->get('post_type')}.detail.post",
+            $post,
+            $postSlug,
+            $permalink
+        );
 
         Facades::$isPostPage = true;
 
