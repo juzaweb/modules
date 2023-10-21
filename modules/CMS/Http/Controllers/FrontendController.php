@@ -4,6 +4,7 @@ namespace Juzaweb\CMS\Http\Controllers;
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Facades\HookAction;
@@ -17,7 +18,7 @@ class FrontendController extends Controller
 
     protected string $template;
 
-    public function callAction($method, $parameters): Response|string|View|\Inertia\Response
+    public function callAction($method, $parameters): Response|string|View|\Inertia\Response|JsonResource
     {
         $this->template = Theme::currentTheme()->getTemplate();
 

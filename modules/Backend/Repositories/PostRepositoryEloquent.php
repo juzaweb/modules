@@ -5,14 +5,15 @@ namespace Juzaweb\Backend\Repositories;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Arr;
 use Juzaweb\Backend\Models\Post;
-use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Repositories\BaseRepositoryEloquent;
 use Juzaweb\CMS\Repositories\Criterias\SortCriteria;
 use Juzaweb\CMS\Traits\Criterias\UseFilterCriteria;
 use Juzaweb\CMS\Traits\Criterias\UseSearchCriteria;
 use Juzaweb\CMS\Traits\Criterias\UseSortableCriteria;
+use Juzaweb\Frontend\Criterias\FrontendPostCriteria;
 
 /**
  * @property Post $model
@@ -22,7 +23,13 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
     use UseSearchCriteria, UseFilterCriteria, UseSortableCriteria;
 
     protected array $searchableFields = ['title', 'description'];
-    protected array $filterableFields = ['status', 'type', 'locale', 'created_by'];
+
+    protected array $filterableFields = [
+        'status',
+        'type',
+        'locale',
+        'created_by'
+    ];
     protected array $sortableFields = ['id', 'status', 'title', 'views'];
     protected array $sortableDefaults = ['id' => 'DESC'];
 
@@ -127,7 +134,7 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
         return $this->parserResult($result);
     }
 
-    public function createSelectFrontendBuilder(): Builder|Taxonomy
+    public function createSelectFrontendBuilder(): Builder
     {
         $builder = $this->model->newQuery()->with($this->withFrontendDefaults())
             ->cacheFor(3600)
@@ -179,6 +186,13 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
         ];
     }
 
+    public function frontend(?string $type): static
+    {
+        $this->pushCriteria(new FrontendPostCriteria($type));
+
+        return $this;
+    }
+
     public function getRelatedPosts(
         Post $post,
         string $taxonomy = 'categories',
@@ -228,6 +242,15 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
         ];
 
         return apply_filters($type.'.statuses', $statuses);
+    }
+
+    public function appendCustomFilter(Builder $builder, array $input): Builder
+    {
+        if ($taxonomy = Arr::get($input, 'taxonomy')) {
+            $builder->whereTaxonomy($taxonomy);
+        }
+
+        return $builder;
     }
 
     public function model(): string

@@ -119,6 +119,23 @@ class AjaxController extends FrontendController
         return $this->success('Unlike success.');
     }
 
+    public function posts(Request $request): PostResourceCollection
+    {
+        $limit = $request->input('limit', 10);
+        $type = $request->input('type', 'posts');
+
+        if ($limit > 100) {
+            $limit = 100;
+        }
+
+        $posts = $this->postRepository->frontend($type)
+            ->withFilters($request->all())
+            ->withSearchs($request->query('q', ''))
+            ->paginate($limit, []);
+
+        return PostResourceCollection::make($posts);
+    }
+
     public function relatedPosts(Request $request): JsonResponse
     {
         $post = $this->postRepository->findBySlug($request->input('post_slug'), false);

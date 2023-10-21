@@ -341,6 +341,13 @@ class ThemeAction extends Action
     public function addFrontendAjaxForInertiaTemplate(): void
     {
         $this->hookAction->registerFrontendAjax(
+            'posts',
+            [
+                'callback' => [AjaxController::class, 'posts'],
+            ]
+        );
+
+        $this->hookAction->registerFrontendAjax(
             'related-posts',
             [
                 'callback' => [AjaxController::class, 'relatedPosts'],

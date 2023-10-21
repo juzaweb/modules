@@ -14,6 +14,19 @@ export interface PostMeta {
     meta_value?: string
 }
 
+export interface PostList {
+    meta: {
+        total: number
+        current_page: number
+        last_page: number
+    }
+    data: Array<Post>
+    links: {
+        prev: null|string
+        next: null|string
+    }
+}
+
 export interface Post {
     id: string
     title: string

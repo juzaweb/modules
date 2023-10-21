@@ -59,9 +59,9 @@ class TaxonomyController extends FrontendController
             $template
         );
 
-        if (!view()->exists(theme_viewname($viewName))) {
-            $viewName = 'theme::index';
-        }
+        // if (!view()->exists(theme_viewname($viewName))) {
+        //     $viewName = 'theme::index';
+        // }
 
         $page = PostResourceCollection::make($posts)->response()->getData(true);
 

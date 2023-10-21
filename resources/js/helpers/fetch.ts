@@ -1,5 +1,6 @@
 import { Post } from "@/types/posts";
 import axios from "axios";
+import qs from 'qs'
 
 /**
  * Posts a comment on a post.
@@ -31,6 +32,23 @@ export interface MenuOptions {
     location: string
 }
 
+export interface FetchPostOpttions {
+    limit?: Number;
+    page?: Number;
+    locale?: string;
+}
+
+export async function getPosts(type: string, options: FetchPostOpttions = {locale: 'vi'}) {
+    try {
+        const url = `/post-type/${type}`;
+        const query = qs.stringify(options);
+        const res = await axios.get(`${url}?${query}`);
+        return res;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 /**
  * Retrieves related posts for a given post.
  *
@@ -40,7 +58,6 @@ export interface MenuOptions {
  */
 export async function getRelatedPosts(post: Post, options: RelatedPostOptions = {limit: 10}) {
     const res = await axios.get('/ajax/related-posts?post_slug='+ post.slug);
-
     return res;
 }
 

@@ -10,7 +10,9 @@
 
 namespace Juzaweb\CMS\Interfaces\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
+
 interface WithAppendFilter
 {
-    public function appendCustomFilter($builder, $input);
+    public function appendCustomFilter(Builder $builder, array $input): Builder;
 }

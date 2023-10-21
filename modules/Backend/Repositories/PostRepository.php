@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Taxonomy;
+use Juzaweb\CMS\Interfaces\Repositories\WithAppendFilter;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Repositories\BaseRepository;
 use Juzaweb\CMS\Repositories\Exceptions\RepositoryException;
@@ -23,8 +24,17 @@ use Juzaweb\CMS\Repositories\Interfaces\SortableInterface;
  * @package namespace Juzaweb\Backend\Repositories;
  * @see PostRepositoryEloquent
  */
-interface PostRepository extends BaseRepository, FilterableInterface, SearchableInterface, SortableInterface
+interface PostRepository extends
+    BaseRepository,
+    FilterableInterface,
+    SearchableInterface,
+    SortableInterface,
+    WithAppendFilter
 {
+    public function withFrontendDefaults(): array;
+
+    public function frontend(?string $type): static;
+
     /**
      * Find a post in the frontend by ID.
      *
