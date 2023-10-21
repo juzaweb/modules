@@ -8,6 +8,9 @@
     <link href="//fonts.googleapis.com" rel="dns-prefetch"/>
     <link href="//www.gstatic.com" rel="dns-prefetch"/>
     <link href="//www.googletagmanager.com" rel="dns-prefetch"/>
+    @if($assetUrl = config('app.asset_url'))
+        <link href="{{ get_base_url($assetUrl) }}" rel="dns-prefetch"/>
+    @endif
 
 {{--    <link href="{{ asset('assets/css/app.css') }}" rel="stylesheet" />--}}
 {{--    <script src="{{ theme_assets('assets/js/app.js') }}" defer></script>--}}
