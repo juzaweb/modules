@@ -4,6 +4,7 @@ namespace Juzaweb\Backend\Repositories;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Repositories\BaseRepositoryEloquent;
 use Juzaweb\CMS\Traits\Criterias\UseFilterCriteria;
@@ -15,7 +16,9 @@ use Juzaweb\CMS\Traits\Criterias\UseSortableCriteria;
  */
 class TaxonomyRepositoryEloquent extends BaseRepositoryEloquent implements TaxonomyRepository
 {
-    use UseSortableCriteria, UseSearchCriteria, UseFilterCriteria;
+    use UseSortableCriteria, UseSearchCriteria, UseFilterCriteria, UseSortableCriteria;
+
+    protected array $sortableFields = ['name', 'total_post', 'post_type', 'taxonomy'];
     
     protected array $searchableFields = [
         'name',
@@ -27,6 +30,7 @@ class TaxonomyRepositoryEloquent extends BaseRepositoryEloquent implements Taxon
         'total_post',
         'post_type',
         'taxonomy',
+        'parent_id',
     ];
     
     public function findBySlug(string $slug): null|Taxonomy
@@ -63,6 +67,21 @@ class TaxonomyRepositoryEloquent extends BaseRepositoryEloquent implements Taxon
     public function createFrontendBuilder(): Builder
     {
         return $this->model->newQuery();
+    }
+
+    public function appendCustomFilter(Builder $builder, array $input): Builder
+    {
+        if ($root = Arr::get($input, 'root')) {
+            $root = filter_var($root, \FILTER_VALIDATE_BOOL);
+
+            $builder->when(
+                $root,
+                fn($q) => $q->where('parent_id', null),
+                fn($q) => $q->where('parent_id', '!=', null),
+            );
+        }
+
+        return $builder;
     }
     
     public function model(): string

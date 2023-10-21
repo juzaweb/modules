@@ -85,7 +85,7 @@ class FilterCriteria extends Criteria implements CriteriaInterface
         );
     }
 
-    protected function getValueRequest(string $field, string $condition): mixed
+    protected function getValueRequest(string $field, ?string $condition): ?string
     {
         $search = Arr::get($this->queries, $field);
         $value = null;
@@ -96,7 +96,7 @@ class FilterCriteria extends Criteria implements CriteriaInterface
 
         if ($condition == 'in') {
             $value = explode(',', $value);
-            if (trim($value[0]) === "" || $field == $value[0]) {
+            if ($field == $value[0] || trim($value[0]) === "") {
                 $value = null;
             }
         }

@@ -348,6 +348,13 @@ class ThemeAction extends Action
         );
 
         $this->hookAction->registerFrontendAjax(
+            'taxonomies',
+            [
+                'callback' => [AjaxController::class, 'taxonomies'],
+            ]
+        );
+
+        $this->hookAction->registerFrontendAjax(
             'related-posts',
             [
                 'callback' => [AjaxController::class, 'relatedPosts'],

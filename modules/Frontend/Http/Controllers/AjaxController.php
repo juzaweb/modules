@@ -13,13 +13,16 @@ namespace Juzaweb\Frontend\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Juzaweb\Backend\Http\Resources\PostResourceCollection;
+use Juzaweb\Backend\Http\Resources\TaxonomyResource;
 use Juzaweb\Backend\Models\PostRating;
 use Juzaweb\Backend\Repositories\MenuRepository;
 use Juzaweb\Backend\Repositories\PostRepository;
+use Juzaweb\Backend\Repositories\TaxonomyRepository;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
 use Juzaweb\CMS\Support\Theme\MenuBuilder;
@@ -30,7 +33,8 @@ class AjaxController extends FrontendController
 {
     public function __construct(
         protected PostRepository $postRepository,
-        protected MenuRepository $menuRepository
+        protected MenuRepository $menuRepository,
+        protected TaxonomyRepository $taxonomyRepository
     ) {
         //
     }
@@ -134,6 +138,22 @@ class AjaxController extends FrontendController
             ->paginate($limit, []);
 
         return PostResourceCollection::make($posts);
+    }
+
+    public function taxonomies(Request $request): AnonymousResourceCollection
+    {
+        $limit = $request->input('limit', 10);
+
+        if ($limit > 100) {
+            $limit = 100;
+        }
+
+        $taxonomies = $this->taxonomyRepository
+            ->withFilters($request->all())
+            ->withSearchs($request->input('q'))
+            ->frontendListPaginate($limit);
+
+        return TaxonomyResource::collection($taxonomies);
     }
 
     public function relatedPosts(Request $request): JsonResponse
