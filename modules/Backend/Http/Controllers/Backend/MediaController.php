@@ -32,7 +32,7 @@ use Juzaweb\Backend\Models\MediaFolder;
 
 class MediaController extends BackendController
 {
-    protected string $template = self::INERTIA_TEMPLATE;
+    //protected string $template = self::INERTIA_TEMPLATE;
 
     public function __construct(
         protected MediaFileRepository $fileRepository,
