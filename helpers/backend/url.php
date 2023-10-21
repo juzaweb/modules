@@ -9,15 +9,11 @@ if (!function_exists('is_url')) {
      */
     function is_url(?string $url): bool
     {
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-            return false;
-        }
-
-        return true;
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
     }
 }
 
-function get_full_url(string $url, string $currentUrl): string
+function get_full_url(string $url, string $currentUrl, ?string $baseUrlMeta = null): string
 {
     $baseUrl = get_base_url($currentUrl);
 
@@ -26,7 +22,7 @@ function get_full_url(string $url, string $currentUrl): string
     }
 
     if (str_starts_with($url, '//')) {
-        return 'https:' . $url;
+        return "https:{$url}";
     }
 
     if (str_starts_with($url, '/')) {
@@ -42,7 +38,11 @@ function get_full_url(string $url, string $currentUrl): string
         $currentUrl = preg_replace("/{$split[count($split) - 1]}/", '', $currentUrl, -1);
     }
 
-    return abs_url($currentUrl . '/' . $url, $currentUrl);
+    if ($baseUrlMeta) {
+        return abs_url("{$baseUrlMeta}/{$url}", $currentUrl);
+    }
+
+    return abs_url("{$currentUrl}/{$url}", $currentUrl);
 }
 
 function get_base_url(string $url): string

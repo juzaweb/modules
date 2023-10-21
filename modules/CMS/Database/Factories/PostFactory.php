@@ -32,6 +32,7 @@ class PostFactory extends Factory
             'thumbnail' => $this->randomThumbnail(),
             'status' => 'publish',
             'type' => 'posts',
+            'locale' => 'en',
             'slug' => Str::slug($title),
             'created_at' => now(),
             'updated_at' => now(),

@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::table(
             'posts',
             function (Blueprint $table) {
-                $table->string('locale', 5)->default('vi')->index();
+                $table->string('locale', 5)->default('en')->index();
             }
         );
     }
