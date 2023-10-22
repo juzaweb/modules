@@ -159,14 +159,14 @@ if (!function_exists('get_name_template_part')) {
 
         if ($name !== '') {
             $template = "{$slug}-{$name}";
-            if (view()->exists(theme_viewname("theme::template-parts.{$template}"))) {
+            if (theme_view_exists("theme::template-parts.{$template}")) {
                 return $template;
             }
         }
 
         if ($type != 'post') {
             $template = "{$slug}-{$type}";
-            if (view()->exists(theme_viewname("theme::template-parts.{$template}"))) {
+            if (theme_view_exists("theme::template-parts.{$template}")) {
                 return $template;
             }
         }

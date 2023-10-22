@@ -181,7 +181,7 @@ class PageController extends FrontendController
             $templates = ThemeLoader::getTemplates($themeInfo->get('name'), $template);
             $templateView = Arr::get($templates, 'view', "theme::templates.{$template}");
 
-            if ($templateView && view()->exists(theme_viewname($templateView))) {
+            if ($templateView && theme_view_exists($templateView)) {
                 $view = $templateView;
             }
         }
@@ -189,9 +189,9 @@ class PageController extends FrontendController
         /* Get view default of theme */
         if (empty($view)) {
             $template = get_name_template_part('page', 'single');
-            $view = 'theme::template-parts.'.$template;
+            $view = "theme::template-parts.{$template}";
 
-            if (!view()->exists(theme_viewname($view))) {
+            if (!theme_view_exists($view)) {
                 $view = 'theme::template-parts.single';
             }
         }

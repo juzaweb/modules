@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\Backend\Models\Menu;
+use Juzaweb\CMS\Models\Language;
 use Juzaweb\CMS\Support\Theme\MenuBuilder;
 
 class HandleInertiaRequests extends Middleware
@@ -75,6 +76,7 @@ class HandleInertiaRequests extends Middleware
             'theme.inertia.frontend_params',
             [
                 'current_theme' => jw_current_theme(),
+                'locale' => $request->getLocale(),
                 'config' => $configs,
                 'user' => $user,
                 'is_admin' => $user ? $user['is_admin'] : false,
@@ -82,6 +84,7 @@ class HandleInertiaRequests extends Middleware
                 'guest' => ! $user,
                 'menu_items' => $primaryMenuItems,
                 'total_notifications' => count_unread_notifications(),
+                'languages' => Language::cacheFor(3600)->get(),
             ]
         );
     }
