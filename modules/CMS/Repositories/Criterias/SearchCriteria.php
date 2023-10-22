@@ -41,7 +41,6 @@ class SearchCriteria extends Criteria implements CriteriaInterface
         $fields = $repository->getFieldSearchable();
         $keyword = Arr::get($this->queries, 'q', Arr::get($this->queries, 'keyword'));
         $condition = $driver == 'pgsql' ? 'ilike' : 'like';
-
         if (empty($keyword)) {
             // To query builder
             return $model->whereRaw('1=1');

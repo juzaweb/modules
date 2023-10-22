@@ -30,7 +30,9 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
         'locale',
         'created_by'
     ];
+
     protected array $sortableFields = ['id', 'status', 'title', 'views'];
+
     protected array $sortableDefaults = ['id' => 'DESC'];
 
     public function boot(): void

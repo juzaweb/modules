@@ -10,8 +10,8 @@
 
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View as ViewContract;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File as FileAlias;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -496,6 +496,21 @@ function paginate_links($data, $view = null, $params = []): ViewContract|Factory
 function theme_viewname($name)
 {
     return $name;
+}
+
+if (!function_exists('theme_view_exists')) {
+    function theme_view_exists(string $name): bool
+    {
+        $currentTheme = Theme::currentTheme();
+
+        if ($currentTheme->getTemplate() === 'inertia') {
+            $name = Str::replace(['theme::', '.'], ['', '/'], $name);
+
+            return FileAlias::exists($currentTheme->getPath("views/{$name}.tsx"));
+        }
+
+        return view()->exists(theme_viewname($name));
+    }
 }
 
 function comment_form($post, $view = 'cms::comment_form'): ViewContract|Factory|string

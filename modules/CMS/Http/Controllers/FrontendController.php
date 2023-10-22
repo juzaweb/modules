@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View as ViewContract;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\View\View;
+use Inertia\Response as InertiaResponse;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Facades\Theme;
@@ -18,7 +19,7 @@ class FrontendController extends Controller
 
     protected string $template;
 
-    public function callAction($method, $parameters): Response|string|View|\Inertia\Response|JsonResource
+    public function callAction($method, $parameters): Response|string|View|InertiaResponse|JsonResource
     {
         $this->template = Theme::currentTheme()->getTemplate();
 
@@ -46,7 +47,7 @@ class FrontendController extends Controller
         return collect(HookAction::getPermalinks());
     }
 
-    protected function view($view, $params = []): Factory|ViewContract|string|\Inertia\Response
+    protected function view($view, $params = []): Factory|ViewContract|string|InertiaResponse
     {
         return Theme::render($view, $params);
     }

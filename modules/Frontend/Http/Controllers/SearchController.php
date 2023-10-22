@@ -15,7 +15,7 @@ class SearchController extends FrontendController
     {
     }
     
-    public function index(Request $request): string
+    public function index(Request $request): string|\Inertia\Response
     {
         $keyword = $request->input('q');
         $title = $keyword ? trans(
@@ -33,7 +33,7 @@ class SearchController extends FrontendController
         $template = 'search';
         
         $viewName = apply_filters('search.get_view_name', "theme::search");
-        if (!view()->exists(theme_viewname($viewName))) {
+        if (!theme_view_exists($viewName)) {
             $viewName = 'theme::index';
         }
         
@@ -56,21 +56,17 @@ class SearchController extends FrontendController
         }
         
         $paginate = Post::selectFrontendBuilder()->whereSearch($request->all())->paginate($limit);
-        $results = $paginate->items();
-        foreach ($results as $key => $item) {
-            if (empty($item)) {
-                unset($results[$key]);
-                continue;
+        $results = $paginate->items()->map(
+            function (Post $item) {
+                $item->thumbnail = $item->getThumbnail();
+                $item->url = $item->getLink();
+                $item->link = $item->url;
+                $item->title = $item->getTitle();
+                $item->description = $item->getDescription();
+                $item->views = $item->getViews();
+                $item->created_date = jw_date_format($item->created_at);
             }
-            
-            $item->thumbnail = $item->getThumbnail();
-            $item->url = $item->getLink();
-            $item->link = $item->url;
-            $item->title = $item->getTitle();
-            $item->description = $item->getDescription();
-            $item->views = $item->getViews();
-            $item->created_date = jw_date_format($item->created_at);
-        }
+        );
         
         $data['results'] = $results;
         $data['pagination'] = ['more' => (bool) $paginate->nextPageUrl()];
