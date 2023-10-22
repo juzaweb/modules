@@ -13,15 +13,17 @@ use Juzaweb\Backend\Actions\PermissionAction;
 use Juzaweb\Backend\Actions\SeoAction;
 use Juzaweb\Backend\Actions\SocialLoginAction;
 use Juzaweb\Backend\Actions\ToolAction;
-use Juzaweb\Backend\Commands\AutoSubmitCommand;
 use Juzaweb\Backend\Commands\AutoTagCommand;
 use Juzaweb\Backend\Commands\EmailTemplateGenerateCommand;
+use Juzaweb\Backend\Commands\Helper\CacheSizeCommand;
+use Juzaweb\Backend\Commands\Helper\MakeAdminCommand;
 use Juzaweb\Backend\Commands\ImportTranslationCommand;
 use Juzaweb\Backend\Commands\OptimizeTagCommand;
 use Juzaweb\Backend\Commands\PermissionGenerateCommand;
 use Juzaweb\Backend\Commands\PingFeedCommand;
 use Juzaweb\Backend\Commands\Post\GeneratePostUUIDCommand;
 use Juzaweb\Backend\Commands\Publish\CMSPublishCommand;
+use Juzaweb\Backend\Commands\SEO\AutoPingSitemapCommand;
 use Juzaweb\Backend\Commands\ThemePublishCommand;
 use Juzaweb\Backend\Commands\TransFromEnglish;
 use Juzaweb\Backend\Models\Comment;
@@ -53,12 +55,10 @@ use Juzaweb\Backend\Repositories\TaxonomyRepositoryEloquent;
 use Juzaweb\Backend\Repositories\UserRepository;
 use Juzaweb\Backend\Repositories\UserRepositoryEloquent;
 use Juzaweb\CMS\Facades\ActionRegister;
-use Juzaweb\CMS\Http\Middleware\Admin;
 use Juzaweb\CMS\Facades\Field;
+use Juzaweb\CMS\Http\Middleware\Admin;
 use Juzaweb\CMS\Support\Macros\RouterMacros;
 use Juzaweb\CMS\Support\ServiceProvider;
-use Juzaweb\Backend\Commands\Helper\CacheSizeCommand;
-use Juzaweb\Backend\Commands\Helper\MakeAdminCommand;
 
 class BackendServiceProvider extends ServiceProvider
 {
@@ -106,7 +106,7 @@ class BackendServiceProvider extends ServiceProvider
                 TransFromEnglish::class,
                 EmailTemplateGenerateCommand::class,
                 ThemePublishCommand::class,
-                AutoSubmitCommand::class,
+                AutoPingSitemapCommand::class,
                 AutoTagCommand::class,
                 OptimizeTagCommand::class,
                 PingFeedCommand::class,

@@ -11,31 +11,25 @@
 namespace Juzaweb\CMS\Providers;
 
 use Illuminate\Console\Scheduling\Schedule;
-use Juzaweb\Backend\Commands\AutoSubmitCommand;
 use Juzaweb\Backend\Commands\AutoTagCommand;
-use Juzaweb\CMS\Console\Commands\AutoClearSlotCommand;
-use Juzaweb\CMS\Console\Commands\ClearCacheCommand;
-use Juzaweb\CMS\Console\Commands\ClearCacheExpiredCommand;
-use Juzaweb\CMS\Console\Commands\InstallCommand;
-use Juzaweb\CMS\Console\Commands\PluginAutoloadCommand;
-use Juzaweb\CMS\Console\Commands\SendMailCommand;
-use Juzaweb\CMS\Console\Commands\ShowSlotCommand;
-use Juzaweb\CMS\Console\Commands\UpdateCommand;
-use Juzaweb\CMS\Console\Commands\VersionCommand;
+use Juzaweb\Backend\Commands\SEO;
+use Juzaweb\CMS\Console\Commands;
 use Juzaweb\CMS\Support\ServiceProvider;
 
 class ConsoleServiceProvider extends ServiceProvider
 {
     protected array $commands = [
-        InstallCommand::class,
-        UpdateCommand::class,
-        SendMailCommand::class,
-        ClearCacheCommand::class,
-        PluginAutoloadCommand::class,
-        AutoClearSlotCommand::class,
-        ShowSlotCommand::class,
-        ClearCacheExpiredCommand::class,
-        VersionCommand::class
+        Commands\InstallCommand::class,
+        Commands\UpdateCommand::class,
+        Commands\SendMailCommand::class,
+        Commands\ClearCacheCommand::class,
+        Commands\PluginAutoloadCommand::class,
+        Commands\AutoClearSlotCommand::class,
+        Commands\ShowSlotCommand::class,
+        Commands\ClearCacheExpiredCommand::class,
+        Commands\VersionCommand::class,
+        SEO\AutoSubmitUrlGoogle::class,
+        SEO\AutoSubmitUrlBing::class,
     ];
 
     public function boot(): void
@@ -43,11 +37,22 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->app->booted(
             function () {
                 $schedule = $this->app->make(Schedule::class);
-                $schedule->command(AutoClearSlotCommand::class)->hourly();
-                $schedule->command(AutoSubmitCommand::class)->daily();
+                //$schedule->command(Commands\AutoClearSlotCommand::class)->hourly();
 
                 if (get_config('jw_auto_add_tags_to_posts')) {
                     $schedule->command(AutoTagCommand::class)->dailyAt('03:16');
+                }
+
+                if (get_config('jw_auto_ping_google_sitemap')) {
+                    $schedule->command(SEO\AutoPingSitemapCommand::class)->weeklyOn([1, 3, 5]);
+                }
+
+                if (get_config('jw_auto_submit_url_google')) {
+                    $schedule->command(SEO\AutoSubmitUrlGoogle::class)->dailyAt('01:00');
+                }
+
+                if (get_config('jw_auto_submit_url_bing')) {
+                    $schedule->command(SEO\AutoSubmitUrlBing::class)->dailyAt('01:00');
                 }
 
                 if (get_config('jw_backup_enable')) {
