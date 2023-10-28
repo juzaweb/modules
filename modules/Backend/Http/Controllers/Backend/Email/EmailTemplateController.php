@@ -43,7 +43,7 @@ class EmailTemplateController extends BackendController
         return EmailTemplateDataTable::make();
     }
 
-    protected function validator(array $attributes, ...$params): array|Validator
+    protected function validator(array $attributes, ...$params): array|\Illuminate\Contracts\Validation\Validator
     {
         $code = $attributes['code'] ?? null;
 

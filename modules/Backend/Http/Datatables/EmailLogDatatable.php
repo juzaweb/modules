@@ -10,6 +10,7 @@
 
 namespace Juzaweb\Backend\Http\Datatables;
 
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Abstracts\DataTable;
@@ -26,7 +27,7 @@ class EmailLogDatatable extends DataTable
      *
      * @return array
      */
-    public function columns()
+    public function columns(): array
     {
         return [
             'subject' => [
@@ -68,10 +69,10 @@ class EmailLogDatatable extends DataTable
     /**
      * Query data datatable
      *
-     * @param array $data
-     * @return \Illuminate\Database\Eloquent\Builder|Builder
+     * @param  array  $data
+     * @return EloquentBuilder|Builder
      */
-    public function query($data)
+    public function query(array $data): \Illuminate\Contracts\Database\Query\Builder
     {
         $query = EmailList::with(['template']);
 
@@ -100,7 +101,7 @@ class EmailLogDatatable extends DataTable
         ];
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         switch ($action) {
             case 'delete':

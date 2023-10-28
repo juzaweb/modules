@@ -15,7 +15,7 @@ class MultilangServiceProvider extends ServiceProvider
         $router = $this->app['router'];
         $router->pushMiddlewareToGroup('theme', Multilang::class);
 
-        $this->registerHookActions([MultilangAction::class]);
+        //$this->registerHookActions([MultilangAction::class]);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mlla');
     }
