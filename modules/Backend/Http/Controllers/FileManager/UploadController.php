@@ -91,13 +91,15 @@ class UploadController extends FileManagerController
             $file->setFolder($folderId);
             $file->setDownloadFileUrlToServer($download);
             $file->setDisk($disk);
-            $file->save();
+            $uploaded = $file->save();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             report($e);
             return $this->error($e->getMessage());
         }
+
+        event(new UploadFileSuccess($uploaded));
 
         return $this->success(trans('cms::message.upload_successfull'));
     }

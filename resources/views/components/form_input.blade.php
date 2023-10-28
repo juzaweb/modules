@@ -34,6 +34,13 @@
                     <div class="input-group-text">{{ $suffix }}</div>
                 </div>
             @endif
+
+                @if(isset($description))
+                    <small class="form-text text-muted">
+                        {{ $description }}
+                    </small>
+                @endif
+
         </div>
     @else
         <input

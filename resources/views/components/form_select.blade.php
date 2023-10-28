@@ -39,4 +39,10 @@
             </option>
         @endforeach
     </select>
+
+    @if(isset($description))
+        <small class="form-text text-muted">
+            {{ $description }}
+        </small>
+    @endif
 </div>

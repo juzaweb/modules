@@ -412,7 +412,7 @@ class ModuleGenerator extends Generator
 
         $this->console->info("Plugin [{$name}] created successfully.");
 
-        $this->activator->setActiveByName($name, $this->isActive);
+        // $this->activator->setActiveByName($name, $this->isActive);
 
         $this->console->info("Plugin [{$name}] is actived.");
     }

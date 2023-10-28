@@ -57,14 +57,19 @@ class MediaFile extends Model
         'metadata' => 'array',
     ];
 
-    public function delete()
+    public function delete(): bool
     {
-        Storage::disk(config('juzaweb.filemanager.disk'))->delete($this->path);
+        $this->deleteFile();
 
         return parent::delete();
     }
 
-    public function isImage()
+    public function deleteFile(): bool
+    {
+        return Storage::disk($this->disk ?? config('juzaweb.filemanager.disk'))->delete($this->path);
+    }
+
+    public function isImage(): bool
     {
         return in_array(
             $this->mime_type,

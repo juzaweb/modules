@@ -138,6 +138,11 @@ class Disk implements DiskContract
         return $this->name;
     }
 
+    public function freeSpage(): int
+    {
+        return $this->filesystem()->size('/');
+    }
+
     public function filesystem(): Filesystem
     {
         return $this->filesystem ?? ($this->filesystem = $this->filesystemFactory->disk($this->name));
