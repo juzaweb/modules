@@ -212,18 +212,18 @@ class MenuAction extends Action
                 ]
             );
 
-            HookAction::addAdminMenu(
-                trans('cms::app.add_new'),
-                'plugin.install',
-                [
-                    'icon' => 'fa fa-plus',
-                    'position' => 1,
-                    'parent' => 'plugins',
-                    'permissions' => [
-                        'plugins.create',
-                    ],
-                ]
-            );
+            // HookAction::addAdminMenu(
+            //     trans('cms::app.add_new'),
+            //     'plugin.install',
+            //     [
+            //         'icon' => 'fa fa-plus',
+            //         'position' => 1,
+            //         'parent' => 'plugins',
+            //         'permissions' => [
+            //             'plugins.create',
+            //         ],
+            //     ]
+            // );
 
             HookAction::registerAdminPage(
                 'plugin.editor',
