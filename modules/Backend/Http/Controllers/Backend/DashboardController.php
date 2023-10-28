@@ -117,16 +117,18 @@ class DashboardController extends BackendController
             ->titleClass('text-white')
             ->title(trans('cms::app.new_users'))
             ->dataTable()
-            ->columns([
+            ->columns(
                 [
-                    'key' => 'name',
-                    'label' => trans('cms::app.name'),
-                ],
-                [
-                    'key' => 'created',
-                    'label' => trans('cms::app.created_at'),
+                    [
+                        'key' => 'name',
+                        'label' => trans('cms::app.name'),
+                    ],
+                    [
+                        'key' => 'created',
+                        'label' => trans('cms::app.created_at'),
+                    ]
                 ]
-            ])
+            )
             ->dataUrl(action([static::class, 'getDataUser']))
             ->perPage(10);
 
@@ -136,16 +138,18 @@ class DashboardController extends BackendController
             ->titleClass('text-white')
             ->title(trans('cms::app.top_views'))
             ->dataTable()
-            ->columns([
+            ->columns(
                 [
-                    'key' => 'title',
-                    'label' => trans('cms::app.title'),
-                ],
-                [
-                    'key' => 'views',
-                    'label' => trans('cms::app.views'),
+                    [
+                        'key' => 'title',
+                        'label' => trans('cms::app.title'),
+                    ],
+                    [
+                        'key' => 'views',
+                        'label' => trans('cms::app.views'),
+                    ]
                 ]
-            ])
+            )
             ->dataUrl(action([static::class, 'getDataTopViews']))
             ->perPage(10);
     }

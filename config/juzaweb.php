@@ -212,7 +212,7 @@ return [
          * Default: file, image
          */
         'types' => [
-            'file'  => [
+            'file' => [
                 /**
                  * Max file size upload
                  *
@@ -246,6 +246,13 @@ return [
                 ],
             ],
         ],
+    ],
+
+    'multilingual' => [
+        /**
+         * Enable multilingual
+         */
+        'enable' => env('JW_ALLOW_MULTILINGUAL', false),
     ],
 
     'api' => [

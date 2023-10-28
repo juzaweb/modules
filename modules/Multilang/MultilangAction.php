@@ -63,20 +63,24 @@ class MultilangAction extends Action
     {
         $default = get_config('language', 'en');
         $selected = $model->locale ?? $default;
-        $languages = Language::get()->mapWithKeys(function ($item) {
-            return [
-                $item->code => $item->name
-            ];
-        });
+        $languages = Language::get()->mapWithKeys(
+            function ($item) {
+                return [
+                    $item->code => $item->name
+                ];
+            }
+        );
 
-        echo e(view(
-            'mlla::select_lang',
-            compact(
-                'model',
-                'languages',
-                'selected'
+        echo e(
+            view(
+                'mlla::select_lang',
+                compact(
+                    'model',
+                    'languages',
+                    'selected'
+                )
             )
-        ));
+        );
     }
 
     public function addConfigs(): void
