@@ -138,7 +138,7 @@ class Disk implements DiskContract
         return $this->name;
     }
 
-    public function freeSpage(): int
+    public function freeSpace(): int
     {
         return $this->filesystem()->size('/');
     }

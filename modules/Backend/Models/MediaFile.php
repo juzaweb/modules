@@ -2,6 +2,9 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Juzaweb\CMS\Models\Model;
 
@@ -17,25 +20,25 @@ use Juzaweb\CMS\Models\Model;
  * @property int $size
  * @property int|null $folder_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile query()
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereExtension($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereFolderId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereMimeType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile wherePath($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereUserId($value)
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|MediaFile newModelQuery()
+ * @method static Builder|MediaFile newQuery()
+ * @method static Builder|MediaFile query()
+ * @method static Builder|MediaFile whereCreatedAt($value)
+ * @method static Builder|MediaFile whereExtension($value)
+ * @method static Builder|MediaFile whereFolderId($value)
+ * @method static Builder|MediaFile whereId($value)
+ * @method static Builder|MediaFile whereMimeType($value)
+ * @method static Builder|MediaFile whereName($value)
+ * @method static Builder|MediaFile wherePath($value)
+ * @method static Builder|MediaFile whereSize($value)
+ * @method static Builder|MediaFile whereType($value)
+ * @method static Builder|MediaFile whereUpdatedAt($value)
+ * @method static Builder|MediaFile whereUserId($value)
  * @property int|null $site_id
- * @method static \Illuminate\Database\Eloquent\Builder|MediaFile whereSiteId($value)
- * @mixin \Eloquent
+ * @method static Builder|MediaFile whereSiteId($value)
+ * @mixin Eloquent
  */
 class MediaFile extends Model
 {

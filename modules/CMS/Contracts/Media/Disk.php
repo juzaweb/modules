@@ -25,7 +25,7 @@ interface Disk
 
     public function put(string $path, string $contents, array $options = []): FileInterface;
 
-    public function freeSpage(): int;
+    public function freeSpace(): int;
 
     public function deleteFile(string $path): bool;
 
