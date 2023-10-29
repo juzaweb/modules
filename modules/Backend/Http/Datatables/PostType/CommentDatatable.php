@@ -19,7 +19,7 @@ class CommentDatatable extends DataTable
 {
     protected $postType;
 
-    public function mount($postType)
+    public function mount($postType): void
     {
         $this->postType = $postType;
     }
@@ -60,7 +60,7 @@ class CommentDatatable extends DataTable
                 'label' => trans('cms::app.post'),
                 'width' => '20%',
                 'formatter' => function ($value, $row, $index) {
-                    return $row->postType()->getTitle();
+                    return e($row->postType()->getTitle());
                 },
             ],
             'status' => [
@@ -87,10 +87,10 @@ class CommentDatatable extends DataTable
     /**
      * Query data datatable
      *
-     * @param array $data
+     * @param  array  $data
      * @return Builder
      */
-    public function query($data): Builder
+    public function query(array $data): Builder
     {
         $query = Comment::query()->with(['user']);
         $query->where('object_type', '=', $this->postType);
@@ -124,7 +124,7 @@ class CommentDatatable extends DataTable
         return array_merge($actions, parent::actions());
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         $comments = Comment::whereIn('id', $ids)->get();
         foreach ($comments as $comment) {
@@ -132,7 +132,7 @@ class CommentDatatable extends DataTable
                 $comment->delete();
             }
 
-            if (in_array($action, array_keys(Comment::allStatuses()))) {
+            if (array_key_exists($action, Comment::allStatuses())) {
                 $comment->update(
                     [
                         'status' => $action,

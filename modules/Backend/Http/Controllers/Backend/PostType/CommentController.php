@@ -4,10 +4,10 @@ namespace Juzaweb\Backend\Http\Controllers\Backend\PostType;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Str;
-use Juzaweb\Backend\Http\Datatables\PostType\CommentDatatable;
-use Juzaweb\Backend\Models\Comment;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Http\Controllers\BackendController;
+use Juzaweb\Backend\Http\Datatables\PostType\CommentDatatable;
+use Juzaweb\Backend\Models\Comment;
 use Juzaweb\CMS\Traits\ResourceController;
 
 class CommentController extends BackendController
@@ -16,7 +16,7 @@ class CommentController extends BackendController
         ResourceController::getDataForIndex as DataForIndex;
     }
 
-    protected string $template = 'inertia';
+    protected string $viewPrefix = 'cms::backend.comment';
 
     protected function validator(array $attributes, ...$params): Validator|array
     {
@@ -27,7 +27,7 @@ class CommentController extends BackendController
             'name' => 'nullable',
             'website' => 'nullable',
             'content' => 'required',
-            'status' => 'required|in:'.implode(',', $statuses),
+            'status' => 'required|in:' . implode(',', $statuses),
         ];
     }
 
