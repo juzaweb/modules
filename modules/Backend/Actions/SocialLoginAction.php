@@ -15,7 +15,7 @@ use Juzaweb\CMS\Facades\HookAction;
 
 class SocialLoginAction extends Action
 {
-    public function handle()
+    public function handle(): void
     {
         $this->addAction(
             Action::INIT_ACTION,
@@ -23,7 +23,7 @@ class SocialLoginAction extends Action
         );
     }
 
-    public function addSettingForm()
+    public function addSettingForm(): void
     {
         $socials = [
             'facebook',

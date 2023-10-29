@@ -7,12 +7,12 @@ use Juzaweb\CMS\Facades\HookAction;
 
 class ToolAction extends Action
 {
-    public function handle()
+    public function handle(): void
     {
         $this->addAction(Action::BACKEND_INIT, [$this, 'addAdminMenu']);
     }
     
-    public function addAdminMenu()
+    public function addAdminMenu(): void
     {
         HookAction::addAdminMenu(
             trans('cms::app.tools'),

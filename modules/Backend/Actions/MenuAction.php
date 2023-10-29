@@ -36,7 +36,7 @@ class MenuAction extends Action
         $this->addAction(self::INIT_ACTION, [$this, 'addMenuBoxs'], 50);
         $this->addAction(self::BACKEND_INIT, [$this, 'addTaxonomiesForm']);
         $this->addAction(self::INIT_ACTION, [$this, 'registerEmailHooks']);
-        $this->addAction(self::BACKEND_INIT, [$this, 'checkAndNotifyUpdate']);
+        //$this->addAction(self::BACKEND_INIT, [$this, 'checkAndNotifyUpdate']);
     }
 
     public function addBackendMenu(): void

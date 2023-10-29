@@ -63,7 +63,7 @@ class SiteController extends BackendController
                 'bail',
                 'required',
                 'max:50',
-                'min:4',
+                'min:3',
                 "regex:/(^[a-z0-9\-]+)/",
                 Rule::modelUnique(
                     Site::class,
