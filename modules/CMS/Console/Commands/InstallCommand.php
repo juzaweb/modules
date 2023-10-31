@@ -31,12 +31,14 @@ class InstallCommand extends Command
 
         $result = $databaseManager->run();
         if (Arr::get($result, 'status') == 'error') {
+            $this->error($result['dbOutputLog']);
             throw new Exception($result['message']);
         }
 
         $this->info('-- Publish assets');
         $result = $finalInstall->runFinal();
         if (Arr::get($result, 'status') == 'error') {
+            $this->error($result['dbOutputLog']);
             throw new Exception($result['message']);
         }
 
