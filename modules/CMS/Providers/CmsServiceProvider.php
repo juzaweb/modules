@@ -399,12 +399,7 @@ class CmsServiceProvider extends ServiceProvider
         $this->app->register(PluginServiceProvider::class);
         $this->app->register(ConsoleServiceProvider::class);
         $this->app->register(NotificationServiceProvider::class);
-        //$this->app->register(DevToolServiceProvider::class);
         $this->app->register(ThemeServiceProvider::class);
-
-        if (config('juzaweb.multilang.enable')) {
-            $this->app->register(MultilangServiceProvider::class);
-        }
         $this->app->register(BackendServiceProvider::class);
         $this->app->register(FrontendServiceProvider::class);
         $this->app->register(ShortCodeServiceProvider::class);
