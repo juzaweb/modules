@@ -248,13 +248,6 @@ return [
         ],
     ],
 
-    'multilingual' => [
-        /**
-         * Enable multilingual
-         */
-        'enable' => env('JW_ALLOW_MULTILINGUAL', false),
-    ],
-
     'api' => [
         'enable' => env('JW_ALLOW_API', false),
 
