@@ -45,9 +45,7 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Update package
         working-directory: blog
-        run: |
-          composer remove juzaweb/modules
-          composer require juzaweb/modules:dev-master
+        run: composer reinstall juzaweb/modules:dev-master
       - name: Install Example plugin for Testing
         run: composer require juzaweb/example:dev-master
       - name: Execute tests Install
