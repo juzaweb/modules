@@ -10,13 +10,14 @@
 
 namespace Juzaweb\CMS\Interfaces\Theme;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Juzaweb\CMS\Support\Theme;
 
 /**
  * @see Theme
  */
-interface ThemeInterface
+interface ThemeInterface extends Arrayable
 {
     public function getLangPublicPath(string $path = null): string;
 

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\ViewFinderInterface;
+use Juzaweb\CMS\Contracts\LocalThemeRepositoryContract as LocalThemeRepository;
 use Juzaweb\CMS\Contracts\ThemeLoaderContract;
 use Juzaweb\CMS\Exceptions\ThemeNotFoundException;
 use Noodlehaus\Config;
@@ -49,6 +50,8 @@ class Theme implements ThemeLoaderContract
      */
     protected Repository $config;
 
+    protected LocalThemeRepository $localThemeRepository;
+
     /**
      * Current Active Theme.
      *
@@ -75,6 +78,7 @@ class Theme implements ThemeLoaderContract
         $this->finder = $finder;
         $this->lang = $lang;
         $this->basePath = config('juzaweb.theme.path');
+        $this->localThemeRepository = $app[LocalThemeRepository::class];
     }
 
     /**
@@ -108,16 +112,11 @@ class Theme implements ThemeLoaderContract
         return file_exists($themeConfigPath);
     }
 
-    public function getPath($theme, $path = ''): string
+    public function getPath(string $theme, string $path = ''): string
     {
-        $result = $this->basePath . '/' . $theme;
-
-        if (empty($path)) {
-            return $result;
-        }
-
-        return $result . '/' . $path;
+        return $this->localThemeRepository->findOrFail($theme)->getPath($path);
     }
+
     /**
      * @deprecated
      */

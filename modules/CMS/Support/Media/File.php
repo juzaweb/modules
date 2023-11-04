@@ -98,23 +98,31 @@ class File implements FileInterface
 
     public function stream(): StreamedResponse
     {
-        $stream = function () {
-            $stream = fopen($this->fullPath(), 'rb');
+        // $stream = function () {
+        //     $stream = fopen($this->fullPath(), 'rb');
+        //
+        //     while (!feof($stream)) {
+        //         echo fread($stream, 1024 * 1024);
+        //         flush();
+        //     }
+        //
+        //     fclose($stream);
+        // };
+        //
+        // $response = new StreamedResponse($stream);
+        //
+        // $response->headers->set('Content-Type', $this->mimeType());
+        // $response->headers->set('Content-Length', $this->size());
+        //
+        // return $response;
 
-            while (!feof($stream)) {
-                echo fread($stream, 1024 * 1024);
-                flush();
+        $stream = $this->filesystem()->readStream($this->path);
+
+        return response()->stream(
+            function () use ($stream) {
+                fpassthru($stream);
             }
-
-            fclose($stream);
-        };
-
-        $response = new StreamedResponse($stream);
-
-        $response->headers->set('Content-Type', $this->mimeType());
-        $response->headers->set('Content-Length', $this->size());
-
-        return $response;
+        );
     }
 
     public function remoteStream(): StreamedResponse

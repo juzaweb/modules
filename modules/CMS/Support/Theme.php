@@ -4,7 +4,6 @@ namespace Juzaweb\CMS\Support;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
@@ -16,7 +15,7 @@ use Juzaweb\CMS\Interfaces\Theme\ThemeInterface;
 use Noodlehaus\Config as ReadConfig;
 use Juzaweb\CMS\Facades\Config;
 
-class Theme implements ThemeInterface, Arrayable
+class Theme implements ThemeInterface
 {
     /**
      * The laravel|lumen application instance.
