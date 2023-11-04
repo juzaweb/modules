@@ -21,7 +21,7 @@ class EmailTemplateGenerateCommand extends Command
 
     public function handle(): int
     {
-        $basePath = base_path('modules/Backend/resources/data/mail_templates');
+        $basePath = __DIR__ . '/../../../resources/data/mail_templates';
         $files = File::files($basePath);
 
         foreach ($files as $file) {
@@ -30,7 +30,7 @@ class EmailTemplateGenerateCommand extends Command
             }
 
             $code = $file->getFilenameWithoutExtension();
-            $data = json_decode(File::get($file->getRealPath()), true);
+            $data = json_decode(File::get($file->getRealPath()), true, 512, JSON_THROW_ON_ERROR);
 
             EmailTemplate::firstOrCreate(
                 [

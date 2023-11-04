@@ -43,7 +43,6 @@ class DatabaseTest extends TestCase
 
     public function testMakeEmailTemplate(): void
     {
-        $this->artisan('mail:generate-template')
-            ->assertExitCode(0);
+        $this->artisan('mail:generate-template')->assertExitCode(0);
     }
 }
