@@ -47,6 +47,7 @@ jobs:
         working-directory: blog
         run: composer require juzaweb/modules:dev-master
       - name: Install Example plugin for Testing
+        working-directory: blog
         run: composer require juzaweb/example:dev-master
       - name: Execute tests Install
         working-directory: blog
