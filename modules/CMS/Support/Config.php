@@ -70,7 +70,7 @@ class Config implements ConfigContract
     public function setConfig(string $key, string|array $value = null): ConfigModel
     {
         if (is_array($value)) {
-            $value = json_encode($value);
+            $value = json_encode($value, JSON_THROW_ON_ERROR);
         }
 
         $config = ConfigModel::updateOrCreate(

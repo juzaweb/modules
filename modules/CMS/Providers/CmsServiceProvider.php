@@ -78,7 +78,7 @@ use TwigBridge\Facade\Twig;
 
 class CmsServiceProvider extends ServiceProvider
 {
-    protected string $basePath = __DIR__.'/..';
+    protected string $basePath = __DIR__.'/../../..';
 
     public function boot(): void
     {
@@ -137,7 +137,7 @@ class CmsServiceProvider extends ServiceProvider
 
     protected function bootMigrations(): void
     {
-        $mainPath = $this->basePath.'/Database/migrations';
+        $mainPath = $this->basePath.'/migrations';
         $directories = glob($mainPath.'/*', GLOB_ONLYDIR);
         $paths = array_merge([$mainPath], $directories);
         $this->loadMigrationsFrom($paths);
