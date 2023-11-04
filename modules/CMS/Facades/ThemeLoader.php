@@ -21,7 +21,6 @@ use Noodlehaus\Config;
  * @method static array getRegister(string $theme)
  * @method static array getTemplates(string $theme, string $template = null)
  * @method static \Noodlehaus\Config[] all($assoc = false)
- * @method static void loadProviders(string $theme)
  *
  * @see \Juzaweb\CMS\Support\Theme\Theme
  */

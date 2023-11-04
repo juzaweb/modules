@@ -15,7 +15,7 @@ use Juzaweb\CMS\Support\Hooks\Events;
 
 class HookActionServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         /*
          * Adds a directive in Blade for actions
@@ -38,7 +38,7 @@ class HookActionServiceProvider extends ServiceProvider
         );
     }
 
-    public function register()
+    public function register(): void
     {
         // Registers the eventy singleton.
         $this->app->singleton(

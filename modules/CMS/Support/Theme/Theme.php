@@ -315,6 +315,7 @@ class Theme implements ThemeLoaderContract
     public function getVersion($theme): string
     {
         $info = $this->getThemeInfo($theme);
+
         return $info->get('version', '0');
     }
 
@@ -327,7 +328,7 @@ class Theme implements ThemeLoaderContract
         return $this->getRegister($theme, 'templates', []);
     }
 
-    public function getRegister($theme, $key = null, $default = null): string|array|null
+    public function getRegister(string $theme, ?string $key = null, mixed $default = null): string|array|null
     {
         $path = $this->getThemePath($theme, 'register.json');
         if (file_exists($path)) {
@@ -342,7 +343,7 @@ class Theme implements ThemeLoaderContract
         return [];
     }
 
-    public function getComposer($theme, $key = null, $default = null): string|array|null
+    public function getComposer(string $theme, ?string $key = null, mixed $default = null): string|array|null
     {
         $path = $this->getPath($theme, 'composer.json');
 
@@ -356,17 +357,6 @@ class Theme implements ThemeLoaderContract
         }
 
         return [];
-    }
-
-    public function loadProviders(string $theme): void
-    {
-        if (!$providers = $this->getComposer($theme, 'extra.juzaweb.providers')) {
-            return;
-        }
-
-        foreach ($providers as $provider) {
-            $this->app->register($provider);
-        }
     }
 
     /**
