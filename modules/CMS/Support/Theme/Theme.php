@@ -359,6 +359,17 @@ class Theme implements ThemeLoaderContract
         return [];
     }
 
+    public function loadProviders(string $theme): void
+    {
+        if (!$providers = $this->getComposer($theme, 'extra.juzaweb.providers')) {
+            return;
+        }
+
+        foreach ($providers as $provider) {
+            $this->app->register($provider);
+        }
+    }
+
     /**
      * Map view map for particular theme.
      *

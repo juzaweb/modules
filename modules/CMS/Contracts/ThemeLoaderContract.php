@@ -27,4 +27,12 @@ interface ThemeLoaderContract
      * If the theme does not have a composer, null will be returned.
      */
     public function getComposer(string $theme, ?string $key = null, mixed $default = null): string|array|null;
+
+    /**
+     * Load providers for the specified theme.
+     *
+     * @param string $theme The name of the theme to load providers for.
+     * @return void
+     */
+    public function loadProviders(string $theme): void;
 }

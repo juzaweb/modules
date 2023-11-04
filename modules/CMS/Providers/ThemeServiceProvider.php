@@ -62,11 +62,7 @@ class ThemeServiceProvider extends ServiceProvider
             return;
         }
 
-        if ($providers = ThemeLoader::getComposer($currentTheme, 'extra.juzaweb.providers')) {
-            foreach ($providers as $provider) {
-                $this->app->register($provider);
-            }
-        }
+        ThemeLoader::loadProviders($currentTheme);
 
         Lang::addJsonPath(ThemeLoader::getPath($currentTheme, 'lang'));
 
