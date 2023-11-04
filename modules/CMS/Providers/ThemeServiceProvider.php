@@ -62,7 +62,9 @@ class ThemeServiceProvider extends ServiceProvider
             return;
         }
 
-        Lang::addJsonPath(ThemeLoader::getPath(jw_current_theme(), 'lang'));
+        ThemeLoader::loadProviders($currentTheme);
+
+        Lang::addJsonPath(ThemeLoader::getPath($currentTheme, 'lang'));
 
         ActionRegister::register(
             [

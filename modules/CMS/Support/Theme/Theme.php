@@ -342,6 +342,33 @@ class Theme implements ThemeLoaderContract
         return [];
     }
 
+    public function getComposer($theme, $key = null, $default = null): string|array|null
+    {
+        $path = $this->getPath($theme, 'composer.json');
+
+        if (File::exists($path)) {
+            $data = json_decode(file_get_contents($path), true, 512, JSON_THROW_ON_ERROR);
+            if ($key) {
+                return Arr::get($data, $key, $default);
+            }
+
+            return $data;
+        }
+
+        return [];
+    }
+
+    public function loadProviders(string $theme): void
+    {
+        if (!$providers = $this->getComposer($theme, 'extra.juzaweb.providers')) {
+            return;
+        }
+
+        foreach ($providers as $provider) {
+            $this->app->register($provider);
+        }
+    }
+
     /**
      * Map view map for particular theme.
      *
