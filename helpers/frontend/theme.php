@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Juzaweb\Backend\Http\Resources\PostResource;
 use Juzaweb\Backend\Models\Comment;
 use Juzaweb\Backend\Models\Menu;
 use Juzaweb\Backend\Models\Post;
@@ -584,5 +585,18 @@ if (!function_exists('has_media_image_size')) {
         $path = str_replace($filename, "{$filename}_{$size}", $path);
 
         return Storage::disk(config('juzaweb.filemanager.disk'))->exists($path);
+    }
+}
+
+if (!function_exists('get_page_by_template')) {
+    function get_page_by_template(string $template): array
+    {
+        $post = Post::where(['type' => 'pages'])->whereMeta('template', $template)->first();
+
+        if ($post === null) {
+            return [];
+        }
+
+        return PostResource::make($post)->toArray(request());
     }
 }

@@ -17,7 +17,7 @@ use Twig\Extension\AbstractExtension;
 /**
  * Access Laravels auth class in your Twig templates.
  */
-class Custom extends AbstractExtension
+class CustomFunction extends AbstractExtension
 {
     public function getName(): string
     {
@@ -87,6 +87,7 @@ class Custom extends AbstractExtension
             new TwigFunction('get_next_resource', 'get_next_resource'),
             new TwigFunction('do_action', 'do_action'),
             new TwigFunction('strip_tags', 'strip_tags'),
+            new TwigFunction('get_page_by_template', 'get_page_by_template'),
         ];
     }
 }

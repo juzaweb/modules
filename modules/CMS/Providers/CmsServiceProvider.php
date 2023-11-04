@@ -41,7 +41,7 @@ use Juzaweb\CMS\Contracts\ThemeConfigContract;
 use Juzaweb\CMS\Contracts\TranslationFinder as TranslationFinderContract;
 use Juzaweb\CMS\Contracts\TranslationManager as TranslationManagerContract;
 use Juzaweb\CMS\Contracts\XssCleanerContract;
-use Juzaweb\CMS\Extension\Custom;
+use Juzaweb\CMS\Extension\CustomFunction;
 use Juzaweb\CMS\Facades\OverwriteConfig;
 use Juzaweb\CMS\Support\ActionRegister;
 use Juzaweb\CMS\Support\CacheGroup;
@@ -123,7 +123,7 @@ class CmsServiceProvider extends ServiceProvider
 
         Schema::defaultStringLength(150);
 
-        Twig::addExtension(new Custom());
+        Twig::addExtension(new CustomFunction());
 
         Paginator::useBootstrapFive();
 
