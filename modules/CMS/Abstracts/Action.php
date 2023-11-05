@@ -67,7 +67,6 @@ abstract class Action
      * @param  int  $priority  Optional. The priority of the action. Default is 20.
      * @param  int  $arguments  Optional. The number of arguments that the callback function accepts. Default is 1.
      * @return void
-     * @throws Some_Exception_Class Description of the exception that can be thrown.
      */
     protected function addAction($tag, $callback, $priority = 20, $arguments = 1): void
     {
@@ -82,7 +81,6 @@ abstract class Action
      * @param  int  $priority  The priority of the filter. Default is 20.
      * @param  int  $arguments  The number of arguments the callback function accepts. Default is 1.
      * @return void
-     * @throws Some_Exception_Class A description of the exception that may be thrown.
      */
     protected function addFilter($tag, $callback, $priority = 20, $arguments = 1): void
     {

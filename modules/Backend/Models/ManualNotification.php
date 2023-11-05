@@ -32,9 +32,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ManualNotification extends Model
 {
-    const STATUS_PENDING = 2;
-    const STATUS_SUCCESS = 1;
-    const STATUS_ERROR = 0;
+    public const STATUS_PENDING = 2;
+    public const STATUS_SUCCESS = 1;
+    public const STATUS_ERROR = 0;
 
     protected $table = 'manual_notifications';
 
@@ -43,10 +43,16 @@ class ManualNotification extends Model
         'users',
         'data',
         'status',
-        'error'
+        'error',
     ];
 
     public $casts = [
         'data' => 'array',
+        'status' => 'integer',
     ];
+
+    public function isSuccess(): bool
+    {
+        return $this->status == self::STATUS_SUCCESS;
+    }
 }

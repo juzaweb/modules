@@ -10,13 +10,13 @@ use Juzaweb\CMS\Support\Notifications\EmailNotification;
 
 class NotificationServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         Notification::register('database', DatabaseNotification::class);
         Notification::register('mail', EmailNotification::class);
     }
 
-    public function register()
+    public function register(): void
     {
         $this->commands(
             [

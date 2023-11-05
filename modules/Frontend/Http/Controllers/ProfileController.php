@@ -2,12 +2,15 @@
 
 namespace Juzaweb\Frontend\Http\Controllers;
 
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Response;
 use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\Backend\Repositories\UserRepository;
 use Juzaweb\CMS\Facades\HookAction;
@@ -21,7 +24,7 @@ class ProfileController extends FrontendController
     {
     }
 
-    public function index($slug = null)
+    public function index(?string $slug = null)
     {
         $pages = HookAction::getProfilePages()->toArray();
         $page = $pages[$slug ?? 'index'];
@@ -68,7 +71,7 @@ class ProfileController extends FrontendController
         );
     }
 
-    public function changePassword(Request $request)
+    public function changePassword(Request $request): View|Factory|Response|string
     {
         $title = trans('cms::app.change_password');
         $user = UserResource::make($request->user())->toArray($request);
@@ -82,7 +85,7 @@ class ProfileController extends FrontendController
         );
     }
 
-    public function notification()
+    public function notification(): View|Factory|Response|string
     {
         global $jw_user;
 

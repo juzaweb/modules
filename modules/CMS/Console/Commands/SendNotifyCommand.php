@@ -12,7 +12,7 @@ class SendNotifyCommand extends Command
 
     protected int $limit = 5;
 
-    public function handle()
+    public function handle(): void
     {
         if (config('juzaweb.notification.method') != 'cron') {
             return;

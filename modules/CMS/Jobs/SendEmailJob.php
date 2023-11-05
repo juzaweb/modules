@@ -17,15 +17,15 @@ class SendEmailJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    protected $mail;
+    protected EmailList $mail;
 
     /**
      * Create a new job instance.
      *
-     * @param EmailList $mail
+     * @param  EmailList  $mail
      * @return void
      */
-    public function __construct($mail)
+    public function __construct(EmailList $mail)
     {
         $this->mail = $mail;
     }
@@ -36,7 +36,7 @@ class SendEmailJob implements ShouldQueue
      * @return void
      * @throws \Exception
      */
-    public function handle()
+    public function handle(): void
     {
         (new SendEmail($this->mail))->send();
     }
