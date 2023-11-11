@@ -58,9 +58,9 @@ class SystemSettingController extends BackendController
                     continue;
                 }
 
-                if (is_array($config)) {
-                    $config = array_replace_recursive(get_config($key, []), $config);
-                }
+                // if (is_array($config)) {
+                //     $config = array_replace_recursive(get_config($key, []), $config);
+                // }
 
                 set_config($key, $config);
 
