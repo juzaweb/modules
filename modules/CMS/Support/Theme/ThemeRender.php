@@ -44,7 +44,7 @@ class ThemeRender implements ThemeRenderContract
         $params = $this->parseParams($params);
 
         return match ($this->theme->getTemplate()) {
-            'twig' => apply_filters('theme.render_view', Twig::display($view, $params)),
+            //'twig' => apply_filters('theme.render_view', Twig::display($view, $params)),
             'inertia' => apply_filters('theme.render_view', $this->inertiaRender($view, $params)),
             default => apply_filters('theme.render_view', view($view, $params)),
         };
