@@ -5,6 +5,7 @@ namespace Juzaweb\Backend\Http\Controllers\Backend\Setting;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 use Juzaweb\Backend\Http\Requests\Setting\SettingRequest;
 use Juzaweb\CMS\Contracts\GlobalDataContract;
 use Juzaweb\CMS\Contracts\HookActionContract;
@@ -86,7 +87,7 @@ class SystemSettingController extends BackendController
         );
     }
 
-    protected function getForms(string $page): \Illuminate\Support\Collection
+    protected function getForms(string $page): Collection
     {
         return collect($this->globalData->get('setting_forms'))
             ->where('page', $page)
