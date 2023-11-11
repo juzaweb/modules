@@ -1,3 +1,8 @@
+### v1.0.4 
+* :+1: Fix Theme render session
+* :+1: Fix save config array
+* :truck: Notification data type
+
 ### v1.0.3 
 * :bug: Fix get theme path
 * :memo: Changelog
