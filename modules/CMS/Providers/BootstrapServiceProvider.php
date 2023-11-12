@@ -14,7 +14,9 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->app[LocalPluginRepositoryContract::class]->boot();
+        if (config('juzaweb.plugin.enable')) {
+            $this->app[LocalPluginRepositoryContract::class]->boot();
+        }
 
         $this->booted(
             function () {
@@ -30,7 +32,9 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app[LocalPluginRepositoryContract::class]->register();
+        if (config('juzaweb.plugin.enable')) {
+            $this->app[LocalPluginRepositoryContract::class]->register();
+        }
 
         // Register frontend routes after load plugins
         $this->app->register(RouteServiceProvider::class);

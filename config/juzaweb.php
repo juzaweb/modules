@@ -107,6 +107,8 @@ return [
     ],
 
     'plugin' => [
+        'enable' => env('JW_PLUGIN_ENABLE', true),
+
         /**
          * Enable upload plugins
          *

@@ -194,6 +194,7 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
      * Get cached plugins.
      *
      * @return array
+     * @throws Exception
      */
     public function getCached(): array
     {
