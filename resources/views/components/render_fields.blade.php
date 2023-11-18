@@ -1,6 +1,12 @@
+@php
+/** @var \Illuminate\Support\Collection $fields */
+/** @var array|\Juzaweb\CMS\Models\Model $values */
+@endphp
+
 @foreach($fields as $name => $meta)
     @php
         $meta['name'] = Arr::get($meta, 'name', $name);
+
         if (Arr::has($meta, 'value')) {
             $meta['data']['value'] = Arr::get($meta, 'value');
         } else {
