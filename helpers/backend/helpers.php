@@ -834,15 +834,15 @@ if (!function_exists('is_dev_tool_enable')) {
     }
 }
 
-if (!function_exists('map_name_repicter')) {
-    function map_name_repicter(array $fields, Collection $options, string $marker): array
+if (!function_exists('map_name_repeater')) {
+    function map_name_repeater(array $fields, Collection $options, string $marker): array
     {
         return collect($fields)->map(
             function ($field, $name) use ($options, $marker) {
                 $fieldName = $options['name'] . '['. $marker .'][' . ($field['name'] ?? $name) . ']';
 
                 if (isset($field['fields'])) {
-                    $field['fields'] = map_name_repicter($field['fields'], $options, $marker);
+                    $field['fields'] = map_name_repeater($field['fields'], $options, $marker);
                 }
 
                 return array_merge($field, ['name' => $fieldName]);

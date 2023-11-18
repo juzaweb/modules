@@ -595,5 +595,5 @@ return [
     'to_users' => 'To Users',
     'to_sender' => 'To Sender',
     'to_sender_description' => 'If selected, this email will be sent to the person submitting the form',
-    'add_repicter_item' => 'Add new :label',
+    'add_repeater_item' => 'Add new :label',
 ];

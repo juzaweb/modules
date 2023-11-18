@@ -63,12 +63,12 @@ $(function () {
         });
     });
 
-    $(document).on('click', '.add-repicter-item', function () {
-        let form = $(this).closest('.form-repicter');
+    $(document).on('click', '.add-repeater-item', function () {
+        let form = $(this).closest('.form-repeater');
         let marker = generate_uuid();
-        let template = form.find('.repicter-item-template').html();
+        let template = form.find('.repeater-item-template').html();
         template = replace_template(template, {marker: marker});
-        form.find('.repicter-items').append(template);
+        form.find('.repeater-items').append(template);
     });
 
     $(".juzaweb__menuLeft__submenu").on("mouseover", function () {
