@@ -833,3 +833,20 @@ if (!function_exists('is_dev_tool_enable')) {
         return config('dev-tool.enable', false);
     }
 }
+
+if (!function_exists('map_name_repicter')) {
+    function map_name_repicter(array $fields, Collection $options, string $marker): array
+    {
+        return collect($fields)->map(
+            function ($field, $name) use ($options, $marker) {
+                $fieldName = $options['name'] . '['. $marker .'][' . ($field['name'] ?? $name) . ']';
+
+                if (isset($field['fields'])) {
+                    $field['fields'] = map_name_repicter($field['fields'], $options, $marker);
+                }
+
+                return array_merge($field, ['name' => $fieldName]);
+            }
+        )->toArray();
+    }
+}

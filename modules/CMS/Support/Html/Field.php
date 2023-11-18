@@ -46,6 +46,13 @@ class Field implements FieldContract
         return view('cms::components.form_col', compact('options', 'values'));
     }
 
+    public function repicter(array $options, array|Model $values = []): View|Factory
+    {
+        $options = new Collection($options);
+
+        return view('cms::components.repicter.index', compact('options', 'values'));
+    }
+
     public function collect(array $fields): Collection
     {
         return (new Collection($fields))

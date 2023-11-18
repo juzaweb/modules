@@ -39,6 +39,8 @@ interface Field
      */
     public function row(array $options, array|Model $values = []): View|Factory;
 
+    public function repicter(array $options, array|Model $values = []): View|Factory;
+
      /**
      * Creates a column for a form.
      *

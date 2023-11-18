@@ -14,7 +14,7 @@ function addStyleSubmenu(e) {
     }
 }
 
-$(document).ready(function () {
+$(function () {
     let bodyElement = $('body');
 
     bodyElement.on('change', '.show_on_front-change', function () {
@@ -36,7 +36,7 @@ $(document).ready(function () {
     bodyElement.on('change', '.generate-slug', function () {
         let title = $(this).val();
 
-        ajaxRequest(juzaweb.adminUrl +'/load-data/generateSlug', {
+        ajaxRequest(juzaweb.adminUrl + '/load-data/generateSlug', {
             title: title
         }, {
             method: 'GET',
@@ -61,6 +61,14 @@ $(document).ready(function () {
 
             }
         });
+    });
+
+    $(document).on('click', '.add-repicter-item', function () {
+        let form = $(this).closest('.form-repicter');
+        let marker = generate_uuid();
+        let template = form.find('.repicter-item-template').html();
+        template = replace_template(template, {marker: marker});
+        form.find('.repicter-items').append(template);
     });
 
     $(".juzaweb__menuLeft__submenu").on("mouseover", function () {

@@ -19,6 +19,7 @@ use Juzaweb\CMS\Contracts\Field as FieldContract;
 /**
  * @method static fieldByType($fields)
  * @method static View|Factory render(array $fields, array|Model $values = [], bool $collection = false)
+ * @method static View|Factory repicter(array $options, array|Model $values = [])
  * @method static select(string|Model $label, ?string $name, ?array $options = [])
  * @method static selectUser(string|Model $label, ?string $name, ?array $options = [])
  * @method static selectTaxonomy(string|Model $label, ?string $name, ?array $options = [])

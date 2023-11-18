@@ -1,6 +1,6 @@
 const mix = require('laravel-mix');
 
-const baseAsset = 'modules/Backend/resources/assets';
+const baseAsset = 'vendor/juzaweb/modules/resources/assets';
 const basePublish = baseAsset + '/public';
 
 mix.combine(
