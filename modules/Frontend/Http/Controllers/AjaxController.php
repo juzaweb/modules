@@ -44,7 +44,7 @@ class AjaxController extends FrontendController
         $key = str_replace('/', '.', $key);
         $ajax = HookAction::getFrontendAjaxs($key);
 
-        if (empty($ajax)) {
+        if ($ajax === null) {
             return response('Ajax function not found.', 404);
         }
 
@@ -52,10 +52,8 @@ class AjaxController extends FrontendController
             return response('You do not have permission to access this link.', 403);
         }
 
-        if ($method = $ajax->get('method')) {
-            if ($request->method() != Str::upper($method)) {
-                return response('Method is not supported.', 403);
-            }
+        if (($method = $ajax->get('method')) && $request->method() != Str::upper($method)) {
+            return response('Method is not supported.', 403);
         }
 
         $callback = $ajax->get('callback');
