@@ -1,3 +1,13 @@
+### v1.0.5 
+* :bug: Fix response with message
+* :+1: Custom param twig render
+* :+1: Repeater input support
+* :+1: Repicter input support
+* :bug: Fix ajax backend
+* :+1: On/Off load plugins
+* :+1: Module select make commands
+* :memo: Update changelog
+
 ### v1.0.4 
 * :+1: Fix Theme render session
 * :+1: Fix save config array
