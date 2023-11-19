@@ -64,12 +64,13 @@ class NetworkRegistion implements NetworkRegistionContract
         } else {
             $argv = $_SERVER['argv'];
             if (($argv[0] ?? '') == 'artisan' && ($argv[1] ?? '') == 'network:run') {
-                $siteID = intval($argv[3]);
+                $siteID = (int) $argv[3];
                 $site = $this->db->table('network_sites')
                     ->where(['id' => $siteID])
                     ->first();
+
                 if (!$site) {
-                    throw new \Exception("Can not find site {$siteID}");
+                    throw new \RuntimeException("Can not find site {$siteID}");
                 }
 
                 $this->site = $site;

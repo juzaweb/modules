@@ -52,22 +52,22 @@ class SiteSetup implements SiteSetupContract
     {
         $connection = $this->db->getDefaultConnection();
 
-        if (!is_null($site->id)) {
-            $prefix = $this->db->getTablePrefix() . "site{$site->id}_";
-
-            $database = $this->config->get("database.connections.{$connection}");
-
-            $database['prefix'] = $prefix;
-
-            $this->config->set(
-                'database.connections.subsite',
-                $database
-            );
-
-            $this->config->set('database.default', 'subsite');
-
-            $this->db->purge('subsite');
-        }
+        // if (!is_null($site->id)) {
+        //     $prefix = $this->db->getTablePrefix() . "site{$site->id}_";
+        //
+        //     $database = $this->config->get("database.connections.{$connection}");
+        //
+        //     $database['prefix'] = $prefix;
+        //
+        //     $this->config->set(
+        //         'database.connections.subsite',
+        //         $database
+        //     );
+        //
+        //     $this->config->set('database.default', 'subsite');
+        //
+        //     $this->db->purge('subsite');
+        // }
 
         $site->root_connection = $connection;
 

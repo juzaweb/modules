@@ -11,6 +11,7 @@
 namespace Juzaweb\Backend\Models;
 
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Seo\Models\SeoMeta
@@ -32,16 +33,24 @@ use Juzaweb\CMS\Models\Model;
  */
 class SeoMeta extends Model
 {
+    use Networkable;
+
     public $timestamps = false;
 
     protected $table = 'seo_metas';
-    protected $guarded = ['id'];
+
+    protected $fillable = [
+        'object_type',
+        'object_id',
+        'meta_title',
+        'meta_description',
+    ];
 
     /**
      * @param Model $model
      * @return SeoMeta|null
      */
-    public static function findByModel(Model $model)
+    public static function findByModel(Model $model): ?SeoMeta
     {
         if ($model instanceof Post) {
             return self::where('object_type', '=', 'posts')

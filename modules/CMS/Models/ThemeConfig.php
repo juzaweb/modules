@@ -2,6 +2,11 @@
 
 namespace Juzaweb\CMS\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
+use Juzaweb\Network\Traits\Networkable;
+
 /**
  * Juzaweb\CMS\Models\ThemeConfig
  *
@@ -9,24 +14,27 @@ namespace Juzaweb\CMS\Models;
  * @property string $code
  * @property string $theme
  * @property string|null $value
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig query()
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereTheme($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereValue($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|ThemeConfig newModelQuery()
+ * @method static Builder|ThemeConfig newQuery()
+ * @method static Builder|ThemeConfig query()
+ * @method static Builder|ThemeConfig whereCode($value)
+ * @method static Builder|ThemeConfig whereCreatedAt($value)
+ * @method static Builder|ThemeConfig whereId($value)
+ * @method static Builder|ThemeConfig whereTheme($value)
+ * @method static Builder|ThemeConfig whereUpdatedAt($value)
+ * @method static Builder|ThemeConfig whereValue($value)
+ * @mixin Eloquent
  * @property int|null $site_id
- * @method static \Illuminate\Database\Eloquent\Builder|ThemeConfig whereSiteId($value)
+ * @method static Builder|ThemeConfig whereSiteId($value)
  */
 class ThemeConfig extends Model
 {
+    use Networkable;
+
     protected $table = 'theme_configs';
+
     protected $fillable = [
         'code',
         'theme',

@@ -15,6 +15,7 @@ use Juzaweb\CMS\Support\Permission\Guard;
 use Juzaweb\CMS\Support\Permission\PermissionRegistrar;
 use Juzaweb\CMS\Traits\Permission\HasRoles;
 use Juzaweb\CMS\Traits\Permission\RefreshesPermissionCache;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\CMS\Models\Permission
@@ -48,8 +49,7 @@ use Juzaweb\CMS\Traits\Permission\RefreshesPermissionCache;
  */
 class Permission extends Model implements PermissionContract
 {
-    use HasRoles;
-    use RefreshesPermissionCache;
+    use HasRoles, RefreshesPermissionCache, Networkable;
 
     protected $table = 'permissions';
 

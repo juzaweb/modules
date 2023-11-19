@@ -19,6 +19,7 @@ use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Models\Model;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\Menu
@@ -46,7 +47,7 @@ use Juzaweb\CMS\Traits\UseUUIDColumn;
  */
 class Menu extends Model
 {
-    use QueryCacheable, UseUUIDColumn;
+    use QueryCacheable, UseUUIDColumn, Networkable;
 
     public string $cachePrefix = 'menus_';
 

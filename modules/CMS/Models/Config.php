@@ -5,6 +5,7 @@ namespace Juzaweb\CMS\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Juzaweb\CMS\Facades\GlobalData;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\CMS\Models\Config
@@ -24,6 +25,8 @@ use Juzaweb\CMS\Facades\GlobalData;
  */
 class Config extends Model
 {
+    use Networkable;
+
     public $timestamps = false;
     protected $table = 'configs';
     protected $fillable = [

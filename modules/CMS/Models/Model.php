@@ -33,7 +33,7 @@ class Model extends EloquentModel
         return $label;
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [];
     }

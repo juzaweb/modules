@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\MediaFile
@@ -42,7 +43,10 @@ use Juzaweb\CMS\Models\Model;
  */
 class MediaFile extends Model
 {
+    use Networkable;
+
     protected $table = 'media_files';
+
     protected $fillable = [
         'name',
         'path',

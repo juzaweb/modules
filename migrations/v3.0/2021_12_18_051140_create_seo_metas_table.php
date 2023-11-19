@@ -12,7 +12,7 @@ class CreateSeoMetasTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(
             'seo_metas',
@@ -31,7 +31,7 @@ class CreateSeoMetasTable extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('seo_metas');
     }

@@ -12,6 +12,7 @@ namespace Juzaweb\CMS\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\CMS\Models\Language
@@ -37,7 +38,7 @@ use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
  */
 class Language extends Model
 {
-    use QueryCacheable;
+    use QueryCacheable, Networkable;
 
     public string $cachePrefix = 'languages_';
 
@@ -57,16 +58,16 @@ class Language extends Model
         return Language::whereCode($code)->exists();
     }
 
-    public static function setDefault($code)
+    public static function setDefault($code): void
     {
-        $language = Language::whereCode($code)->firstOrFail();
+        $language = self::whereCode($code)->firstOrFail();
         $language->update(
             [
                 'default' => true
             ]
         );
 
-        Language::where('code', '!=', $code)
+        self::where('code', '!=', $code)
             ->where('default', '=', true)
             ->update(
                 [
