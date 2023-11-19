@@ -12,13 +12,17 @@ namespace Juzaweb\Backend\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Juzaweb\CMS\Models\User;
 
+/**
+ * @property-read User $resource
+ */
 class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return array
      */
     public function toArray($request): array
@@ -26,10 +30,10 @@ class UserResource extends JsonResource
         $data = [
             'name' => $this->resource->name,
             'email' => $this->resource->email,
-            'is_admin' => (bool)$this->resource->is_admin,
+            'is_admin' => (bool) $this->resource->is_admin,
             'created_at' => jw_date_format($this->resource->created_at),
             'avatar' => $this->resource->getAvatar(),
-            'metas' => (array)$this->resource->getMetas(),
+            'metas' => (array) $this->resource->getMetas(),
         ];
 
         return apply_filters('user.resouce_data', $data, $this->resource);

@@ -16,9 +16,12 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Str;
+use Illuminate\Support\ViewErrorBag;
 use Inertia\Inertia;
+use Inertia\Response;
 use Juzaweb\Backend\Http\Resources\CommentResource;
 use Juzaweb\Backend\Http\Resources\PostResource;
 use Juzaweb\Backend\Http\Resources\PostResourceCollection;
@@ -28,7 +31,6 @@ use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\CMS\Contracts\Theme\ThemeRender as ThemeRenderContract;
 use Juzaweb\CMS\Interfaces\Theme\ThemeInterface;
-use TwigBridge\Facade\Twig;
 
 class ThemeRender implements ThemeRenderContract
 {
@@ -39,7 +41,7 @@ class ThemeRender implements ThemeRenderContract
         $this->request = app('request');
     }
 
-    public function render(string $view, array $params = []): Factory|View|string|\Inertia\Response
+    public function render(string $view, array $params = []): Factory|View|string|Response
     {
         $params = $this->parseParams($params);
 
@@ -80,7 +82,7 @@ class ThemeRender implements ThemeRenderContract
         };
     }
 
-    protected function inertiaRender(string $view, array $params = []): \Inertia\Response
+    protected function inertiaRender(string $view, array $params = []): Response
     {
         $view = Str::replace('theme::', '', $view);
         $view = Str::replace('.', '/', $view);
@@ -89,7 +91,7 @@ class ThemeRender implements ThemeRenderContract
 
     protected function parseParamToArray($param)
     {
-        if ($param instanceof \Illuminate\Support\ViewErrorBag) {
+        if ($param instanceof ViewErrorBag) {
             return $param;
         }
 
@@ -107,6 +109,10 @@ class ThemeRender implements ThemeRenderContract
 
         if ($param instanceof EloquentCollection || $param instanceof LengthAwarePaginator) {
             return $this->parseParamEloquentCollectionToArray($param);
+        }
+
+        if ($param instanceof JsonResource) {
+            return $param->response()->getData(true);
         }
 
         if ($param instanceof Arrayable) {
