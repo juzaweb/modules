@@ -4,6 +4,7 @@ namespace Juzaweb\CMS\Traits;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
 
 trait ResponseMessage
 {
@@ -26,11 +27,12 @@ trait ResponseMessage
             );
         }
 
+        $data['status'] = $status ? 'success' : 'error';
+
         if (!empty($data['redirect'])) {
-            return redirect()->to($data['redirect']);
+            return redirect()->to($data['redirect'])->with(Arr::except($data, 'redirect'));
         }
 
-        $data['status'] = $status ? 'success' : 'error';
         $back = back()->withInput()->with($data);
 
         if (empty($status)) {
