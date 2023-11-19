@@ -43,5 +43,22 @@ return new class extends Migration {
                 }
             );
         }
+
+        // Edit unique key
+        Schema::table(
+            'configs',
+            function (Blueprint $table) {
+                $table->dropUnique(['code']);
+                $table->unique(['code', 'site_id']);
+            }
+        );
+
+        Schema::table(
+            'theme_configs',
+            function (Blueprint $table) {
+                $table->dropUnique(['code', 'theme']);
+                $table->unique(['code', 'theme', 'site_id']);
+            }
+        );
     }
 };
