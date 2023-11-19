@@ -16,6 +16,7 @@ return new class extends Migration {
         'notifications',
         'resources',
         'roles',
+        'permissions',
         'configs',
         'comments',
         'seo_metas',

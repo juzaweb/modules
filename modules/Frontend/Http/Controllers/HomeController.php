@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
+use Juzaweb\CMS\Models\Model;
 
 class HomeController extends FrontendController
 {
@@ -43,7 +44,7 @@ class HomeController extends FrontendController
         $postType = get_config('home_post_type');
 
         $params['page'] = $this->postRepository
-            ->scopeQuery(fn(Builder $q) => $q->when($postType, fn($q2) => $q2->where(['type' => 'posts'])))
+            ->scopeQuery(fn(Builder|Model $q) => $q->when($postType, fn($q2) => $q2->where(['type' => 'posts'])))
             ->frontendListPaginate(get_config('posts_per_page', 12));
 
         return $params;
