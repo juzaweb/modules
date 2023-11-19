@@ -11,6 +11,7 @@
 namespace Juzaweb\Network\Traits;
 
 use Juzaweb\Network\Facades\Network;
+use Juzaweb\Network\Observers\SubsiteModelObserver;
 use Juzaweb\Network\Scopes\SubsiteQueryScope;
 
 trait Networkable
@@ -19,6 +20,7 @@ trait Networkable
     {
         if (config('network.enable') && !Network::isRootSite()) {
             static::addGlobalScope(new SubsiteQueryScope());
+            static::observe([SubsiteModelObserver::class]);
         }
     }
 }
