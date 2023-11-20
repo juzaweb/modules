@@ -45,20 +45,34 @@ class PluginController extends BackendController
 
     public function getDataTable(Request $request): JsonResponse
     {
-        global $jw_user;
-        if (!$jw_user->can('plugins.index')) {
+        if (!$request->user()->can('plugins.index')) {
             abort(403);
         }
 
-        $offset = $request->get('offset', 0);
-        $limit = $request->get('limit', 20);
+        $offset = $request->query('offset', 0);
+        $limit = $request->query('limit', 20);
+        $status = $request->query('status');
 
         $plugins = Plugin::all();
+        if ($keyword = $request->query('search')) {
+            $plugins = collect($plugins)->filter(
+                fn (SupportPlugin $plugin) => stripos($plugin->getDisplayName(), $keyword) !== false
+            );
+        }
+
+        if ($status !== null) {
+            $status = filter_var($status, FILTER_VALIDATE_BOOLEAN);
+
+            $plugins = collect($plugins)->filter(
+                fn (SupportPlugin $plugin) => $status ? $plugin->isEnabled() : !$plugin->isEnabled()
+            );
+        }
+
         $total = count($plugins);
         $page = (int) round(($offset + $limit) / $limit);
         $data = ArrayPagination::make($plugins);
         $data = $data->paginate($limit, $page);
-        $updates = $this->getDataUpdates($data->getCollection());
+        //$updates = $this->getDataUpdates($data->getCollection());
 
         $results = [];
         foreach ($data as $plugin) {
@@ -72,7 +86,8 @@ class PluginController extends BackendController
                 'status' => $plugin->isEnabled() ? 'active' : 'inactive',
                 'setting' => $plugin->getSettingUrl(),
                 'version' => $plugin->getVersion(),
-                'update' => $updates->{$plugin->get('name')}->update ?? false,
+                //'update' => $updates->{$plugin->get('name')}->update ?? false,
+                'update' => false,
             ];
         }
 
