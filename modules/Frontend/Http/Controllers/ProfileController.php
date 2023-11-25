@@ -27,7 +27,7 @@ class ProfileController extends FrontendController
     public function index(?string $slug = null)
     {
         $pages = HookAction::getProfilePages()->toArray();
-        $page = $pages[$slug ?? 'index'];
+        $page = Arr::get($pages, $slug ?? 'index');
 
         abort_unless($page, 404);
 
