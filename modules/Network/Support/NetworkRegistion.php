@@ -14,6 +14,7 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use Juzaweb\Network\Contracts\NetworkRegistionContract;
@@ -40,6 +41,8 @@ class NetworkRegistion implements NetworkRegistionContract
 
     protected SessionManager $session;
 
+    protected UrlGenerator $url;
+
     protected ?object $site;
 
     public function __construct(
@@ -50,7 +53,8 @@ class NetworkRegistion implements NetworkRegistionContract
         DatabaseManager $db,
         SiteSetupContract $siteSetup,
         Kernel $kernel,
-        SessionManager $session
+        SessionManager $session,
+        UrlGenerator $url
     ) {
         $this->app = $app;
         $this->config = $config;
@@ -60,20 +64,17 @@ class NetworkRegistion implements NetworkRegistionContract
         $this->siteSetup = $siteSetup;
         $this->kernel = $kernel;
         $this->session = $session;
+        $this->url = $url;
     }
 
-    public function init(): void
+    public function init(?string $site = null): void
     {
-        // Set site by request
-        // if ($site = $this->request->query('site_id')) {
-        //     $this->session->put('site_id', $site);
-        //     $this->session->save();
-        // }
+        //$this->config->set('juzaweb.admin_prefix', $this->config->get('juzaweb.admin_prefix'). '/{siteId}');
 
         if ($this->app->runningInConsole()) {
             $this->initConsole();
         } else {
-            $this->initSetupSite();
+            $this->initSetupSite($site);
         }
 
         $GLOBALS['site'] = $this->site;
@@ -103,9 +104,17 @@ class NetworkRegistion implements NetworkRegistionContract
         return $this->getCurrentSite()->id;
     }
 
-    protected function initSetupSite(): void
+    protected function initSetupSite(?string $site = null): void
     {
-        $this->site = $this->getCurrentSiteInfo()->site;
+        if ($site !== null) {
+            $site = $this->db->table('network_sites')
+                ->where(['id' => $site])
+                ->first();
+
+            $this->site = $site;
+        } else {
+            $this->site = $this->getCurrentSiteInfo()->site;
+        }
 
         if (empty($this->site)) {
             abort(404, 'Site not found.');
@@ -150,14 +159,6 @@ class NetworkRegistion implements NetworkRegistionContract
     protected function getCurrentSiteInfo(): object
     {
         $domain = $this->getCurrentDomain();
-
-        // if ($siteId = $this->session->get('site_id')) {
-        //     $site = $this->db->table('network_sites')
-        //         ->where(['id' => $siteId])
-        //         ->first();
-        //
-        //     return (object) ['site' => $site];
-        // }
 
         return $this->cache->rememberForever(
             md5($domain),

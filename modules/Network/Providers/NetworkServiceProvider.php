@@ -11,7 +11,7 @@
 namespace Juzaweb\Network\Providers;
 
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Juzaweb\CMS\Facades\ActionRegister;
 use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
@@ -83,7 +83,8 @@ class NetworkServiceProvider extends ServiceProvider
                     $app['db'],
                     $app[SiteSetupContract::class],
                     $app[Kernel::class],
-                    $app['session']
+                    $app['session'],
+                    $app[UrlGenerator::class]
                 );
             }
         );

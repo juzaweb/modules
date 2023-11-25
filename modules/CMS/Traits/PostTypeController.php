@@ -308,7 +308,7 @@ trait PostTypeController
     private function getPostType(): ?string
     {
         if (empty($this->postType)) {
-            return request()?->segment(3);
+            return request()?->route()?->parameter('type');
         }
 
         return $this->postType;

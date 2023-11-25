@@ -26,7 +26,7 @@ class PostTypeDataTable extends DataTable
 
     protected ?Collection $taxonomies = null;
 
-    public function mount($postType)
+    public function mount($postType): void
     {
         if (is_string($postType)) {
             $postType = HookAction::getPostTypes($postType)->toArray();
