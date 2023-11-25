@@ -65,10 +65,10 @@ class NetworkRegistion implements NetworkRegistionContract
     public function init(): void
     {
         // Set site by request
-        if ($site = $this->request->query('site_id')) {
-            $this->session->put('site_id', $site);
-            $this->session->save();
-        }
+        // if ($site = $this->request->query('site_id')) {
+        //     $this->session->put('site_id', $site);
+        //     $this->session->save();
+        // }
 
         if ($this->app->runningInConsole()) {
             $this->initConsole();
@@ -151,13 +151,13 @@ class NetworkRegistion implements NetworkRegistionContract
     {
         $domain = $this->getCurrentDomain();
 
-        if ($siteId = $this->session->get('site_id')) {
-            $site = $this->db->table('network_sites')
-                ->where(['id' => $siteId])
-                ->first();
-
-            return (object) ['site' => $site];
-        }
+        // if ($siteId = $this->session->get('site_id')) {
+        //     $site = $this->db->table('network_sites')
+        //         ->where(['id' => $siteId])
+        //         ->first();
+        //
+        //     return (object) ['site' => $site];
+        // }
 
         return $this->cache->rememberForever(
             md5($domain),

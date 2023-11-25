@@ -30,7 +30,7 @@ class Admin
         if (!has_permission()) {
             abort(403, __('You can not access this page.'));
         }
-        
+
         global $jw_user;
 
         if ($locale = $request->query('hl')) {
