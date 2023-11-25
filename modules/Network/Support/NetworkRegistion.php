@@ -69,8 +69,6 @@ class NetworkRegistion implements NetworkRegistionContract
 
     public function init(?string $site = null): void
     {
-        //$this->config->set('juzaweb.admin_prefix', $this->config->get('juzaweb.admin_prefix'). '/{siteId}');
-
         if ($this->app->runningInConsole()) {
             $this->initConsole();
         } else {

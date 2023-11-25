@@ -29,7 +29,9 @@ use Juzaweb\CMS\Traits\Permission\HasRoles;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\ResourceModel;
 use Juzaweb\Network\Facades\Network;
+use Juzaweb\Network\Traits\Networkable;
 use Juzaweb\Network\Traits\RootNetworkModel;
+use Juzaweb\Network\Traits\RootNetworkUser;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -108,7 +110,8 @@ class User extends Authenticatable
         HasFactory,
         HasRoles,
         RootNetworkModel,
-        QueryCacheable;
+        QueryCacheable,
+        RootNetworkUser;
 
     public string $cachePrefix = 'users_';
 
@@ -138,9 +141,9 @@ class User extends Authenticatable
     public static function getAllStatus(): array
     {
         return [
-            User::STATUS_ACTIVE => trans('cms::app.active'),
-            User::STATUS_BANNED => trans('cms::app.banned'),
-            User::STATUS_VERIFICATION => trans('cms::app.verification'),
+            self::STATUS_ACTIVE => trans('cms::app.active'),
+            self::STATUS_BANNED => trans('cms::app.banned'),
+            self::STATUS_VERIFICATION => trans('cms::app.verification'),
         ];
     }
 
