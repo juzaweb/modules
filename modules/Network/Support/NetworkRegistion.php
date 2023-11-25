@@ -14,12 +14,14 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Http\Request;
 use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Site;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Session\SessionManager;
 
 class NetworkRegistion implements NetworkRegistionContract
 {
@@ -37,6 +39,10 @@ class NetworkRegistion implements NetworkRegistionContract
 
     protected Kernel $kernel;
 
+    protected SessionManager $session;
+
+    protected UrlGenerator $url;
+
     protected ?object $site;
 
     public function __construct(
@@ -46,7 +52,9 @@ class NetworkRegistion implements NetworkRegistionContract
         CacheManager $cache,
         DatabaseManager $db,
         SiteSetupContract $siteSetup,
-        Kernel $kernel
+        Kernel $kernel,
+        SessionManager $session,
+        UrlGenerator $url
     ) {
         $this->app = $app;
         $this->config = $config;
@@ -55,37 +63,18 @@ class NetworkRegistion implements NetworkRegistionContract
         $this->db = $db;
         $this->siteSetup = $siteSetup;
         $this->kernel = $kernel;
+        $this->session = $session;
+        $this->url = $url;
     }
 
-    public function init(): void
+    public function init(?string $site = null): void
     {
-        if (! $this->app->runningInConsole()) {
-            $this->setupSite();
+        //$this->config->set('juzaweb.admin_prefix', $this->config->get('juzaweb.admin_prefix'). '/{siteId}');
+
+        if ($this->app->runningInConsole()) {
+            $this->initConsole();
         } else {
-            $argv = $_SERVER['argv'];
-            if (($argv[0] ?? '') == 'artisan' && ($argv[1] ?? '') == 'network:run') {
-                $siteID = intval($argv[3]);
-                $site = $this->db->table('network_sites')
-                    ->where(['id' => $siteID])
-                    ->first();
-                if (!$site) {
-                    throw new \Exception("Can not find site {$siteID}");
-                }
-
-                $this->site = $site;
-
-                $this->siteSetup->setup($site);
-
-                $baseDomain = $this->config->get('network.domain');
-
-                $host = parse_url($this->config->get('app.url'));
-
-                $this->config->set('app.url', "{$host['scheme']}://{$site->domain}.{$baseDomain}");
-
-                URL::forceRootUrl("{$host['scheme']}://{$site->domain}.{$baseDomain}");
-            } else {
-                $this->site = $this->getRootSite();
-            }
+            $this->initSetupSite($site);
         }
 
         $GLOBALS['site'] = $this->site;
@@ -102,7 +91,7 @@ class NetworkRegistion implements NetworkRegistionContract
             return is_null($this->site->id);
         }
 
-        return $domain == $this->config->get('network.domain');
+        return $this->isRootDomain($domain);
     }
 
     public function getCurrentDomain(): string
@@ -115,9 +104,17 @@ class NetworkRegistion implements NetworkRegistionContract
         return $this->getCurrentSite()->id;
     }
 
-    protected function setupSite(): void
+    protected function initSetupSite(?string $site = null): void
     {
-        $this->site = $this->getCurrentSiteInfo()->site;
+        if ($site !== null) {
+            $site = $this->db->table('network_sites')
+                ->where(['id' => $site])
+                ->first();
+
+            $this->site = $site;
+        } else {
+            $this->site = $this->getCurrentSiteInfo()->site;
+        }
 
         if (empty($this->site)) {
             abort(404, 'Site not found.');
@@ -128,6 +125,35 @@ class NetworkRegistion implements NetworkRegistionContract
         }
 
         $this->site = $this->siteSetup->setup($this->site);
+    }
+
+    protected function initConsole(): void
+    {
+        $argv = $_SERVER['argv'];
+        if (($argv[0] ?? '') == 'artisan' && ($argv[1] ?? '') == 'network:run') {
+            $siteID = (int) $argv[3];
+            $site = $this->db->table('network_sites')
+                ->where(['id' => $siteID])
+                ->first();
+
+            if (!$site) {
+                throw new \RuntimeException("Can not find site {$siteID}");
+            }
+
+            $this->site = $site;
+
+            $this->siteSetup->setup($site);
+
+            $baseDomain = $this->config->get('network.domain');
+
+            $host = parse_url($this->config->get('app.url'));
+
+            $this->config->set('app.url', "{$host['scheme']}://{$site->domain}.{$baseDomain}");
+
+            URL::forceRootUrl("{$host['scheme']}://{$site->domain}.{$baseDomain}");
+        } else {
+            $this->site = $this->getRootSite();
+        }
     }
 
     protected function getCurrentSiteInfo(): object
@@ -172,5 +198,10 @@ class NetworkRegistion implements NetworkRegistionContract
             'id' => null,
             'status' => Site::STATUS_ACTIVE,
         ];
+    }
+
+    protected function isRootDomain(string $domain): bool
+    {
+        return $domain == $this->config->get('network.domain');
     }
 }

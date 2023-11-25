@@ -2,15 +2,21 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Database\Factories\PostFactory;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Traits\PostTypeModel;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
+use Juzaweb\Network\Traits\Networkable;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 
@@ -25,8 +31,8 @@ use Spatie\Feed\FeedItem;
  * @property string|null $content
  * @property string $status
  * @property int $views
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int|null $created_by
  * @property int|null $updated_by
  * @property string $type
@@ -35,75 +41,75 @@ use Spatie\Feed\FeedItem;
  * @property float $rating
  * @property int $total_rating
  * @property int $total_comment
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Comment[] $comments
+ * @property-read Collection|Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \Juzaweb\CMS\Models\User|null $createdBy
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\MenuItem[] $menuItems
+ * @property-read User|null $createdBy
+ * @property-read Collection|MenuItem[] $menuItems
  * @property-read int|null $menu_items_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\PostMeta[] $metas
+ * @property-read Collection|PostMeta[] $metas
  * @property-read int|null $metas_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\PostRating[] $ratings
+ * @property-read Collection|PostRating[] $ratings
  * @property-read int|null $post_ratings_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\PostView[] $postViews
+ * @property-read Collection|PostView[] $postViews
  * @property-read int|null $post_views_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Taxonomy[] $taxonomies
+ * @property-read Collection|Taxonomy[] $taxonomies
  * @property-read int|null $taxonomies_count
- * @property-read \Juzaweb\CMS\Models\User|null $updatedBy
- * @method static \Juzaweb\CMS\Database\Factories\PostFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post query()
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereFilter($params = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereJsonMetas($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereJsonTaxonomies($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereMeta($key, $value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublish()
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereSearch($params)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTaxonomy($taxonomy)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTaxonomyIn($taxonomies)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereThumbnail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTotalComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTotalRating($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedBy($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereViews($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereMetaIn($key, $values)
+ * @property-read User|null $updatedBy
+ * @method static PostFactory factory(...$parameters)
+ * @method static Builder|Post newModelQuery()
+ * @method static Builder|Post newQuery()
+ * @method static Builder|Post query()
+ * @method static Builder|Post whereContent($value)
+ * @method static Builder|Post whereCreatedAt($value)
+ * @method static Builder|Post whereCreatedBy($value)
+ * @method static Builder|Post whereDescription($value)
+ * @method static Builder|Post whereFilter($params = [])
+ * @method static Builder|Post whereId($value)
+ * @method static Builder|Post whereJsonMetas($value)
+ * @method static Builder|Post whereJsonTaxonomies($value)
+ * @method static Builder|Post whereMeta($key, $value)
+ * @method static Builder|Post wherePublish()
+ * @method static Builder|Post whereRating($value)
+ * @method static Builder|Post whereSearch($params)
+ * @method static Builder|Post whereSlug($value)
+ * @method static Builder|Post whereStatus($value)
+ * @method static Builder|Post whereTaxonomy($taxonomy)
+ * @method static Builder|Post whereTaxonomyIn($taxonomies)
+ * @method static Builder|Post whereThumbnail($value)
+ * @method static Builder|Post whereTitle($value)
+ * @method static Builder|Post whereTotalComment($value)
+ * @method static Builder|Post whereTotalRating($value)
+ * @method static Builder|Post whereType($value)
+ * @method static Builder|Post whereUpdatedAt($value)
+ * @method static Builder|Post whereUpdatedBy($value)
+ * @method static Builder|Post whereViews($value)
+ * @method static Builder|Post whereMetaIn($key, $values)
  * @property int|null $site_id
  * @property string|null $locale
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereLocale($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereSiteId($value)
+ * @method static Builder|Post whereLocale($value)
+ * @method static Builder|Post whereSiteId($value)
  * @property string|null $domain
  * @property string|null $url
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Taxonomy[] $categories
+ * @property-read Collection|Taxonomy[] $categories
  * @property-read int|null $categories_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Taxonomy[] $tags
+ * @property-read Collection|Taxonomy[] $tags
  * @property-read int|null $tags_count
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereDomain($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUrl($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\PostLike[] $likes
+ * @method static Builder|Post whereDomain($value)
+ * @method static Builder|Post whereUrl($value)
+ * @property-read Collection|PostLike[] $likes
  * @property-read int|null $likes_count
  * @property-read int|null $ratings_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Resource[] $resources
+ * @property-read Collection|Resource[] $resources
  * @property-read int|null $resources_count
  * @property string|null $uuid
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUuid($value)
- * @mixin \Eloquent
+ * @method static Builder|Post whereUuid($value)
+ * @mixin Eloquent
  */
 class Post extends Model implements Feedable
 {
     protected static bool $flushCacheOnUpdate = true;
 
-    use PostTypeModel, HasFactory, QueryCacheable, UseUUIDColumn;
+    use PostTypeModel, HasFactory, QueryCacheable, UseUUIDColumn, Networkable;
 
     public string $cachePrefix = 'posts_';
 

@@ -17,6 +17,7 @@ use Illuminate\Support\Arr;
 use Juzaweb\CMS\Models\Model;
 use Juzaweb\CMS\Traits\UseSlug;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\Resource
@@ -67,7 +68,7 @@ use Juzaweb\CMS\Traits\UseUUIDColumn;
  */
 class Resource extends Model
 {
-    use UseSlug, UseUUIDColumn;
+    use UseSlug, UseUUIDColumn, Networkable;
 
     protected $table = 'resources';
 

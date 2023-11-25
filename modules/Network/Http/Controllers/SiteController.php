@@ -69,7 +69,7 @@ class SiteController extends BackendController
                     Site::class,
                     'domain',
                     function ($q) {
-                        $q->where('id', '!=', request()->route()->parameter('id'));
+                        $q->where('id', '!=', request()?->route()?->parameter('id'));
                     }
                 )
             ],

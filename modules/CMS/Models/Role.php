@@ -12,6 +12,7 @@ use Juzaweb\CMS\Support\Permission\Guard;
 use Juzaweb\CMS\Support\Permission\PermissionRegistrar;
 use Juzaweb\CMS\Traits\Permission\HasPermissions;
 use Juzaweb\CMS\Traits\Permission\RefreshesPermissionCache;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\CMS\Models\Role
@@ -40,8 +41,7 @@ use Juzaweb\CMS\Traits\Permission\RefreshesPermissionCache;
  */
 class Role extends Model implements RoleContract
 {
-    use HasPermissions;
-    use RefreshesPermissionCache;
+    use HasPermissions, RefreshesPermissionCache, Networkable;
 
     protected $guarded = [];
 
@@ -111,7 +111,7 @@ class Role extends Model implements RoleContract
      * @param  string  $name
      * @param  string|null  $guardName
      *
-     * @return \Juzaweb\CMS\Contracts\Role|\Spatie\Permission\Models\Role
+     * @return RoleContract|\Spatie\Permission\Models\Role
      *
      * @throws \Juzaweb\CMS\Exceptions\RoleDoesNotExist
      */
@@ -134,7 +134,7 @@ class Role extends Model implements RoleContract
      * @param  int  $id
      * @param  string|null  $guardName
      *
-     * @return \Juzaweb\CMS\Contracts\Role|\Spatie\Permission\Models\Role
+     * @return RoleContract|\Spatie\Permission\Models\Role
      */
     public static function findById(int $id, $guardName = null): RoleContract
     {
@@ -155,7 +155,7 @@ class Role extends Model implements RoleContract
      * @param  string  $name
      * @param  string|null  $guardName
      *
-     * @return \Juzaweb\CMS\Contracts\Role|\Spatie\Permission\Models\Role
+     * @return RoleContract|\Spatie\Permission\Models\Role
      */
     public static function findOrCreate(string $name, $guardName = null): RoleContract
     {
@@ -165,10 +165,12 @@ class Role extends Model implements RoleContract
 
         if (!$role) {
             return static::query()
-                ->create([
+                ->create(
+                    [
                         'name' => $name,
                         'guard_name' => $guardName
-                    ] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : []));
+                    ] + (PermissionRegistrar::$teams ? [PermissionRegistrar::$teamsKey => getPermissionsTeamId()] : [])
+                );
         }
 
         return $role;

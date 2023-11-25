@@ -12,7 +12,7 @@ namespace Juzaweb\Network\Contracts;
 
 interface NetworkRegistionContract
 {
-    public function init(): void;
+    public function init(?string $site = null): void;
 
     public function getCurrentSiteId(): ?int;
 

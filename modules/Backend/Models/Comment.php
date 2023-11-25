@@ -2,7 +2,9 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Models\Model;
@@ -23,7 +25,7 @@ use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
  * @property string $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Juzaweb\Backend\Models\Post $post
+ * @property-read Post $post
  * @property-read User|null $user
  * @method static Builder|Comment with(array $with)
  * @method static Builder|Comment query()
@@ -44,13 +46,13 @@ use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
  * @method Builder|Comment whereWebsite($value)
  * @property int|null $site_id
  * @method Builder|Comment whereSiteId($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Comment extends Model
 {
     use QueryCacheable;
 
-    const STATUS_APPROVED = 'approved';
+    public const STATUS_APPROVED = 'approved';
 
     public string $cachePrefix = 'comments_';
 
@@ -69,12 +71,12 @@ class Comment extends Model
 
     protected $touches = ['post'];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function post(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'object_id', 'id');
     }

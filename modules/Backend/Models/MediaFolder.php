@@ -5,6 +5,7 @@ namespace Juzaweb\Backend\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\MediaFolder
@@ -35,7 +36,10 @@ use Juzaweb\CMS\Models\Model;
  */
 class MediaFolder extends Model
 {
+    use Networkable;
+
     protected $table = 'media_folders';
+
     protected $fillable = [
         'name',
         'folder_id',

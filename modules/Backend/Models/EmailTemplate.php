@@ -8,6 +8,7 @@ use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Traits\Models\UseCodeColumn;
 use Juzaweb\CMS\Traits\ResourceModel;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\EmailTemplate
@@ -50,7 +51,7 @@ use Juzaweb\CMS\Traits\UseUUIDColumn;
  */
 class EmailTemplate extends Model
 {
-    use ResourceModel, UseUUIDColumn, UseCodeColumn;
+    use ResourceModel, UseUUIDColumn, UseCodeColumn, Networkable;
 
     protected string $fieldName = 'subject';
     protected $table = 'email_templates';

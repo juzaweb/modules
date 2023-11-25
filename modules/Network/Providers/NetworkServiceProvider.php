@@ -11,7 +11,9 @@
 namespace Juzaweb\Network\Providers;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Juzaweb\CMS\Facades\ActionRegister;
+use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
 use Juzaweb\Network\Commands\ArtisanCommand;
 use Juzaweb\Network\Commands\MakeSiteCommand;
@@ -72,7 +74,7 @@ class NetworkServiceProvider extends ServiceProvider
 
         $this->app->singleton(
             NetworkRegistionContract::class,
-            function ($app) {
+            function (Application $app) {
                 return new NetworkRegistion(
                     $app,
                     $app['config'],
@@ -80,7 +82,9 @@ class NetworkServiceProvider extends ServiceProvider
                     $app['cache'],
                     $app['db'],
                     $app[SiteSetupContract::class],
-                    $app[Kernel::class]
+                    $app[Kernel::class],
+                    $app['session'],
+                    $app[UrlGenerator::class]
                 );
             }
         );

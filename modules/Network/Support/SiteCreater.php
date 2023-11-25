@@ -42,7 +42,7 @@ class SiteCreater implements SiteCreaterContract
     public function create(string $subdomain, array $args = []): Site
     {
         if (Site::where('domain', '=', $subdomain)->exists()) {
-            throw new \Exception("Site {$subdomain} already exist.");
+            throw new \RuntimeException("Site {$subdomain} already exist.");
         }
 
         $data = array_merge($this->parseDataSite($args), ['domain' => $subdomain]);
@@ -56,8 +56,10 @@ class SiteCreater implements SiteCreaterContract
         return $site;
     }
 
-    public function setupSite(Site $site)
+    public function setupSite(Site $site): void
     {
+        return;
+
         $this->siteSetup->setup($site);
 
         Artisan::call('migrate', ['--force' => true]);
@@ -65,7 +67,7 @@ class SiteCreater implements SiteCreaterContract
         $artisanOutput = Artisan::output();
 
         if (in_array("Error", str_split($artisanOutput, 5))) {
-            throw new \Exception($artisanOutput);
+            throw new \RuntimeException($artisanOutput);
         }
     }
 

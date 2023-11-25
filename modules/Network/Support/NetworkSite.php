@@ -30,7 +30,7 @@ class NetworkSite implements NetworkSiteContract
         $loginUrl = $this->getUrl(config('juzaweb.admin_prefix'));
         $string = "{$loginUrl}/{$random}";
         $token = generate_token($string);
-        $user = encrypt(json_encode(['id' => $user->id]));
+        $user = encrypt(json_encode(['id' => $user->id], JSON_THROW_ON_ERROR));
 
         $data = [
             'token' => $token,
