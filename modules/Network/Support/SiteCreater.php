@@ -14,6 +14,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 use Juzaweb\CMS\Facades\Config as DbConfig;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
@@ -50,6 +51,11 @@ class SiteCreater implements SiteCreaterContract
         $site = Site::create($data);
 
         $this->setupSite($site);
+
+        $user = Auth::user()?->replicate();
+        $user->setTable('subsite_users');
+        $user->setAttribute('site_id', $site->id);
+        $user->save();
 
         $this->makeDefaultConfigs();
 

@@ -80,7 +80,7 @@ class Language extends Model
 
     public static function languages(): Collection
     {
-        return Language::cacheFor(config('juzaweb.performance.query_cache.lifetime'))
+        return self::cacheFor(config('juzaweb.performance.query_cache.lifetime'))
             ->all()
             ->keyBy('code');
     }

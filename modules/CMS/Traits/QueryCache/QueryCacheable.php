@@ -83,8 +83,7 @@ trait QueryCacheable
     public function getCacheTagsToInvalidateOnUpdate(
         ?string         $relation = null,
         Collection|null $pivotedModels = null
-    ): array
-    {
+    ): array {
         return $this->getCacheBaseTags();
     }
 

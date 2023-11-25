@@ -17,6 +17,7 @@ use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
 use Juzaweb\Network\Commands\ArtisanCommand;
 use Juzaweb\Network\Commands\MakeSiteCommand;
+use Juzaweb\Network\Commands\NetworkInstallCommand;
 use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteManagerContract;
@@ -36,7 +37,7 @@ class NetworkServiceProvider extends ServiceProvider
     {
         Network::init();
 
-        $this->commands([MakeSiteCommand::class, ArtisanCommand::class]);
+        $this->commands([MakeSiteCommand::class, ArtisanCommand::class, NetworkInstallCommand::class]);
 
         Site::observe([SiteModelObserver::class]);
 
