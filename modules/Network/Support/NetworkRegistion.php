@@ -135,6 +135,14 @@ class NetworkRegistion implements NetworkRegistionContract
     {
         $domain = $this->getCurrentDomain();
 
+        if ($siteId = session()->get('site_id')) {
+            $site = $this->db->table('network_sites')
+                ->where(['id' => $siteId])
+                ->first();
+
+            return (object) ['site' => $site];
+        }
+
         return $this->cache->rememberForever(
             md5($domain),
             function () use ($domain) {
