@@ -80,7 +80,8 @@ class NetworkServiceProvider extends ServiceProvider
                     $app['cache'],
                     $app['db'],
                     $app[SiteSetupContract::class],
-                    $app[Kernel::class]
+                    $app[Kernel::class],
+                    $app['session']
                 );
             }
         );

@@ -33,11 +33,6 @@ class Admin
         
         global $jw_user;
 
-        // if ($site = $request->query('site_id')) {
-        //     session()->put('site_id', $site);
-        //     session()->save();
-        // }
-        
         if ($locale = $request->query('hl')) {
             $jw_user->update(['language' => $locale]);
         }

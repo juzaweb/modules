@@ -20,6 +20,7 @@ use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Site;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Session\SessionManager;
 
 class NetworkRegistion implements NetworkRegistionContract
 {
@@ -37,6 +38,8 @@ class NetworkRegistion implements NetworkRegistionContract
 
     protected Kernel $kernel;
 
+    protected SessionManager $session;
+
     protected ?object $site;
 
     public function __construct(
@@ -46,7 +49,8 @@ class NetworkRegistion implements NetworkRegistionContract
         CacheManager $cache,
         DatabaseManager $db,
         SiteSetupContract $siteSetup,
-        Kernel $kernel
+        Kernel $kernel,
+        SessionManager $session
     ) {
         $this->app = $app;
         $this->config = $config;
@@ -55,6 +59,7 @@ class NetworkRegistion implements NetworkRegistionContract
         $this->db = $db;
         $this->siteSetup = $siteSetup;
         $this->kernel = $kernel;
+        $this->session = $session;
     }
 
     public function init(): void
@@ -135,7 +140,12 @@ class NetworkRegistion implements NetworkRegistionContract
     {
         $domain = $this->getCurrentDomain();
 
-        if ($siteId = session()->get('site_id')) {
+        if ($site = $this->request->query('site_id')) {
+            $this->session->put('site_id', $site);
+            $this->session->save();
+        }
+
+        if ($siteId = $this->session->get('site_id')) {
             $site = $this->db->table('network_sites')
                 ->where(['id' => $siteId])
                 ->first();
