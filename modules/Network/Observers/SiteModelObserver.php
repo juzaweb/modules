@@ -10,10 +10,18 @@
 
 namespace Juzaweb\Network\Observers;
 
+use Juzaweb\Network\Models\Database;
 use Juzaweb\Network\Models\Site;
 
 class SiteModelObserver
 {
+    public function created(Site $model): void
+    {
+        if ($model->db_id) {
+            Database::where(['id' => $model->db_id])->increment('count');
+        }
+    }
+
     /**
      * Handle the Model "deleted" event.
      *

@@ -66,14 +66,13 @@ class SiteCreater implements SiteCreaterContract
 
         $this->makeDefaultConfigs();
 
-        return;
-        Artisan::call('migrate', ['--force' => true]);
-
-        $artisanOutput = Artisan::output();
-
-        if (in_array("Error", str_split($artisanOutput, 5))) {
-            throw new \RuntimeException($artisanOutput);
-        }
+        // Artisan::call('migrate', ['--force' => true]);
+        //
+        // $artisanOutput = Artisan::output();
+        //
+        // if (in_array("Error", str_split($artisanOutput, 5))) {
+        //     throw new \RuntimeException($artisanOutput);
+        // }
     }
 
     protected function makeDefaultConfigs(): void
