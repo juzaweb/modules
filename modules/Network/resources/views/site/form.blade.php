@@ -11,6 +11,8 @@
             <div class="col-md-8">
                 {{ Field::text($model, 'domain') }}
 
+                {{ Field::select($model, 'db_id', ['options' => ['' => '-----', ...$databases], 'label' => 'Database (Optional)']) }}
+
                 @if($model->id)
                     <div class="row mb-2">
                         <div class="col-md-6"></div>

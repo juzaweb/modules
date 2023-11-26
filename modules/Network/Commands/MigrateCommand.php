@@ -14,11 +14,11 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class NetworkInstallCommand extends Command
+class MigrateCommand extends Command
 {
-    protected $name = 'network:install';
+    protected $name = 'network:migrate';
 
-    protected $description = 'Install network.';
+    protected $description = 'Migrate database network.';
 
     protected array $tableNames = [
         'posts',

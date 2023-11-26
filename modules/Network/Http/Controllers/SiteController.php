@@ -20,6 +20,7 @@ use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Traits\ResourceController;
 use Juzaweb\Network\Contracts\SiteManagerContract;
 use Juzaweb\Network\Http\Datatables\SiteDatatable;
+use Juzaweb\Network\Models\Database;
 use Juzaweb\Network\Models\Site;
 
 class SiteController extends BackendController
@@ -91,6 +92,7 @@ class SiteController extends BackendController
         $data = $this->DataForForm($model, ...$params);
         $data['statuses'] = Site::getAllStatus();
         $data['mappingDomains'] = $model->domainMappings()->get();
+        $data['databases'] = Database::pluck('label', 'id')->toArray();
         return $data;
     }
 

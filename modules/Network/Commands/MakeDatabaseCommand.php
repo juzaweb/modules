@@ -69,7 +69,7 @@ class MakeDatabaseCommand extends Command
 
         $this->call('migrate', ['--force' => true]);
 
-        $this->call('network:install');
+        $this->call('network:migrate');
 
         Config::set('database.default', $default);
 

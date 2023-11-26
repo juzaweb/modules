@@ -34,8 +34,9 @@ class NetworkServiceProvider extends ServiceProvider
     protected array $commands = [
         Commands\MakeSiteCommand::class,
         Commands\ArtisanCommand::class,
-        Commands\NetworkInstallCommand::class,
+        Commands\InstallCommand::class,
         Commands\MakeDatabaseCommand::class,
+        Commands\MigrateCommand::class,
     ];
 
     public function boot(): void
@@ -53,7 +54,7 @@ class NetworkServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
 
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+        //$this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'network');
 
