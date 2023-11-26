@@ -45,9 +45,7 @@ class NetworkInstallCommand extends Command
                 $tableName,
                 function (Blueprint $table) use ($tableName) {
                     if (!Schema::hasColumn($tableName, 'site_id')) {
-                        $table->foreignId('site_id')->nullable()
-                            ->constrained('network_sites')
-                            ->cascadeOnDelete();
+                        $table->unsignedBigInteger('site_id')->nullable();
                     }
                 }
             );

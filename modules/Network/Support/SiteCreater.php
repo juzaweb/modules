@@ -64,10 +64,9 @@ class SiteCreater implements SiteCreaterContract
 
     public function setupSite(Site $site): void
     {
-        return;
-
         $this->siteSetup->setup($site);
 
+        return;
         Artisan::call('migrate', ['--force' => true]);
 
         $artisanOutput = Artisan::output();

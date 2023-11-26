@@ -15,9 +15,7 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Juzaweb\CMS\Facades\ActionRegister;
 use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
-use Juzaweb\Network\Commands\ArtisanCommand;
-use Juzaweb\Network\Commands\MakeSiteCommand;
-use Juzaweb\Network\Commands\NetworkInstallCommand;
+use Juzaweb\Network\Commands;
 use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteManagerContract;
@@ -33,11 +31,18 @@ use Juzaweb\Network\Support\SiteSetup;
 
 class NetworkServiceProvider extends ServiceProvider
 {
+    protected array $commands = [
+        Commands\MakeSiteCommand::class,
+        Commands\ArtisanCommand::class,
+        Commands\NetworkInstallCommand::class,
+        Commands\MakeDatabaseCommand::class,
+    ];
+
     public function boot(): void
     {
         Network::init();
 
-        $this->commands([MakeSiteCommand::class, ArtisanCommand::class, NetworkInstallCommand::class]);
+        $this->commands($this->commands);
 
         Site::observe([SiteModelObserver::class]);
 
