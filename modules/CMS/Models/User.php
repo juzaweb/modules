@@ -109,7 +109,6 @@ class User extends Authenticatable
         ResourceModel,
         HasFactory,
         HasRoles,
-        RootNetworkModel,
         QueryCacheable,
         RootNetworkUser;
 

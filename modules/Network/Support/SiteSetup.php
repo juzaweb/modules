@@ -12,7 +12,7 @@ namespace Juzaweb\Network\Support;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Database\ConnectionResolverInterface;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\DB;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 
 class SiteSetup implements SiteSetupContract
@@ -50,26 +50,37 @@ class SiteSetup implements SiteSetupContract
 
     public function setupDatabase(object $site): object
     {
-        $connection = $this->db->getDefaultConnection();
+        $rootConnection = $this->db->getDefaultConnection();
 
-        // if (!is_null($site->id)) {
-        //     $prefix = $this->db->getTablePrefix() . "site{$site->id}_";
-        //
-        //     $database = $this->config->get("database.connections.{$connection}");
-        //
-        //     $database['prefix'] = $prefix;
-        //
-        //     $this->config->set(
-        //         'database.connections.subsite',
-        //         $database
-        //     );
-        //
-        //     $this->config->set('database.default', 'subsite');
-        //
-        //     $this->db->purge('subsite');
-        // }
+        if ($site->db_id) {
+            $database = DB::table('network_databases')->where('id', $site->db_id)->first();
 
-        $site->root_connection = $connection;
+            throw_if($database === null, new \Exception('Database not found'));
+
+            $connectionDefaultConfigs = config("database.connections.{$database->dbconnection}", []);
+
+            $this->config->set(
+                'database.connections.subsite',
+                array_merge(
+                    $connectionDefaultConfigs,
+                    [
+                        'driver' => $database->dbconnection,
+                        'host' => $database->dbhost,
+                        'database' => $database->dbname,
+                        'username' => $database->dbuser,
+                        'password' => $database->dbpass,
+                        'port' => $database->dbport,
+                        'prefix' => $database->dbprefix,
+                    ]
+                )
+            );
+
+            $this->config->set('database.default', 'subsite');
+
+            $this->db->purge('subsite');
+        }
+
+        $site->root_connection = $rootConnection;
 
         return $site;
     }

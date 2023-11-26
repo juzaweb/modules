@@ -194,6 +194,7 @@ class NetworkRegistion implements NetworkRegistionContract
     {
         return (object) [
             'id' => null,
+            'db_id' => null,
             'status' => Site::STATUS_ACTIVE,
         ];
     }

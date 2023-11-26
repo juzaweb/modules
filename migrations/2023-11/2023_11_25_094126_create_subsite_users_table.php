@@ -22,6 +22,14 @@ return new class extends Migration {
                 $table->string('password')->nullable();
                 $table->rememberToken();
                 $table->timestamps();
+                $table->string('avatar', 150)->nullable();
+                $table->boolean('is_admin')->default(0);
+                $table->string('status', 50)
+                    ->default('active')
+                    ->comment('unconfimred, banned, active');
+                $table->string('language', 5)->default('en');
+                $table->string('verification_token')->nullable();
+                $table->unsignedBigInteger('site_id');
             }
         );
     }

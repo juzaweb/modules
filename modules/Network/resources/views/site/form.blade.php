@@ -11,7 +11,11 @@
             <div class="col-md-8">
                 {{ Field::text($model, 'domain') }}
 
-                {{ Field::select($model, 'db_id', ['options' => ['' => '-----', ...$databases], 'label' => 'Database (Optional)']) }}
+                @if(!$model->id)
+                    {{ Field::select($model, 'db_id', ['options' => ['' => '-----', ...$databases], 'label' => 'Database (Optional)']) }}
+                @else
+                    {{ Field::text($model, null, ['label' => 'Database (Optional)', 'value' => $model->database?->label, 'disabled' => true]) }}
+                @endif
 
                 @if($model->id)
                     <div class="row mb-2">

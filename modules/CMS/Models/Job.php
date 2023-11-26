@@ -10,7 +10,11 @@
 
 namespace Juzaweb\CMS\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Juzaweb\Network\Interfaces\RootNetworkModelInterface;
+use Juzaweb\Network\Traits\RootNetworkModel;
 
 /**
  * Juzaweb\CMS\Models\Job
@@ -21,23 +25,25 @@ use Juzaweb\Network\Interfaces\RootNetworkModelInterface;
  * @property int $attempts
  * @property int|null $reserved_at
  * @property int $available_at
- * @property \Illuminate\Support\Carbon $created_at
+ * @property Carbon $created_at
  * @property-read mixed $command
  * @property-read mixed $name
- * @method static \Illuminate\Database\Eloquent\Builder|Job newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Job newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Job query()
- * @method static \Illuminate\Database\Eloquent\Builder|Job whereAttempts($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Job whereAvailableAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Job whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Job whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Job wherePayload($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Job whereQueue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Job whereReservedAt($value)
- * @mixin \Eloquent
+ * @method static Builder|Job newModelQuery()
+ * @method static Builder|Job newQuery()
+ * @method static Builder|Job query()
+ * @method static Builder|Job whereAttempts($value)
+ * @method static Builder|Job whereAvailableAt($value)
+ * @method static Builder|Job whereCreatedAt($value)
+ * @method static Builder|Job whereId($value)
+ * @method static Builder|Job wherePayload($value)
+ * @method static Builder|Job whereQueue($value)
+ * @method static Builder|Job whereReservedAt($value)
+ * @mixin Eloquent
  */
 class Job extends Model implements RootNetworkModelInterface
 {
+    use RootNetworkModel;
+
     protected $unserializedCommand;
 
     protected $table = 'jobs';

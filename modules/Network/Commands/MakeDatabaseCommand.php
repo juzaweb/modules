@@ -26,7 +26,7 @@ class MakeDatabaseCommand extends Command
         $default = config('database.default');
 
         $connection = $this->ask('DB Connection', $default);
-        $connectionDefaultConfigs = config("database.connections.{$connection}");
+        $connectionDefaultConfigs = config("database.connections.{$connection}", []);
 
         $host = $this->ask('DB Host', config("database.connections.{$default}.host"));
 

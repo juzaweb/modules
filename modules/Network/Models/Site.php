@@ -10,7 +10,12 @@
 
 namespace Juzaweb\Network\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Models\Model;
 use Juzaweb\Network\Interfaces\RootNetworkModelInterface;
 use Juzaweb\Network\Traits\RootNetworkModel;
@@ -22,19 +27,19 @@ use Juzaweb\Network\Traits\RootNetworkModel;
  * @property string $domain
  * @property string $status
  * @property int|null $db_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Site newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Site newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Site query()
- * @method static \Illuminate\Database\Eloquent\Builder|Site whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Site whereDbId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Site whereDomain($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Site whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Site whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Site whereUpdatedAt($value)
- * @mixin \Eloquent
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Network\Models\DomainMapping[] $domainMappings
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Site newModelQuery()
+ * @method static Builder|Site newQuery()
+ * @method static Builder|Site query()
+ * @method static Builder|Site whereCreatedAt($value)
+ * @method static Builder|Site whereDbId($value)
+ * @method static Builder|Site whereDomain($value)
+ * @method static Builder|Site whereId($value)
+ * @method static Builder|Site whereStatus($value)
+ * @method static Builder|Site whereUpdatedAt($value)
+ * @mixin Eloquent
+ * @property-read Collection|DomainMapping[] $domainMappings
  * @property-read int|null $domain_mappings_count
  */
 class Site extends Model implements RootNetworkModelInterface
@@ -51,6 +56,7 @@ class Site extends Model implements RootNetworkModelInterface
     protected $fillable = [
         'domain',
         'status',
+        'db_id',
     ];
 
     public static function getAllStatus(): array
@@ -61,6 +67,11 @@ class Site extends Model implements RootNetworkModelInterface
             self::STATUS_VERIFICATION => trans('cms::app.verification'),
             self::STATUS_BANNED => trans('cms::app.banned'),
         ];
+    }
+
+    public function database(): BelongsTo
+    {
+        return $this->belongsTo(Database::class, 'db_id', 'id');
     }
 
     public function domainMappings(): HasMany

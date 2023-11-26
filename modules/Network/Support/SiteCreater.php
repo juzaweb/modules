@@ -52,19 +52,19 @@ class SiteCreater implements SiteCreaterContract
 
         $this->setupSite($site);
 
-        $user = Auth::user()?->replicate();
-        $user->setTable('subsite_users');
-        $user->setAttribute('site_id', $site->id);
-        $user->save();
-
-        $this->makeDefaultConfigs();
-
         return $site;
     }
 
     public function setupSite(Site $site): void
     {
+        $user = Auth::user()?->replicate();
+        $user->setTable('subsite_users');
+        $user->setAttribute('site_id', $site->id);
+        $user->save();
+
         $this->siteSetup->setup($site);
+
+        $this->makeDefaultConfigs();
 
         return;
         Artisan::call('migrate', ['--force' => true]);
