@@ -10,6 +10,7 @@
 
 namespace Juzaweb\Network\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Juzaweb\CMS\Models\Model;
 
 class Database extends Model
@@ -26,5 +27,21 @@ class Database extends Model
         'dbprefix',
         'count',
         'active',
+        'default',
     ];
+
+    protected $casts = [
+        'active' => 'boolean',
+        'default' => 'boolean',
+    ];
+
+    public function scopeActive(Builder $builder): Builder
+    {
+        return $builder->where('active', true);
+    }
+
+    public function scopeDefault(Builder $builder): Builder
+    {
+        return $builder->where('default', true);
+    }
 }

@@ -44,6 +44,8 @@ class SiteSetup implements SiteSetupContract
 
             $this->config->set('juzaweb.theme.enable_upload', false);
 
+            $this->config->set('session.cookie', "juzaweb_session_{$site->id}");
+
             $this->setCachePrefix("jw_site_{$site->id}");
         }
     }

@@ -10,12 +10,15 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::table(
             'network_databases',
             function (Blueprint $table) {
+                $table->boolean('active')->default(true)->change();
                 $table->string('label')->nullable();
+                $table->boolean('default')->default(false)->index();
+                $table->index('active');
             }
         );
     }
@@ -25,12 +28,12 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::table(
             'network_databases',
             function (Blueprint $table) {
-                $table->dropColumn('label');
+                $table->dropColumn(['label', 'default']);
             }
         );
     }
