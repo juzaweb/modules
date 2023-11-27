@@ -43,9 +43,7 @@ class SiteController extends BackendController
     {
         $user = $this->siteManager->validateLoginUrl($request->all());
 
-        if (empty($user)) {
-            abort(403, 'Login Token invalid');
-        }
+        abort_unless($user, 403, 'Login Token invalid');
 
         Auth::login($user);
 
@@ -98,6 +96,6 @@ class SiteController extends BackendController
 
     protected function storeSuccess($request, $model, ...$params): void
     {
-        $this->siteManager->getCreater()->setupSite($model);
+        $this->siteManager->getCreater()->setupSite($model, $request->all());
     }
 }

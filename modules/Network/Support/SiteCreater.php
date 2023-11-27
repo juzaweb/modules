@@ -55,7 +55,7 @@ class SiteCreater implements SiteCreaterContract
         return $site;
     }
 
-    public function setupSite(Site $site): void
+    public function setupSite(Site $site, array $args = []): void
     {
         $user = Auth::user()?->replicate();
         $user->setTable('subsite_users');
@@ -64,24 +64,20 @@ class SiteCreater implements SiteCreaterContract
 
         $this->siteSetup->setup($site);
 
-        $this->makeDefaultConfigs();
-
-        // Artisan::call('migrate', ['--force' => true]);
-        //
-        // $artisanOutput = Artisan::output();
-        //
-        // if (in_array("Error", str_split($artisanOutput, 5))) {
-        //     throw new \RuntimeException($artisanOutput);
-        // }
+        $this->makeDefaultConfigs($args);
     }
 
-    protected function makeDefaultConfigs(): void
+    protected function makeDefaultConfigs(array $args): void
     {
-        DbConfig::setConfig('title', 'JuzaCMS - Laravel CMS for Your Project');
+        DbConfig::setConfig('title', Arr::get($args, 'title', 'Juzaweb CMS - Laravel CMS for Your Project'));
         DbConfig::setConfig(
             'description',
-            'Juzacms is a Content Management System (CMS)'
-            . ' and web platform whose sole purpose is to make your development workflow simple again.'
+            Arr::get(
+                $args,
+                'description',
+                'Juzacms is a Content Management System (CMS)'
+                .' and web platform whose sole purpose is to make your development workflow simple again.'
+            )
         );
         DbConfig::setConfig('author_name', 'Juzaweb Team');
         DbConfig::setConfig('user_registration', 1);

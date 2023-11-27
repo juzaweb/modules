@@ -17,7 +17,21 @@ use Juzaweb\Network\Models\Site;
  */
 interface SiteCreaterContract
 {
+    /**
+     * Creates a new site with the given subdomain and optional arguments.
+     *
+     * @param  string  $subdomain  The subdomain for the new site.
+     * @param  array  $args  Optional arguments for creating the site.
+     * @return Site The newly created site.
+     */
     public function create(string $subdomain, array $args = []): Site;
 
-    public function setupSite(Site $site);
+    /**
+     * Set up the site.
+     *
+     * @param  Site  $site  The site object to set up.
+     * @param  array  $args  Optional arguments to customize the setup.
+     * @return void
+     */
+    public function setupSite(Site $site, array $args = []): void;
 }

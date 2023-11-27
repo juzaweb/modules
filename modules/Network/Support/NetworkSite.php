@@ -15,6 +15,12 @@ use Juzaweb\CMS\Models\User;
 use Juzaweb\Network\Contracts\NetworkSiteContract;
 use Juzaweb\Network\Models\Site;
 
+/**
+ * @method string getFullDomain()
+ * @method string getSiteUrl()
+ * @method static array getAllStatus()
+ * @mixin Site
+ */
 class NetworkSite implements NetworkSiteContract
 {
     protected Site $site;
@@ -38,11 +44,16 @@ class NetworkSite implements NetworkSiteContract
             'user' => urlencode($user)
         ];
 
-        return $loginUrl.'/token-login?' . http_build_query($data);
+        return $loginUrl.'/token-login?'.http_build_query($data);
     }
 
     public function getUrl(string $path = null): string
     {
         return $this->site->getSiteUrl($path);
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        return $this->site->{$name}(...$arguments);
     }
 }
