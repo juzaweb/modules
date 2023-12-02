@@ -43,7 +43,7 @@ class SiteCreater implements SiteCreaterContract
         $this->networkRegistion = $networkRegistion;
     }
 
-    public function create(string $subdomain, array $args = [], User $user = null): Site
+    public function create(string $subdomain, array $args = [], ?User $user = null): Site
     {
         if (Site::where('domain', '=', $subdomain)->exists()) {
             throw new \RuntimeException("Site {$subdomain} already exist.");
@@ -64,8 +64,6 @@ class SiteCreater implements SiteCreaterContract
         $user->setTable('subsite_users');
         $user->setAttribute('site_id', $site->id);
         $user->save();
-
-        //$this->siteSetup->setup($site);
 
         $this->networkRegistion->init($site->id);
 

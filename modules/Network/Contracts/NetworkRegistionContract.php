@@ -10,6 +10,9 @@
 
 namespace Juzaweb\Network\Contracts;
 
+/**
+ * @see \Juzaweb\Network\Support\NetworkRegistion
+ */
 interface NetworkRegistionContract
 {
     public function init(?string $site = null): void;

@@ -111,7 +111,7 @@ class NetworkRegistion implements NetworkRegistionContract
 
             $this->site = $site;
         } else {
-            $this->site = $this->getCurrentSiteInfo()->site;
+            $this->site = $this->getCurrentSiteInfo();
         }
 
         if (empty($this->site)) {
@@ -162,14 +162,12 @@ class NetworkRegistion implements NetworkRegistionContract
             md5($domain),
             function () use ($domain) {
                 if ($domain == $this->config->get('network.domain')) {
-                    $site = $this->getRootSite();
-
-                    return (object) ['site' => $site];
+                    return $this->getRootSite();
                 }
 
                 $subdomain = str_replace("." . $this->config->get('network.domain'), "", $domain);
 
-                $site = $this->db->table('network_sites')
+                return $this->db->table('network_sites')
                     ->where(
                         function ($q) use ($domain, $subdomain) {
                             $q->where('domain', '=', $subdomain);
@@ -184,8 +182,6 @@ class NetworkRegistion implements NetworkRegistionContract
                         }
                     )
                     ->first();
-
-                return (object) ['site' => $site];
             }
         );
     }

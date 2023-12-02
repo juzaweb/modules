@@ -68,16 +68,7 @@ class NetworkServiceProvider extends ServiceProvider
             }
         );
 
-        $this->app->singleton(
-            SiteCreaterContract::class,
-            function ($app) {
-                return new SiteCreater(
-                    $app['db'],
-                    $app['config'],
-                    $app[SiteSetupContract::class]
-                );
-            }
-        );
+        $this->app->singleton(SiteCreaterContract::class, SiteCreater::class);
 
         $this->app->singleton(
             NetworkRegistionContract::class,
