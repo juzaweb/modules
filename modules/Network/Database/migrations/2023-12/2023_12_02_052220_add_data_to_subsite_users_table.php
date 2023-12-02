@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::table(
             'subsite_users',
             function (Blueprint $table) {
+                $table->json('json_metas')->nullable();
                 $table->json('data')->nullable();
             }
         );
@@ -30,7 +31,7 @@ return new class extends Migration {
         Schema::table(
             'subsite_users',
             function (Blueprint $table) {
-                $table->dropColumn(['data']);
+                $table->dropColumn(['json_metas', 'data']);
             }
         );
     }

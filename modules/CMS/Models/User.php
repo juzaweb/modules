@@ -166,11 +166,6 @@ class User extends Authenticatable
         return $this->hasOne(PasswordReset::class, 'email', 'email');
     }
 
-    public function metas(): HasMany
-    {
-        return $this->hasMany(UserMeta::class, 'user_id', 'id');
-    }
-
     public function socialTokens(): HasMany
     {
         return $this->hasMany(SocialToken::class, 'user_id', 'id');
@@ -195,7 +190,7 @@ class User extends Authenticatable
                 'meta_key' => $key
             ],
             [
-                'meta_value' => is_array($value) ? json_encode($value) : $value
+                'meta_value' => is_array($value) ? json_encode($value, JSON_THROW_ON_ERROR) : $value
             ]
         );
 
