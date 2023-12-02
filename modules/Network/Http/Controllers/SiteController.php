@@ -19,6 +19,7 @@ use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Traits\ResourceController;
 use Juzaweb\Network\Contracts\SiteManagerContract;
+use Juzaweb\Network\Events\CreateSubsiteSuccess;
 use Juzaweb\Network\Http\Datatables\SiteDatatable;
 use Juzaweb\Network\Models\Database;
 use Juzaweb\Network\Models\Site;
@@ -97,5 +98,7 @@ class SiteController extends BackendController
     protected function storeSuccess($request, $model, ...$params): void
     {
         $this->siteManager->getCreater()->setupSite($model, $request->all());
+
+        event(new CreateSubsiteSuccess($model));
     }
 }

@@ -30,6 +30,11 @@ class NetworkSite implements NetworkSiteContract
         $this->site = $site;
     }
 
+    public function model(): Site
+    {
+        return $this->site;
+    }
+
     public function getLoginUrl(User $user): string
     {
         $random = Str::random(5);

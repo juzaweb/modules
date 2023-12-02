@@ -17,6 +17,7 @@ return new class extends Migration {
             function (Blueprint $table) {
                 $table->json('json_metas')->nullable();
                 $table->json('data')->nullable();
+                $table->boolean('is_fake')->default(false);
             }
         );
     }
@@ -31,7 +32,7 @@ return new class extends Migration {
         Schema::table(
             'subsite_users',
             function (Blueprint $table) {
-                $table->dropColumn(['json_metas', 'data']);
+                $table->dropColumn(['json_metas', 'data', 'is_fake']);
             }
         );
     }
