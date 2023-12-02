@@ -24,7 +24,7 @@ class ArtisanCommand extends Command
 
         $options = $this->argument('options');
 
-        $options = $options ? json_decode($options, true) : [];
+        $options = $options ? json_decode($options, true, 512, JSON_THROW_ON_ERROR) : [];
 
         $this->call($command, $options);
 

@@ -18,7 +18,6 @@ use Juzaweb\CMS\Facades\Config as DbConfig;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
-use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Site;
 
 class SiteCreater implements SiteCreaterContract
@@ -27,19 +26,15 @@ class SiteCreater implements SiteCreaterContract
 
     protected ConfigRepository $config;
 
-    protected SiteSetupContract $siteSetup;
-
     protected NetworkRegistionContract $networkRegistion;
 
     public function __construct(
         ConnectionResolverInterface $db,
         ConfigRepository $config,
-        SiteSetupContract $siteSetup,
         NetworkRegistionContract $networkRegistion
     ) {
         $this->db = $db;
         $this->config = $config;
-        $this->siteSetup = $siteSetup;
         $this->networkRegistion = $networkRegistion;
     }
 
@@ -50,6 +45,7 @@ class SiteCreater implements SiteCreaterContract
         }
 
         $data = array_merge($this->parseDataSite($args), ['domain' => $subdomain]);
+        $data['created_by'] = ($user ?? Auth::user())->id;
 
         $site = Site::create($data);
 
@@ -58,14 +54,14 @@ class SiteCreater implements SiteCreaterContract
         return $site;
     }
 
-    public function setupSite(Site $site, array $args = [], User $user = null): void
+    public function setupSite(Site $site, array $args = [], ?User $user = null): void
     {
+        $this->networkRegistion->init($site->id);
+
         $user = ($user ?? Auth::user())->replicate();
         $user->setTable('subsite_users');
         $user->setAttribute('site_id', $site->id);
         $user->save();
-
-        $this->networkRegistion->init($site->id);
 
         $this->makeDefaultConfigs($args);
     }
@@ -91,6 +87,6 @@ class SiteCreater implements SiteCreaterContract
     {
         $defaults = ['status' => Site::STATUS_ACTIVE];
 
-        return array_merge($defaults, Arr::get($args, 'site', []));
+        return array_merge($defaults, $args);
     }
 }

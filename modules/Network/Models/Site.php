@@ -57,6 +57,7 @@ class Site extends Model implements RootNetworkModelInterface
         'domain',
         'status',
         'db_id',
+        'created_by',
     ];
 
     public static function getAllStatus(): array
