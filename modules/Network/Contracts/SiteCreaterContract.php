@@ -23,6 +23,7 @@ interface SiteCreaterContract
      * @param  string  $subdomain  The subdomain for the new site.
      * @param  array  $args  Optional arguments for creating the site.
      * @return Site The newly created site.
+     * @see \Juzaweb\Network\Support\SiteCreater::create()
      */
     public function create(string $subdomain, array $args = []): Site;
 

@@ -45,7 +45,7 @@ class MigrateCommand extends Command
                 $tableName,
                 function (Blueprint $table) use ($tableName) {
                     if (!Schema::hasColumn($tableName, 'site_id')) {
-                        $table->unsignedBigInteger('site_id')->nullable();
+                        $table->unsignedBigInteger('site_id')->index()->nullable();
                     }
                 }
             );

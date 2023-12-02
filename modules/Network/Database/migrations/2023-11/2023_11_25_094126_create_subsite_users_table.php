@@ -29,7 +29,7 @@ return new class extends Migration {
                     ->comment('unconfimred, banned, active');
                 $table->string('language', 5)->default('en');
                 $table->string('verification_token')->nullable();
-                $table->unsignedBigInteger('site_id');
+                $table->unsignedBigInteger('site_id')->index();
             }
         );
     }

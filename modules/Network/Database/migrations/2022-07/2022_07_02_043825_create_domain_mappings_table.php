@@ -10,14 +10,14 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create(
             'network_domain_mappings',
             function (Blueprint $table) {
                 $table->id();
                 $table->string('domain', 100)->unique();
-                $table->unsignedBigInteger('site_id');
+                $table->unsignedBigInteger('site_id')->index();
                 $table->timestamps();
 
                 $table->foreign('site_id')
@@ -33,7 +33,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('network_domain_mappings');
     }
