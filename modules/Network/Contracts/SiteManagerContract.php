@@ -10,6 +10,7 @@
 
 namespace Juzaweb\Network\Contracts;
 
+use Juzaweb\CMS\Models\User;
 use Juzaweb\Network\Models\Site;
 
 /**
@@ -22,10 +23,11 @@ interface SiteManagerContract
     /**
      * @param  string  $subdomain
      * @param  array  $args
+     * @param  User|null  $user
      * @return NetworkSiteContract
      * @see \Juzaweb\Network\Support\SiteManager::create
      */
-    public function create(string $subdomain, array $args = []): NetworkSiteContract;
+    public function create(string $subdomain, array $args = [], ?User $user = null): NetworkSiteContract;
 
     public function getCreater(): SiteCreaterContract;
 }

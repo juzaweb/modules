@@ -51,7 +51,7 @@ class SiteManager implements SiteManagerContract
         return $this->createSite($site);
     }
 
-    public function create(string $subdomain, array $args = [], User $user = null): NetworkSiteContract
+    public function create(string $subdomain, array $args = [], ?User $user = null): NetworkSiteContract
     {
         $site = $this->siteCreater->create($subdomain, $args);
 
