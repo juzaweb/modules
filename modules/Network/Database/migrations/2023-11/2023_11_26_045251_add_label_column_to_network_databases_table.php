@@ -15,7 +15,14 @@ return new class extends Migration {
         Schema::table(
             'network_databases',
             function (Blueprint $table) {
-                $table->boolean('active')->default(true)->change();
+                $table->dropColumn(['active']);
+            }
+        );
+
+        Schema::table(
+            'network_databases',
+            function (Blueprint $table) {
+                $table->boolean('active')->default(true);
                 $table->string('label')->nullable();
                 $table->index('active');
             }

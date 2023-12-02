@@ -51,29 +51,73 @@ class MigrateCommand extends Command
             );
         }
 
+        try {
+            Schema::table(
+                'configs',
+                function (Blueprint $table) {
+                    $table->dropUnique(['code']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
+
         // Edit unique key
-        Schema::table(
-            'configs',
-            function (Blueprint $table) {
-                $table->dropUnique(['code']);
-                $table->unique(['code', 'site_id']);
-            }
-        );
+        try {
+            Schema::table(
+                'configs',
+                function (Blueprint $table) {
+                    $table->unique(['code', 'site_id']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
 
-        Schema::table(
-            'theme_configs',
-            function (Blueprint $table) {
-                $table->dropUnique(['code', 'theme']);
-                $table->unique(['code', 'theme', 'site_id']);
-            }
-        );
+        try {
+            Schema::table(
+                'theme_configs',
+                function (Blueprint $table) {
+                    $table->dropUnique(['code', 'theme']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
 
-        Schema::table(
-            'languages',
-            function (Blueprint $table) {
-                $table->dropUnique(['code']);
-                $table->unique(['code', 'site_id']);
-            }
-        );
+        try {
+            Schema::table(
+                'theme_configs',
+                function (Blueprint $table) {
+                    $table->unique(['code', 'theme', 'site_id']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
+
+        try {
+            Schema::table(
+                'languages',
+                function (Blueprint $table) {
+                    $table->dropUnique(['code']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
+
+        try {
+            Schema::table(
+                'languages',
+                function (Blueprint $table) {
+                    $table->unique(['code', 'site_id']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
+
+        $this->info('Network database migrated.');
     }
 }
