@@ -16,6 +16,7 @@ use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Facades\ThemeLoader as ThemeFacade;
 use Juzaweb\CMS\Support\Installer;
+use Juzaweb\Network\Facades\Network;
 
 class Theme
 {
@@ -31,6 +32,11 @@ class Theme
                 $view->with('is_admin', $user ? $user['is_admin'] : false);
                 $view->with('auth', (bool) $user);
                 $view->with('guest', !$user);
+
+                if (config('network.enable')) {
+                    $view->with('network', true);
+                    $view->with('root_domain', config('network.domain'));
+                }
             }
         );
 
