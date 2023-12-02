@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
@@ -15,13 +16,16 @@ return new class extends Migration {
      */
     public function up()
     {
+        $prefix = DB::getTablePrefix();
         foreach ($this->tables as $tb) {
-            Schema::table(
-                $tb,
-                function (Blueprint $table) use ($tb) {
-                    $table->uuid()->nullable()->unique("{$tb}_uuid_unique");
-                }
-            );
+            if (!Schema::hasColumn($tb, 'uuid')) {
+                Schema::table(
+                    $tb,
+                    function (Blueprint $table) use ($tb, $prefix) {
+                        $table->uuid()->nullable()->unique("{$prefix}_{$tb}_uuid_unique");
+                    }
+                );
+            }
         }
     }
 
@@ -32,11 +36,12 @@ return new class extends Migration {
      */
     public function down()
     {
+        $prefix = DB::getTablePrefix();
         foreach ($this->tables as $tb) {
             Schema::table(
                 $tb,
-                function (Blueprint $table) use ($tb) {
-                    $table->dropUnique("{$tb}_uuid_unique");
+                function (Blueprint $table) use ($tb, $prefix) {
+                    $table->dropUnique("{$prefix}_{$tb}_uuid_unique");
                     $table->dropColumn('uuid');
                 }
             );

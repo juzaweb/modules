@@ -11,6 +11,8 @@
 namespace Juzaweb\Network\Commands;
 
 use Illuminate\Console\Command;
+use Juzaweb\Network\Contracts\SiteSetupContract;
+use Symfony\Component\Console\Input\InputArgument;
 
 class InstallCommand extends Command
 {
@@ -20,6 +22,17 @@ class InstallCommand extends Command
 
     public function handle(): void
     {
+        if ($database = $this->argument('database')) {
+            app()->make(SiteSetupContract::class)->setupDatabaseId($database);
+        }
+
+        $this->call(
+            'migrate',
+            [
+                '--force' => true,
+            ]
+        );
+
         $this->call(
             'migrate',
             [
@@ -29,5 +42,12 @@ class InstallCommand extends Command
         );
 
         $this->call('network:migrate');
+    }
+
+    public function getArguments(): array
+    {
+        return [
+            ['database', InputArgument::OPTIONAL, 'The database connection to use'],
+        ];
     }
 }

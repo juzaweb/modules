@@ -55,36 +55,41 @@ class SiteSetup implements SiteSetupContract
         $rootConnection = $this->db->getDefaultConnection();
 
         if ($site->db_id) {
-            $database = DB::table('network_databases')->where('id', $site->db_id)->first();
-
-            throw_if($database === null, new \Exception('Database not found'));
-
-            $connectionDefaultConfigs = config("database.connections.{$database->dbconnection}", []);
-
-            $this->config->set(
-                'database.connections.subsite',
-                array_merge(
-                    $connectionDefaultConfigs,
-                    [
-                        'driver' => $database->dbconnection,
-                        'host' => $database->dbhost,
-                        'database' => $database->dbname,
-                        'username' => $database->dbuser,
-                        'password' => $database->dbpass,
-                        'port' => $database->dbport,
-                        'prefix' => $database->dbprefix,
-                    ]
-                )
-            );
-
-            $this->config->set('database.default', 'subsite');
-
-            $this->db->purge('subsite');
+            $this->setupDatabaseId($site->db_id);
         }
 
         $site->root_connection = $rootConnection;
 
         return $site;
+    }
+
+    public function setupDatabaseId(int $dbId): void
+    {
+        $database = DB::table('network_databases')->where('id', $dbId)->first();
+
+        throw_if($database === null, new \Exception('Database not found'));
+
+        $connectionDefaultConfigs = config("database.connections.{$database->dbconnection}", []);
+
+        $this->config->set(
+            'database.connections.subsite',
+            array_merge(
+                $connectionDefaultConfigs,
+                [
+                    'driver' => $database->dbconnection,
+                    'host' => $database->dbhost,
+                    'database' => $database->dbname,
+                    'username' => $database->dbuser,
+                    'password' => $database->dbpass,
+                    'port' => $database->dbport,
+                    'prefix' => $database->dbprefix,
+                ]
+            )
+        );
+
+        $this->config->set('database.default', 'subsite');
+
+        $this->db->purge('subsite');
     }
 
     protected function setCachePrefix($prefix): void

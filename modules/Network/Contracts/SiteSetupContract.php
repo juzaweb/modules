@@ -20,4 +20,6 @@ interface SiteSetupContract
     public function setupConfig(object $site): void;
 
     public function setupDatabase(object $site): object;
+
+    public function setupDatabaseId(int $dbId): void;
 }
