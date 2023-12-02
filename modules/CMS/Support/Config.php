@@ -97,9 +97,9 @@ class Config implements ConfigContract
         );
     }
 
-    protected function configs()
+    protected function configs(): array
     {
-        return $this->configs ?? ($this->configs = $this->cache
+        return $this->configs = $this->cache
             ->store('file')
             ->rememberForever(
                 $this->getCacheKey(),
@@ -117,7 +117,7 @@ class Config implements ConfigContract
                         )
                         ->toArray();
                 }
-            ));
+            );
     }
 
     protected function getCacheKey(): string
