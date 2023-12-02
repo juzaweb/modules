@@ -16,6 +16,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Juzaweb\CMS\Facades\Config as DbConfig;
+use Juzaweb\CMS\Models\User;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Site;
@@ -40,7 +41,7 @@ class SiteCreater implements SiteCreaterContract
         $this->siteSetup = $siteSetup;
     }
 
-    public function create(string $subdomain, array $args = []): Site
+    public function create(string $subdomain, array $args = [], User $user = null): Site
     {
         if (Site::where('domain', '=', $subdomain)->exists()) {
             throw new \RuntimeException("Site {$subdomain} already exist.");
@@ -50,14 +51,14 @@ class SiteCreater implements SiteCreaterContract
 
         $site = Site::create($data);
 
-        $this->setupSite($site);
+        $this->setupSite($site, $args, $user);
 
         return $site;
     }
 
-    public function setupSite(Site $site, array $args = []): void
+    public function setupSite(Site $site, array $args = [], User $user = null): void
     {
-        $user = Auth::user()?->replicate();
+        $user = ($user ?? Auth::user())->replicate();
         $user->setTable('subsite_users');
         $user->setAttribute('site_id', $site->id);
         $user->save();
