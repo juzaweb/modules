@@ -19,7 +19,7 @@ use Illuminate\Container\Container;
 
 class Config implements ConfigContract
 {
-    protected array $configs = [];
+    protected array $configs;
 
     /**
      * @var CacheManager
@@ -29,35 +29,14 @@ class Config implements ConfigContract
     public function __construct(Container $app, CacheManager $cache)
     {
         $this->cache = $cache;
-        if (Installer::alreadyInstalled()) {
-            $this->configs = $this->cache
-                ->store('file')
-                ->rememberForever(
-                    $this->getCacheKey(),
-                    function () {
-                        return ConfigModel::get(
-                            [
-                                'code',
-                                'value',
-                            ]
-                        )->keyBy('code')
-                            ->map(
-                                function ($item) {
-                                    return $item->value;
-                                }
-                            )
-                            ->toArray();
-                    }
-                );
-        }
     }
 
     public function getConfig(string $key, string|array $default = null): null|string|array
     {
         $configKeys = explode('.', $key);
-        $value = $this->configs[$configKeys[0]] ?? $default;
+        $value = $this->configs()[$configKeys[0]] ?? $default;
         if (is_json($value)) {
-            $value = json_decode($value, true);
+            $value = json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             if (count($configKeys) > 1) {
                 unset($configKeys[0]);
                 $value = Arr::get($value, implode('.', $configKeys), $default);
@@ -82,11 +61,15 @@ class Config implements ConfigContract
             ]
         );
 
-        $this->configs[$key] = $value;
+        $configs = $this->configs();
+
+        $configs[$key] = $value;
         $this->cache->store('file')->forever(
             $this->getCacheKey(),
-            $this->configs
+            $configs
         );
+
+        $this->configs = $configs;
 
         return $config;
     }
@@ -103,15 +86,38 @@ class Config implements ConfigContract
 
     public function all(): Collection
     {
-        return collect($this->configs)->map(
+        return collect($this->configs())->map(
             function ($value) {
                 if (is_json($value)) {
-                    return json_decode($value, true);
+                    return json_decode($value, true, 512, JSON_THROW_ON_ERROR);
                 }
 
                 return $value;
             }
         );
+    }
+
+    protected function configs()
+    {
+        return $this->configs ?? ($this->configs = $this->cache
+            ->store('file')
+            ->rememberForever(
+                $this->getCacheKey(),
+                function () {
+                    return ConfigModel::get(
+                        [
+                            'code',
+                            'value',
+                        ]
+                    )->keyBy('code')
+                        ->map(
+                            function ($item) {
+                                return $item->value;
+                            }
+                        )
+                        ->toArray();
+                }
+            ));
     }
 
     protected function getCacheKey(): string

@@ -13,10 +13,10 @@ namespace Juzaweb\Network\Support;
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Juzaweb\CMS\Facades\Config as DbConfig;
 use Juzaweb\CMS\Models\User;
+use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Site;
@@ -29,16 +29,18 @@ class SiteCreater implements SiteCreaterContract
 
     protected SiteSetupContract $siteSetup;
 
+    protected NetworkRegistionContract $networkRegistion;
+
     public function __construct(
         ConnectionResolverInterface $db,
         ConfigRepository $config,
-        SiteSetupContract $siteSetup
+        SiteSetupContract $siteSetup,
+        NetworkRegistionContract $networkRegistion
     ) {
         $this->db = $db;
-
         $this->config = $config;
-
         $this->siteSetup = $siteSetup;
+        $this->networkRegistion = $networkRegistion;
     }
 
     public function create(string $subdomain, array $args = [], User $user = null): Site
@@ -63,7 +65,9 @@ class SiteCreater implements SiteCreaterContract
         $user->setAttribute('site_id', $site->id);
         $user->save();
 
-        $this->siteSetup->setup($site);
+        //$this->siteSetup->setup($site);
+
+        $this->networkRegistion->init($site->id);
 
         $this->makeDefaultConfigs($args);
     }
