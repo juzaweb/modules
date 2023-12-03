@@ -1,7 +1,7 @@
 <div class="row">
     @if(isset($thumbnail))
         <div class="col-md-3">
-            <img class="lazyload w-100"
+            <img class="lazyload w-100 img-thumbnail"
                  data-src="{{ $thumbnail }}"
                  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>
         </div>

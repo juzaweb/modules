@@ -43,24 +43,6 @@ class PostTypeDataTable extends DataTable
 
     public function columns(): array
     {
-        if ($this->resourses) {
-            $columns['actions'] = [
-                'label' => trans('cms::app.actions'),
-                'width' => '10%',
-                'align' => 'center',
-                'sortable' => false,
-                'formatter' => function ($value, $row, $index) {
-                    return view(
-                        'cms::components.datatable.actions',
-                        [
-                            'row' => $row,
-                            'resourses' => $this->resourses
-                        ]
-                    )->render();
-                },
-            ];
-        }
-
         $columns['title'] = [
             'label' => trans('cms::app.title'),
             'formatter' => [$this, 'rowActionsFormatter'],
@@ -183,15 +165,32 @@ class PostTypeDataTable extends DataTable
     {
         $data = parent::rowAction($row);
 
+        if ($this->resourses) {
+            foreach ($this->resourses as $key => $resourse) {
+                $data["resource_{$key}_action"] = [
+                    'label' => $resourse->get('label_action'),
+                    'priority' => 10,
+                    'url' => route(
+                        'admin.post_resource.index',
+                        [
+                            $key,
+                            $row->id
+                        ]
+                    ),
+                ];
+            }
+        }
+
         if (in_array($row->status, ['publish', 'private'])) {
             $data['view'] = [
                 'label' => trans('cms::app.view'),
                 'url' => $row->getLink(),
                 'target' => '_blank',
+                'priority' => 1,
             ];
         }
 
-        return $data;
+        return collect($data)->sortBy('priority')->all();
     }
 
     public function query($data): Builder

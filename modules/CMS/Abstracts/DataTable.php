@@ -218,11 +218,13 @@ abstract class DataTable implements Arrayable
             'edit' => [
                 'label' => trans('cms::app.edit'),
                 'url' => $this->currentUrl.'/'.$row->id.'/edit',
+                'priority' => 1,
             ],
             'delete' => [
                 'label' => trans('cms::app.delete'),
                 'class' => 'text-danger',
                 'action' => 'delete',
+                'priority' => 2,
             ],
         ];
     }
