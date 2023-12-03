@@ -61,21 +61,6 @@ class PostTypeDataTable extends DataTable
             ];
         }
 
-        if ($this->postType['key'] != 'pages') {
-            $columns['thumbnail'] = [
-                'label' => trans('cms::app.thumbnail'),
-                'width' => '5%',
-                'sortable' => false,
-                'align' => 'center',
-                'formatter' => function ($value, $row, $index) {
-                    return $row->thumbnail
-                        ? '<img class="lazyload w-100" data-src="'. $row->getThumbnail('150x150') .'"'
-                        .' src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>'
-                        : '_';
-                },
-            ];
-        }
-
         $columns['title'] = [
             'label' => trans('cms::app.title'),
             'formatter' => [$this, 'rowActionsFormatter'],
@@ -237,6 +222,7 @@ class PostTypeDataTable extends DataTable
                 'row' => $row,
                 'actions' => $this->rowAction($row),
                 'editUrl' => $this->currentUrl .'/'. $row->id . '/edit',
+                'thumbnail' => $this->postType['key'] != 'pages' ? $row->getThumbnail('100x100') : null,
             ]
         )
             ->render();

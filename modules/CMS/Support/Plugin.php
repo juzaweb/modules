@@ -349,24 +349,12 @@ class Plugin implements PluginInterface
     {
         $providers = $this->getExtraJuzaweb('providers', []);
 
-        // if (\JW_PLUGIN_AUTOLOAD) {
-        //     $providers = array_merge(
-        //         $this->getExtraLarevel('providers', []),
-        //         $providers
-        //     );
-        // }
-
-        try {
-            (new ProviderRepository(
-                $this->app,
-                new Filesystem(),
-                $this->getCachedServicesPath()
-            ))
-                ->load($providers);
-        } catch (\Throwable $e) {
-            $this->disable();
-            throw $e;
-        }
+        (new ProviderRepository(
+            $this->app,
+            new Filesystem(),
+            $this->getCachedServicesPath()
+        ))
+            ->load($providers);
     }
 
     public function getExtraLarevel($key, $default = null): array

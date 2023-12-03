@@ -37,7 +37,7 @@
                     <div class="juzaweb__menuLeft__logo">
                         <img src="{{ asset('jw-styles/juzaweb/images/logo.svg') }}" class="mr-1" alt="Juzaweb">
                         <div class="juzaweb__menuLeft__logo__name">JuzaWeb</div>
-                        <div class="juzaweb__menuLeft__logo__descr">Cms</div>
+                        <div class="juzaweb__menuLeft__logo__descr">CMS</div>
                     </div>
                 </a>
                 {{--<div class="juzaweb__menuLeft__logo">
