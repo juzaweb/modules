@@ -53,7 +53,8 @@ class PluginController extends BackendController
         $limit = $request->query('limit', 20);
         $status = $request->query('status');
 
-        $plugins = Plugin::all();
+        $plugins = apply_filters('admin.plugins.all', Plugin::all());
+
         if ($keyword = $request->query('search')) {
             $plugins = collect($plugins)->filter(
                 fn (SupportPlugin $plugin) => stripos($plugin->getDisplayName(), $keyword) !== false
@@ -101,8 +102,7 @@ class PluginController extends BackendController
 
     public function bulkActions(BulkActionRequest $request): JsonResponse
     {
-        global $jw_user;
-        if (!$jw_user->can('plugins.edit')) {
+        if (!$request->user()->can('plugins.edit')) {
             abort(403);
         }
 
@@ -124,16 +124,16 @@ class PluginController extends BackendController
             );
         }
 
-        if ($ids) {
-            event(new DumpAutoloadPlugin());
-        }
+        // if ($ids) {
+        //     event(new DumpAutoloadPlugin());
+        // }
 
         foreach ($ids as $plugin) {
             try {
                 switch ($action) {
                     case 'delete':
                         if (!config('juzaweb.plugin.enable_upload')) {
-                            throw new \Exception('Access deny.');
+                            throw new \RuntimeException('Access deny.');
                         }
                         /**
                          * @var SupportPlugin $module

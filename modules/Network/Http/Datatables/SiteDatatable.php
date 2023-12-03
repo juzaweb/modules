@@ -91,7 +91,7 @@ class SiteDatatable extends DataTable
         ];
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         switch ($action) {
             case 'delete':

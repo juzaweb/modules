@@ -11,6 +11,7 @@
 namespace Juzaweb\Backend\Actions;
 
 use Juzaweb\CMS\Abstracts\Action;
+use Juzaweb\Network\Facades\Network;
 
 class BackupAction extends Action
 {
@@ -33,6 +34,10 @@ class BackupAction extends Action
      */
     public function addConfigs(): void
     {
+        if (config('network.enable') && !Network::isRootSite()) {
+            return;
+        }
+
         $this->hookAction->registerConfig(
             [
                 'jw_backup_enable' => [

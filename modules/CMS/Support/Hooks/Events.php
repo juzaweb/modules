@@ -155,7 +155,7 @@ class Events implements EventyContract
      *
      * @return mixed
      */
-    public function filter()
+    public function filter(): mixed
     {
         $args = func_get_args();
         $hook = $args[0];
@@ -165,7 +165,7 @@ class Events implements EventyContract
         return $this->filter->fire($hook, $args);
     }
 
-    public function allAction()
+    public function allAction(): array
     {
         return $this->action->getListeners();
     }

@@ -12,6 +12,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
+use Juzaweb\CMS\Contracts\EventyContract;
 use Juzaweb\CMS\Contracts\LocalPluginRepositoryContract;
 use Juzaweb\CMS\Exceptions\InvalidAssetPath;
 use Juzaweb\CMS\Exceptions\PluginNotFoundException;
@@ -166,10 +167,10 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
     public function all(bool $collection = false): array|Collection
     {
         if (! $this->config('cache.enabled')) {
-            return $this->scan($collection);
+            return $this->app[EventyContract::class]->filter('plugins.all', $this->scan($collection));
         }
 
-        return $this->formatCached($this->getCached());
+        return $this->app[EventyContract::class]->filter('plugins.all', $this->formatCached($this->getCached()));
     }
 
     /**

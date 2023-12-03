@@ -40,7 +40,7 @@ class EditorController extends BackendController
         $file = $this->getCurrentFile($request);
         $path = Crypt::decryptString($file);
         if (!file_exists("{$pluginPath}/{$path}")) {
-            return abort(404);
+            abort(404);
         }
 
         return view(

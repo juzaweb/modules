@@ -28,5 +28,7 @@ interface EventyContract
 
     public function removeAllFilters($hook = null);
 
-    public function allAction();
+    public function filter(): mixed;
+
+    public function allAction(): array;
 }

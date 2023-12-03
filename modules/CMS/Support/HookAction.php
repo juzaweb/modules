@@ -8,6 +8,7 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Traits\Macroable;
 use Juzaweb\CMS\Contracts\EventyContract;
