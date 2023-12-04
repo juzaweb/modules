@@ -9,7 +9,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use Juzaweb\Backend\Events\AfterPluginBulkAction;
-use Juzaweb\Backend\Events\DumpAutoloadPlugin;
 use Juzaweb\Backend\Http\Requests\Plugin\BulkActionRequest;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
 use Juzaweb\CMS\Facades\CacheGroup;

@@ -12,9 +12,12 @@ namespace Juzaweb\Network\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\Network\Traits\RootNetworkModel;
 
 class Database extends Model
 {
+    use RootNetworkModel;
+
     protected $table = 'network_databases';
 
     protected $fillable = [

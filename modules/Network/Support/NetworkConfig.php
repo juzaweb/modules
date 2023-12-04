@@ -8,16 +8,16 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\CMS\Support;
+namespace Juzaweb\Network\Support;
 
 use Illuminate\Cache\CacheManager;
+use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Juzaweb\CMS\Contracts\ConfigContract;
 use Juzaweb\CMS\Models\Config as ConfigModel;
-use Illuminate\Container\Container;
+use Juzaweb\Network\Contracts\NetworkConfig as NetworkConfigAlias;
 
-class Config implements ConfigContract
+class NetworkConfig implements NetworkConfigAlias
 {
     protected array $configs;
 
@@ -74,7 +74,7 @@ class Config implements ConfigContract
         return $config;
     }
 
-    public function getConfigs(array $keys, mixed $default = null): array
+    public function getConfigs(array $keys, string|array $default = null): array
     {
         $data = [];
         foreach ($keys as $key) {
@@ -122,6 +122,6 @@ class Config implements ConfigContract
 
     protected function getCacheKey(): string
     {
-        return cache_prefix('jw_configs');
+        return cache_prefix('jw_network_configs');
     }
 }
