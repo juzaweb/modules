@@ -227,30 +227,22 @@ trait GetHookAction
 
     public function getEnqueueScripts($inFooter = false): Collection
     {
-        $scripts = new Collection(GlobalData::get('scripts'));
-
-        return $scripts->where('inFooter', $inFooter);
+        return (new Collection(GlobalData::get('scripts')))->where('inFooter', $inFooter);
     }
 
     public function getEnqueueStyles($inFooter = false): Collection
     {
-        $scripts = new Collection(GlobalData::get('styles'));
-
-        return $scripts->where('inFooter', $inFooter);
+        return (new Collection(GlobalData::get('styles')))->where('inFooter', $inFooter);
     }
 
     public function getEnqueueFrontendScripts($inFooter = false): Collection
     {
-        $scripts = new Collection(GlobalData::get('frontend_scripts'));
-
-        return $scripts->where('inFooter', $inFooter);
+        return (new Collection(GlobalData::get('frontend_scripts')))->where('inFooter', $inFooter);
     }
 
     public function getEnqueueFrontendStyles($inFooter = false): Collection
     {
-        $scripts = new Collection(GlobalData::get('frontend_styles'));
-
-        return $scripts->where('inFooter', $inFooter);
+        return (new Collection(GlobalData::get('frontend_styles')))->where('inFooter', $inFooter);
     }
 
     public function getProfilePages($key = null): Collection

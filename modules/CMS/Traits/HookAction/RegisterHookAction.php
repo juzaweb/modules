@@ -505,6 +505,28 @@ trait RegisterHookAction
         $this->globalData->set('network_configs', array_merge($key, $configs));
     }
 
+    public function registerNetworkSettingPage(string $key, array $args = []): void
+    {
+        $defaults = [
+            'key' => $key,
+            'label' => '',
+            'menu' => [
+                'icon' => 'fa fa-cogs',
+                'parent' => 'setting',
+            ]
+        ];
+
+        $args = array_merge($defaults, $args);
+
+        $this->addAdminMenu(
+            $args['label'],
+            "setting.{$key}",
+            $args['menu']
+        );
+
+        $this->globalData->set("network_setting_pages.{$key}", new Collection($args));
+    }
+
     /**
      * @param string $key
      * @param Collection $args

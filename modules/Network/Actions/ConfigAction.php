@@ -16,6 +16,11 @@ class ConfigAction extends Action
 {
     public function handle()
     {
-        // TODO: Implement handle() method.
+        $this->addAction(Action::NETWORK_INIT, [$this, 'registerConfigs']);
+    }
+
+    public function registerConfigs(): void
+    {
+        $this->hookAction->registerSettingPage('');
     }
 }

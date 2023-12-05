@@ -148,4 +148,24 @@ class HookAction implements HookActionContract
 
         $this->registerPostType($postType, $postTypeData->toArray());
     }
+
+    public function addNetworkSettingForm(string $key, array $args = []): void
+    {
+        $defaults = [
+            'name' => '',
+            'key' => $key,
+            'view' => null,
+            'header' => true,
+            'footer' => true,
+            'priority' => 10,
+            'page' => 'system',
+        ];
+
+        // Merge the provided arguments with the default values.
+        $args = array_merge($defaults, $args);
+
+        // Set the setting form data in the global data collection using the provided key.
+        // Uses a new Collection instance created from the merged arguments.
+        $this->globalData->set("network_setting_forms.{$key}", new Collection($args));
+    }
 }
