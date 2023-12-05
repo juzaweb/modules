@@ -43,7 +43,6 @@ class ConfigAction extends Action
             [
                 'network_domain' => [
                     'label' => trans('cms::app.network.network_domain'),
-                    'type' => 'text',
                     'form' => 'general',
                     'data' => [
                         'default' => config('network.domain'),
