@@ -15,15 +15,18 @@ use Illuminate\Contracts\Routing\UrlGenerator;
 use Juzaweb\CMS\Facades\ActionRegister;
 use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
+use Juzaweb\Network\Actions\ConfigAction;
+use Juzaweb\Network\Actions\NetworkAction;
 use Juzaweb\Network\Commands;
+use Juzaweb\Network\Contracts\NetworkConfig as NetworkConfigContract;
 use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteManagerContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Facades\Network;
 use Juzaweb\Network\Models\Site;
-use Juzaweb\Network\NetworkAction;
 use Juzaweb\Network\Observers\SiteModelObserver;
+use Juzaweb\Network\Support\NetworkConfig;
 use Juzaweb\Network\Support\NetworkRegistion;
 use Juzaweb\Network\Support\SiteCreater;
 use Juzaweb\Network\Support\SiteManager;
@@ -47,7 +50,7 @@ class NetworkServiceProvider extends ServiceProvider
 
         Site::observe([SiteModelObserver::class]);
 
-        ActionRegister::register(NetworkAction::class);
+        ActionRegister::register([NetworkAction::class, ConfigAction::class]);
     }
 
     public function register(): void
@@ -57,6 +60,8 @@ class NetworkServiceProvider extends ServiceProvider
         //$this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'network');
+
+        $this->app->singleton(NetworkConfigContract::class, NetworkConfig::class);
 
         $this->app->singleton(
             SiteSetupContract::class,

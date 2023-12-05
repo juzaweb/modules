@@ -14,7 +14,7 @@ use Illuminate\Cache\CacheManager;
 use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Juzaweb\CMS\Models\Config as ConfigModel;
+use Juzaweb\Network\Models\NetworkConfig as ConfigModel;
 use Juzaweb\Network\Contracts\NetworkConfig as NetworkConfigAlias;
 
 class NetworkConfig implements NetworkConfigAlias

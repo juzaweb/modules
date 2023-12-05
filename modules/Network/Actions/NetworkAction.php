@@ -8,10 +8,9 @@
  * @license    MIT
  */
 
-namespace Juzaweb\Network;
+namespace Juzaweb\Network\Actions;
 
 use Juzaweb\CMS\Abstracts\Action;
-use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\Network\Facades\Network;
 
 class NetworkAction extends Action
@@ -35,7 +34,7 @@ class NetworkAction extends Action
 
     public function registerMasterAdminMenu(): void
     {
-        HookAction::addMasterAdminMenu(
+        $this->hookAction->addMasterAdminMenu(
             trans('cms::app.dashboard'),
             'dashboard',
             [
@@ -44,7 +43,7 @@ class NetworkAction extends Action
             ]
         );
 
-        HookAction::addMasterAdminMenu(
+        $this->hookAction->addMasterAdminMenu(
             trans('cms::app.network.sites'),
             'sites',
             [
@@ -53,7 +52,7 @@ class NetworkAction extends Action
             ]
         );
 
-        HookAction::addMasterAdminMenu(
+        $this->hookAction->addMasterAdminMenu(
             trans('cms::app.themes'),
             'themes',
             [
@@ -62,7 +61,7 @@ class NetworkAction extends Action
             ]
         );
 
-        HookAction::addMasterAdminMenu(
+        $this->hookAction->addMasterAdminMenu(
             trans('cms::app.plugins'),
             'plugins',
             [
@@ -71,7 +70,7 @@ class NetworkAction extends Action
             ]
         );
 
-        HookAction::addAdminMenu(
+        $this->hookAction->addAdminMenu(
             'Log Viewer',
             'log-viewer',
             [
@@ -82,7 +81,7 @@ class NetworkAction extends Action
             ]
         );
 
-        HookAction::addAdminMenu(
+        $this->hookAction->addAdminMenu(
             trans('cms::app.email_logs'),
             'logs.email',
             [
@@ -98,7 +97,6 @@ class NetworkAction extends Action
             [
                 'icon' => 'fa fa-cogs',
                 'position' => 99,
-                //'parent' => 'managements',
             ]
         );
     }

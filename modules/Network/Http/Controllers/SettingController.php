@@ -18,12 +18,14 @@ use Juzaweb\Backend\Http\Requests\Setting\SettingRequest;
 use Juzaweb\CMS\Contracts\GlobalDataContract;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Http\Controllers\BackendController;
+use Juzaweb\Network\Contracts\NetworkConfig;
 
 class SettingController extends BackendController
 {
     public function __construct(
         protected GlobalDataContract $globalData,
-        protected HookActionContract $hookAction
+        protected HookActionContract $hookAction,
+        protected NetworkConfig $networkConfig
     ) {
     }
 
@@ -53,16 +55,18 @@ class SettingController extends BackendController
 
     public function save(SettingRequest $request): JsonResponse|RedirectResponse
     {
-        $configs = $request->only($this->hookAction->getConfigs()->keys()->toArray());
+        $configs = $request->only($this->hookAction->getNetworkConfigs()->keys()->toArray());
 
         foreach ($configs as $key => $config) {
-            if ($request->has($key)) {
-                if (is_array($config) && !is_numeric(array_key_first($config))) {
-                    $config = array_replace_recursive(get_config($key, []), $config);
-                }
-
-                set_config($key, $config);
+            if (!$request->has($key)) {
+                continue;
             }
+
+            if (is_array($config) && !is_numeric(array_key_first($config))) {
+                $config = array_replace_recursive(get_config($key, []), $config);
+            }
+
+            $this->networkConfig->setConfig($key, $config);
         }
 
         return $this->success(
