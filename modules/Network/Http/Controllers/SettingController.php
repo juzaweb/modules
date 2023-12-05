@@ -29,7 +29,7 @@ class SettingController extends BackendController
     ) {
     }
 
-    public function index($page, $form = 'general'): View
+    public function index(string $page, string $form = 'general'): View
     {
         $forms = $this->getForms($page);
         if (!isset($forms[$form])) {

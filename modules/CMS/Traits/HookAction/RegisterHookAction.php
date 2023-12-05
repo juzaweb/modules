@@ -518,7 +518,7 @@ trait RegisterHookAction
 
         $args = array_merge($defaults, $args);
 
-        $this->addAdminMenu(
+        $this->addMasterAdminMenu(
             $args['label'],
             "setting.{$key}",
             $args['menu']

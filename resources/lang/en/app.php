@@ -541,6 +541,7 @@ return [
         'sites' => 'Sites',
         'network' => 'Network',
         'domain_mapping' => 'Domain Mapping',
+        'network_domain' => 'Network Domain',
     ],
     'seo' => [
         'enable_sitemap' => 'Enable sitemap',

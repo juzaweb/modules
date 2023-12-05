@@ -90,14 +90,5 @@ class NetworkAction extends Action
                 'parent' => 'managements',
             ]
         );
-
-        $this->hookAction->addMasterAdminMenu(
-            trans('cms::app.setting'),
-            'setting',
-            [
-                'icon' => 'fa fa-cogs',
-                'position' => 99,
-            ]
-        );
     }
 }

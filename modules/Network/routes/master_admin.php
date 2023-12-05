@@ -32,7 +32,8 @@ Route::get('plugin/install', [PluginController::class, 'install'])->name('admin.
 Route::group(
     ['prefix' => 'setting'],
     function () {
-        Route::get('/', [SettingController::class, 'index'])->name('admin.network.setting');
+        Route::get('/{page}', [SettingController::class, 'index'])->name('admin.network.setting');
+        Route::get('/{page}/{form}', [SettingController::class, 'index'])->name('admin.network.setting.form');
         Route::post('/', [SettingController::class, 'save'])->name('admin.network.setting');
     }
 );
