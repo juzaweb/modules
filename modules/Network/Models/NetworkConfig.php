@@ -24,15 +24,15 @@ class NetworkConfig extends Model
 
     protected $fillable = [
         'code',
-        'value'
+        'value',
     ];
 
-    public static function configs()
+    public static function configs(): array
     {
-        return apply_filters('configs', GlobalData::get('network_configs'));
+        return apply_filters('network_configs', GlobalData::get('network_configs') ?? []);
     }
 
-    public static function getConfig($key, $default = null)
+    public static function getConfig(string $key, string|array $default = null): string|array
     {
         $value = self::where('code', '=', $key)->first();
         if (empty($value)) {

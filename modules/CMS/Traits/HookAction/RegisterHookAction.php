@@ -498,6 +498,13 @@ trait RegisterHookAction
         $this->globalData->set('setting_pages.' . $key, new Collection($args));
     }
 
+    public function registerNetworkConfig(array|string $key, array $args = []): void
+    {
+        $configs = $this->globalData->get('network_configs');
+
+        $this->globalData->set('network_configs', array_merge($key, $configs));
+    }
+
     /**
      * @param string $key
      * @param Collection $args

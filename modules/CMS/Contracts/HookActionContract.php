@@ -24,26 +24,26 @@ interface HookActionContract
     /**
      * Add an action to the hook manager.
      *
-     * @param string   $tag        The name of the action.
-     * @param callable $callback   The callback function to execute when the action is called.
-     * @param int      $priority   (Optional) The priority of the action. Default is 20.
-     * @param int      $arguments  (Optional) The number of arguments the callback accepts. Default is 1.
+     * @param  string  $tag        The name of the action.
+     * @param  callable  $callback   The callback function to execute when the action is called.
+     * @param  int  $priority   (Optional) The priority of the action. Default is 20.
+     * @param  int  $arguments  (Optional) The number of arguments the callback accepts. Default is 1.
      *
      * @return void
      */
-    public function addAction($tag, $callback, $priority = 20, $arguments = 1): void;
+    public function addAction(string $tag, callable $callback, int $priority = 20, int $arguments = 1): void;
 
     /**
      * Add a new filter to the hook system.
      *
-     * @param string $tag The tag name of the filter.
-     * @param callable $callback The callback function to execute when the filter is applied.
-     * @param int $priority The priority of the filter. Default is 20.
-     * @param int $arguments The number of arguments accepted by the filter. Default is 1.
+     * @param  string  $tag The tag name of the filter.
+     * @param  callable  $callback The callback function to execute when the filter is applied.
+     * @param  int  $priority The priority of the filter. Default is 20.
+     * @param  int  $arguments The number of arguments accepted by the filter. Default is 1.
      *
      * @return void
      */
-    public function addFilter($tag, $callback, $priority = 20, $arguments = 1): void;
+    public function addFilter(string $tag, callable $callback, int $priority = 20, int $arguments = 1): void;
 
     /**
      * Registers a post type.
@@ -558,4 +558,15 @@ interface HookActionContract
      * @return Collection|null
      */
     public function getThemeTemplates(string $key = null): ?Collection;
+
+    /**
+     * Registers a network configuration.
+     *
+     * @param array|string $key The key or keys of the network configuration(s) to register.
+     * @param array $args An optional array of additional arguments.
+     * @return void
+     */
+    public function registerNetworkConfig(array|string $key, array $args = []): void;
+
+    public function getNetworkConfigs(string|null $key = null): Collection;
 }

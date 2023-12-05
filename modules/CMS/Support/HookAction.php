@@ -38,13 +38,13 @@ class HookAction implements HookActionContract
      /**
      * Adds an action to the hook system.
      *
-     * @param string $tag The tag name of the action.
-     * @param callable $callback The callback function to be executed when the action is triggered.
-     * @param int $priority The priority of the action. Default is 20.
-     * @param int $arguments The number of arguments the callback function accepts. Default is 1.
+     * @param  string  $tag The tag name of the action.
+     * @param  callable  $callback The callback function to be executed when the action is triggered.
+     * @param  int  $priority The priority of the action. Default is 20.
+     * @param  int  $arguments The number of arguments the callback function accepts. Default is 1.
      * @return void
      */
-    public function addAction($tag, $callback, $priority = 20, $arguments = 1): void
+    public function addAction(string $tag, callable $callback, int $priority = 20, int $arguments = 1): void
     {
         $this->hook->addAction($tag, $callback, $priority, $arguments);
     }
@@ -52,14 +52,14 @@ class HookAction implements HookActionContract
      /**
      * Adds a filter to the specified tag.
      *
-     * @param string $tag The name of the tag to add the filter to.
-     * @param callable $callback The callback function to be called when the filter is applied.
-     * @param int $priority The priority of the filter. Default is 20.
-     * @param int $arguments The number of arguments that the callback function accepts. Default is 1.
-     * @throws Exception If there is an error adding the filter.
+     * @param  string  $tag The name of the tag to add the filter to.
+     * @param  callable  $callback The callback function to be called when the filter is applied.
+     * @param  int  $priority The priority of the filter. Default is 20.
+     * @param  int  $arguments The number of arguments that the callback function accepts. Default is 1.
      * @return void
+     *@throws Exception If there is an error adding the filter.
      */
-    public function addFilter($tag, $callback, $priority = 20, $arguments = 1): void
+    public function addFilter(string $tag, callable $callback, int $priority = 20, int $arguments = 1): void
     {
         $this->hook->addFilter($tag, $callback, $priority, $arguments);
     }

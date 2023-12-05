@@ -315,6 +315,18 @@ trait GetHookAction
             : new Collection($this->globalData->get($data));
     }
 
+    public function getNetworkConfigs(string|null $key = null): Collection
+    {
+        $configs = collect($this->globalData->get('network_configs'))
+            ->mapWithKeys(fn ($item, $key) => $this->mapConfigFields($item, $key));
+
+        if ($key) {
+            $configs = [$configs[$key]];
+        }
+
+        return $configs;
+    }
+
     protected function mapConfigFields($item, $key): array
     {
         if (is_int($key) && is_string($item)) {

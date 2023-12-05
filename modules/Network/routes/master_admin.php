@@ -13,6 +13,7 @@ use Juzaweb\Network\Http\Controllers\PluginController;
 use Juzaweb\Network\Http\Controllers\DashboardController;
 use Juzaweb\Network\Http\Controllers\SiteController;
 use Juzaweb\Network\Http\Controllers\ThemeController;
+use Juzaweb\Network\Http\Controllers\SettingController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('admin.network.dashboard');
 
@@ -27,3 +28,11 @@ Route::get('theme/install', [ThemeController::class, 'install'])->name('admin.ne
 
 Route::jwResource('plugins', PluginController::class, ['name' => 'network.plugins']);
 Route::get('plugin/install', [PluginController::class, 'install'])->name('admin.network.plugin.install');
+
+Route::group(
+    ['prefix' => 'setting'],
+    function () {
+        Route::get('/', [SettingController::class, 'index'])->name('admin.network.setting');
+        Route::post('/', [SettingController::class, 'save'])->name('admin.network.setting');
+    }
+);

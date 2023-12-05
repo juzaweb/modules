@@ -18,8 +18,6 @@ class NetworkAction extends Action
 {
     public function handle(): void
     {
-        //$this->addAction(Action::BACKEND_INIT, [$this, 'registerMenus']);
-
         if (Network::isRootSite()) {
             $this->addAction('backend.menu_top', [$this, 'addMenuAdmin']);
 
@@ -93,17 +91,14 @@ class NetworkAction extends Action
                 'parent' => 'managements',
             ]
         );
-    }
 
-    public function registerMenus(): void
-    {
-        HookAction::addAdminMenu(
-            trans('cms::app.network.domain_mapping'),
-            'domains',
+        $this->hookAction->addMasterAdminMenu(
+            trans('cms::app.setting'),
+            'setting',
             [
-                'icon' => 'fa fa-server',
-                'position' => 20,
-                'parent' => 'setting'
+                'icon' => 'fa fa-cogs',
+                'position' => 99,
+                //'parent' => 'managements',
             ]
         );
     }
