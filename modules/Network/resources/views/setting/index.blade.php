@@ -7,7 +7,7 @@
             <div class="list-group">
                 @foreach($forms as $key => $form)
                 <a class="list-group-item @if($key == $component) active @endif"
-                   href="{{ route('admin.setting.form', [$page, $key]) }}">{{ $form->get('name') }}</a>
+                   href="{{ route('admin.network.setting.form', [$page, $key]) }}">{{ $form->get('name') }}</a>
                 @endforeach
             </div>
         </div>
@@ -16,14 +16,12 @@
         <div class="col-md-{{ $forms->count() > 1 ? 9 : 12 }}">
             @if(isset($forms[$component]['view']))
                 @if(is_string($forms[$component]['view']))
-                    @if(view()->exists($forms[$component]['view']))
-                        @include($forms[$component]['view'])
-                    @endif
+                    @include($forms[$component]['view'])
                 @else
-                    {{ $forms[$component]['view'] }}
+                    {{ $forms[$component]['view']->with(compact('component', 'page', 'forms', 'configs')) }}
                 @endif
             @else
-                <form action="{{ route('admin.setting.save') }}" method="post" class="form-ajax">
+                <form action="{{ route('admin.network.setting.save') }}" method="post" class="form-ajax">
                     <input type="hidden" name="form" value="{{ $component }}">
 
                     <div class="card">
@@ -41,13 +39,21 @@
                             </div>
                         @endif
                         <div class="card-body">
+                            @if(isset($forms[$component]['form']))
+                                @if(is_string($forms[$component]['form']))
+                                    @include($forms[$component]['form'])
+                                @else
+                                    {{ $forms[$component]['form']->with(compact('component', 'page', 'forms', 'configs')) }}
+                                @endif
+                            @endif
+
                             @foreach($configs as $key => $config)
                                 @php
                                     if ($config['type'] == 'checkbox') {
                                         $config['data']['value'] = $config['data']['value'] ?? 1;
-                                        $config['data']['checked'] = get_config($key, $config['data']['default'] ?? null) == ($config['data']['value'] ?? null);
+                                        $config['data']['checked'] = get_network_config($key, $config['data']['default'] ?? null) == ($config['data']['value'] ?? null);
                                     } else {
-                                        $config['data']['value'] = get_config($key);
+                                        $config['data']['value'] = get_network_config($key);
                                     }
                                 @endphp
 

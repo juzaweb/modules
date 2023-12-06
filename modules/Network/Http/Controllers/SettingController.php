@@ -42,7 +42,7 @@ class SettingController extends BackendController
         $title = $forms[$form]['name'] ?? trans('cms::app.system_setting');
 
         return view(
-            'cms::backend.setting.system.index',
+            'network::setting.index',
             [
                 'title' => $title,
                 'component' => $form,

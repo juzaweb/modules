@@ -36,6 +36,7 @@ class ConfigAction extends Action
             'general',
             [
                 'name' => trans('cms::app.general_setting'),
+                'priority' => 10,
             ]
         );
 

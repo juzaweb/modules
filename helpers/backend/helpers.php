@@ -24,6 +24,8 @@ use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Facades\XssCleaner;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Support\Breadcrumb;
+use Juzaweb\Network\Contracts\NetworkConfig;
+use Juzaweb\Network\Models\NetworkConfig as NetworkConfigModel;
 
 if (!function_exists('e_html')) {
     function e_html($str): string
@@ -848,5 +850,56 @@ if (!function_exists('map_name_repeater')) {
                 return array_merge($field, ['name' => $fieldName]);
             }
         )->toArray();
+    }
+}
+
+if (!function_exists('get_network_config')) {
+    /**
+     * Get DB config
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return array|string|null
+     */
+    function get_network_config(string $key, mixed $default = null): array|string|null
+    {
+        try {
+            return app(NetworkConfig::class)->getConfig($key, $default);
+        } catch (\Exception $e) {
+            return $default;
+        }
+    }
+}
+
+if (!function_exists('get_network_configs')) {
+    /**
+     * Get multi DB configs
+     *
+     * @param array $keys
+     * @param mixed $default
+     * @return array
+     */
+    function get_network_configs(array $keys, mixed $default = null): array
+    {
+        $data = [];
+        foreach ($keys as $key) {
+            $data[$key] = get_network_config($key, $default);
+        }
+
+        return $data;
+    }
+}
+
+if (!function_exists('set_network_config')) {
+    /**
+     * Set DB config
+     *
+     * @param string $key
+     * @param mixed $value
+     * @return \Juzaweb\CMS\Models\Config
+     */
+    function set_network_config(string $key, mixed $value): NetworkConfigModel
+    {
+        return app(NetworkConfig::class)->setConfig($key, $value);
     }
 }

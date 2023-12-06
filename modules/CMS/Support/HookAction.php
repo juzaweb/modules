@@ -157,7 +157,7 @@ class HookAction implements HookActionContract
             'view' => null,
             'header' => true,
             'footer' => true,
-            'priority' => 10,
+            'priority' => 20,
             'page' => 'system',
         ];
 

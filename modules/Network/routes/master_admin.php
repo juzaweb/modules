@@ -34,6 +34,6 @@ Route::group(
     function () {
         Route::get('/{page}', [SettingController::class, 'index'])->name('admin.network.setting');
         Route::get('/{page}/{form}', [SettingController::class, 'index'])->name('admin.network.setting.form');
-        Route::post('/', [SettingController::class, 'save'])->name('admin.network.setting');
+        Route::post('/', [SettingController::class, 'save'])->name('admin.network.setting.save');
     }
 );
