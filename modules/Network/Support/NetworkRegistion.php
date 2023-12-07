@@ -83,13 +83,18 @@ class NetworkRegistion implements NetworkRegistionContract
         return $this->site;
     }
 
-    public function isRootSite($domain = null): bool
+    public function isRootSite(string $domain = null): bool
     {
         if (empty($domain)) {
             return is_null($this->site->id);
         }
 
         return $this->isRootDomain($domain);
+    }
+
+    public function isSubSite(string $domain = null): bool
+    {
+        return !$this->isRootSite($domain);
     }
 
     public function getCurrentDomain(): string

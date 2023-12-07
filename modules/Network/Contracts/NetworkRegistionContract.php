@@ -19,9 +19,28 @@ interface NetworkRegistionContract
 
     public function getCurrentSiteId(): ?int;
 
+    /**
+     * Retrieves the current site.
+     *
+     * @return object The current site.
+     */
     public function getCurrentSite(): object;
 
-    public function isRootSite($domain = null): bool;
+    /**
+     * Determines if the given domain is the root site.
+     *
+     * @param  string|null  $domain  The domain to check. If null, it checks the current site's domain.
+     * @return bool Returns true if the domain is the root site, false otherwise.
+     */
+    public function isRootSite(string $domain = null): bool;
+
+    /**
+     * Check if the given domain is a sub-site.
+     *
+     * @param  string|null  $domain  The domain to check. Defaults to null.
+     * @return bool Returns true if the domain is a sub-site, false otherwise.
+     */
+    public function isSubSite(string $domain = null): bool;
 
     public function getCurrentDomain(): string;
 }

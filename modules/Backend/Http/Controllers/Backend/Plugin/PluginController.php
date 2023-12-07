@@ -9,6 +9,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\URL;
 use Juzaweb\Backend\Events\AfterPluginBulkAction;
+use Juzaweb\Backend\Http\Datatables\PluginDatatable;
 use Juzaweb\Backend\Http\Requests\Plugin\BulkActionRequest;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
 use Juzaweb\CMS\Facades\CacheGroup;
@@ -17,6 +18,7 @@ use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Support\ArrayPagination;
 use Juzaweb\CMS\Support\Plugin as SupportPlugin;
 use Juzaweb\CMS\Version;
+use Juzaweb\Network\Facades\Network;
 
 class PluginController extends BackendController
 {
@@ -29,8 +31,7 @@ class PluginController extends BackendController
 
     public function index(Request $request): View
     {
-        global $jw_user;
-        if (!$jw_user->can('plugins.index')) {
+        if (!$request->user()->can('plugins.index')) {
             abort(403);
         }
 
@@ -52,18 +53,24 @@ class PluginController extends BackendController
         $limit = $request->query('limit', 20);
         $status = $request->query('status');
 
-        $plugins = apply_filters('admin.plugins.all', Plugin::all());
+        $plugins = collect(apply_filters('admin.plugins.all', Plugin::all()));
+
+        if (config('network.enable') && Network::isSubSite()) {
+            $plugins = $plugins->filter(
+                fn (SupportPlugin $plugin) => $plugin->isNetworkSupport()
+            );
+        }
 
         if ($keyword = $request->query('search')) {
-            $plugins = collect($plugins)->filter(
-                fn (SupportPlugin $plugin) => stripos($plugin->getDisplayName(), $keyword) !== false
+            $plugins = $plugins->filter(
+                fn (SupportPlugin $plugin) => mb_stripos($plugin->getDisplayName(), $keyword) !== false
             );
         }
 
         if ($status !== null) {
             $status = filter_var($status, FILTER_VALIDATE_BOOLEAN);
 
-            $plugins = collect($plugins)->filter(
+            $plugins = $plugins->filter(
                 fn (SupportPlugin $plugin) => $status ? $plugin->isEnabled() : !$plugin->isEnabled()
             );
         }
@@ -128,16 +135,18 @@ class PluginController extends BackendController
         // }
 
         foreach ($ids as $plugin) {
+            /**
+             * @var SupportPlugin $module
+             */
+            $module = app('plugins')->find($plugin);
+
             try {
                 switch ($action) {
                     case 'delete':
                         if (!config('juzaweb.plugin.enable_upload')) {
                             throw new \RuntimeException('Access deny.');
                         }
-                        /**
-                         * @var SupportPlugin $module
-                         */
-                        $module = app('plugins')->find($plugin);
+
                         if ($module->isEnabled()) {
                             $module->disable();
                         }
@@ -145,9 +154,17 @@ class PluginController extends BackendController
                         $module->delete();
                         break;
                     case 'activate':
+                        if (config('network.enable') && !$module->isNetworkSupport()) {
+                            continue 2;
+                        }
+
                         Plugin::enable($plugin);
                         break;
                     case 'deactivate':
+                        if (config('network.enable') && !$module->isNetworkSupport()) {
+                            continue 2;
+                        }
+
                         Plugin::disable($plugin);
                         break;
                 }

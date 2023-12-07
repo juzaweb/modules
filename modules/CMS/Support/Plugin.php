@@ -42,6 +42,8 @@ class Plugin implements PluginInterface
      */
     protected array $moduleJson = [];
 
+    protected array $moduleConfigs;
+
     /**
      * @var ActivatorInterface
      */
@@ -165,8 +167,17 @@ class Plugin implements PluginInterface
         return $this;
     }
 
+    public function isNetworkSupport(): bool
+    {
+        return (bool) $this->getInfo()->get('networkable', false);
+    }
+
     public function getInfo(bool $assoc = false): array|Collection
     {
+        if (isset($this->moduleConfigs)) {
+            return $assoc ? $this->moduleConfigs : new Collection($this->moduleConfigs);
+        }
+
         $configPath = $this->path . '/composer.json';
 
         $config = [];
@@ -177,7 +188,11 @@ class Plugin implements PluginInterface
 
         $config['screenshot'] = $this->getScreenshot();
 
+        $config['networkable'] = (bool) Arr::get($config, 'extra.juzaweb.networkable', false);
+
         $config['path'] = $this->path;
+
+        $this->moduleConfigs = $config;
 
         return $assoc ? $config : new Collection($config);
     }

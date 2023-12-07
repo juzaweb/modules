@@ -50,7 +50,7 @@ class LocalThemeRepository implements LocalThemeRepositoryContract
      * Get all theme information.
      *
      * @param bool $collection
-     * @return array|Collection
+     * @return array<Theme>|Collection
      */
     public function scan(bool $collection = false): array|Collection
     {
