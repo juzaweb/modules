@@ -24,7 +24,7 @@ interface NetworkRegistionContract
      *
      * @return object The current site.
      */
-    public function getCurrentSite(): object;
+    public function getCurrentSite(): ?object;
 
     /**
      * Determines if the given domain is the root site.

@@ -139,6 +139,11 @@ class PluginController extends BackendController
              * @var SupportPlugin $module
              */
             $module = app('plugins')->find($plugin);
+            $canActive = true;
+
+            if (config('network.enable') && Network::isSubSite()) {
+                $canActive = $module->isNetworkSupport();
+            }
 
             try {
                 switch ($action) {
@@ -154,14 +159,14 @@ class PluginController extends BackendController
                         $module->delete();
                         break;
                     case 'activate':
-                        if (config('network.enable') && !$module->isNetworkSupport()) {
+                        if (!$canActive) {
                             continue 2;
                         }
 
                         Plugin::enable($plugin);
                         break;
                     case 'deactivate':
-                        if (config('network.enable') && !$module->isNetworkSupport()) {
+                        if (!$canActive) {
                             continue 2;
                         }
 

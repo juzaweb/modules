@@ -78,7 +78,7 @@ class NetworkRegistion implements NetworkRegistionContract
         $GLOBALS['site'] = $this->site;
     }
 
-    public function getCurrentSite(): object
+    public function getCurrentSite(): ?object
     {
         return $this->site;
     }
@@ -159,7 +159,7 @@ class NetworkRegistion implements NetworkRegistionContract
         }
     }
 
-    protected function getCurrentSiteInfo(): object
+    protected function getCurrentSiteInfo(): ?object
     {
         $domain = $this->getCurrentDomain();
 
