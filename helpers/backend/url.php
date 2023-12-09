@@ -54,13 +54,13 @@ function get_base_url(string $url): string
 }
 
 if (!function_exists('path_url')) {
-    function path_url(string $url): string
+    function path_url(string $url, ?string $prefix = null): string
     {
         if (!is_url($url)) {
             return $url;
         }
 
-        return parse_url($url)['path'];
+        return ($prefix ?? '').ltrim(parse_url($url)['path'], $prefix);
     }
 }
 

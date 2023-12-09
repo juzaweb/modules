@@ -21,5 +21,5 @@ if (config('juzaweb.frontend.enable')) {
 
     require __DIR__ . '/components/page.route.php';
 } else {
-    Route::get('/', fn() => redirect(config('juzaweb.admin_prefix')));
+    Route::get('/', fn () => redirect(config('juzaweb.admin_prefix')));
 }

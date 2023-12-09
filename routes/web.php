@@ -8,6 +8,7 @@
  * @license    GNU V2
  */
 
+use Juzaweb\Backend\Http\Middleware\AdminLogin;
 use Juzaweb\CMS\Support\Route\Auth;
 use Juzaweb\Backend\Http\Controllers\Installer\AdminController;
 use Juzaweb\Backend\Http\Controllers\Installer\DatabaseController;
@@ -44,10 +45,9 @@ Route::group(
 
 Route::group(
     [
-        'middleware' => 'guest',
+        'middleware' => ['guest', AdminLogin::class],
         'as' => 'admin.',
         'prefix' => config('juzaweb.admin_prefix'),
-        //'namespace' => 'Juzaweb\CMS\Http\Controllers',
     ],
     function () {
         Auth::routes();

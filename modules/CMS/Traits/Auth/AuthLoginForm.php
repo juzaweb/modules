@@ -77,14 +77,7 @@ trait AuthLoginForm
             );
         }
 
-        if (Auth::attempt(
-            [
-                'email' => $email,
-                'password' => $password,
-            ],
-            $remember
-        )
-        ) {
+        if ($this->authAttempt($email, $password, $remember)) {
             /**
              * @var User $user
              */
@@ -118,15 +111,26 @@ trait AuthLoginForm
         return redirect()->to('/');
     }
 
+    protected function authAttempt($email, $passwork, $remember): bool
+    {
+        return apply_filters(
+            'login.attempt',
+            Auth::attempt(['email' => $email, 'password' => $passwork], $remember),
+            $email,
+            $passwork,
+            $remember
+        );
+    }
+
     protected function getUrlRedirectForLogin(User $user, LoginRequest $request): string
     {
-        if ($request->session()->has('url.intended')) {
-            $url = $request->session()->get('url.intended');
-            $request->session()->forget('url.intended');
-            return $url;
+        if ($redirect = $request->query('redirect')) {
+            $url = path_url($redirect, '/');
+        } else {
+            $url = $user->hasPermission() ? admin_url(route('admin.dashboard', [], false)) : '/';
         }
 
-        return $user->hasPermission() ? route('admin.dashboard') : '/';
+        return apply_filters('login.redirect', $url, $user, $request);
     }
 
     protected function getViewForm(): string

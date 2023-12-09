@@ -19,9 +19,12 @@ class Admin
     public function handle(Request $request, Closure $next): mixed
     {
         if (!Auth::check()) {
-            $request->session()->put('url.intended', $request->url());
-
-            return redirect()->route('admin.login');
+            return redirect()->route(
+                'admin.login',
+                [
+                    'redirect' => path_url(url()->current(), '/'),
+                ]
+            );
         }
         
         if (!has_permission()) {
