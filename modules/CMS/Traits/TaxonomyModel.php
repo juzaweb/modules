@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
@@ -32,12 +33,12 @@ trait TaxonomyModel
         );
     }
 
-    public function parent(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function parent(): BelongsTo
     {
         return $this->belongsTo(self::class, 'parent_id', 'id');
     }
 
-    public function recursiveParents(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function recursiveParents(): BelongsTo
     {
         return $this->parent()->with('recursiveParents');
     }
@@ -125,7 +126,7 @@ trait TaxonomyModel
             return false;
         }
 
-        return url()->to($permalink . '/' . $this->slug);
+        return home_url($permalink . '/' . $this->slug);
     }
 
     public function getName(): string

@@ -15,9 +15,9 @@ use Illuminate\Container\Container;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Juzaweb\Network\Models\NetworkConfig as ConfigModel;
-use Juzaweb\Network\Contracts\NetworkConfig as NetworkConfigAlias;
+use Juzaweb\Network\Contracts\NetworkConfig as NetworkConfigContract;
 
-class NetworkConfig implements NetworkConfigAlias
+class NetworkConfig implements NetworkConfigContract
 {
     protected array $configs;
 

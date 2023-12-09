@@ -49,6 +49,6 @@ trait ServerLoadChecker
                 return $serverload == $cpu;
         }
 
-        throw new \Exception('Operator not found');
+        throw new \RuntimeException('Operator not found');
     }
 }
