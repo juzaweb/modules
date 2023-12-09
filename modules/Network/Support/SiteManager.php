@@ -58,18 +58,18 @@ class SiteManager implements SiteManagerContract
         return $this->createSite($site);
     }
 
-    public function getLoginUrl(string|int|Site $site, ?User $user = null): string
+    public function getLoginUrl(string|int|Site $site, ?User $user = null): ?string
     {
         global $jw_user;
         $user = $user ?: $jw_user;
-        return $this->find($site)->getLoginUrl($user);
+        return $this->find($site)?->getLoginUrl($user);
     }
 
     public function validateLoginUrl(array $data): null|bool|User
     {
         $token = Arr::get($data, 'token');
         $auth = Arr::get($data, 'auth');
-        $user = json_decode(decrypt(urldecode(Arr::get($data, 'user'))));
+        $user = json_decode(decrypt(urldecode(Arr::get($data, 'user'))), false, 512, JSON_THROW_ON_ERROR);
 
         if (empty($token) || empty($auth) || empty($user)) {
             return false;

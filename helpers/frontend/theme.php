@@ -526,7 +526,7 @@ function get_locale(): string
 
 function home_url(): string
 {
-    return '/';
+    return apply_filters('home_url', '/');
 }
 
 function share_url($social, $url, $text = null): string

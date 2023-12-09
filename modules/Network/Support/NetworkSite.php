@@ -49,7 +49,12 @@ class NetworkSite implements NetworkSiteContract
             'user' => urlencode($user)
         ];
 
-        return $loginUrl.'/token-login?'.http_build_query($data);
+        return apply_filters(
+            'network.login_url',
+            $loginUrl.'/token-login?'.http_build_query($data),
+            $data,
+            $this->site
+        );
     }
 
     public function getUrl(string $path = null): string

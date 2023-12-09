@@ -741,7 +741,10 @@ function cache_prefix($name): string
 if (!function_exists('admin_url')) {
     function admin_url($path = '', $parameters = [], $secure = null): string
     {
-        $adminUrl = apply_filters('admin_url', config('juzaweb.admin_prefix'));
+        $adminUrl = apply_filters(
+            'admin_url',
+            url(config('juzaweb.admin_prefix'), $parameters, $secure)
+        );
 
         if ($path) {
             $url = url(

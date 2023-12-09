@@ -3,7 +3,7 @@
         global $jw_user;
     @endphp
     <div class="mr-3">
-        <a href="{{ url('/') }}" class="mr-2" target="_blank" title="{{ trans('cms::app.view_site') }}">
+        <a href="{{ apply_filters('admin.home_url', home_url()) }}" class="mr-2" target="_blank" title="{{ trans('cms::app.view_site') }}">
             <i class="dropdown-toggle-icon fa fa-home" data-toggle="tooltip" data-placement="bottom" data-original-title="Visit website"></i> {{ trans('cms::app.view_site') }}
         </a>
     </div>
