@@ -20,6 +20,8 @@ interface SiteManagerContract
 {
     public function find(string|int|Site $site): ?NetworkSiteContract;
 
+    public function findOrFail(string|int|Site $site): NetworkSiteContract;
+
     /**
      * @param  string  $subdomain
      * @param  array  $args

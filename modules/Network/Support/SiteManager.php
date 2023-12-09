@@ -51,6 +51,15 @@ class SiteManager implements SiteManagerContract
         return $this->createSite($site);
     }
 
+    public function findOrFail(string|int|Site $site): NetworkSiteContract
+    {
+        $site = $this->find($site);
+
+        abort_unless($site, 404);
+
+        return $site;
+    }
+
     public function create(string $subdomain, array $args = [], ?User $user = null): NetworkSiteContract
     {
         $site = $this->siteCreater->create($subdomain, $args);

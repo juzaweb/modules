@@ -11,6 +11,8 @@
 namespace Juzaweb\Network\Models;
 
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\Network\Interfaces\RootNetworkModelInterface;
+use Juzaweb\Network\Traits\RootNetworkModel;
 
 /**
  * Juzaweb\Network\Models\DomainMapping
@@ -30,12 +32,14 @@ use Juzaweb\CMS\Models\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|DomainMapping whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class DomainMapping extends Model
+class DomainMapping extends Model implements RootNetworkModelInterface
 {
+    use RootNetworkModel;
+
     protected $table = 'network_domain_mappings';
 
     protected $fillable = [
         'domain',
-        'site_id'
+        'site_id',
     ];
 }

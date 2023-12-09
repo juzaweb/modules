@@ -30,8 +30,10 @@ class SystemSettingController extends BackendController
     {
         $forms = $this->getForms($page);
         if (!isset($forms[$form])) {
-            $form = $forms->first()->get('key');
+            $form = $forms->first()?->get('key');
         }
+
+        abort_unless($form, 404);
 
         $configs = $this->hookAction->getConfigs()->where('form', $form);
         $title = $forms[$form]['name'] ?? trans('cms::app.system_setting');

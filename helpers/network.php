@@ -16,4 +16,10 @@ if (!function_exists('is_root_site')) {
         return Network::isRootSite($domain);
     }
 }
- 
+
+if (!function_exists('get_current_site_id')) {
+    function get_current_site_id(): int
+    {
+        return Network::getCurrentSiteId();
+    }
+}
