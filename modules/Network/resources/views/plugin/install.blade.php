@@ -4,11 +4,20 @@
 
     <div class="row box-hidden mb-2" id="form-plugin-upload">
         <div class="col-md-12">
-            <form action="{{ route('admin.plugin.install.upload') }}" role="form" id="pluginUploadForm" name="pluginUploadForm" method="post" class="dropzone" enctype="multipart/form-data">
+            <form action="{{ route('admin.plugin.install.upload') }}"
+                  role="form"
+                  id="pluginUploadForm"
+                  name="pluginUploadForm"
+                  method="post"
+                  class="dropzone"
+                  enctype="multipart/form-data"
+            >
                 <div class="form-group">
                     <div class="controls text-center">
                         <div class="input-group w-100">
-                            <a class="btn btn-primary w-100 text-white" id="plugin-upload-button">{{ trans('cms::filemanager.message-choose') }}</a>
+                            <a class="btn btn-primary w-100 text-white" id="plugin-upload-button">
+                                {{ trans('cms::filemanager.message-choose') }}
+                            </a>
                         </div>
                     </div>
                 </div>

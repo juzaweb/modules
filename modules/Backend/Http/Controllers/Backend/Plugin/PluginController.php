@@ -103,6 +103,7 @@ class PluginController extends BackendController
                 'status' => $plugin->isEnabled() ? 'active' : 'inactive',
                 'setting' => $plugin->getSettingUrl(),
                 'version' => $plugin->getVersion(),
+                'author' => $plugin->getAuthor(),
                 //'update' => $updates->{$plugin->get('name')}->update ?? false,
                 'update' => false,
                 'networkable' => $plugin->isNetworkSupport(),

@@ -553,6 +553,11 @@ class Plugin implements PluginInterface
         return $this->getExtraJuzaweb('version', 0);
     }
 
+    public function getAuthor(): ?string
+    {
+        return $this->json()->get('author');
+    }
+
     public function getSettingUrl(): ?string
     {
         return $this->getExtraJuzaweb('setting_url');

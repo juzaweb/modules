@@ -6,7 +6,11 @@
         <div class="col-md-6">
             <div class="btn-group float-right">
                 @if(config('juzaweb.plugin.enable_upload'))
-                    <a href="{{ route('admin.network.plugin.install') }}" class="btn btn-success" data-turbolinks="false"><i class="fa fa-plus-circle"></i> {{ trans('cms::app.add_new') }}</a>
+                    <a href="{{ route('admin.network.plugin.install') }}"
+                       class="btn btn-success"
+                       data-turbolinks="false">
+                        <i class="fa fa-plus-circle"></i> {{ trans('cms::app.add_new') }}
+                    </a>
                 @endif
             </div>
         </div>
@@ -61,12 +65,11 @@
         <table class="table jw-table juzaweb-table">
             <thead>
                 <tr>
-                    <th data-width="3%" data-field="state" data-checkbox="true"></th>
+                    <th data-width="2%" data-field="state" data-checkbox="true"></th>
                     <th data-field="name" data-width="25%" data-formatter="nameFormatter">{{ trans('cms::app.name') }}</th>
-                    <th data-field="description">{{ trans('cms::app.description') }}</th>
-                    <th data-field="version" data-width="10%">{{ trans('cms::app.version') }}</th>
-                    <th data-field="networkable" data-width="10%">{{ trans('Network Support') }}</th>
-                    <th data-width="15%" data-field="status" data-formatter="statusFormatter" data-align="center">
+                    <th data-width="5%" data-field="version" data-width="10%">{{ trans('cms::app.version') }}</th>
+                    <th data-width="5%" data-field="networkable" data-width="10%">{{ trans('Network Support') }}</th>
+                    <th data-width="5%" data-field="status" data-formatter="statusFormatter" data-align="center">
                         {{ trans('cms::app.status') }}
                     </th>
                 </tr>
@@ -77,6 +80,10 @@
     <script type="text/javascript">
         function nameFormatter(value, row, index) {
             let str = `<div class="font-weight-bold">${value}</div>`;
+
+            if (row.description) {
+                str += `<div class="mt-2">${row.description}</div>`;
+            }
 
             str += `<ul class="list-inline mb-0 list-actions mt-2 ">`;
 
