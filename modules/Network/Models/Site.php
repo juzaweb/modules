@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\CMS\Traits\UseUUIDColumn;
 use Juzaweb\Network\Interfaces\RootNetworkModelInterface;
 use Juzaweb\Network\Traits\RootNetworkModel;
 
@@ -44,7 +45,7 @@ use Juzaweb\Network\Traits\RootNetworkModel;
  */
 class Site extends Model implements RootNetworkModelInterface
 {
-    use RootNetworkModel;
+    use RootNetworkModel, UseUUIDColumn;
 
     public const STATUS_ACTIVE = 'active';
     public const STATUS_INACTIVE = 'inactive';
