@@ -322,12 +322,12 @@ class FileManager
         $content = $this->getContentFileUrl($this->resource);
 
         if (empty($content)) {
-            throw new Exception("Can't get file url: {$this->resource}");
+            throw new \RuntimeException("Can't get file url: {$this->resource}");
         }
 
         $tempName = basename($this->resource);
         if (empty(File::extension($tempName))) {
-            throw new Exception("Can't get file extension: {$this->resource}");
+            throw new \RuntimeException("Can't get file extension: {$this->resource}");
         }
 
         $this->getStorage()->put($tempName, $content);
@@ -379,7 +379,7 @@ class FileManager
         $mimetype = $file->getMimeType();
         $extension = $file->getClientOriginalExtension();
 
-        $config = config('juzaweb.filemanager.types.' . $this->type);
+        $config = config("juzaweb.filemanager.types.{$this->type}");
         if (empty($config)) {
             $this->errors[] = $this->errorMessage('not-supported');
             return false;
@@ -388,6 +388,11 @@ class FileManager
         // Bytes to MB
         $max_size = $config['max_size'];
         $file_size = $file->getSize();
+
+        if ((config('juzaweb.filemanager.total_size') !== -1) && $file_size > MediaFile::totalFree(false)) {
+            $this->errors[] = $this->errorMessage('total-size');
+            return false;
+        }
 
         $validMimetypes = $config['valid_mime'] ?? [];
         $extensions = $config['extensions'] ?? [];
@@ -416,7 +421,8 @@ class FileManager
             $content = $this->client->get(
                 $url,
                 [
-                    'timeout' => 10
+                    'timeout' => 10,
+                    'connect_timeout' => 10,
                 ]
             )
                 ->getBody()

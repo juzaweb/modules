@@ -209,6 +209,13 @@ return [
         'image_resizer' => env('JW_IMAGE_RESIZER', false),
 
         /**
+         * Total size of storage, If -1, no limit
+         *
+         * Default: -1
+         */
+        'total_size' => env('JW_MEDIA_TOTAL_SIZE', -1),
+
+        /**
          * File type
          *
          * Default: file, image
@@ -221,6 +228,7 @@ return [
                  * Default: 50 (MB)
                  */
                 'max_size' => env('JW_MEDIA_FILE_MAX_SIZE', 50),
+
                 'valid_mime' => [
                     ...Facades::defaultFileMimetypes(),
                     //

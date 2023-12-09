@@ -23,18 +23,14 @@ class DashboardController extends BackendController
 
         $title = trans('cms::app.dashboard');
         $users = User::count();
-        $posts = Post::where('type', '!=', 'pages')
+        $posts = Post::where('type', '=', 'posts')
             ->wherePublish()
             ->count();
         $pages = Post::where('type', '=', 'pages')
             ->wherePublish()
             ->count();
-        $storage = format_size_units(MediaFile::sum('size'));
-        $diskFree = Cache::store('file')->remember(
-            cache_prefix('storage_free_disk'),
-            3600,
-            fn() => format_size_units(disk_free_space('/')),
-        );
+        $storage = format_size_units(MediaFile::totalUsed());
+        $diskFree = $this->getDiskFreeSize();
 
         return $this->view(
             'cms::backend.dashboard',
@@ -166,6 +162,20 @@ class DashboardController extends BackendController
             [
                 'message' => trans('cms::app.successfully')
             ]
+        );
+    }
+
+    protected function getDiskFreeSize(): string
+    {
+        return Cache::store('file')->remember(
+            cache_prefix('storage_free_disk'),
+            3600,
+            fn () => format_size_units(
+                apply_filters(
+                    'admin.dashboard.disk_free',
+                    MediaFile::totalFree()
+                )
+            ),
         );
     }
 

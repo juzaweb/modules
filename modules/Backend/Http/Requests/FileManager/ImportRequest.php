@@ -24,7 +24,18 @@ class ImportRequest extends FormRequest
             'working_dir' => [
                 'nullable',
                 'numeric'
-            ]
+            ],
+            'disk' => [
+                'nullable',
+                'in:public,protected,tmp',
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'disk.in' => trans('cms::message.invalid_disk'),
         ];
     }
 }

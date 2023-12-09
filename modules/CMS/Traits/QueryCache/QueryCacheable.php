@@ -115,8 +115,8 @@ trait QueryCacheable
             $builder->cacheTags($this->cacheTagsValue($builder));
         }
 
-        if ($this->cachePrefix) {
-            $builder->cachePrefix($this->cachePrefix);
+        if ($cachePrefix = $this->getCacheFrefix()) {
+            $builder->cachePrefix($cachePrefix);
         }
 
         if (method_exists($this, 'cachePrefixValue')) {
@@ -140,5 +140,10 @@ trait QueryCacheable
         }
 
         return $builder->cacheBaseTags($this->getCacheBaseTags());
+    }
+
+    protected function getCacheFrefix(): string
+    {
+        return $this->cachePrefix ?? ($this->getTable().'_');
     }
 }

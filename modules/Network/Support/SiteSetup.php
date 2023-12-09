@@ -46,6 +46,9 @@ class SiteSetup implements SiteSetupContract
 
             $this->config->set('session.cookie', "juzaweb_session_{$site->id}");
 
+            // Default 1GB
+            $this->config->set('juzaweb.filemanager.total_size', 1024 * 1024 * 1024);
+
             $this->setCachePrefix("jw_site_{$site->id}");
         }
     }

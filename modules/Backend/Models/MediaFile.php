@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\Network\Traits\Networkable;
 
 /**
@@ -43,7 +44,7 @@ use Juzaweb\Network\Traits\Networkable;
  */
 class MediaFile extends Model
 {
-    use Networkable;
+    use Networkable, QueryCacheable;
 
     protected $table = 'media_files';
 
@@ -63,6 +64,20 @@ class MediaFile extends Model
     protected $casts = [
         'metadata' => 'array',
     ];
+
+    public static function totalUsed(bool $cacheable = true): int
+    {
+        return self::when($cacheable, fn ($q) => $q->cacheFor(3600))->sum('size');
+    }
+
+    public static function totalFree(bool $cacheable = true): float|bool
+    {
+        if (config('juzaweb.filemanager.total_size') === -1) {
+            return disk_free_space('/');
+        }
+
+        return config('juzaweb.filemanager.total_size') - self::totalUsed($cacheable);
+    }
 
     public function delete(): bool
     {
