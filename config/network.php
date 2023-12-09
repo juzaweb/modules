@@ -14,4 +14,15 @@ return [
     'domain' => env('JW_NETWORK_ROOT_DOMAIN'),
 
     'share_user_main_to_sites' => env('JW_SHARE_USER_MAIN_SITES'),
+
+    'excepted_subdomains' => [
+        'admin',
+        'api',
+        'auth',
+        'cms',
+        'dashboard',
+        'test',
+        'administrator',
+        'admins',
+    ],
 ];

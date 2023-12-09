@@ -22,7 +22,9 @@ class Admin
             return redirect()->route(
                 'admin.login',
                 [
-                    'redirect' => path_url(url()->current(), '/'),
+                    'redirect' => $request->has('redirect')
+                        ? $request->get('redirect')
+                        : path_url(url()->current(), '/'),
                 ]
             );
         }

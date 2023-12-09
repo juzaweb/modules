@@ -1,6 +1,6 @@
-@if(request()->get('page'))
+{{--@if(request()->get('page'))
     <meta name="robots" content="noindex,follow">
-@endif
+@endif--}}
 
 @foreach($styles as $style)
     <link rel="stylesheet" type="text/css" href="{{ $style->get('src') }}{{ str_contains($style->get('src'), '?') ? '&v=' : '?v=' }}{{ $style->get('ver') }}" id="{{ $style->get('key') }}">

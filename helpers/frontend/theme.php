@@ -524,9 +524,13 @@ function get_locale(): string
     return app()->getLocale();
 }
 
-function home_url(): string
+function home_url(?string $path = null, bool $absolute = true): string
 {
-    return apply_filters('home_url', '/');
+    $homeUrl = apply_filters('home_url', '/');
+
+    $homeUrl = $path ? rtrim($homeUrl, '/') .'/'. ltrim($path, '/') : $homeUrl;
+
+    return $absolute ? url($homeUrl) : '/'.ltrim($homeUrl, '/');
 }
 
 function share_url($social, $url, $text = null): string

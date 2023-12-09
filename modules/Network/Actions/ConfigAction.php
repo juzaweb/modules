@@ -49,6 +49,15 @@ class ConfigAction extends Action
                         'default' => config('network.domain'),
                         'disabled' => true,
                     ]
+                ],
+                'excepted_subdomains' => [
+                    'label' => trans('cms::app.network.excepted_subdomains'),
+                    'type' => 'text',
+                    'form' => 'general',
+                    'data' => [
+                        'default' => implode(',', config('network.excepted_subdomains', [])),
+                        'multiple' => true,
+                    ]
                 ]
             ]
         );

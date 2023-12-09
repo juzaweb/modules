@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Middleware;
+namespace Juzaweb\CMS\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\RedirectResponse;

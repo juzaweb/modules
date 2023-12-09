@@ -8,8 +8,6 @@
  * @license    GNU V2
  */
 
-use Juzaweb\Backend\Http\Middleware\AdminLogin;
-use Juzaweb\CMS\Support\Route\Auth;
 use Juzaweb\Backend\Http\Controllers\Installer\AdminController;
 use Juzaweb\Backend\Http\Controllers\Installer\DatabaseController;
 use Juzaweb\Backend\Http\Controllers\Installer\EnvironmentController;
@@ -17,6 +15,8 @@ use Juzaweb\Backend\Http\Controllers\Installer\FinalController;
 use Juzaweb\Backend\Http\Controllers\Installer\PermissionsController;
 use Juzaweb\Backend\Http\Controllers\Installer\RequirementsController;
 use Juzaweb\Backend\Http\Controllers\Installer\WelcomeController;
+use Juzaweb\CMS\Http\Middleware\AdminLogin;
+use Juzaweb\CMS\Support\Route\Auth;
 
 Route::group(
     [
