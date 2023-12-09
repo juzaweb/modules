@@ -741,15 +741,19 @@ function cache_prefix($name): string
 if (!function_exists('admin_url')) {
     function admin_url($path = '', $parameters = [], $secure = null): string
     {
+        $adminUrl = apply_filters('admin_url', config('juzaweb.admin_prefix'));
+
         if ($path) {
-            return url(
-                config('juzaweb.admin_prefix') . '/' . ltrim($path, '/'),
+            $url = url(
+                $adminUrl.'/'.ltrim($path, '/'),
                 $parameters,
                 $secure
             );
+        } else {
+            $url = url($adminUrl, $parameters, $secure);
         }
 
-        return url(config('juzaweb.admin_prefix'), $parameters, $secure);
+        return apply_filters('admin_url.full', $url, $path, $parameters, $secure);
     }
 }
 

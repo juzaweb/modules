@@ -16,29 +16,24 @@ class Admin
      * @param  Closure  $next
      * @return RedirectResponse|mixed|never
      */
-    public function handle($request, Closure $next): mixed
+    public function handle(Request $request, Closure $next): mixed
     {
         if (!Auth::check()) {
-            return redirect()->route(
-                'admin.login',
-                [
-                    'redirect' => url()->current(),
-                ]
-            );
+            $request->session()->put('url.intended', $request->url());
+
+            return redirect()->route('admin.login');
         }
         
         if (!has_permission()) {
             abort(403, __('You can not access this page.'));
         }
 
-        global $jw_user;
-
         if ($locale = $request->query('hl')) {
-            $jw_user->update(['language' => $locale]);
+            $request->user()->update(['language' => $locale]);
         }
         
-        if ($jw_user->language != get_config('language', 'en')) {
-            Lang::setLocale($jw_user->language);
+        if ($request->user()->language != get_config('language', 'en')) {
+            Lang::setLocale($request->user()->language);
         }
         
         do_action(Action::BACKEND_INIT, $request);

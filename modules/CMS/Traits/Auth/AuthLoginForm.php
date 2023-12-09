@@ -95,7 +95,7 @@ trait AuthLoginForm
             return $this->success(
                 [
                     'message' => trans('cms::app.login_successfully'),
-                    'redirect' => $user->hasPermission() ? route('admin.dashboard') : '/',
+                    'redirect' => $this->getUrlRedirectForLogin($user, $request),
                 ]
             );
         }
@@ -116,6 +116,17 @@ trait AuthLoginForm
         }
 
         return redirect()->to('/');
+    }
+
+    protected function getUrlRedirectForLogin(User $user, LoginRequest $request): string
+    {
+        if ($request->session()->has('url.intended')) {
+            $url = $request->session()->get('url.intended');
+            $request->session()->forget('url.intended');
+            return $url;
+        }
+
+        return $user->hasPermission() ? route('admin.dashboard') : '/';
     }
 
     protected function getViewForm(): string
