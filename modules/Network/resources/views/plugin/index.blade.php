@@ -43,6 +43,15 @@
                     </select>
                 </div>
 
+                <div class="form-group mb-2 mr-1">
+                    <label for="status" class="sr-only">{{ trans('Network Support') }}</label>
+                    <select name="networkable" id="networkable" class="form-control select2-default">
+                        <option value="">{{ trans('cms::app.all') }}</option>
+                        <option value="1">{{ trans('cms::app.enabled') }}</option>
+                        <option value="0">{{ trans('cms::app.disabled') }}</option>
+                    </select>
+                </div>
+
                 <button type="submit" class="btn btn-primary mb-2">@lang('cms::app.search')</button>
             </form>
         </div>
@@ -56,7 +65,10 @@
                     <th data-field="name" data-width="25%" data-formatter="nameFormatter">{{ trans('cms::app.name') }}</th>
                     <th data-field="description">{{ trans('cms::app.description') }}</th>
                     <th data-field="version" data-width="10%">{{ trans('cms::app.version') }}</th>
-                    <th data-width="15%" data-field="status" data-formatter="statusFormatter" data-align="center">{{ trans('cms::app.status') }}</th>
+                    <th data-field="networkable" data-width="10%">{{ trans('Network Support') }}</th>
+                    <th data-width="15%" data-field="status" data-formatter="statusFormatter" data-align="center">
+                        {{ trans('cms::app.status') }}
+                    </th>
                 </tr>
             </thead>
         </table>
@@ -92,10 +104,10 @@
         function statusFormatter(value, row, index) {
             switch (value) {
                 case 'inactive':
-                    return `<span class='text-disable'>${juzaweb.lang.inactive}</span>`;
+                    return `<span class='badge badge-secondary'>${juzaweb.lang.inactive}</span>`;
             }
 
-            return `<span class='text-success'>${juzaweb.lang.active}</span>`;
+            return `<span class='badge badge-success'>${juzaweb.lang.active}</span>`;
         }
 
         var table = new JuzawebTable({

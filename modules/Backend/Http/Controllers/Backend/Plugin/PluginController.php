@@ -7,9 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\URL;
 use Juzaweb\Backend\Events\AfterPluginBulkAction;
-use Juzaweb\Backend\Http\Datatables\PluginDatatable;
 use Juzaweb\Backend\Http\Requests\Plugin\BulkActionRequest;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
 use Juzaweb\CMS\Facades\CacheGroup;
@@ -55,6 +53,10 @@ class PluginController extends BackendController
 
         $plugins = collect(apply_filters('admin.plugins.all', Plugin::all()));
 
+        $plugins = $plugins->filter(
+            fn (SupportPlugin $plugin) => apply_filters('admin.plugins.can_show', true, $plugin)
+        );
+
         if (config('network.enable') && Network::isSubSite()) {
             $plugins = $plugins->filter(
                 fn (SupportPlugin $plugin) => $plugin->isNetworkSupport()
@@ -72,6 +74,14 @@ class PluginController extends BackendController
 
             $plugins = $plugins->filter(
                 fn (SupportPlugin $plugin) => $status ? $plugin->isEnabled() : !$plugin->isEnabled()
+            );
+        }
+
+        if ($networkable = $request->query('networkable')) {
+            $networkable = filter_var($networkable, FILTER_VALIDATE_BOOLEAN);
+
+            $plugins = $plugins->filter(
+                fn (SupportPlugin $plugin) => $networkable ? $plugin->isNetworkSupport() : !$plugin->isNetworkSupport()
             );
         }
 
@@ -95,6 +105,7 @@ class PluginController extends BackendController
                 'version' => $plugin->getVersion(),
                 //'update' => $updates->{$plugin->get('name')}->update ?? false,
                 'update' => false,
+                'networkable' => $plugin->isNetworkSupport(),
             ];
         }
 
@@ -115,23 +126,19 @@ class PluginController extends BackendController
         $action = $request->post('action');
         $ids = $request->post('ids');
 
-        if (in_array($action, ['update', 'install'])) {
-            $query = [
-                'plugins' => $ids,
-                'action' => $action,
-                'referren' => URL::previous(),
-            ];
-            $query = http_build_query($query);
-
-            return $this->success(
-                [
-                    'window_redirect' => route('admin.update.process', ['plugin']).'?'.$query,
-                ]
-            );
-        }
-
-        // if ($ids) {
-        //     event(new DumpAutoloadPlugin());
+        // if (in_array($action, ['update', 'install'])) {
+        //     $query = [
+        //         'plugins' => $ids,
+        //         'action' => $action,
+        //         'referren' => URL::previous(),
+        //     ];
+        //     $query = http_build_query($query);
+        //
+        //     return $this->success(
+        //         [
+        //             'window_redirect' => route('admin.update.process', ['plugin']).'?'.$query,
+        //         ]
+        //     );
         // }
 
         foreach ($ids as $plugin) {
@@ -144,6 +151,8 @@ class PluginController extends BackendController
             if (config('network.enable') && Network::isSubSite()) {
                 $canActive = $module->isNetworkSupport();
             }
+
+            $canActive = apply_filters('admin.plugins.can_active', $canActive, $module);
 
             try {
                 switch ($action) {
