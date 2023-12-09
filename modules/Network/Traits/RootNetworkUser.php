@@ -19,17 +19,27 @@ use Juzaweb\Network\Scopes\SubsiteQueryScope;
 
 trait RootNetworkUser
 {
-    public static function bootNetworkable(): void
+    public static function bootRootNetworkUser(): void
     {
-        if (config('network.enable') && !Network::isRootSite()) {
+        if (static::applySubSiteScope()) {
             static::addGlobalScope(new SubsiteQueryScope());
             static::observe([SubsiteModelObserver::class]);
         }
     }
 
+    public static function applySubSiteScope(): bool
+    {
+        return config('network.enable')
+            && Network::isSubSite()
+            && !in_array(
+                Network::getCurrentSiteId(),
+                explode(',', config('network.share_user_main_to_sites', ''))
+            );
+    }
+
     public function metas(): HasMany
     {
-        if (config('network.enable') && !Network::isRootSite()) {
+        if (static::applySubSiteScope()) {
             return $this->hasMany(NetworkUserMeta::class, 'user_id', 'id');
         }
 
@@ -38,10 +48,28 @@ trait RootNetworkUser
 
     public function getTable(): string
     {
-        if (config('network.enable') && !Network::isRootSite()) {
+        if (static::applySubSiteScope()) {
             return 'subsite_users';
         }
 
         return parent::getTable();
+    }
+
+    public function cachePrefixValue(): string
+    {
+        if (static::applySubSiteScope()) {
+            return $this->cachePrefix;
+        }
+
+        return 'subsite_users_';
+    }
+
+    public function getConnectionName(): ?string
+    {
+        if (static::applySubSiteScope()) {
+            return parent::getConnectionName();
+        }
+        
+        return Network::getCurrentSite()->root_connection;
     }
 }

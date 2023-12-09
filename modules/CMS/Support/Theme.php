@@ -158,6 +158,8 @@ class Theme implements ThemeInterface
 
         $config['path'] = $this->path;
 
+        $config['networkable'] = $this->isNetworkSupport();
+
         $this->themeInfo = $config;
 
         return $assoc ? $this->themeInfo : new Collection($this->themeInfo);
@@ -287,6 +289,11 @@ class Theme implements ThemeInterface
         }
 
         return $this->json()->getFilesystem()->deleteDirectory($this->getPath());
+    }
+
+    public function isNetworkSupport(): bool
+    {
+        return $this->get('networkable', true);
     }
 
     public function getPluginRequires(): array

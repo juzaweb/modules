@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Response;
+use Juzaweb\Backend\Http\Requests\Theme\ActivateRequest;
 use Juzaweb\CMS\Contracts\BackendMessageContract;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
 use Juzaweb\CMS\Facades\CacheGroup;
@@ -20,6 +21,7 @@ use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Support\ArrayPagination;
 use Juzaweb\CMS\Version;
+use Juzaweb\Network\Facades\Network;
 use Throwable;
 
 class ThemeController extends BackendController
@@ -58,8 +60,7 @@ class ThemeController extends BackendController
 
     public function getDataTheme(Request $request): JsonResponse
     {
-        global $jw_user;
-        if (!$jw_user->can('themes.index')) {
+        if (!$request->user()->can('themes.index')) {
             abort(403);
         }
 
@@ -67,15 +68,23 @@ class ThemeController extends BackendController
         $network = $request->get('network');
 
         $activated = jw_current_theme();
-        $paginate = ArrayPagination::make(app('themes')->all(true));
-        $paginate->where('name', '!=', $activated);
+
+        /** @var Collection $themes */
+        $themes = apply_filters('admin.themes.all', app('themes')->all(true))
+            ->where('name', '!=', $activated);
+
+        if (config('network.enable') && Network::isSubSite()) {
+            $themes = $themes->where('networkable', true);
+        }
+
+        $paginate = ArrayPagination::make($themes);
 
         $paginate = $paginate->paginate($limit);
-        $updates = $this->getDataUpdates($paginate->getCollection());
+        //$updates = $this->getDataUpdates($paginate->getCollection());
 
         $items = new Collection();
         foreach ($paginate->items() as $theme) {
-            $theme['update'] = $updates->{$theme['name']}->update ?? false;
+            $theme['update'] = false;
 
             $items->push(
                 (object) [
@@ -107,18 +116,11 @@ class ThemeController extends BackendController
         );
     }
 
-    public function activate(Request $request): JsonResponse
+    public function activate(ActivateRequest $request): JsonResponse
     {
-        global $jw_user;
-        if (!$jw_user->can('themes.edit')) {
+        if (!$request->user()->can('themes.edit')) {
             abort(403);
         }
-
-        $request->validate(
-            [
-                'theme' => 'required',
-            ]
-        );
 
         $name = $request->post('theme');
         if (!$theme = Theme::find($name)) {
@@ -127,6 +129,17 @@ class ThemeController extends BackendController
                     'message' => trans('cms::message.theme_not_found'),
                 ]
             );
+        }
+
+        $canActive = true;
+        if (config('network.enable') && Network::isSubSite()) {
+            $canActive = $theme->isNetworkSupport();
+        }
+
+        $canActive = apply_filters('admin.themes.can_active', $canActive, $theme);
+
+        if (!$canActive) {
+            return $this->error(trans('You do not have permission to activate this theme.'));
         }
 
         DB::beginTransaction();
@@ -153,8 +166,7 @@ class ThemeController extends BackendController
             abort(403);
         }
 
-        global $jw_user;
-        if (!$jw_user->can('themes.edit')) {
+        if (!$request->user()->can('themes.edit')) {
             abort(403);
         }
 
@@ -206,13 +218,11 @@ class ThemeController extends BackendController
             $plugins = Plugin::all();
             $str = [];
             foreach ($require as $plugin => $ver) {
-                if (app('plugins')->has($plugin)) {
-                    if (app('plugins')->isEnabled($plugin)) {
-                        continue;
-                    }
+                if (app('plugins')->has($plugin) && app('plugins')->isEnabled($plugin)) {
+                    continue;
                 }
 
-                if (!in_array($plugin, array_keys($plugins))) {
+                if (!array_key_exists($plugin, $plugins)) {
                     $plugins[$plugin] = $plugin;
                 }
 

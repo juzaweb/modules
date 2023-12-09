@@ -51,6 +51,13 @@ class SiteController extends BackendController
         return redirect()->route('admin.dashboard');
     }
 
+    protected function parseDataForSave(array $attributes, ...$params): array
+    {
+        $attributes['created_by'] = Auth::user()->id;
+
+        return $attributes;
+    }
+
     protected function getDataTable(...$params): DataTable
     {
         return new SiteDatatable();

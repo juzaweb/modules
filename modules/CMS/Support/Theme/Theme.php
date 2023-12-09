@@ -313,9 +313,7 @@ class Theme implements ThemeLoaderContract
 
     public function getVersion($theme): string
     {
-        $info = $this->getThemeInfo($theme);
-
-        return $info->get('version', '0');
+        return $this->getInfo($theme)->get('version', '0');
     }
 
     public function getTemplates(string $theme, string $template = null): array|null

@@ -40,6 +40,7 @@ return new class extends Migration {
             'network_databases',
             function (Blueprint $table) {
                 $table->dropColumn(['label']);
+                $table->dropIndex(['active']);
             }
         );
     }

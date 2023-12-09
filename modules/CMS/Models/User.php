@@ -29,8 +29,6 @@ use Juzaweb\CMS\Traits\Permission\HasRoles;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\ResourceModel;
 use Juzaweb\Network\Facades\Network;
-use Juzaweb\Network\Traits\Networkable;
-use Juzaweb\Network\Traits\RootNetworkModel;
 use Juzaweb\Network\Traits\RootNetworkUser;
 use Laravel\Passport\HasApiTokens;
 
