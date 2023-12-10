@@ -12,11 +12,16 @@ namespace Juzaweb\Backend\Http\Controllers\Backend\Appearance;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Juzaweb\CMS\Contracts\LocalPluginRepositoryContract;
 use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 
 class RequirePluginController extends BackendController
 {
+    public function __construct(protected LocalPluginRepositoryContract $plugins)
+    {
+    }
+
     public function index(): View
     {
         $this->addBreadcrumb(
@@ -43,16 +48,17 @@ class RequirePluginController extends BackendController
         $result = [];
 
         foreach ($require as $plugin => $ver) {
-            $info = app('plugins')->find($plugin);
-            if ($info) {
-                if ($info->isEnabled()) {
-                    continue;
-                }
+            $info = $this->plugins->find($plugin);
+            if ($info && $info->isEnabled()) {
+                continue;
             }
 
             $result[] = [
                 'id' => $plugin,
                 'key' => $plugin,
+                'name' => $info->getName(),
+                'description' => $info->getDescription(),
+                'display_name' => $info->getDisplayName(),
                 'version' => $ver,
                 'status' => $info ? 'installed' : 'not_installed',
             ];

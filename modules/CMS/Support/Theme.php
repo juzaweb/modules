@@ -65,6 +65,8 @@ class Theme implements ThemeInterface
 
     protected LocalPluginRepositoryContract $plugins;
 
+    protected \Illuminate\Config\Repository $config;
+
     public function __construct($app, $path)
     {
         $this->app = $app;
@@ -74,6 +76,7 @@ class Theme implements ThemeInterface
         $this->name = $this->getName();
         $this->dynamicConfig = $app[ConfigContract::class];
         $this->cache = $app['cache'];
+        $this->config = $app['config'];
         $this->artisan = $app[Kernel::class];
         $this->message = $app[BackendMessageContract::class];
         $this->plugins = $app[LocalPluginRepositoryContract::class];
@@ -290,19 +293,19 @@ class Theme implements ThemeInterface
 
         $status = [
             'name' => $this->name,
-            'namespace' => 'Theme\\',
-            'path' => config('juzaweb.theme.path') .'/'.$this->name,
         ];
 
         $this->dynamicConfig->setConfig('theme_statuses', $status);
 
-        $this->artisan->call(
-            'theme:publish',
-            [
-                'theme' => $this->name,
-                'type' => 'assets',
-            ]
-        );
+        if (!$this->config->get('network.enable')) {
+            $this->artisan->call(
+                'theme:publish',
+                [
+                    'theme' => $this->name,
+                    'type' => 'assets',
+                ]
+            );
+        }
 
         $this->addRequireThemeActive();
     }
@@ -361,7 +364,7 @@ class Theme implements ThemeInterface
         );
     }
 
-    protected function addRequireThemeActive(): void
+    public function addRequireThemeActive(): void
     {
         $this->message->deleteGroup('require_plugins');
 

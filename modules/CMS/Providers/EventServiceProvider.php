@@ -3,8 +3,10 @@
 namespace Juzaweb\CMS\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Juzaweb\Backend\Events\AfterPluginBulkAction;
 use Juzaweb\Backend\Events\AfterPostSave;
 use Juzaweb\Backend\Events\DumpAutoloadPlugin;
+use Juzaweb\Backend\Listeners\DeleteRequirePluginsMessageListener;
 use Juzaweb\Backend\Listeners\ResizeThumbnailPostListener;
 use Juzaweb\Backend\Listeners\SaveSeoMetaPost;
 use Juzaweb\CMS\Events\EmailHook;
@@ -38,6 +40,9 @@ class EventServiceProvider extends ServiceProvider
         AfterPostSave::class => [
             SaveSeoMetaPost::class,
             ResizeThumbnailPostListener::class,
+        ],
+        AfterPluginBulkAction::class => [
+            DeleteRequirePluginsMessageListener::class,
         ]
     ];
 
@@ -46,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
 

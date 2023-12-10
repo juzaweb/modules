@@ -5,6 +5,7 @@ namespace Juzaweb\CMS\Contracts;
 use Exception;
 use Illuminate\Support\Collection;
 use Juzaweb\CMS\Exceptions\PluginNotFoundException;
+use Juzaweb\CMS\Interfaces\Theme\PluginInterface;
 use Juzaweb\CMS\Support\Plugin;
 
 interface LocalPluginRepositoryContract
@@ -55,7 +56,7 @@ interface LocalPluginRepositoryContract
     /**
      * Get list of disabled plugins.
      *
-     * @return mixed
+     * @return array<PluginInterface>
      */
     public function allDisabled();
 

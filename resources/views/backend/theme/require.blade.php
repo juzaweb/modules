@@ -26,7 +26,8 @@
                     <thead>
                         <tr>
                             <th data-field="state" data-width="3%" data-checkbox="true"></th>
-                            <th data-field="key">{{ trans('cms::app.code') }}</th>
+                            <th data-field="key" data-width="10%">{{ trans('cms::app.code') }}</th>
+                            <th data-field="name" data-formatter="name_formatter">{{ trans('cms::app.name') }}</th>
                             <th data-field="status" data-width="10%" data-formatter="status_formatter">{{ trans('cms::app.status') }}</th>
                         </tr>
                     </thead>
@@ -36,6 +37,10 @@
     </div>
 
     <script type="text/javascript">
+        function name_formatter(value, row, index) {
+            return `<a href="#">${row.display_name}</a><br /><small>${row.description}</small>`;
+        }
+
         function status_formatter(value, row, index) {
             switch (value) {
                 case 'installed':

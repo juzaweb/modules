@@ -20,11 +20,9 @@ use Juzaweb\Network\Facades\Network;
 
 class PluginController extends BackendController
 {
-    protected JuzawebApiContract $api;
-
-    public function __construct(JuzawebApiContract $api)
-    {
-        $this->api = $api;
+    public function __construct(
+        protected JuzawebApiContract $api
+    ) {
     }
 
     public function index(Request $request): View
