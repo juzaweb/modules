@@ -13,6 +13,8 @@ return [
 
     'domain' => env('JW_NETWORK_ROOT_DOMAIN'),
 
+    'subsite_domain' => env('JW_SUBSITE_DOMAIN'),
+
     'share_user_main_to_sites' => env('JW_SHARE_USER_MAIN_SITES'),
 
     'excepted_subdomains' => [

@@ -60,7 +60,7 @@ if (!function_exists('path_url')) {
             return $url;
         }
 
-        return ($prefix ?? '').ltrim(parse_url($url)['path'], $prefix);
+        return ($prefix ?? '').ltrim(parse_url($url)['path'] ?? '', $prefix);
     }
 }
 

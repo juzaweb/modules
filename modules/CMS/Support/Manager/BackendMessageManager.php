@@ -28,7 +28,7 @@ class BackendMessageManager implements BackendMessageContract
         return get_config('backend_messages', []);
     }
 
-    public function add(string $group, array|string $message, string $status): void
+    public function add(string $group, array|string $message, string $status, bool $closeable = true): void
     {
         if (!is_array($message)) {
             $message = [$message];
@@ -43,6 +43,7 @@ class BackendMessageManager implements BackendMessageContract
                 'group' => $group,
                 'status' => $status,
                 'message' => $msg,
+                'closeable' => $closeable,
             ];
         }
 

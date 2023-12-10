@@ -77,7 +77,6 @@
                 <div class="mb-3"></div>
             @endif
 
-
             <h4 class="font-weight-bold ml-3 text-capitalize">{{ $title }}</h4>
 
             <div class="juzaweb__utils__content">
@@ -90,9 +89,11 @@
 
                 @foreach($messages as $message)
                     <div class="alert alert-{{ $message['status'] == 'error' ? 'danger' : $message['status'] }} jw-message">
+                        @if($message['closeable'] ?? true)
                         <button type="button" class="close close-message" data-dismiss="alert" aria-label="Close" data-id="{{ $message['id'] }}">
                             <span aria-hidden="true">×</span>
                         </button>
+                        @endif
                         {!! e_html($message['message']) !!}
                     </div>
                 @endforeach

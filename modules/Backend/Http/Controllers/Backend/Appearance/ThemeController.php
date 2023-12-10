@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Inertia\Response;
+use Juzaweb\Backend\Events\ThemeActivateSuccess;
 use Juzaweb\Backend\Http\Requests\Theme\ActivateRequest;
 use Juzaweb\CMS\Contracts\BackendMessageContract;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
@@ -150,6 +151,8 @@ class ThemeController extends BackendController
             report($e);
             return $this->error($e->getMessage());
         }
+
+        event(new ThemeActivateSuccess($theme));
 
         return $this->success(
             [

@@ -33,7 +33,8 @@
             <form method="get" class="form-inline" id="form-search">
                 <div class="form-group mb-2 mr-1">
                     <label for="search" class="sr-only">{{ trans('cms::app.search') }}</label>
-                    <input name="search" type="text" id="search" class="form-control" placeholder="{{ trans('cms::app.search') }}" autocomplete="off">
+                    <input name="search" type="text" id="search" class="form-control"
+                           placeholder="{{ trans('cms::app.search') }}" autocomplete="off"/>
                 </div>
 
                 <div class="form-group mb-2 mr-1">
@@ -55,9 +56,7 @@
             <thead>
                 <tr>
                     <th data-width="3%" data-field="state" data-checkbox="true"></th>
-                    <th data-field="name" data-width="25%" data-formatter="nameFormatter">{{ trans('cms::app.name') }}</th>
-                    <th data-field="description">{{ trans('cms::app.description') }}</th>
-                    <th data-field="version" data-width="10%">{{ trans('cms::app.version') }}</th>
+                    <th data-field="name" data-formatter="nameFormatter">{{ trans('cms::app.name') }}</th>
                     <th data-width="15%" data-field="status" data-formatter="statusFormatter" data-align="center">{{ trans('cms::app.status') }}</th>
                 </tr>
             </thead>
@@ -67,6 +66,10 @@
     <script type="text/javascript">
         function nameFormatter(value, row, index) {
             let str = `<div class="font-weight-bold">${value}</div>`;
+
+            if (row.description) {
+                str += `<small class="mt-2">${row.description}</small>`;
+            }
 
             str += `<ul class="list-inline mb-0 list-actions mt-2 ">`;
 
@@ -94,13 +97,13 @@
         function statusFormatter(value, row, index) {
             switch (value) {
                 case 'inactive':
-                    return `<span class='text-disable'>${juzaweb.lang.inactive}</span>`;
+                    return `<span class='badge badge-secondary'>${juzaweb.lang.inactive}</span>`;
             }
 
-            return `<span class='text-success'>${juzaweb.lang.active}</span>`;
+            return `<span class='badge badge-success'>${juzaweb.lang.active}</span>`;
         }
 
-        var table = new JuzawebTable({
+        const table = new JuzawebTable({
             url: '{{ route('admin.plugin.get-data') }}',
             action_url: '{{ route('admin.plugin.bulk-actions') }}',
             chunk_action: true

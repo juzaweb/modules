@@ -163,9 +163,7 @@ trait PostTypeController
         $postType = $this->getPostType();
         $setting = HookAction::getPostTypes($postType);
 
-        if ($setting === null) {
-            throw new RuntimeException('Post type does not exists.');
-        }
+        abort_if($setting->isEmpty(), 404, 'Post type not found');
 
         return $setting;
     }
@@ -305,7 +303,7 @@ trait PostTypeController
      *
      * @return string|null
      */
-    private function getPostType(): ?string
+    private function getPostType(): string
     {
         if (empty($this->postType)) {
             return request()?->route()?->parameter('type');
