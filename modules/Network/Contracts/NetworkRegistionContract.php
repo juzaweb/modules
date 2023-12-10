@@ -17,7 +17,7 @@ interface NetworkRegistionContract
 {
     public function init(?string $site = null): void;
 
-    public function getCurrentSiteId(): ?int;
+    public function getCurrentSiteId(): int;
 
     /**
      * Retrieves the current site.

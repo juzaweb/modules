@@ -86,7 +86,7 @@ class NetworkRegistion implements NetworkRegistionContract
     public function isRootSite(string $domain = null): bool
     {
         if (empty($domain)) {
-            return is_null($this->site->id);
+            return $this->site->id === 0;
         }
 
         return $this->isRootDomain($domain);
@@ -102,7 +102,7 @@ class NetworkRegistion implements NetworkRegistionContract
         return $this->request->getHttpHost();
     }
 
-    public function getCurrentSiteId(): ?int
+    public function getCurrentSiteId(): int
     {
         return $this->getCurrentSite()->id;
     }
@@ -204,7 +204,7 @@ class NetworkRegistion implements NetworkRegistionContract
     protected function getRootSite(): object
     {
         return (object) [
-            'id' => null,
+            'id' => 0,
             'db_id' => null,
             'status' => Site::STATUS_ACTIVE,
         ];
@@ -217,6 +217,6 @@ class NetworkRegistion implements NetworkRegistionContract
 
     protected function isAdminPage(): bool
     {
-        return $this->request->segment(1) == config('juzaweb.original_admin_prefix');
+        return $this->request->segment(1) == $this->config->get('juzaweb.admin_prefix');
     }
 }
