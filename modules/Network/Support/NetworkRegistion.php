@@ -69,7 +69,7 @@ class NetworkRegistion implements NetworkRegistionContract
 
     public function init(?string $site = null): void
     {
-        if ($this->app->runningInConsole()) {
+        if ($site === null && $this->app->runningInConsole()) {
             $this->initConsole();
         } else {
             $this->initSetupSite($site);
@@ -185,7 +185,7 @@ class NetworkRegistion implements NetworkRegistionContract
                 return $this->db->table('network_sites')
                     ->where(
                         function ($q) use ($domain, $subdomain) {
-                            $q->where('domain', '=', $subdomain);
+                            $q->where('subdomain', '=', $subdomain);
                             $q->orWhereExists(
                                 function ($q2) use ($domain) {
                                     $q2->select(['id']);
@@ -207,6 +207,7 @@ class NetworkRegistion implements NetworkRegistionContract
             'id' => 0,
             'db_id' => null,
             'status' => Site::STATUS_ACTIVE,
+            'root_connection' => $this->db->getDefaultConnection(),
         ];
     }
 

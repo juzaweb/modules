@@ -40,11 +40,11 @@ class SiteCreater implements SiteCreaterContract
 
     public function create(string $subdomain, array $args = [], ?User $user = null): Site
     {
-        if (Site::where('domain', '=', $subdomain)->exists()) {
+        if (Site::where('subdomain', '=', $subdomain)->exists()) {
             throw new \RuntimeException("Site {$subdomain} already exist.");
         }
 
-        $data = array_merge($this->parseDataSite($args), ['domain' => $subdomain]);
+        $data = array_merge($this->parseDataSite($args), ['subdomain' => $subdomain]);
         $data['created_by'] = ($user ?? Auth::user())->id;
 
         $site = Site::create($data);

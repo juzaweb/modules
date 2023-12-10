@@ -25,7 +25,8 @@ use Juzaweb\Network\Traits\RootNetworkModel;
  * Juzaweb\Network\Models\Site
  *
  * @property int $id
- * @property string $domain
+ * @property string $subdomain
+ * @property null|string $domain
  * @property string $status
  * @property int|null $db_id
  * @property Carbon|null $created_at
@@ -55,6 +56,7 @@ class Site extends Model implements RootNetworkModelInterface
     protected $table = 'network_sites';
 
     protected $fillable = [
+        'subdomain',
         'domain',
         'status',
         'db_id',
@@ -83,12 +85,12 @@ class Site extends Model implements RootNetworkModelInterface
 
     public function getFullDomain(): string
     {
-        return $this->domain .'.'. config('network.domain');
+        return $this->subdomain .'.'. config('network.domain');
     }
 
     public function getSiteUrl(string $path = null): string
     {
-        return 'http://' . $this->getFullDomain() . '/'. ltrim($path, '/');
+        return '//' . $this->getFullDomain() . '/'. ltrim($path, '/');
     }
 
     public function getFieldName(): string
