@@ -2,6 +2,7 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Filesystem\Filesystem;
 use Juzaweb\CMS\Exceptions\InvalidJsonException;
 
@@ -31,8 +32,9 @@ class Json
     /**
      * The constructor.
      *
-     * @param mixed                             $path
-     * @param \Illuminate\Filesystem\Filesystem $filesystem
+     * @param  mixed  $path
+     * @param  Filesystem|null  $filesystem
+     * @throws \Exception
      */
     public function __construct($path, Filesystem $filesystem = null)
     {
@@ -46,7 +48,7 @@ class Json
      *
      * @return Filesystem
      */
-    public function getFilesystem()
+    public function getFilesystem(): Filesystem
     {
         return $this->filesystem;
     }
@@ -54,11 +56,11 @@ class Json
     /**
      * Set filesystem.
      *
-     * @param Filesystem $filesystem
+     * @param  Filesystem  $filesystem
      *
      * @return $this
      */
-    public function setFilesystem(Filesystem $filesystem)
+    public function setFilesystem(Filesystem $filesystem): static
     {
         $this->filesystem = $filesystem;
 
@@ -70,7 +72,7 @@ class Json
      *
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -78,11 +80,11 @@ class Json
     /**
      * Set path.
      *
-     * @param mixed $path
+     * @param  mixed  $path
      *
      * @return $this
      */
-    public function setPath($path)
+    public function setPath($path): static
     {
         $this->path = (string) $path;
 
@@ -92,12 +94,12 @@ class Json
     /**
      * Make new instance.
      *
-     * @param string                            $path
-     * @param \Illuminate\Filesystem\Filesystem $filesystem
+     * @param  string  $path
+     * @param  \Illuminate\Filesystem\Filesystem  $filesystem
      *
      * @return static
      */
-    public static function make($path, Filesystem $filesystem = null)
+    public static function make($path, Filesystem $filesystem = null): static
     {
         return new static($path, $filesystem);
     }
@@ -106,8 +108,9 @@ class Json
      * Get file content.
      *
      * @return string
+     * @throws FileNotFoundException
      */
-    public function getContents()
+    public function getContents(): string
     {
         return $this->filesystem->get($this->getPath());
     }
@@ -117,28 +120,34 @@ class Json
      * @return array
      * @throws \Exception
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
-        $attributes = json_decode($this->getContents(), 1);
+        $attributes = json_decode($this->getContents(), 1, 512, JSON_THROW_ON_ERROR);
 
         // any JSON parsing errors should throw an exception
-        if (json_last_error() > 0) {
-            throw new InvalidJsonException('Error processing file: ' . $this->getPath() . '. Error: ' . json_last_error_msg());
-        }
+        // if (json_last_error() > 0) {
+        //     throw new InvalidJsonException(
+        //         'Error processing file: ' . $this->getPath() . '. Error: ' . json_last_error_msg()
+        //     );
+        // }
 
         if (config('plugin.cache.enabled') === false) {
             return $attributes;
         }
 
-        return app('cache')->remember($this->getPath(), config('plugin.cache.lifetime'), function () use ($attributes) {
-            return $attributes;
-        });
+        return app('cache')->remember(
+            $this->getPath(),
+            config('plugin.cache.lifetime'),
+            function () use ($attributes) {
+                return $attributes;
+            }
+        );
     }
 
     /**
      * Convert the given array data to pretty json.
      *
-     * @param array $data
+     * @param  array  $data
      *
      * @return string
      */
@@ -150,7 +159,7 @@ class Json
     /**
      * Update json contents from array data.
      *
-     * @param array $data
+     * @param  array  $data
      *
      * @return bool
      */
@@ -164,8 +173,8 @@ class Json
     /**
      * Set a specific key & value.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param  string  $key
+     * @param  mixed  $value
      *
      * @return $this
      */
@@ -189,7 +198,7 @@ class Json
     /**
      * Handle magic method __get.
      *
-     * @param string $key
+     * @param  string  $key
      *
      * @return mixed
      */
@@ -202,7 +211,7 @@ class Json
      * Get the specified attribute from json file.
      *
      * @param $key
-     * @param null $default
+     * @param  null  $default
      *
      * @return mixed
      */
@@ -214,8 +223,8 @@ class Json
     /**
      * Handle call to __call method.
      *
-     * @param string $method
-     * @param array  $arguments
+     * @param  string  $method
+     * @param  array  $arguments
      *
      * @return mixed
      */

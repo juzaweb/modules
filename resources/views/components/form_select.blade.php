@@ -5,7 +5,7 @@
     <select
         name="{{ ($multiple ?? false) ? "{$name}[]" : $name }}"
         id="{{ $id ?? $name }}"
-        class="form-control {{ $class ?? 'select2' }}"
+        class="form-control {{ $class ?? ($multiple ?? false) ? 'select2' : 'select2-default' }}"
         {{ ($multiple ?? false) ? 'multiple' : '' }}
         {{ ($disabled ?? false) ? 'disabled' : '' }}
         {{ ($readonly ?? false) ? 'readonly' : '' }}

@@ -73,6 +73,11 @@ class LocalThemeRepository implements LocalThemeRepositoryContract
         return $collection ? (new Collection($themes)) : $themes;
     }
 
+    public function register(): void
+    {
+        $this->currentTheme()->register();
+    }
+
     public function find(string $name): ?Theme
     {
         foreach ($this->all() as $theme) {

@@ -13,6 +13,9 @@ namespace Juzaweb\CMS\Abstracts;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Facades\Hook;
 
+/**
+ * @mixin HookActionContract
+ */
 abstract class Action
 {
     public const INIT_ACTION = 'juzaweb.init';
@@ -68,7 +71,7 @@ abstract class Action
      * @param  int  $arguments  Optional. The number of arguments that the callback function accepts. Default is 1.
      * @return void
      */
-    protected function addAction($tag, $callback, $priority = 20, $arguments = 1): void
+    protected function addAction(string $tag, callable $callback, int $priority = 20, int $arguments = 1): void
     {
         Hook::addAction($tag, $callback, $priority, $arguments);
     }
@@ -82,7 +85,7 @@ abstract class Action
      * @param  int  $arguments  The number of arguments the callback function accepts. Default is 1.
      * @return void
      */
-    protected function addFilter($tag, $callback, $priority = 20, $arguments = 1): void
+    protected function addFilter(string $tag, callable $callback, int $priority = 20, int $arguments = 1): void
     {
         Hook::addFilter($tag, $callback, $priority, $arguments);
     }
@@ -95,8 +98,13 @@ abstract class Action
      * @param  mixed  ...$args  Additional arguments to pass to the filters.
      * @return mixed The filtered value.
      */
-    protected function applyFilters($tag, $value, ...$args): mixed
+    protected function applyFilters(string $tag, mixed $value, ...$args): mixed
     {
         return Hook::filter($tag, $value, ...$args);
+    }
+
+    public function __call(string $name, array $arguments)
+    {
+        return $this->hookAction->{$name}(...$arguments);
     }
 }

@@ -2,15 +2,19 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Composer\Autoload\ClassLoader;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Juzaweb\CMS\Interfaces\Theme\ThemeInterface;
 use Noodlehaus\Config as ReadConfig;
 use Juzaweb\CMS\Facades\Config;
@@ -20,9 +24,9 @@ class Theme implements ThemeInterface
     /**
      * The laravel|lumen application instance.
      *
-     * @var Container
+     * @var ApplicationContract
      */
-    protected Container $app;
+    protected ApplicationContract $app;
 
     /**
      * The plugin name.
@@ -299,6 +303,57 @@ class Theme implements ThemeInterface
     public function getPluginRequires(): array
     {
         return $this->json()->get('require', []);
+    }
+
+    public function register(): void
+    {
+        $this->autoloadPSR4();
+
+        $this->registerProviders();
+    }
+
+    public function registerProviders(): void
+    {
+        $providers = Arr::get($this->json()->get('extra', []), 'juzaweb.providers', []);
+
+        if (empty($providers)) {
+            return;
+        }
+
+        (new ProviderRepository(
+            $this->app,
+            new Filesystem(),
+            $this->getCachedServicesPath()
+        ))
+            ->load($providers);
+    }
+
+    /**
+     * Get the path to the cached *_module.php file.
+     */
+    public function getCachedServicesPath(): string
+    {
+        return Str::replaceLast(
+            'services.php',
+            $this->getName().'_theme.php',
+            $this->app->getCachedServicesPath()
+        );
+    }
+
+    protected function autoloadPSR4(): void
+    {
+        $loadmaps = Arr::get($this->json()->get('autoload', []), 'psr-4', []);
+
+        if (empty($loadmaps)) {
+            return;
+        }
+
+        $loader = new ClassLoader();
+        foreach ($loadmaps as $namespace => $loadmap) {
+            $loader->setPsr4($namespace, [$this->getPath($loadmap)]);
+        }
+
+        $loader->register(true);
     }
 
     public function toArray(): array

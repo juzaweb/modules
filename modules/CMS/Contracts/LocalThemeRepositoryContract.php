@@ -31,6 +31,8 @@ interface LocalThemeRepositoryContract
      */
     public function scan(bool $collection = false): array|Collection;
 
+    public function register(): void;
+
     /**
     * Find a theme by name.
     *

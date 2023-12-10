@@ -483,7 +483,7 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
      *
      * @throws PluginNotFoundException
      */
-    public function setUsed($name)
+    public function setUsed($name): void
     {
         $module = $this->findOrFail($name);
 
@@ -493,7 +493,7 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
     /**
      * Forget the module used for cli session.
      */
-    public function forgetUsed()
+    public function forgetUsed(): void
     {
         if ($this->getFiles()->exists($this->getUsedStoragePath())) {
             $this->getFiles()->delete($this->getUsedStoragePath());
@@ -535,17 +535,17 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
 
     /**
      * Get asset url from a specific module.
-     * @param string $asset
+     * @param  string  $asset
      * @return string
      * @throws InvalidAssetPath
      * @deprecated
      */
-    public function asset($asset): string
+    public function asset(string $asset): string
     {
         if (Str::contains($asset, ':') === false) {
             throw InvalidAssetPath::missingModuleName($asset);
         }
-        list($name, $url) = explode(':', $asset);
+        [$name, $url] = explode(':', $asset);
 
         $baseUrl = str_replace(public_path() . DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
 
