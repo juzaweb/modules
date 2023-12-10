@@ -27,7 +27,6 @@
                         <tr>
                             <th data-field="state" data-width="3%" data-checkbox="true"></th>
                             <th data-field="key">{{ trans('cms::app.code') }}</th>
-                            <th data-field="version" data-width="10%">{{ trans('cms::app.version') }}</th>
                             <th data-field="status" data-width="10%" data-formatter="status_formatter">{{ trans('cms::app.status') }}</th>
                         </tr>
                     </thead>
@@ -46,7 +45,7 @@
             return `<span class="text-secondary">${juzaweb.lang.not_installed}</span>`;
         }
 
-        var table = new JuzawebTable({
+        const table = new JuzawebTable({
             url: "{{ route('admin.themes.require-plugins.get-data') }}",
             action_url: "{{ route('admin.plugin.bulk-actions') }}"
         });

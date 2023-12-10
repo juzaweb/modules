@@ -3,7 +3,9 @@
 namespace Juzaweb\CMS\Support;
 
 use Composer\Autoload\ClassLoader;
-use Illuminate\Container\Container;
+use Exception;
+use Illuminate\Cache\CacheManager;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Foundation\Application as ApplicationContract;
 use Illuminate\Filesystem\Filesystem;
@@ -11,13 +13,13 @@ use Illuminate\Foundation\ProviderRepository;
 use Illuminate\Routing\UrlGenerator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Juzaweb\CMS\Contracts\BackendMessageContract;
+use Juzaweb\CMS\Contracts\ConfigContract;
+use Juzaweb\CMS\Contracts\LocalPluginRepositoryContract;
 use Juzaweb\CMS\Interfaces\Theme\ThemeInterface;
 use Noodlehaus\Config as ReadConfig;
-use Juzaweb\CMS\Facades\Config;
 
 class Theme implements ThemeInterface
 {
@@ -53,6 +55,16 @@ class Theme implements ThemeInterface
 
     protected array $themeInfo;
 
+    protected ConfigContract $dynamicConfig;
+
+    protected CacheManager $cache;
+
+    protected Kernel $artisan;
+
+    protected BackendMessageContract $message;
+
+    protected LocalPluginRepositoryContract $plugins;
+
     public function __construct($app, $path)
     {
         $this->app = $app;
@@ -60,6 +72,11 @@ class Theme implements ThemeInterface
         $this->files = $app['files'];
         $this->url = $app['url'];
         $this->name = $this->getName();
+        $this->dynamicConfig = $app[ConfigContract::class];
+        $this->cache = $app['cache'];
+        $this->artisan = $app[Kernel::class];
+        $this->message = $app[BackendMessageContract::class];
+        $this->plugins = $app[LocalPluginRepositoryContract::class];
     }
 
     /**
@@ -113,12 +130,12 @@ class Theme implements ThemeInterface
 
     /**
      * @throws FileNotFoundException
-     * @throws \Exception
+     * @throws Exception
      */
     public function getContents(string $path): ?string
     {
         if (!$this->fileExists($path)) {
-            throw new \Exception('File does not exists.');
+            throw new Exception('File does not exists.');
         }
 
         return File::get($this->getPath($path));
@@ -235,6 +252,7 @@ class Theme implements ThemeInterface
      * @param null $default
      *
      * @return mixed
+     * @throws Exception
      */
     public function get(string $key, $default = null): mixed
     {
@@ -247,6 +265,7 @@ class Theme implements ThemeInterface
      * @param string|null $file
      *
      * @return Json
+     * @throws Exception
      */
     public function json(string $file = null): Json
     {
@@ -267,7 +286,7 @@ class Theme implements ThemeInterface
 
     public function activate(): void
     {
-        Cache::pull(cache_prefix('jw_theme_configs'));
+        $this->cache->pull(cache_prefix('jw_theme_configs'));
 
         $status = [
             'name' => $this->name,
@@ -275,21 +294,23 @@ class Theme implements ThemeInterface
             'path' => config('juzaweb.theme.path') .'/'.$this->name,
         ];
 
-        Config::setConfig('theme_statuses', $status);
+        $this->dynamicConfig->setConfig('theme_statuses', $status);
 
-        Artisan::call(
+        $this->artisan->call(
             'theme:publish',
             [
                 'theme' => $this->name,
                 'type' => 'assets',
             ]
         );
+
+        $this->addRequireThemeActive();
     }
 
     public function delete(): bool
     {
         if ($this->isActive()) {
-            throw new \Exception('Can\'t delete activated theme');
+            throw new Exception('Can\'t delete activated theme');
         }
 
         return $this->json()->getFilesystem()->deleteDirectory($this->getPath());
@@ -338,6 +359,43 @@ class Theme implements ThemeInterface
             $this->getName().'_theme.php',
             $this->app->getCachedServicesPath()
         );
+    }
+
+    protected function addRequireThemeActive(): void
+    {
+        $this->message->deleteGroup('require_plugins');
+
+        if (!$require = $this->getPluginRequires()) {
+            return;
+        }
+
+        $plugins = $this->plugins->all();
+        $inactive = [];
+        foreach ($require as $plugin => $ver) {
+            if ($this->plugins->has($plugin) && $this->plugins->isEnabled($plugin)) {
+                continue;
+            }
+
+            if (!array_key_exists($plugin, $plugins)) {
+                $plugins[$plugin] = $plugin;
+            }
+
+            $inactive[] = "<strong>{$plugin}</strong>";
+        }
+
+        if ($inactive) {
+            $this->message->add(
+                'require_plugins',
+                trans(
+                    'cms::app.theme_require_plugins',
+                    [
+                        'plugins' => implode(', ', $inactive),
+                        'link' => route('admin.themes.require-plugins')
+                    ]
+                ),
+                'warning'
+            );
+        }
     }
 
     protected function autoloadPSR4(): void

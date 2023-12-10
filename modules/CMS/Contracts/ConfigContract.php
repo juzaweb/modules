@@ -13,13 +13,16 @@ namespace Juzaweb\CMS\Contracts;
 use Illuminate\Support\Collection;
 use Juzaweb\CMS\Models\Config;
 
+/**
+ * @see \Juzaweb\CMS\Support\Config
+ */
 interface ConfigContract
 {
     /**
      * Retrieves the value of a configuration key.
      *
-     * @param string $key The configuration key to retrieve.
-     * @param string|array|null $default The default value to return if the key is not found.
+     * @param  string  $key  The configuration key to retrieve.
+     * @param  string|array|null  $default  The default value to return if the key is not found.
      * @return null|string|array The value of the configuration key.
      */
     public function getConfig(string $key, string|array $default = null): null|string|array;
@@ -27,8 +30,8 @@ interface ConfigContract
     /**
      * Sets a configuration value for the application.
      *
-     * @param string $key The key of the configuration.
-     * @param string|array|null $value The value of the configuration.
+     * @param  string  $key  The key of the configuration.
+     * @param  string|array|null  $value  The value of the configuration.
      * @return Config The updated or created ConfigModel instance.
      */
     public function setConfig(string $key, string|array $value = null): Config;
@@ -36,8 +39,8 @@ interface ConfigContract
     /**
      * Retrieves the configuration values for the given keys and returns them in an array.
      *
-     * @param array $keys The keys for which the configuration values are to be retrieved.
-     * @param mixed $default The default value to be used if a configuration value is not found for a key.
+     * @param  array  $keys  The keys for which the configuration values are to be retrieved.
+     * @param  mixed  $default  The default value to be used if a configuration value is not found for a key.
      * Defaults to null.
      * @return array The configuration values for the given keys in an array.
      */

@@ -15,7 +15,6 @@ use Juzaweb\Backend\Http\Requests\Theme\ActivateRequest;
 use Juzaweb\CMS\Contracts\BackendMessageContract;
 use Juzaweb\CMS\Contracts\JuzawebApiContract;
 use Juzaweb\CMS\Facades\CacheGroup;
-use Juzaweb\CMS\Facades\Plugin;
 use Juzaweb\CMS\Facades\Theme;
 use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Http\Controllers\BackendController;
@@ -145,7 +144,6 @@ class ThemeController extends BackendController
         DB::beginTransaction();
         try {
             $theme->activate();
-            $this->addRequireThemeActive($theme);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -208,40 +206,6 @@ class ThemeController extends BackendController
                 'redirect' => route('admin.themes'),
             ]
         );
-    }
-
-    protected function addRequireThemeActive(\Juzaweb\CMS\Support\Theme $theme): void
-    {
-        $this->message->deleteGroup('require_plugins');
-
-        if ($require = $theme->getPluginRequires()) {
-            $plugins = Plugin::all();
-            $str = [];
-            foreach ($require as $plugin => $ver) {
-                if (app('plugins')->has($plugin) && app('plugins')->isEnabled($plugin)) {
-                    continue;
-                }
-
-                if (!array_key_exists($plugin, $plugins)) {
-                    $plugins[$plugin] = $plugin;
-                }
-
-                $str[] = "<strong>{$plugin}</strong>";
-            }
-
-            if ($str) {
-                $this->addMessage(
-                    'require_plugins',
-                    trans(
-                        'cms::app.theme_require_plugins',
-                        [
-                            'plugins' => implode(', ', $str),
-                            'link' => route('admin.themes.require-plugins')
-                        ]
-                    )
-                );
-            }
-        }
     }
 
     protected function getDataUpdates(Collection $themes): ?object
