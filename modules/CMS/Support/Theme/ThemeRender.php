@@ -74,7 +74,7 @@ class ThemeRender implements ThemeRenderContract
         }
     }
 
-    public function parseParam($param): mixed
+    public function parseParam(mixed $param): mixed
     {
         return match ($this->theme->getTemplate()) {
             'twig', 'inertia' => $this->parseParamToArray($param),
@@ -107,7 +107,11 @@ class ThemeRender implements ThemeRenderContract
             return CommentResource::make($param)->toArray($this->request);
         }
 
-        if ($param instanceof EloquentCollection || $param instanceof LengthAwarePaginator) {
+        if ($param instanceof EloquentCollection) {
+            return $this->parseParamEloquentCollectionToArray($param)['data'];
+        }
+
+        if ($param instanceof LengthAwarePaginator) {
             return $this->parseParamEloquentCollectionToArray($param);
         }
 
@@ -150,6 +154,10 @@ class ThemeRender implements ThemeRenderContract
             return CommentResource::collection($collection)->response()->getData(true);
         }
 
-        return $collection->toArray();
+        if ($collection->first() instanceof Taxonomy) {
+            return TaxonomyResource::collection($collection)->response()->getData(true);
+        }
+
+        return ResourceCollection::make($collection)->response()->getData(true);
     }
 }

@@ -41,5 +41,5 @@ interface ThemeRender
      * @param mixed $param The parameter to parse.
      * @return mixed The parsed parameter.
      */
-    public function parseParam($param): mixed;
+    public function parseParam(mixed $param): mixed;
 }
