@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Backend\Events\VerifyUserSuccessful;
 use Juzaweb\CMS\Http\Requests\Auth\RegisterRequest;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Traits\ResponseMessage;
@@ -68,7 +69,7 @@ trait AuthRegisterForm
         );
     }
 
-    public function verification($email, $token): RedirectResponse
+    public function verification(string $email, string $token): RedirectResponse
     {
         $user = User::whereEmail($email)
             ->where('verification_token', '=', $token)
@@ -78,7 +79,7 @@ trait AuthRegisterForm
         try {
             $user->update(
                 [
-                    'status' => 'active',
+                    'status' => User::STATUS_ACTIVE,
                     'verification_token' => null,
                 ]
             );
@@ -88,6 +89,8 @@ trait AuthRegisterForm
             DB::rollBack();
             throw $exception;
         }
+
+        event(new VerifyUserSuccessful($user));
 
         return redirect()->route('login');
     }
