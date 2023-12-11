@@ -170,7 +170,7 @@ if (!function_exists('get_previous_post')) {
      */
     function get_previous_post(array|null|Post $currentPost): array|null|Post
     {
-        if (empty($post)) {
+        if (empty($currentPost)) {
             return [];
         }
 

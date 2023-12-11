@@ -26,7 +26,7 @@ interface SiteCreaterContract
      * @return Site The newly created site.
      * @see \Juzaweb\Network\Support\SiteCreater::create()
      */
-    public function create(string $subdomain, array $args = [], User $user = null): Site;
+    public function create(string $subdomain, array $args = [], ?User $user = null): Site;
 
     /**
      * Set up the site.

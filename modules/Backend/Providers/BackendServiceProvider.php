@@ -13,6 +13,7 @@ use Juzaweb\Backend\Actions\PermissionAction;
 use Juzaweb\Backend\Actions\SeoAction;
 use Juzaweb\Backend\Actions\SocialLoginAction;
 use Juzaweb\Backend\Actions\ToolAction;
+use Juzaweb\Backend\Commands;
 use Juzaweb\Backend\Commands\AutoTagCommand;
 use Juzaweb\Backend\Commands\EmailTemplateGenerateCommand;
 use Juzaweb\Backend\Commands\Helper\CacheSizeCommand;
@@ -114,6 +115,7 @@ class BackendServiceProvider extends ServiceProvider
                 CMSPublishCommand::class,
                 CacheSizeCommand::class,
                 MakeAdminCommand::class,
+                Commands\Exports\DataExportCommand::class,
             ]
         );
     }

@@ -61,6 +61,7 @@ class SiteCreater implements SiteCreaterContract
         $user = ($user ?? Auth::user())->replicate();
         $user->setTable('subsite_users');
         $user->setAttribute('site_id', $site->id);
+        $user->setAttribute('remember_token', null);
         $user->save();
 
         $this->makeDefaultConfigs($args);

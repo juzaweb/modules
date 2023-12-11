@@ -5,6 +5,8 @@ namespace Juzaweb\CMS\Models;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Juzaweb\CMS\Facades\GlobalData;
+use Juzaweb\CMS\Interfaces\Models\ExportSupport;
+use Juzaweb\CMS\Traits\Models\Exportable;
 use Juzaweb\Network\Traits\Networkable;
 
 /**
@@ -23,9 +25,9 @@ use Juzaweb\Network\Traits\Networkable;
  * @property int|null $site_id
  * @method static Builder|Config whereSiteId($value)
  */
-class Config extends Model
+class Config extends Model implements ExportSupport
 {
-    use Networkable;
+    use Networkable, Exportable;
 
     public $timestamps = false;
     protected $table = 'configs';
