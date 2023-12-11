@@ -12,7 +12,9 @@ namespace Juzaweb\Backend\Models;
 
 use Illuminate\Support\Collection;
 use Juzaweb\CMS\Facades\HookAction;
+use Juzaweb\CMS\Interfaces\Models\ExportSupport;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\CMS\Traits\Models\Exportable;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 
 /**
@@ -60,9 +62,9 @@ use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
  * @property-read int|null $recursive_children_count
  * @mixin \Eloquent
  */
-class MenuItem extends Model
+class MenuItem extends Model implements ExportSupport
 {
-    use QueryCacheable;
+    use QueryCacheable, Exportable;
 
     public $timestamps = false;
 

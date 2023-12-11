@@ -11,8 +11,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Database\Factories\PostFactory;
+use Juzaweb\CMS\Interfaces\Models\ExportSupport;
 use Juzaweb\CMS\Models\Model;
 use Juzaweb\CMS\Models\User;
+use Juzaweb\CMS\Traits\Models\Exportable;
 use Juzaweb\CMS\Traits\PostTypeModel;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
@@ -105,11 +107,11 @@ use Spatie\Feed\FeedItem;
  * @method static Builder|Post whereUuid($value)
  * @mixin Eloquent
  */
-class Post extends Model implements Feedable
+class Post extends Model implements Feedable, ExportSupport
 {
     protected static bool $flushCacheOnUpdate = true;
 
-    use PostTypeModel, HasFactory, QueryCacheable, UseUUIDColumn, Networkable;
+    use PostTypeModel, HasFactory, QueryCacheable, UseUUIDColumn, Networkable, Exportable;
 
     public string $cachePrefix = 'posts_';
 

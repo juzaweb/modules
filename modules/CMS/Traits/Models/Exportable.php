@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Traits\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 /**
  * @method Builder exportFilter()
@@ -21,5 +22,10 @@ trait Exportable
     public function exportableFields(): array
     {
         return $this->getFillable();
+    }
+
+    public function exportFormater(): array
+    {
+        return Arr::only($this->toArray(), $this->exportableFields());
     }
 }

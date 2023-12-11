@@ -16,7 +16,9 @@ namespace Juzaweb\Backend\Models;
 
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Facades\HookAction;
+use Juzaweb\CMS\Interfaces\Models\ExportSupport;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\CMS\Traits\Models\Exportable;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
 use Juzaweb\Network\Traits\Networkable;
@@ -45,9 +47,9 @@ use Juzaweb\Network\Traits\Networkable;
  * @method static \Illuminate\Database\Eloquent\Builder|Menu whereUuid($value)
  * @mixin \Eloquent
  */
-class Menu extends Model
+class Menu extends Model implements ExportSupport
 {
-    use QueryCacheable, UseUUIDColumn, Networkable;
+    use QueryCacheable, UseUUIDColumn, Networkable, Exportable;
 
     public string $cachePrefix = 'menus_';
 

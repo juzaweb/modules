@@ -84,7 +84,6 @@ class XMLExporter
     {
         /** @var ExportSupport $model */
         $model = app()->make($model);
-        $fields = $model->exportableFields();
 
         $model->newQuery()
             ->when(
@@ -93,12 +92,15 @@ class XMLExporter
             )
             ->chunkById(
                 $this->getChunkSize(),
-                function ($rows) use ($xml, $fields) {
+                function ($rows) use ($xml) {
                     foreach ($rows as $row) {
                         $xml->startElement('row');
-                        foreach ($fields as $field) {
-                            $xml->writeElement($field, $row->{$field});
+                        $fields = $row->exportFormater();
+
+                        foreach ($fields as $field => $value) {
+                            $xml->writeElement($field, $value);
                         }
+
                         $xml->endElement();
                     }
                 }

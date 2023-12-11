@@ -13,4 +13,6 @@ namespace Juzaweb\CMS\Interfaces\Models;
 interface ExportSupport
 {
     public function exportableFields(): array;
+
+    public function exportFormater(): array;
 }
