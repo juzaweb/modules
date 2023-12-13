@@ -35,7 +35,7 @@ class AutoClearSlotCommand extends Command
         foreach ($files as $file) {
             $path = 'command-slots/'. $file->getBasename();
 
-            $data = collect(json_decode($file->getContents(), true))
+            $data = collect(json_decode($file->getContents(), true, 512, JSON_THROW_ON_ERROR))
                 ->filter(
                     function ($item) {
                         $plus1Day = date('Y-m-d H:i:s', strtotime($item['date']. " + {$this->limitSeconds} seconds"));

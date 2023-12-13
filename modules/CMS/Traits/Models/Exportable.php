@@ -12,19 +12,28 @@ namespace Juzaweb\CMS\Traits\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
+use Juzaweb\CMS\Models\Model;
 
 /**
  * @method Builder exportFilter()
+ * @method array exportFormater()
  * @method Builder scopeExportFilter(Builder $builder)
  */
 trait Exportable
 {
-    public function exportableFields(): array
+    public function exportWith(): array
     {
-        return $this->getFillable();
+        return [];
     }
 
-    public function exportFormater(): array
+    public function exportableFields(): array
+    {
+        return array_filter($this->getFillable(), function ($key) {
+            return !str_contains($key, '_id');
+        });
+    }
+
+    public function defaultExportFormater(): array
     {
         return Arr::only($this->toArray(), $this->exportableFields());
     }

@@ -14,5 +14,5 @@ interface ExportSupport
 {
     public function exportableFields(): array;
 
-    public function exportFormater(): array;
+    public function defaultExportFormater(): array;
 }

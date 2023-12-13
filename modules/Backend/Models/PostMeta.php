@@ -11,9 +11,7 @@
 namespace Juzaweb\Backend\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Juzaweb\CMS\Interfaces\Models\ExportSupport;
 use Juzaweb\CMS\Models\Model;
-use Juzaweb\CMS\Traits\Models\Exportable;
 
 /**
  * Juzaweb\Backend\Models\PostMeta
@@ -32,10 +30,8 @@ use Juzaweb\CMS\Traits\Models\Exportable;
  * @method static \Illuminate\Database\Eloquent\Builder|PostMeta wherePostId($value)
  * @mixin \Eloquent
  */
-class PostMeta extends Model implements ExportSupport
+class PostMeta extends Model
 {
-    use Exportable;
-
     public $timestamps = false;
 
     protected $table = 'post_metas';

@@ -10,7 +10,6 @@
 
 namespace Juzaweb\CMS\Console\Commands;
 
-use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Support\Manager\DatabaseManager;
@@ -32,14 +31,14 @@ class InstallCommand extends Command
         $result = $databaseManager->run();
         if (Arr::get($result, 'status') == 'error') {
             $this->error($result['dbOutputLog']);
-            throw new Exception($result['message']);
+            throw new \RuntimeException($result['message']);
         }
 
         $this->info('-- Publish assets');
         $result = $finalInstall->runFinal();
         if (Arr::get($result, 'status') == 'error') {
             $this->error($result['dbOutputLog']);
-            throw new Exception($result['message']);
+            throw new \RuntimeException($result['message']);
         }
 
         $this->info('-- Create user admin');

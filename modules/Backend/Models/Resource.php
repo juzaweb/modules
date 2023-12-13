@@ -120,12 +120,12 @@ class Resource extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Resource::class, 'parent_id', 'id');
+        return $this->belongsTo(__CLASS__, 'parent_id', 'id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(Resource::class, 'parent_id', 'id');
+        return $this->hasMany(__CLASS__, 'parent_id', 'id');
     }
 
     public function scopeWherePublish(Builder $builder): Builder

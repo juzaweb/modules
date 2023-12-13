@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Database\Factories\PostFactory;
 use Juzaweb\CMS\Interfaces\Models\ExportSupport;
@@ -233,6 +234,69 @@ class Post extends Model implements Feedable, ExportSupport
             ->updated($updated)
             ->link($this->getLink())
             ->authorName($name);
+    }
+
+    public function exportWith(): array
+    {
+        return ['taxonomies', 'resources.metas', 'comments', 'metas'];
+    }
+
+    public function exportFormater(): array
+    {
+        $formater['thumbnail'] = $this->getThumbnail(false);
+        $formater['taxonomies'] = $this->taxonomies->map(
+            function ($taxonomy) {
+                return Arr::only(
+                    $taxonomy->toArray(),
+                    [
+                        'name',
+                        'description',
+                        'thumbnail',
+                        'slug',
+                        'taxonomy',
+                        'post_type',
+                        'parent_id',
+                        'total_post',
+                    ]
+                );
+            }
+        );
+
+        $formater['resources'] = $this->resources->map(
+            function ($resource) {
+                $item = Arr::only(
+                    $resource->toArray(),
+                    [
+                        'name',
+                        'type',
+                        'thumbnail',
+                        'description',
+                        'status',
+                        'post_id',
+                        'json_metas',
+                        'parent_id',
+                        'display_order',
+                        'slug',
+                    ]
+                );
+
+                $item['metas'] = $resource->metas->map(
+                    function ($meta) {
+                        return Arr::only(
+                            $meta->toArray(),
+                            [
+                                'key',
+                                'value',
+                            ]
+                        );
+                    }
+                );
+
+                return $item;
+            }
+        );
+
+        return $formater;
     }
 
     protected function getCacheBaseTags(): array

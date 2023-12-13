@@ -256,7 +256,7 @@ if (!function_exists('upload_url')) {
             $pathSize = str_replace($filename, "{$filename}_{$size}", $path);
 
             if ($storage->exists(jw_basepath($pathSize))) {
-                return $storage->url($pathSize);
+                return url($storage->url($pathSize));
             }
 
             if (config('juzaweb.filemanager.image_resizer')) {
@@ -264,7 +264,7 @@ if (!function_exists('upload_url')) {
             }
         }
 
-        return apply_filters('get_upload_url', $storage->url($path), $path, $default, $size);
+        return apply_filters('get_upload_url', url($storage->url($path)), $path, $default, $size);
     }
 }
 

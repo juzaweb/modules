@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Support\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 use Juzaweb\CMS\Interfaces\Models\ExportSupport;
 use Juzaweb\CMS\Models\Model;
@@ -35,7 +36,8 @@ class XMLExporter
 
         $models = [];
         foreach ($paths as $path) {
-            $models = array_merge(collect(File::allFiles($path))
+            $models = array_merge(
+                collect(File::allFiles($path))
                 ->map(function (SplFileInfo $item) {
                     $path = $item->getRelativePathName();
                     $fileContents = File::get($item->getRealPath());
@@ -62,17 +64,12 @@ class XMLExporter
 
         $xml->openURI($fileName);
 
-        $xml->startDocument('1.0');
+        $xml->startDocument();
 
         $xml->startElement('models');
 
         foreach ($models as $model) {
-            $xml->startElement('model');
-            $xml->writeElement('name', $model);
-            $xml->startElement('data');
             $this->exportDataModel($model, $xml);
-            $xml->endElement();
-            $xml->endElement();
         }
 
         $xml->endElement();
@@ -80,22 +77,26 @@ class XMLExporter
         $xml->flush();
     }
 
-    public function exportDataModel(string $model, \XMLWriter $xml): void
+    public function exportDataModel(string $modelClass, \XMLWriter $xml): void
     {
-        /** @var ExportSupport $model */
-        $model = app()->make($model);
+        /** @var ExportSupport|Model $model */
+        $model = app()->make($modelClass);
+        $query = $this->makeDataQueryByModel($model);
+        $exists = $query->exists();
 
-        $model->newQuery()
-            ->when(
-                method_exists($model, 'scopeExportFilter'),
-                fn (Builder $q) => $model->exportFilter()
-            )
-            ->chunkById(
+        if ($exists) {
+            $xml->startElement('model');
+            $xml->writeElement('name', $modelClass);
+            $xml->startElement('rows');
+
+            $query->chunkById(
                 $this->getChunkSize(),
-                function ($rows) use ($xml) {
+                function ($rows) use ($xml, $model) {
                     foreach ($rows as $row) {
                         $xml->startElement('row');
-                        $fields = $row->exportFormater();
+                        $fields = method_exists($model, 'exportFormater')
+                            ? $row->exportFormater()
+                            : $row->defaultExportFormater();
 
                         foreach ($fields as $field => $value) {
                             $xml->writeElement($field, $value);
@@ -104,6 +105,20 @@ class XMLExporter
                         $xml->endElement();
                     }
                 }
+            );
+
+            $xml->endElement();
+            $xml->endElement();
+        }
+    }
+
+    public function makeDataQueryByModel(Model $model): Builder
+    {
+        return $model->newQuery()
+            ->with($model->exportWith())
+            ->when(
+                method_exists($model, 'scopeExportFilter'),
+                fn (Builder $q) => $model->exportFilter()
             );
     }
 
