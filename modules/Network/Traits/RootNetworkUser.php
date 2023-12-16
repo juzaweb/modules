@@ -67,9 +67,9 @@ trait RootNetworkUser
     public function getConnectionName(): ?string
     {
         if (static::applySubSiteScope()) {
-            return parent::getConnectionName();
+            return 'subsite';
         }
         
-        return Network::getCurrentSite()->root_connection;
+        return parent::getConnectionName();
     }
 }

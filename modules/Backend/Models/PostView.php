@@ -2,7 +2,11 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\PostView
@@ -11,21 +15,24 @@ use Juzaweb\CMS\Models\Model;
  * @property int $post_id
  * @property int $views
  * @property string $day
- * @property-read \Juzaweb\Backend\Models\Post $post
- * @method static \Illuminate\Database\Eloquent\Builder|PostView newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PostView newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PostView query()
- * @method static \Illuminate\Database\Eloquent\Builder|PostView whereDay($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostView whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostView wherePostId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostView whereSiteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostView whereViews($value)
+ * @property-read Post $post
+ * @method static Builder|PostView newModelQuery()
+ * @method static Builder|PostView newQuery()
+ * @method static Builder|PostView query()
+ * @method static Builder|PostView whereDay($value)
+ * @method static Builder|PostView whereId($value)
+ * @method static Builder|PostView wherePostId($value)
+ * @method static Builder|PostView whereSiteId($value)
+ * @method static Builder|PostView whereViews($value)
  * @property int|null $site_id
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class PostView extends Model
 {
+    use Networkable;
+
     protected $table = 'post_views';
+
     protected $fillable = [
         'views',
         'day',
@@ -34,7 +41,7 @@ class PostView extends Model
 
     public $timestamps = false;
 
-    public function post()
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class, 'post_id', 'id');
     }

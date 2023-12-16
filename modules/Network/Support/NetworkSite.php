@@ -11,6 +11,7 @@
 namespace Juzaweb\Network\Support;
 
 use Illuminate\Support\Str;
+use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\Network\Contracts\NetworkSiteContract;
 use Juzaweb\Network\Models\Site;
@@ -23,11 +24,10 @@ use Juzaweb\Network\Models\Site;
  */
 class NetworkSite implements NetworkSiteContract
 {
-    protected Site $site;
-
-    public function __construct(Site $site)
-    {
-        $this->site = $site;
+    public function __construct(
+        protected HookActionContract $hookAction,
+        protected Site $site
+    ) {
     }
 
     public function model(): Site
@@ -55,11 +55,6 @@ class NetworkSite implements NetworkSiteContract
             $data,
             $this->site
         );
-    }
-
-    public function adminUrl(): string
-    {
-        return $this->getUrl(config('juzaweb.admin_prefix'));
     }
 
     public function getUrl(string $path = null): string

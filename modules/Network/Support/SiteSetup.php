@@ -14,6 +14,7 @@ use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Network\Contracts\SiteSetupContract;
+use Juzaweb\Network\Models\Database;
 
 class SiteSetup implements SiteSetupContract
 {
@@ -68,7 +69,7 @@ class SiteSetup implements SiteSetupContract
 
     public function setupDatabaseId(int $dbId): void
     {
-        $database = DB::table('network_databases')->where('id', $dbId)->first();
+        $database = Database::find($dbId);
 
         throw_if($database === null, new \Exception('Database not found'));
 
@@ -90,7 +91,7 @@ class SiteSetup implements SiteSetupContract
             )
         );
 
-        $this->config->set('database.default', 'subsite');
+        //$this->config->set('database.default', 'subsite');
 
         $this->db->purge('subsite');
     }

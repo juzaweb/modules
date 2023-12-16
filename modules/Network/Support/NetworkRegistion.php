@@ -110,11 +110,9 @@ class NetworkRegistion implements NetworkRegistionContract
     protected function initSetupSite(?string $site = null): void
     {
         if ($site !== null) {
-            $site = $this->db->table('network_sites')
-                ->where(['id' => $site])
-                ->first();
+            $site = Site::find($site);
 
-            $this->site = $site;
+            $this->site = $this->parseSiteFromModel($site);
         } else {
             $this->site = $this->getCurrentSiteInfo();
         }
@@ -214,5 +212,12 @@ class NetworkRegistion implements NetworkRegistionContract
     protected function isRootDomain(string $domain): bool
     {
         return $domain == $this->config->get('network.domain');
+    }
+
+    protected function parseSiteFromModel(Site $site): object
+    {
+        $site = (object) $site->toArray();
+        $site->root_connection = $this->db->getDefaultConnection();
+        return $site;
     }
 }

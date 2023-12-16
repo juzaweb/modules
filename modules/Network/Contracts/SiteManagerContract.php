@@ -32,4 +32,6 @@ interface SiteManagerContract
     public function create(string $subdomain, array $args = [], ?User $user = null): NetworkSiteContract;
 
     public function getCreater(): SiteCreaterContract;
+
+    public function currentSite(): ?NetworkSiteContract;
 }

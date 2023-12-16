@@ -36,6 +36,7 @@ class MigrateCommand extends Command
         'seo_metas',
         'theme_configs',
         'languages',
+        'post_views',
     ];
 
     public function handle(): void

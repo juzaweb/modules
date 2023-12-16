@@ -13,6 +13,7 @@ namespace Juzaweb\Network\Support;
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Support\Arr;
 use Juzaweb\CMS\Models\User;
+use Juzaweb\Network\Contracts\NetworkRegistionContract;
 use Juzaweb\Network\Contracts\NetworkSiteContract;
 use Juzaweb\Network\Contracts\SiteCreaterContract;
 use Juzaweb\Network\Contracts\SiteManagerContract;
@@ -20,18 +21,11 @@ use Juzaweb\Network\Models\Site;
 
 class SiteManager implements SiteManagerContract
 {
-    protected ConnectionResolverInterface $db;
-
-    protected SiteCreaterContract $siteCreater;
-
     public function __construct(
-        ConnectionResolverInterface $db,
-        SiteCreaterContract $siteCreater
+        protected ConnectionResolverInterface $db,
+        protected SiteCreaterContract $siteCreater,
+        protected NetworkRegistionContract $networkRegistion
     ) {
-
-        $this->db = $db;
-
-        $this->siteCreater = $siteCreater;
     }
 
     public function find(string|int|Site $site): ?NetworkSiteContract
@@ -96,8 +90,13 @@ class SiteManager implements SiteManagerContract
         return $this->siteCreater;
     }
 
+    public function currentSite(): ?NetworkSiteContract
+    {
+        return $this->find($this->networkRegistion->getCurrentSiteId());
+    }
+
     private function createSite(Site $site): NetworkSiteContract
     {
-        return new NetworkSite($site);
+        return app()->make(NetworkSite::class, ['site' => $site]);
     }
 }

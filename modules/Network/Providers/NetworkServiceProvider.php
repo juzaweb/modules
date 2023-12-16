@@ -97,7 +97,8 @@ class NetworkServiceProvider extends ServiceProvider
             function ($app) {
                 return new SiteManager(
                     $app['db'],
-                    $app[SiteCreaterContract::class]
+                    $app[SiteCreaterContract::class],
+                    $app[NetworkRegistionContract::class]
                 );
             }
         );
