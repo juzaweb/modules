@@ -161,7 +161,7 @@ class NetworkRegistion implements NetworkRegistionContract
 
     protected function getCurrentSiteInfo(): ?object
     {
-        if ($this->isAdminPage()) {
+        if (is_admin_page()) {
             $siteId = $this->request->segment(2);
 
             if (uuid_is_valid($siteId)) {
@@ -214,10 +214,5 @@ class NetworkRegistion implements NetworkRegistionContract
     protected function isRootDomain(string $domain): bool
     {
         return $domain == $this->config->get('network.domain');
-    }
-
-    protected function isAdminPage(): bool
-    {
-        return $this->request->segment(1) == $this->config->get('juzaweb.admin_prefix');
     }
 }

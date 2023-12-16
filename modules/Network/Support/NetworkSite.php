@@ -57,6 +57,11 @@ class NetworkSite implements NetworkSiteContract
         );
     }
 
+    public function adminUrl(): string
+    {
+        return $this->getUrl(config('juzaweb.admin_prefix'));
+    }
+
     public function getUrl(string $path = null): string
     {
         return $this->site->getSiteUrl($path);

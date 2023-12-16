@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Events;
+namespace Juzaweb\Backend\Events\Users;
 
 use Juzaweb\CMS\Models\User;
 

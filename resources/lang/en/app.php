@@ -424,6 +424,7 @@ return [
     'sitename' => 'Site name',
     'country' => 'Country',
     'domain' => 'Domain',
+    'subdomain' => 'Sub Domain',
     'has_ssl' => 'Has ssl',
     'add_block' => 'Add block',
     'documentation' => 'Documentation',

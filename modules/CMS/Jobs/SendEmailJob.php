@@ -19,6 +19,8 @@ class SendEmailJob implements ShouldQueue
 
     protected EmailList $mail;
 
+    public int $timeout = 60;
+
     /**
      * Create a new job instance.
      *

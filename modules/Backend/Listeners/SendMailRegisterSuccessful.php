@@ -11,9 +11,9 @@
 namespace Juzaweb\Backend\Listeners;
 
 use Illuminate\Support\Str;
+use Juzaweb\Backend\Events\Users\RegisterSuccessful;
 use Juzaweb\Backend\Models\EmailTemplate;
 use Juzaweb\CMS\Events\EmailHook;
-use Juzaweb\Backend\Events\RegisterSuccessful;
 use Juzaweb\CMS\Support\Email;
 
 class SendMailRegisterSuccessful

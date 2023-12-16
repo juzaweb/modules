@@ -3,6 +3,10 @@
     <span class="badge badge-success">{{ trans('cms::app.publish') }}</span>
     @break
 
+    @case('active')
+        <span class="badge badge-success">{{ trans('cms::app.active') }}</span>
+        @break
+
     @case('approved')
     <span class="badge badge-success">{{ trans('cms::app.approved') }}</span>
     @break
@@ -26,6 +30,10 @@
     @case('deny')
     <span class="badge badge-danger">{{ trans('cms::app.deny') }}</span>
     @break
+
+    @case('inactive')
+        <span class="badge badge-secondary">{{ trans('cms::app.inactive') }}</span>
+        @break
 
     @default
     <span class="badge badge-secondary">{{ trans('cms::app.draft') }}</span>

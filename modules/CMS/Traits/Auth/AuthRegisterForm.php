@@ -14,7 +14,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Backend\Events\VerifyUserSuccessful;
+use Juzaweb\Backend\Events\Users\VerifyUserBeforeCommit;
+use Juzaweb\Backend\Events\Users\VerifyUserSuccessful;
 use Juzaweb\CMS\Http\Requests\Auth\RegisterRequest;
 use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Traits\ResponseMessage;
@@ -83,6 +84,8 @@ trait AuthRegisterForm
                     'verification_token' => null,
                 ]
             );
+
+            event(new VerifyUserBeforeCommit($user));
 
             DB::commit();
         } catch (\Exception $exception) {

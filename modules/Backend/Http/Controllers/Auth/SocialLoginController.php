@@ -3,21 +3,21 @@
 namespace Juzaweb\Backend\Http\Controllers\Auth;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Juzaweb\Backend\Events\RegisterSuccessful;
-use Juzaweb\CMS\Http\Controllers\FrontendController;
-use Illuminate\Support\Facades\Auth;
-use Juzaweb\CMS\Models\User;
+use Juzaweb\Backend\Events\Users\RegisterSuccessful;
 use Juzaweb\Backend\Models\SocialToken;
+use Juzaweb\CMS\Http\Controllers\FrontendController;
+use Juzaweb\CMS\Models\User;
 use Laravel\Socialite\Facades\Socialite;
+use Laravel\Socialite\One\TwitterProvider;
 use Laravel\Socialite\Two\AbstractProvider;
 use Laravel\Socialite\Two\FacebookProvider;
-use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\GithubProvider;
+use Laravel\Socialite\Two\GoogleProvider;
 use Laravel\Socialite\Two\LinkedInProvider;
-use Laravel\Socialite\One\TwitterProvider;
 
 class SocialLoginController extends FrontendController
 {

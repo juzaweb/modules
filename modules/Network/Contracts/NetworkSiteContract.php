@@ -12,7 +12,11 @@ namespace Juzaweb\Network\Contracts;
 
 use Juzaweb\CMS\Models\User;
 use Juzaweb\Network\Models\Site;
+use Juzaweb\Network\Support\NetworkSite;
 
+/**
+ * @see NetworkSite
+ */
 interface NetworkSiteContract
 {
     public function getLoginUrl(User $user): string;

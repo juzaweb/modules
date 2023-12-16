@@ -15,7 +15,7 @@ class SendMailCommand extends Command
      * Get email list in email_lists table and send
      * All you need to do is save the email to be sent to the table email_lists
      */
-    public function handle()
+    public function handle(): int
     {
         if (config('email.method') != 'cron') {
             return static::SUCCESS;

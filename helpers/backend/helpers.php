@@ -910,3 +910,18 @@ if (!function_exists('set_network_config')) {
         return app(NetworkConfig::class)->setConfig($key, $value);
     }
 }
+
+if (!function_exists('is_admin_page')) {
+    function is_admin_page(?string $url = null): bool
+    {
+        $adminPrefix = explode('/', config('juzaweb.admin_prefix'))[0];
+
+        if ($url) {
+            $path = ltrim(path_url($url), '/');
+
+            return explode('/', $path)[0] == $adminPrefix;
+        }
+
+        return request()?->segment(1) == $adminPrefix;
+    }
+}

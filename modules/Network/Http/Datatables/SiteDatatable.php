@@ -28,13 +28,19 @@ class SiteDatatable extends DataTable
     {
         return [
             'domain' => [
-                'label' => trans('cms::app.domain'),
+                'label' => trans('cms::app.subdomain'),
                 'formatter' => [$this, 'rowActionsFormatter'],
             ],
             'status' => [
                 'label' => trans('cms::app.status'),
                 'width' => '15%',
                 'align' => 'center',
+                'formatter' => function ($value, $row, $index) {
+                    return view(
+                        'cms::components.datatable.status',
+                        compact('value', 'row', 'index')
+                    );
+                }
             ],
             'created_at' => [
                 'label' => trans('cms::app.created_at'),
@@ -45,6 +51,13 @@ class SiteDatatable extends DataTable
                 },
             ],
         ];
+    }
+
+    public function rowActionsFormatter($value, $row, $index): string
+    {
+        $value = $row->getFullDomain();
+
+        return parent::rowActionsFormatter($value, $row, $index);
     }
 
     public function rowAction(mixed $row): array
@@ -61,7 +74,7 @@ class SiteDatatable extends DataTable
 
         $rows['view'] = [
             'label' => trans('cms::app.view_site'),
-            'url' => "http://{$row->domain}.{$networkDomain}",
+            'url' => "//{$row->subdomain}.{$networkDomain}",
             'target' => '_blank',
         ];
 
@@ -74,7 +87,7 @@ class SiteDatatable extends DataTable
         if ($keyword = Arr::get($data, 'keyword')) {
             $query->where(
                 function (Builder $q) use ($keyword) {
-                    $q->where('domain', 'like', $keyword);
+                    $q->where('subdomain', 'like', $keyword);
                 }
             );
         }

@@ -85,7 +85,11 @@ class Site extends Model implements RootNetworkModelInterface
 
     public function getFullDomain(): string
     {
-        return $this->subdomain .'.'. config('network.domain');
+        if ($this->domain) {
+            return "{$this->subdomain}.{$this->domain}";
+        }
+
+        return "{$this->subdomain}.". config('network.domain');
     }
 
     public function getSiteUrl(string $path = null): string

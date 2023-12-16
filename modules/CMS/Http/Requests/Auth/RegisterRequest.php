@@ -14,7 +14,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use Juzaweb\Backend\Events\RegisterSuccessful;
+use Juzaweb\Backend\Events\Users\RegisterSuccessful;
 use Juzaweb\CMS\Models\User;
 
 class RegisterRequest extends FormRequest
