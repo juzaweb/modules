@@ -35,6 +35,11 @@ class NetworkSite implements NetworkSiteContract
         return $this->site;
     }
 
+    public function adminUrl(): string
+    {
+        return $this->getUrl(config('juzaweb.admin_prefix'));
+    }
+
     public function getLoginUrl(User $user): string
     {
         $random = Str::random(5);

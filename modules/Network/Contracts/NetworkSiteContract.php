@@ -21,6 +21,8 @@ interface NetworkSiteContract
 {
     public function getLoginUrl(User $user): string;
 
+    public function adminUrl(): string;
+
     public function model(): Site;
 
     public function getUrl(string $path = null): string;

@@ -10,6 +10,8 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Juzaweb\CMS\Models\Model;
 
@@ -20,15 +22,15 @@ use Juzaweb\CMS\Models\Model;
  * @property int $post_id
  * @property string $meta_key
  * @property string|null $meta_value
- * @property-read \Juzaweb\Backend\Models\Post $post
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta query()
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta whereMetaKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta whereMetaValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PostMeta wherePostId($value)
- * @mixin \Eloquent
+ * @property-read Post $post
+ * @method static Builder|PostMeta newModelQuery()
+ * @method static Builder|PostMeta newQuery()
+ * @method static Builder|PostMeta query()
+ * @method static Builder|PostMeta whereId($value)
+ * @method static Builder|PostMeta whereMetaKey($value)
+ * @method static Builder|PostMeta whereMetaValue($value)
+ * @method static Builder|PostMeta wherePostId($value)
+ * @mixin Eloquent
  */
 class PostMeta extends Model
 {

@@ -157,7 +157,7 @@ trait PostTypeModel
         return $this->hasMany(PostMeta::class, 'post_id', 'id');
     }
 
-    public function getMeta($key, $default = null): mixed
+    public function getMeta(string $key, mixed $default = null): mixed
     {
         return $this->json_metas[$key] ?? $default;
     }
@@ -639,7 +639,7 @@ trait PostTypeModel
     public function getLink(bool $absolute = true): bool|string
     {
         if ($this->type == 'pages') {
-            return route('post', [$this->slug], $absolute);
+            return home_url(route('post', [$this->slug], false), $absolute);
         }
 
         $permalink = $this->getPermalink('base');

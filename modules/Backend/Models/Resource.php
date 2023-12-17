@@ -149,12 +149,12 @@ class Resource extends Model
         );
     }
 
-    public function syncMetas(array $data = [])
+    public function syncMetas(array $data = []): void
     {
         $metas = [];
         foreach ($data as $key => $val) {
             if (is_array($val)) {
-                $val = json_encode($val);
+                $val = json_encode($val, JSON_THROW_ON_ERROR);
             }
 
             $this->metas()->updateOrCreate(
@@ -180,12 +180,12 @@ class Resource extends Model
             ->delete();
     }
 
-    public function syncMetasWithoutDetaching(array $data = [])
+    public function syncMetasWithoutDetaching(array $data = []): void
     {
         $metas = $this->json_metas;
         foreach ($data as $key => $val) {
             if (is_array($val)) {
-                $val = json_encode($val);
+                $val = json_encode($val, JSON_THROW_ON_ERROR);
             }
 
             $this->metas()->updateOrCreate(

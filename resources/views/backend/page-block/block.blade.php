@@ -1,4 +1,5 @@
 @php
+    /**  @var \Juzaweb\Backend\Models\Post $model */
     $blocks = \Juzaweb\CMS\Facades\HookAction::getPageBlocks();
     $templateBlocks = $templateData['blocks'] ?? [];
     $currentTheme = jw_current_theme();

@@ -109,6 +109,10 @@ class EmailList extends Model implements RootNetworkModelInterface
             }
         }
 
+        if ($siteName = get_config('sitename')) {
+            $subject = "{$siteName}: {$subject}";
+        }
+
         return static::mapParams($subject, $this->params);
     }
 

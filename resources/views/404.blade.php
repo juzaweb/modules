@@ -13,8 +13,8 @@
 <body class="juzaweb__menuLeft--dark">
     <div class="juzaweb__layout">
         <div class="juzaweb__layout">
-            <div class="juzaweb__auth__containerInner">
-                <div class="container pl-5 pr-5 pt-5 pb-5 mb-auto text-dark font-size-32">
+            <div class="justify-content-center">
+                <div class="container justify-content-center pl-5 pr-5 pt-5 pb-5 mb-auto text-dark font-size-32">
                     <div class="font-weight-bold mb-3">Page not found</div>
                     <div class="text-gray-6 font-size-24">
                         This page is deprecated, deleted, or does not exist at all
