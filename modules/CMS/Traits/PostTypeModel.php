@@ -406,10 +406,10 @@ trait PostTypeModel
             ->whereIn('id', array_merge($detachIds, $data))
             ->get();
 
-        foreach ($taxonomies as $taxonomy) {
-            $taxonomy->update(
+        foreach ($taxonomies as $tax) {
+            $tax->update(
                 [
-                    'total_post' => $taxonomy->posts()->count(),
+                    'total_post' => $tax->posts()->count(),
                 ]
             );
         }
@@ -425,7 +425,7 @@ trait PostTypeModel
                 'meta_key' => $key
             ],
             [
-                'meta_value' => is_array($value) ? json_encode($value) : $value
+                'meta_value' => is_array($value) ? json_encode($value, JSON_THROW_ON_ERROR) : $value
             ]
         );
 

@@ -121,31 +121,51 @@ class MigrateCommand extends Command
             $this->warn($e->getMessage());
         }
 
+        $this->deleteUniqueHasSlugTables();
+
+        $this->deleteUniqueHasUUIDTables();
+
+        $this->info('Network database migrated.');
+    }
+
+    protected function deleteUniqueHasSlugTables(): void
+    {
+        $hasSlugTables = [
+            'posts',
+            'taxonomies',
+            'resources',
+        ];
+
+        foreach ($hasSlugTables as $tb) {
+            try {
+                Schema::table(
+                    $tb,
+                    function (Blueprint $table) {
+                        $table->dropUnique(['slug']);
+                    }
+                );
+            } catch (\Throwable $e) {
+                $this->warn($e->getMessage());
+            }
+
+            try {
+                Schema::table(
+                    $tb,
+                    function (Blueprint $table) {
+                        $table->unique(['slug', 'site_id']);
+                    }
+                );
+            } catch (\Throwable $e) {
+                $this->warn($e->getMessage());
+            }
+        }
+    }
+
+    protected function deleteUniqueHasUUIDTables(): void
+    {
         $prefix = DB::connection(Network::getRootConnection())->getTablePrefix();
-
-        try {
-            Schema::table(
-                'posts',
-                function (Blueprint $table) {
-                    $table->dropUnique(['slug']);
-                }
-            );
-        } catch (\Throwable $e) {
-            $this->warn($e->getMessage());
-        }
-
-        try {
-            Schema::table(
-                'posts',
-                function (Blueprint $table) {
-                    $table->unique(['slug', 'site_id']);
-                }
-            );
-        } catch (\Throwable $e) {
-            $this->warn($e->getMessage());
-        }
-
         $exportTables = ['posts', 'taxonomies', 'email_templates', 'resources', 'menus'];
+
         foreach ($exportTables as $tb) {
             if (!Schema::hasColumn($tb, 'uuid')) {
                 continue;
@@ -163,7 +183,5 @@ class MigrateCommand extends Command
                 $this->warn($e->getMessage());
             }
         }
-
-        $this->info('Network database migrated.');
     }
 }

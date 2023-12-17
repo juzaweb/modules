@@ -11,6 +11,7 @@ use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\TaxonomyModel;
 use Juzaweb\CMS\Models\Model;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
+use Juzaweb\Network\Traits\Networkable;
 
 /**
  * Juzaweb\Backend\Models\Taxonomy
@@ -62,7 +63,7 @@ class Taxonomy extends Model
 {
     protected static bool $flushCacheOnUpdate = true;
 
-    use TaxonomyModel, HasFactory, QueryCacheable, UseUUIDColumn;
+    use TaxonomyModel, HasFactory, QueryCacheable, UseUUIDColumn, Networkable;
 
     protected $table = 'taxonomies';
 
