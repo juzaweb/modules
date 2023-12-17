@@ -99,6 +99,10 @@ class Config implements ConfigContract
 
     protected function configs(): array
     {
+        if (!Installer::alreadyInstalled()) {
+            return [];
+        }
+
         return $this->configs = $this->cache
             ->store('file')
             ->rememberForever(

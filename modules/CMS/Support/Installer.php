@@ -18,12 +18,12 @@ class Installer
      *
      * @return bool
      */
-    public static function alreadyInstalled()
+    public static function alreadyInstalled(): bool
     {
         return file_exists(static::installedPath());
     }
 
-    public static function installedPath()
+    public static function installedPath(): string
     {
         return storage_path('app/installed');
     }

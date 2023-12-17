@@ -14,7 +14,12 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Interfaces\Models\ExportSupport;
 use Juzaweb\CMS\Models\Model;
@@ -29,23 +34,23 @@ use Juzaweb\Network\Traits\Networkable;
  * @property int $id
  * @property string $name
  * @property string|null $description
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\MenuItem[] $items
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Collection|MenuItem[] $items
  * @property-read int|null $items_count
- * @method static \Illuminate\Database\Eloquent\Builder|Menu newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Menu newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Menu query()
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereUpdatedAt($value)
+ * @method static Builder|Menu newModelQuery()
+ * @method static Builder|Menu newQuery()
+ * @method static Builder|Menu query()
+ * @method static Builder|Menu whereCreatedAt($value)
+ * @method static Builder|Menu whereDescription($value)
+ * @method static Builder|Menu whereId($value)
+ * @method static Builder|Menu whereName($value)
+ * @method static Builder|Menu whereUpdatedAt($value)
  * @property int|null $site_id
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereSiteId($value)
+ * @method static Builder|Menu whereSiteId($value)
  * @property string|null $uuid
- * @method static \Illuminate\Database\Eloquent\Builder|Menu whereUuid($value)
- * @mixin \Eloquent
+ * @method static Builder|Menu whereUuid($value)
+ * @mixin Eloquent
  */
 class Menu extends Model implements ExportSupport
 {
@@ -59,12 +64,12 @@ class Menu extends Model implements ExportSupport
         'name',
     ];
 
-    public function items(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'menu_id', 'id');
     }
 
-    public function syncItems(array $items, $parentId = null): array
+    public function syncItems(array $items, ?int $parentId = null): array
     {
         $order = 1;
         $result = [];
@@ -82,7 +87,7 @@ class Menu extends Model implements ExportSupport
         return $result;
     }
 
-    public function saveItem(array $item, &$order, $parentId = null): array
+    public function saveItem(array $item, &$order, ?int $parentId = null): array
     {
         $result = [];
         $menuBox = HookAction::getMenuBox($item['box_key']);
