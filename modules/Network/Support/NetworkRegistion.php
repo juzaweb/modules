@@ -156,10 +156,15 @@ class NetworkRegistion implements NetworkRegistionContract
 
             $this->config->set('app.url', "{$host['scheme']}://{$site->domain}.{$baseDomain}");
 
-            URL::forceRootUrl("{$host['scheme']}://{$site->domain}.{$baseDomain}");
+            $this->forceRootUrl("{$host['scheme']}://{$site->domain}.{$baseDomain}");
         } else {
             $this->site = $this->getRootSite();
         }
+    }
+
+    protected function forceRootUrl(string $url): void
+    {
+        $this->url->forceRootUrl($url);
     }
 
     protected function getCurrentSiteInfo(): ?object

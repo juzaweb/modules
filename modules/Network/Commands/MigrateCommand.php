@@ -12,7 +12,9 @@ namespace Juzaweb\Network\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Juzaweb\Network\Facades\Network;
 
 class MigrateCommand extends Command
 {
@@ -117,6 +119,49 @@ class MigrateCommand extends Command
             );
         } catch (\Throwable $e) {
             $this->warn($e->getMessage());
+        }
+
+        $prefix = DB::connection(Network::getRootConnection())->getTablePrefix();
+
+        try {
+            Schema::table(
+                'posts',
+                function (Blueprint $table) {
+                    $table->dropUnique(['slug']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
+
+        try {
+            Schema::table(
+                'posts',
+                function (Blueprint $table) {
+                    $table->unique(['slug', 'site_id']);
+                }
+            );
+        } catch (\Throwable $e) {
+            $this->warn($e->getMessage());
+        }
+
+        $exportTables = ['posts', 'taxonomies', 'email_templates', 'resources', 'menus'];
+        foreach ($exportTables as $tb) {
+            if (!Schema::hasColumn($tb, 'uuid')) {
+                continue;
+            }
+
+            try {
+                Schema::table(
+                    $tb,
+                    function (Blueprint $table) use ($tb, $prefix) {
+                        $table->dropUnique("{$prefix}_{$tb}_uuid_unique");
+                        $table->unique(['uuid', 'site_id']);
+                    }
+                );
+            } catch (\Throwable $e) {
+                $this->warn($e->getMessage());
+            }
         }
 
         $this->info('Network database migrated.');
