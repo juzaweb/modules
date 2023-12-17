@@ -12,23 +12,17 @@ namespace Juzaweb\Network\Support;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Database\ConnectionResolverInterface;
-use Illuminate\Support\Facades\DB;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Database;
 
 class SiteSetup implements SiteSetupContract
 {
-    protected ConfigRepository $config;
-
-    protected ConnectionResolverInterface $db;
+    protected string $rootConnection;
 
     public function __construct(
-        ConfigRepository $config,
-        ConnectionResolverInterface $db
+        protected ConfigRepository $config,
+        protected ConnectionResolverInterface $db
     ) {
-        $this->config = $config;
-
-        $this->db = $db;
     }
 
     public function setup(object $site): object
@@ -56,13 +50,11 @@ class SiteSetup implements SiteSetupContract
 
     public function setupDatabase(object $site): object
     {
-        $rootConnection = $this->db->getDefaultConnection();
-
         if ($site->db_id) {
             $this->setupDatabaseId($site->db_id);
         }
 
-        $site->root_connection = $rootConnection;
+        $site->root_connection = $this->getRootConnection();
 
         return $site;
     }
@@ -91,9 +83,16 @@ class SiteSetup implements SiteSetupContract
             )
         );
 
-        //$this->config->set('database.default', 'subsite');
+        $this->rootConnection = $this->getRootConnection();
+
+        $this->config->set('database.default', 'subsite');
 
         $this->db->purge('subsite');
+    }
+
+    public function getRootConnection(): string
+    {
+        return $this->rootConnection ?? $this->db->getDefaultConnection();
     }
 
     protected function setCachePrefix($prefix): void

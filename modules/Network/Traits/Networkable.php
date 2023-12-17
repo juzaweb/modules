@@ -10,7 +10,6 @@
 
 namespace Juzaweb\Network\Traits;
 
-use Juzaweb\Network\Facades\Network;
 use Juzaweb\Network\Observers\SubsiteModelObserver;
 use Juzaweb\Network\Scopes\SubsiteQueryScope;
 
@@ -22,14 +21,5 @@ trait Networkable
             static::addGlobalScope(new SubsiteQueryScope());
             static::observe([SubsiteModelObserver::class]);
         }
-    }
-
-    public function getConnectionName(): ?string
-    {
-        if (config('network.enable') && !Network::isRootSite()) {
-            return 'subsite';
-        }
-
-        return $this->connection;
     }
 }

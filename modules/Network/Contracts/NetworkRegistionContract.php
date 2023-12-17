@@ -43,4 +43,6 @@ interface NetworkRegistionContract
     public function isSubSite(string $domain = null): bool;
 
     public function getCurrentDomain(): string;
+
+    public function getRootConnection(): string;
 }

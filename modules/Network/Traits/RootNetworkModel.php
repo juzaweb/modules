@@ -14,12 +14,12 @@ use Juzaweb\Network\Facades\Network;
 
 trait RootNetworkModel
 {
-    // public function getConnectionName()
-    // {
-    //     if (config('network.enable') && !Network::isRootSite()) {
-    //         return Network::getCurrentSite()->root_connection;
-    //     }
-    //
-    //     return $this->connection;
-    // }
+    public function getConnectionName(): ?string
+    {
+        if (config('network.enable') && !Network::isRootSite()) {
+            return Network::getRootConnection();
+        }
+
+        return $this->connection;
+    }
 }

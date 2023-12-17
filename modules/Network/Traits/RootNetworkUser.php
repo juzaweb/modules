@@ -58,18 +58,18 @@ trait RootNetworkUser
     public function cachePrefixValue(): string
     {
         if (static::applySubSiteScope()) {
-            return $this->cachePrefix;
+            return $this->cachePrefix = 'subsite_users_';
         }
 
-        return 'subsite_users_';
+        return $this->cachePrefix;
     }
 
     public function getConnectionName(): ?string
     {
         if (static::applySubSiteScope()) {
-            return 'subsite';
+            return parent::getConnectionName();
         }
-        
-        return parent::getConnectionName();
+
+        return Network::getRootConnection();
     }
 }

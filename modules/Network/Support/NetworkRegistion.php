@@ -72,7 +72,7 @@ class NetworkRegistion implements NetworkRegistionContract
         if ($site === null && $this->app->runningInConsole()) {
             $this->initConsole();
         } else {
-            $this->initSetupSite($site);
+            $this->initWeb($site);
         }
 
         $GLOBALS['site'] = $this->site;
@@ -107,7 +107,12 @@ class NetworkRegistion implements NetworkRegistionContract
         return $this->getCurrentSite()->id;
     }
 
-    protected function initSetupSite(?string $site = null): void
+    public function getRootConnection(): string
+    {
+        return $this->siteSetup->getRootConnection();
+    }
+
+    protected function initWeb(?string $site = null): void
     {
         if ($site !== null) {
             $site = Site::find($site);
@@ -205,7 +210,7 @@ class NetworkRegistion implements NetworkRegistionContract
             'id' => 0,
             'db_id' => null,
             'status' => Site::STATUS_ACTIVE,
-            'root_connection' => $this->db->getDefaultConnection(),
+            'root_connection' => $this->getRootConnection(),
         ];
     }
 
@@ -217,7 +222,7 @@ class NetworkRegistion implements NetworkRegistionContract
     protected function parseSiteFromModel(Site $site): object
     {
         $site = (object) $site->toArray();
-        $site->root_connection = $this->db->getDefaultConnection();
+        $site->root_connection = $this->getRootConnection();
         return $site;
     }
 }

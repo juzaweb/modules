@@ -60,6 +60,8 @@ class SiteCreater implements SiteCreaterContract
 
         $user = ($user ?? Auth::user())->replicate();
         $user->setTable('subsite_users');
+        $user->setAttribute('status', User::STATUS_ACTIVE);
+        $user->setAttribute('is_admin', true);
         $user->setAttribute('site_id', $site->id);
         $user->setAttribute('remember_token', null);
         $user->save();

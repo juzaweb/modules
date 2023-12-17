@@ -25,8 +25,6 @@ class InstallCommand extends Command
     {
         if ($database = $this->argument('database')) {
             app()->make(SiteSetupContract::class)->setupDatabaseId($database);
-
-            DB::setDefaultConnection('subsite');
         }
 
         $this->call('migrate', ['--force' => true]);

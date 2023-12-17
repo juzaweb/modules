@@ -22,4 +22,6 @@ interface SiteSetupContract
     public function setupDatabase(object $site): object;
 
     public function setupDatabaseId(int $dbId): void;
+
+    public function getRootConnection(): string;
 }
