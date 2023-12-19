@@ -7,13 +7,15 @@
 
                 <div class="juzaweb__auth__containerInner">
                     <div class="text-center mb-5">
-                        @if($logo = get_config('logo'))
+                        {{--@if($logo = get_config('logo'))
                             <img src="{{ upload_url(get_config('logo')) }}" alt="{{ get_config('title', 'JUZAWEB') }}">
                         @else
                             <h1 class="mb-5 px-3">
                                 <strong>{{ trans('cms::message.login_form.welcome', ['name' => get_config('title', 'JUZAWEB')]) }}</strong>
                             </h1>
-                        @endif
+                        @endif--}}
+
+                        <img class="mt-3" src="{{ asset('jw-styles/juzaweb/images/logo.png') }}" alt="JUZAWEB">
 
                         <p class="mb-4">
                             {{ trans('cms::message.login_form.description') }}

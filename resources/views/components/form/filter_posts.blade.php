@@ -1,5 +1,5 @@
 @php
-$value = $options['value'] ?? [];
+    $value = $options['value'] ?? [];
 @endphp
 @if(empty($options['type']))
     @php
@@ -24,8 +24,12 @@ $value = $options['value'] ?? [];
     $multiple = Arr::get($options, 'fields.taxonomy.multiple', false);
     $fieldName = $multiple ? 'taxonomies' : 'taxonomy';
     $option = array_merge(
-        ['multiple' => $multiple, 'post_type' => $options['type'] ?? null, 'value' => $value[$fieldName] ?? null],
-         Arr::get($options, "fields.{$fieldName}", [])
+        [
+            'multiple' => $multiple,
+            'post_type' => Arr::get($options, 'type'),
+            'value' => Arr::get($value, $fieldName),
+        ],
+        Arr::get($options, "fields.taxonomy", [])
     );
 @endphp
 
