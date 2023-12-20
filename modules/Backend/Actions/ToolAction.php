@@ -9,10 +9,10 @@ class ToolAction extends Action
 {
     public function handle(): void
     {
-        $this->addAction(Action::BACKEND_INIT, [$this, 'addAdminMenu']);
+        $this->addAction(Action::BACKEND_INIT, [$this, 'addAdminMenus']);
     }
     
-    public function addAdminMenu(): void
+    public function addAdminMenus(): void
     {
         HookAction::addAdminMenu(
             trans('cms::app.tools'),

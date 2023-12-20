@@ -3,18 +3,21 @@
 namespace Juzaweb\Translation;
 
 use Juzaweb\CMS\Abstracts\Action;
-use Juzaweb\CMS\Facades\HookAction;
 
 class TranslationAction extends Action
 {
     public function handle(): void
     {
-        $this->addAction(Action::BACKEND_INIT, [$this, 'addBackendMenu']);
+        $this->addAction(Action::BACKEND_INIT, [$this, 'addBackendMenus']);
     }
 
-    public function addBackendMenu(): void
+    public function addBackendMenus(): void
     {
-        HookAction::registerAdminPage(
+        if (config('network.enable')) {
+            return;
+        }
+
+        $this->registerAdminPage(
             'translations',
             [
                 'title' => trans('cms::app.translations'),

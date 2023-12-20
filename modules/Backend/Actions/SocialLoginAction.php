@@ -19,11 +19,11 @@ class SocialLoginAction extends Action
     {
         $this->addAction(
             Action::INIT_ACTION,
-            [$this, 'addSettingForm']
+            [$this, 'addSettingForms']
         );
     }
 
-    public function addSettingForm(): void
+    public function addSettingForms(): void
     {
         $socials = [
             'facebook',

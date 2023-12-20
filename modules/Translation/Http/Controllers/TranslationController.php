@@ -14,10 +14,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Juzaweb\CMS\Contracts\TranslationManager;
-use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Support\ArrayPagination;
 
-class TranslationController extends BackendController
+class TranslationController extends BaseTranslationController
 {
     public function __construct(protected TranslationManager $translationManager)
     {

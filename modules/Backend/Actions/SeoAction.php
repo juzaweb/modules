@@ -18,7 +18,7 @@ use Juzaweb\CMS\Models\Model;
 
 class SeoAction extends Action
 {
-    public function handle()
+    public function handle(): void
     {
         $this->addAction(
             Action::POSTS_FORM_LEFT_ACTION,
@@ -34,7 +34,7 @@ class SeoAction extends Action
         $this->addAction(Action::BACKEND_INIT, [$this, 'addMenu']);
     }
 
-    public function addMenu()
+    public function addMenu(): void
     {
         $this->hookAction->registerConfig(
             [
@@ -131,7 +131,7 @@ class SeoAction extends Action
         );
     }
 
-    public function addAjaxs()
+    public function addAjaxs(): void
     {
         HookAction::registerAdminAjax(
             'seo-content',
@@ -142,7 +142,7 @@ class SeoAction extends Action
         );
     }
 
-    public function addFormSeo(Model $model)
+    public function addFormSeo(Model $model): void
     {
         $data = SeoMeta::findByModel($model);
 
