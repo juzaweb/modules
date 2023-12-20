@@ -76,9 +76,7 @@ class TranslationManager implements TranslationManagerContract
         switch ($module) {
             case 'plugin':
                 $plugin = $this->pluginRepository->find($name);
-                if (empty($plugin)) {
-                    throw new \Exception("Plugin {$name} not found");
-                }
+                throw_if($plugin === null, new \RuntimeException("Plugin {$name} not found"));
 
                 return new Collection(
                     [
@@ -94,8 +92,8 @@ class TranslationManager implements TranslationManagerContract
                 );
             case 'theme':
                 $theme = $this->themeRepository->find($name);
-                if (empty($theme)) {
-                    throw new \Exception("Theme {$name} not found");
+                if ($theme === null) {
+                    throw new \RuntimeException("Theme {$name} not found");
                 }
 
                 return new Collection(
@@ -118,21 +116,21 @@ class TranslationManager implements TranslationManagerContract
                         'namespace' => 'cms',
                         'type' => 'cms',
                         'lang_path' => base_path('vendor/juzaweb/modules/resources/lang'),
-                        'src_path' => base_path('modules'),
+                        'src_path' => base_path('vendor/juzaweb/modules/modules'),
                         'publish_path' => resource_path('lang/vendor/cms'),
                     ]
                 );
         }
 
-        throw new \Exception('Module not found');
+        throw new \RuntimeException('Module not found');
     }
 
     public function modules(): Collection
     {
         $result['core'] = $this->find('cms');
-        $themes = ThemeLoader::all();
+        $themes = $this->themeRepository->all();
         foreach ($themes as $theme) {
-            $info = $this->find('theme', $theme->get('name'));
+            $info = $this->find('theme', $theme->getName());
             $result[$info->get('key')] = $info;
         }
 

@@ -62,7 +62,8 @@ interface TranslationManager
      * Export translations for a specific module.
      *
      * @param string $module The name of the module to export translations for. Default is 'cms'.
-     * @param string|null $name The name of the translation file. If provided, only translations for this file will be exported.
+     * @param string|null $name The name of the translation file.
+     * If provided, only translations for this file will be exported.
      * @return TranslationExporter The TranslationExporter object for exporting translations.
      */
     public function export(string $module = 'cms', string $name = null): TranslationExporter;

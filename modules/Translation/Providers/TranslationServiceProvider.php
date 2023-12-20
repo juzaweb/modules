@@ -10,14 +10,14 @@ use Juzaweb\Translation\TranslationAction;
 
 class TranslationServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'translation');
 
         ActionRegister::register(TranslationAction::class);
     }
 
-    public function register()
+    public function register(): void
     {
         $this->app->register(RouteServiceProvider::class);
 

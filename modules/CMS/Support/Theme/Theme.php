@@ -114,7 +114,13 @@ class Theme implements ThemeLoaderContract
 
     public function getPath(string $theme, string $path = ''): string
     {
-        return $this->localThemeRepository->findOrFail($theme)->getPath($path);
+        $module = $this->localThemeRepository->find($theme);
+
+        if (! $module) {
+            throw new ThemeNotFoundException($theme);
+        }
+
+        return $module->getPath($path);
     }
 
     /**
@@ -202,13 +208,14 @@ class Theme implements ThemeLoaderContract
      *
      * @param boolean $assoc
      * @return array
+     * @deprecated
      */
     public function all(bool $assoc = false): array
     {
         $themeDirectories = File::directories($this->basePath);
         $themes = [];
         foreach ($themeDirectories as $theme) {
-            $themeConfig = $this->getThemeInfo(basename($theme));
+            $themeConfig = $this->getInfo(basename($theme));
             if (empty($themeConfig)) {
                 continue;
             }
