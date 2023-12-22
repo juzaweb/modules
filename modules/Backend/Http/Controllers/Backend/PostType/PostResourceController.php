@@ -18,9 +18,7 @@ class PostResourceController extends ResourceController
 {
     public function index(...$params): View
     {
-        $type = $params[0];
-        $postId = $params[1];
-
+        [$type, $postId] = $params;
         $post = Post::findOrFail($postId);
         $postType = $this->getPostType($post->type);
 
@@ -48,8 +46,7 @@ class PostResourceController extends ResourceController
     {
         $this->authorize('create', $this->getModel(...$params));
 
-        $type = $params[0];
-        $postId = $params[1];
+        [$type, $postId] = $params;
 
         $post = Post::findOrFail($postId);
         $postType = $this->getPostType($post->type);

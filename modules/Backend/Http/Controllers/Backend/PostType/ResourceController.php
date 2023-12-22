@@ -11,6 +11,7 @@
 namespace Juzaweb\Backend\Http\Controllers\Backend\PostType;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Juzaweb\Backend\Http\Datatables\PostType\ResourceDatatable;
 use Juzaweb\Backend\Models\Resource;
@@ -40,10 +41,12 @@ class ResourceController extends BackendController
         return parent::callAction($method, $parameters);
     }*/
 
-    protected function afterSave(array $data, \Juzaweb\CMS\Models\Model $model, ...$params)
+    protected function afterSave(array $data, Model $model, ...$params): void
     {
         if (method_exists($model, 'syncMetasWithoutDetaching')) {
-            $model->syncMetasWithoutDetaching($data['meta'] ?? []);
+            $model->syncMetasWithoutDetaching(
+                Arr::only($data['meta'] ?? [], array_keys($this->getSetting(...$params)->get('metas')))
+            );
         }
     }
 
@@ -136,7 +139,7 @@ class ResourceController extends BackendController
         return $data;
     }
 
-    protected function getPostType($type): Collection
+    protected function getPostType(string $type): Collection
     {
         if (isset($this->postType)) {
             return $this->postType;

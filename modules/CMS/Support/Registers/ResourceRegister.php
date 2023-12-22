@@ -49,10 +49,10 @@ class ResourceRegister
 
     public function args(): Collection
     {
-        if (empty($this->postType) && !Arr::get($this->args, 'parent')) {
-            if ($menu = Arr::get($this->args, 'menu', [])) {
-                $this->registerMenu($menu);
-            }
+        if (empty($this->postType) && !Arr::get($this->args, 'parent')
+            && $menu = Arr::get($this->args, 'menu', [])
+        ) {
+            $this->registerMenu($menu);
         }
 
         $this->hookAction->registerResourcePermissions(

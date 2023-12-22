@@ -119,7 +119,7 @@ trait PostTypeController
         }
 
         if (Arr::has($data, 'meta')) {
-            $meta = Arr::get($data, 'meta', []);
+            $meta = Arr::only(Arr::get($data, 'meta', []), array_keys($this->getSetting()->get('metas')));
             $model->syncMetasWithoutDetaching($meta);
         }
 

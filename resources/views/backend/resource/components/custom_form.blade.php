@@ -1,3 +1,4 @@
+@php /** @var \Illuminate\Support\Collection $setting */ @endphp
 <div class="row">
     @php
         $collection = collect_metas($setting->get('fields'));
