@@ -66,6 +66,10 @@ trait RootNetworkUser
 
     public function getConnectionName(): ?string
     {
+        if (!config('network.enable')) {
+            return parent::getConnectionName();
+        }
+
         if (static::applySubSiteScope()) {
             return parent::getConnectionName();
         }

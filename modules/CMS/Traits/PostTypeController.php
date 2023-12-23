@@ -279,7 +279,9 @@ trait PostTypeController
             return [];
         }
 
-        return HookAction::getThemeTemplates($template);
+        $data = HookAction::getThemeTemplates($template);
+
+        return $data ?: [];
     }
 
     /**

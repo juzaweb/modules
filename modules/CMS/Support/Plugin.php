@@ -550,7 +550,7 @@ class Plugin implements PluginInterface
 
     public function getVersion()
     {
-        return $this->getExtraJuzaweb('version', 0);
+        return $this->getExtraJuzaweb('version', '1.0');
     }
 
     public function getAuthor(): ?string

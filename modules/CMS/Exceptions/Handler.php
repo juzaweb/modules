@@ -2,6 +2,8 @@
 
 namespace Juzaweb\CMS\Exceptions;
 
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -12,7 +14,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of exception types with their corresponding custom log levels.
      *
-     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     * @var array<class-string<Throwable>, \Psr\Log\LogLevel::*>
      */
     protected $levels = [
         //
@@ -55,37 +57,37 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Throwable  $exception
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param  Request  $request
+     * @param  Throwable  $e
+     * @return Response
      * @throws Throwable
      */
-    public function render($request, Throwable $exception)
+    public function render($request, Throwable $e)
     {
-        if ($this->is404Exception($exception)) {
+        if ($this->is404Exception($e)) {
             if ($request->is(config('juzaweb.admin_prefix').'/*')) {
-                return response()->view('cms::404', [], 404);
+                return response()->view('cms::404', ['message' => $e->getMessage()], 404);
             }
 
             if (view()->exists(theme_viewname('theme::404'))) {
                 return response()->view(
                     theme_viewname('theme::404'),
-                    [],
+                    ['message' => $e->getMessage()],
                     404
                 );
             }
 
             return response()->view(
                 'cms::404',
-                [],
+                ['message' => $e->getMessage()],
                 404
             );
         }
 
-        return parent::render($request, $exception);
+        return parent::render($request, $e);
     }
 
-    protected function is404Exception($exception)
+    protected function is404Exception($exception): bool
     {
         return match (true) {
             $exception instanceof NotFoundHttpException, $exception instanceof ModelNotFoundException => true,

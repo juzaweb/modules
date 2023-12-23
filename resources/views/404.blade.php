@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="turbolinks-cache-control" content="no-cache">
-    <title>404 - Page not found</title>
+    <title>404 - {{ $message }}</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('jw-styles/juzaweb/css/vendor.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('jw-styles/juzaweb/css/backend.min.css') }}">
 </head>
@@ -19,7 +19,7 @@
                     <div class="text-gray-6 font-size-24">
                         This page is deprecated, deleted, or does not exist at all
                     </div>
-                    <div class="font-weight-bold font-size-70 mb-1">404 —</div>
+                    <div class="font-weight-bold font-size-70 mb-1">404 — {{ $message }}</div>
                     <a href="{{ '/' }}" data-turbolinks="false" class="btn btn-outline-primary width-100">
                         Go Back
                     </a>
