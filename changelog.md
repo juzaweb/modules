@@ -1,3 +1,10 @@
+### v1.0.7 
+* :bug: Fix error network disable
+* :+1: Require register metas resource
+* :+1: Translation with network
+* :bug: Fix translation load themes
+* :bug: Fix filter posts field
+
 ### v1.0.6 
 * :+1: Config if installed
 * :+1: Network migrate command
