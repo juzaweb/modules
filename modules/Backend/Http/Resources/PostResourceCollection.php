@@ -24,7 +24,7 @@ class PostResourceCollection extends ResourceCollection
                         $tax['url'] = url(parse_url($tax['url'])['path']);
                         return $tax;
                     }
-                );
+                )->toArray();
 
                 return [
                     'id' => $item->id,

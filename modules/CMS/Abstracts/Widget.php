@@ -70,9 +70,10 @@ abstract class Widget
             $file = str_replace(['cms::', '.'], ["{$resourcePath}/", '/'], $form);
             $dataFile = $file.'.json';
         } else {
-            $dataFile = ThemeLoader::getThemePath(
-                $this->theme,
-                "data/widgets/{$this->widgetKey}.json"
+            $dataFile = Arr::get(
+                $this->data,
+                'form_file',
+                ThemeLoader::getThemePath($this->theme, "data/widgets/{$this->widgetKey}.json")
             );
         }
 

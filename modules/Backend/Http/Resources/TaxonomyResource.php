@@ -14,6 +14,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 use Juzaweb\Backend\Models\Taxonomy;
 
+/**
+ * @property-read Taxonomy $resource
+ */
 class TaxonomyResource extends JsonResource
 {
     protected bool $withParents = false;
@@ -28,15 +31,15 @@ class TaxonomyResource extends JsonResource
     public function toArray($request): array
     {
         $results = [
-            'id' => $this->id,
-            'name' => $this->name,
-            'taxonomy' => $this->taxonomy,
-            'singular' => Str::singular($this->taxonomy),
-            'slug' => $this->slug,
-            'level' => $this->level,
-            'total_post' => $this->total_post,
-            'thumbnail' => $this->getThumbnail(),
-            'url' => $this->getLink(),
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'taxonomy' => $this->resource->taxonomy,
+            'singular' => Str::singular($this->resource->taxonomy),
+            'slug' => $this->resource->slug,
+            'level' => $this->resource->level,
+            'total_post' => $this->resource->total_post,
+            'thumbnail' => $this->resource->getThumbnail(),
+            'url' => $this->resource->getLink(),
         ];
 
         if ($this->withParents) {
@@ -51,7 +54,7 @@ class TaxonomyResource extends JsonResource
     protected function mapRecursiveParents(Taxonomy $taxonomy, &$results): void
     {
         if ($taxonomy->recursiveParents) {
-            $results[] = TaxonomyResource::make($taxonomy->recursiveParents);
+            $results[] = self::make($taxonomy->recursiveParents);
 
             if ($taxonomy->recursiveParents->recursiveParents) {
                 $this->mapRecursiveParents($taxonomy->recursiveParents->recursiveParents, $results);

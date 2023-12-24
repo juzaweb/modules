@@ -23,13 +23,13 @@ use Juzaweb\Backend\Models\Post;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Facades\Plugin;
 use Juzaweb\CMS\Facades\Theme;
-use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Facades\ThemeConfig;
+use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Support\Theme\BackendMenuBuilder;
 use Juzaweb\CMS\Support\Theme\MenuBuilder;
 use TwigBridge\Facade\Twig;
 
-function body_class($class = ''): string
+function body_class(string $class = ''): string
 {
     $class = trim('jw-theme jw-theme-body '.$class);
 
@@ -62,9 +62,9 @@ function plugin_assets(string $path, string $plugin = null): ?string
 }
 
 if (!function_exists('page_url')) {
-    function page_url($slug): string
+    function page_url(string $slug): string
     {
-        return url()->to($slug);
+        return home_url($slug);
     }
 }
 
@@ -156,7 +156,7 @@ if (!function_exists('get_name_template_part')) {
      */
     function get_name_template_part(string $type, string $slug, ?string $name = null): string
     {
-        $name = (string)$name;
+        $name = (string) $name;
 
         if ($name !== '') {
             $template = "{$slug}-{$name}";
@@ -284,7 +284,7 @@ if (!function_exists('set_theme_config')) {
 }
 
 if (!function_exists('get_theme_config')) {
-    function get_theme_config($key, $default = null): null|array|string
+    function get_theme_config(string $key, null|array|string $default = null): null|array|string
     {
         return ThemeConfig::getConfig($key, $default);
     }
@@ -448,14 +448,35 @@ function theme_after_body(): void
 
 function theme_action($action): void
 {
-    if (in_array(
+    if (!in_array(
         $action,
         [
             'auth_form',
+            'login_form',
+            'register_form',
+            'recaptcha_init',
         ]
     )
     ) {
-        do_action($action);
+        return;
+    }
+
+    do_action($action);
+}
+
+if (!function_exists('theme_filters')) {
+    function theme_filters(string $tag, mixed $value, ...$args)
+    {
+        if (!in_array(
+            $tag,
+            [
+                'frontend.head.title',
+            ]
+        )) {
+            return false;
+        }
+
+        return apply_filters($tag, $value, ...$args);
     }
 }
 
@@ -514,7 +535,7 @@ if (!function_exists('theme_view_exists')) {
     }
 }
 
-function comment_form($post, $view = 'cms::comment_form'): ViewContract|Factory|string
+function comment_form($post, string $view = 'cms::comment_form'): ViewContract|Factory|string
 {
     return view_render($view, compact('post'));
 }
@@ -528,24 +549,26 @@ function home_url(?string $path = null, bool $absolute = true): string
 {
     $homeUrl = apply_filters('home_url', '/');
 
-    $homeUrl = $path ? rtrim($homeUrl, '/') .'/'. ltrim($path, '/') : $homeUrl;
+    $homeUrl = $path ? rtrim($homeUrl, '/').'/'.ltrim($path, '/') : $homeUrl;
 
     return $absolute ? url($homeUrl) : '/'.ltrim($homeUrl, '/');
 }
 
-function share_url($social, $url, $text = null): string
-{
-    $url = urlencode($url);
-    $text = urlencode($text);
+if (!function_exists('share_url')) {
+    function share_url(string $social, string $url, ?string $text = null): string
+    {
+        $url = urlencode($url);
+        $text = urlencode($text);
 
-    return match ($social) {
-        'facebook' => "https://www.facebook.com/sharer.php?u={$url}",
-        'twitter' => "https://twitter.com/intent/tweet?url={$url}&text={$text}",
-        'telegram' => "https://t.me/share/url?url={$url}&text={$text}",
-        'linkedin' => "https://www.linkedin.com/sharing/share-offsite/?url={$url}",
-        'pinterest' => "https://pinterest.com/pin/create/button/?url={$url}&description={$text}",
-        default => '',
-    };
+        return match ($social) {
+            'facebook' => "https://www.facebook.com/sharer.php?u={$url}",
+            'twitter' => "https://twitter.com/intent/tweet?url={$url}&text={$text}",
+            'telegram' => "https://t.me/share/url?url={$url}&text={$text}",
+            'linkedin' => "https://www.linkedin.com/sharing/share-offsite/?url={$url}",
+            'pinterest' => "https://pinterest.com/pin/create/button/?url={$url}&description={$text}",
+            default => '',
+        };
+    }
 }
 
 if (!function_exists('get_thumbnail_size')) {
@@ -556,17 +579,17 @@ if (!function_exists('get_thumbnail_size')) {
      * @param  array|null  $thumbnailSizes
      * @return array{width: string,height:string}
      */
-    function get_thumbnail_size(string $postType, ?array $thumbnailSizes = null): array
+    function get_thumbnail_size(string $postType, ?array $thumbnailSizes = null): ?array
     {
         $thumbnailSizes = $thumbnailSizes ?: HookAction::getThumbnailSizes()->toArray();
         $width = get_theme_config("thumbnail_sizes")[$postType]['width']
             ?? $thumbnailSizes[$postType][array_key_first($thumbnailSizes[$postType] ?? [])]['width']
-            ?? '241';
+            ?? null;
         $height = get_theme_config("thumbnail_sizes")[$postType]['height']
             ?? $thumbnailSizes[$postType][array_key_first($thumbnailSizes[$postType] ?? [])]['height']
-            ?? '241';
+            ?? null;
 
-        return compact('width', 'height');
+        return $width || $height ? compact('width', 'height') : null;
     }
 }
 

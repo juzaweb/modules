@@ -4,7 +4,7 @@
         {% set items = get_taxonomies({
             'type': data.type,
             'taxonomy': 'tags',
-            'limit': 10,
+            'limit': data.limit|default(10),
         }) %}
 
         <ul class="list-inline">

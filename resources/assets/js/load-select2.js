@@ -241,32 +241,6 @@ function initSelect2(parent = 'body')
             }
         }
     });
-
-    $(parent +' .load-subscription-objects').select2({
-        allowClear: true,
-        dropdownAutoWidth: !$(this).data('width'),
-        width: $(this).data('width') || '100%',
-        placeholder: function(params) {
-            return {
-                id: null,
-                text: params.placeholder,
-            }
-        },
-        ajax: {
-            method: 'GET',
-            url: juzaweb.adminUrl +'/load-data/loadSubscriptionObjects',
-            dataType: 'json',
-            data: function (params) {
-                let module = $(this).data('module');
-
-                return {
-                    search: $.trim(params.term),
-                    page: params.page,
-                    module: module
-                };
-            }
-        }
-    });
 }
 
 $(document).ready(function () {

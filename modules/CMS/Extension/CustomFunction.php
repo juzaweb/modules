@@ -81,14 +81,13 @@ class CustomFunction extends AbstractExtension
             new TwigFunction('dd', 'dd'),
             new TwigFunction('__', '__'),
             new TwigFunction('get_page_url', 'get_page_url'),
-            new TwigFunction('apply_filters', 'apply_filters'),
             new TwigFunction('plugin_asset', 'plugin_assets'),
             new TwigFunction('get_posts_by_filter', 'get_posts_by_filter'),
             new TwigFunction('get_next_resource', 'get_next_resource'),
-            new TwigFunction('do_action', 'do_action'),
             new TwigFunction('strip_tags', 'strip_tags'),
             new TwigFunction('get_page_by_template', 'get_page_by_template'),
             new TwigFunction('count_unread_notifications', 'count_unread_notifications'),
+            new TwigFunction('theme_filters', 'theme_filters'),
         ];
     }
 }

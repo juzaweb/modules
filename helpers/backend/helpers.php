@@ -706,14 +706,21 @@ function seo_string($string, $chars = 70)
     return sub_char($string, $chars);
 }
 
-function jw_basename($name): string
-{
-    $base = basename($name);
-    $base = explode('?', $base)[0];
-    if (empty($base)) {
-        $base = Str::random(10);
+if (!function_exists('basename_without_query_string')) {
+    function basename_without_query_string(string $name): string
+    {
+        $base = basename($name);
+        $base = explode('?', $base)[0];
+        if (empty($base)) {
+            $base = Str::random(10);
+        }
+        return $base;
     }
-    return $base;
+}
+
+function jw_basename(string $name): string
+{
+    return basename_without_query_string($name);
 }
 
 function parse_price_format($price): float

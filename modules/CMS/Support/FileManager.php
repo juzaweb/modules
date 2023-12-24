@@ -32,7 +32,7 @@ class FileManager
 
     protected $user_id;
 
-    protected $client;
+    protected Client $client;
 
     protected bool $downloadFileUrlToServer = true;
 
@@ -178,7 +178,7 @@ class FileManager
             $fileSize = $headers['Content-Length'] ?? 0;
             $fileMime = $headers['Content-Type'] ?? null;
             $fileName = jw_basename($this->resource);
-            $extension = explode('.', $fileName)[count(explode('.', $fileName)) - 1];
+            $extension = $this->getFileExtension($fileName);
 
             $media = MediaFile::create(
                 [
@@ -228,12 +228,12 @@ class FileManager
         try {
             $media = MediaFile::create(
                 [
-                    'name' => $uploadedFile->getClientOriginalName(),
+                    'name' => jw_basename($uploadedFile->getClientOriginalName()),
                     'type' => $this->type,
                     'mime_type' => $uploadedFile->getMimeType(),
                     'path' => $newPath,
                     'size' => $uploadedFile->getSize(),
-                    'extension' => $uploadedFile->getClientOriginalExtension(),
+                    'extension' => $this->getFileExtension($uploadedFile),
                     'folder_id' => $this->folder_id,
                     'user_id' => $this->user_id ?: $jw_user->id,
                     'disk' => $this->disk ?? config('juzaweb.filemanager.disk'),
@@ -337,7 +337,7 @@ class FileManager
     protected function makeFilename(UploadedFile $file, string $uploadFolder): string|null
     {
         $filename = $file->getClientOriginalName();
-        $extension = $file->getClientOriginalExtension();
+        $extension = $this->getFileExtension($file);
         $name = str_replace('.' . $extension, '', $filename);
         $name = Str::slug(substr($name, 0, 100));
 
@@ -351,6 +351,15 @@ class FileManager
         }
 
         return $this->replaceInsecureSuffix($filename);
+    }
+
+    public function getFileExtension(UploadedFile|string $file): string
+    {
+        if ($file instanceof UploadedFile) {
+            $file = $file->getClientOriginalName();
+        }
+
+        return jw_basename(pathinfo($file, PATHINFO_EXTENSION));
     }
 
     protected function replaceInsecureSuffix($name): string|null
@@ -377,7 +386,7 @@ class FileManager
         }
 
         $mimetype = $file->getMimeType();
-        $extension = $file->getClientOriginalExtension();
+        $extension = $this->getFileExtension($file);
 
         $config = config("juzaweb.filemanager.types.{$this->type}");
         if (empty($config)) {
@@ -387,9 +396,9 @@ class FileManager
 
         // Bytes to MB
         $max_size = $config['max_size'];
-        $file_size = $file->getSize();
+        $fileSize = $file->getSize();
 
-        if ((config('juzaweb.filemanager.total_size') !== -1) && $file_size > MediaFile::totalFree(false)) {
+        if ((config('juzaweb.filemanager.total_size') !== -1) && $fileSize > MediaFile::totalFree(false)) {
             $this->errors[] = $this->errorMessage('total-size');
             return false;
         }
@@ -403,11 +412,11 @@ class FileManager
         }
 
         if ($extensions && !in_array($extension, $extensions)) {
-            $this->errors[] = $this->errorMessage('extension').$mimetype;
+            $this->errors[] = $this->errorMessage('extension').$extension;
             return false;
         }
 
-        if ($max_size > 0 && $file_size > ($max_size * 1024 * 1024)) {
+        if ($max_size > 0 && $fileSize > ($max_size * 1024 * 1024)) {
             $this->errors[] = $this->errorMessage('size');
             return false;
         }

@@ -63,11 +63,11 @@ class AssetController extends Controller
         [$width, $height] = explode('x', $size);
         $width = $width == 'auto' ? null : $width;
         $height = $height == 'auto' ? null : $height;
-        $aspectRatio = empty($width) || empty($height) ? fn($constraint) => $constraint->aspectRatio() : null;
+        $aspectRatio = empty($width) || empty($height) ? fn ($constraint) => $constraint->aspectRatio() : null;
 
         $img = match ($method) {
             'fit', 'crop' => Image::cache(
-                fn(ImageCache $image) => $image->make($path)->{$method}(
+                fn (ImageCache $image) => $image->make($path)->{$method}(
                     $width,
                     $height
                 ),
@@ -75,7 +75,7 @@ class AssetController extends Controller
                 true
             ),
             default => Image::cache(
-                fn(ImageCache $image) => $image->make($path)->resize(
+                fn (ImageCache $image) => $image->make($path)->resize(
                     $width,
                     $height,
                     $aspectRatio

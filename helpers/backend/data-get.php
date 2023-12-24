@@ -3,7 +3,6 @@
 use Illuminate\Support\Arr;
 use Juzaweb\Backend\Http\Resources\ResourceResource;
 use Juzaweb\Backend\Models\Taxonomy;
-use Juzaweb\Backend\Http\Resources\PostResource;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Resource;
 use Juzaweb\CMS\Facades\JWQuery;
@@ -176,12 +175,15 @@ if (!function_exists('get_previous_post')) {
 
         if (is_array($currentPost)) {
             $postId = Arr::get($currentPost, 'id');
+            $postType = Arr::get($currentPost, 'type');
         } else {
             $postId = $currentPost->id;
+            $postType = $currentPost->type;
         }
 
         $post = Post::selectFrontendBuilder()
             ->where('id', '<', $postId)
+            ->where('type', '=', $postType)
             ->orderBy('id', 'DESC')
             ->first();
 
@@ -201,6 +203,7 @@ if (!function_exists('get_next_post')) {
     {
         $post = Post::selectFrontendBuilder()
             ->where('id', '>', Arr::get($post, 'id', 0))
+            ->where('type', '=', Arr::get($post, 'type', 'posts'))
             ->orderBy('id', 'ASC')
             ->first();
 
@@ -216,10 +219,10 @@ if (!function_exists('get_next_post')) {
  * Get taxonomy
  *
 * @param $taxonomy
-* @param $args
+* @param  array  $args
 * @return array|Post|null
  */
-function get_taxonomy($taxonomy, $args = []): mixed
+function get_taxonomy($taxonomy, array $args = []): mixed
 {
     if (empty($taxonomy)) {
         return [];

@@ -18,7 +18,7 @@
                                 trans('cms::app.media_setting.max_width'),
                                  "theme[thumbnail_sizes][{$key}][width]",
                                  [
-                                     'value' => $thumbnailSize['width'],
+                                     'value' => Arr::get($thumbnailSize, 'width'),
                                  ]
                             ) }}
                         </div>
@@ -27,7 +27,7 @@
                                 trans('cms::app.media_setting.max_height'),
                                  "theme[thumbnail_sizes][{$key}][height]",
                                  [
-                                     'value' => $thumbnailSize['height'],
+                                     'value' => Arr::get($thumbnailSize, 'height'),
                                  ]
                             ) }}
                         </div>

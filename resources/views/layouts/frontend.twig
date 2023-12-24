@@ -42,7 +42,7 @@
     {% if icon %}
     <link rel="icon" href="{{ upload_url(icon) }}" />
     {% endif %}
-    <title>{{ apply_filters('frontend.head.title', title) }}{% if sitename %} | {{ sitename }}{% endif %}</title>
+    <title>{{ theme_filters('frontend.head.title', title) }}{% if sitename %} | {{ sitename }}{% endif %}</title>
 
     {{ theme_header() }}
 

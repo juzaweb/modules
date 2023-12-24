@@ -72,14 +72,14 @@ class Handler extends ExceptionHandler
             if (view()->exists(theme_viewname('theme::404'))) {
                 return response()->view(
                     theme_viewname('theme::404'),
-                    ['message' => $e->getMessage()],
+                    ['message' => 'Page not found'],
                     404
                 );
             }
 
             return response()->view(
                 'cms::404',
-                ['message' => $e->getMessage()],
+                ['message' => 'Page not found'],
                 404
             );
         }

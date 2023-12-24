@@ -1,3 +1,9 @@
+@php
+    /**
+    * @var \Illuminate\Support\Collection $taxonomy
+    * @var \Juzaweb\Backend\Models\Post $model
+    */
+@endphp
 <div class="form-group form-taxonomy">
     <label class="col-form-label w-100">
         {{ $taxonomy->get('label') }}

@@ -10,12 +10,19 @@
 
 namespace Juzaweb\Backend\Listeners;
 
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Filesystem\Factory;
 use Intervention\Image\Facades\Image;
 use Juzaweb\Backend\Events\AfterPostSave;
+use Illuminate\Config\Repository;
 
 class ResizeThumbnailPostListener
 {
+    public function __construct(
+        protected Factory $filesystem,
+        protected Repository $config
+    ) {
+    }
+
     public function handle(AfterPostSave $event): void
     {
         if (empty($event->post->thumbnail) || is_url($event->post->thumbnail)) {
@@ -24,7 +31,7 @@ class ResizeThumbnailPostListener
 
         $resize = get_config('auto_resize_thumbnail')[$event->post->type] ?? false;
         $size = get_thumbnail_size($event->post->type);
-        if (empty($resize) || empty($size)) {
+        if (empty($resize) || empty($size['width']) || empty($size['height'])) {
             return;
         }
 
@@ -32,7 +39,8 @@ class ResizeThumbnailPostListener
             return;
         }
 
-        $img = Image::make(Storage::disk(config('juzaweb.filemanager.disk'))->path($event->post->thumbnail));
+        $imgDisk = $this->config->get('juzaweb.filemanager.disk');
+        $img = Image::make($this->filesystem->disk($imgDisk)->path($event->post->thumbnail));
         $img->fit($size['width'], $size['height']);
         $img->save(
             get_media_image_with_size(

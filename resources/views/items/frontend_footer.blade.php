@@ -1,4 +1,4 @@
-@if(get_config('captcha') && get_config('auto_init_recaptcha'))
+@if(get_config('captcha'))
     <script>const recaptchaSiteKey = "{{ get_config("google_captcha.site_key") }}";</script>
     <script src="https://www.google.com/recaptcha/api.js?onload=recaptchaLoadCallback&render=explicit" async defer></script>
 

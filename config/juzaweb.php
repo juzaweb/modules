@@ -206,7 +206,7 @@ return [
          *
          * Default: true
          */
-        'image_resizer' => env('JW_IMAGE_RESIZER', false),
+        'image_resizer' => env('JW_IMAGE_RESIZER', true),
 
         /**
          * Total size of storage, If -1, no limit

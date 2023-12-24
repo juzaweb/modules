@@ -38,7 +38,8 @@ return [
     'message-delete' => 'Are you sure you want to delete this item?',
     'message-name' => 'Folder name:',
     'message-rename' => 'Rename to:',
-    'message-extension_not_found' => 'Please install gd or imagick extension to crop, resize, and make thumbnails of images.',
+    'message-extension_not_found' => 'Please install gd or imagick extension to crop,'
+        .' resize, and make thumbnails of images.',
     'message-drop' => 'Or drop files here to upload',
 
     'error-rename' => 'File name already in use!',

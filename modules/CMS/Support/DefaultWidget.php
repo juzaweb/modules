@@ -10,6 +10,7 @@
 
 namespace Juzaweb\CMS\Support;
 
+use Illuminate\View\View;
 use Juzaweb\CMS\Abstracts\Widget;
 
 class DefaultWidget extends Widget
@@ -18,7 +19,7 @@ class DefaultWidget extends Widget
      * Creating widget Backend
      *
      * @param array $inputData
-     * @return \Illuminate\View\View
+     * @return View|string
      */
     public function form($inputData)
     {
@@ -38,7 +39,7 @@ class DefaultWidget extends Widget
      * Creating widget front-end
      *
      * @param array $data
-     * @return \Illuminate\View\View
+     * @return View|string
      */
     public function show($data)
     {

@@ -60,7 +60,7 @@ class ThemeConfig implements ThemeConfigContract
         $value = $this->configs[$key] ?? $default;
 
         if (is_json($value)) {
-            return json_decode($value, true);
+            return json_decode($value, true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $value;
@@ -79,7 +79,7 @@ class ThemeConfig implements ThemeConfigContract
     {
         if (is_array($value)) {
             $value = array_merge(get_config($key, []), $value);
-            $value = json_encode($value);
+            $value = json_encode($value, JSON_THROW_ON_ERROR);
         }
 
         $config = ConfigModel::updateOrCreate(

@@ -34,7 +34,7 @@ trait AuthLoginForm
             $this->getViewForm(),
             [
                 'title' => trans('cms::app.login'),
-                'socialites' => $socialites
+                'socialites' => $socialites,
             ]
         );
     }

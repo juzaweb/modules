@@ -11,6 +11,7 @@
 namespace Juzaweb\Frontend\Actions;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\File;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Contracts\LocalThemeRepositoryContract;
 use Juzaweb\CMS\Facades\HookAction;
@@ -157,6 +158,8 @@ class ThemeAction extends Action
             );
         }
 
+        $dataPath = $this->themeRepository->currentTheme()->getPath('data/widgets');
+
         $widgetDefaults = [
             'tags' => [
                 'label' => trans('cms::app.tags'),
@@ -164,7 +167,9 @@ class ThemeAction extends Action
                 'view' => view()->exists(theme_viewname('theme::components.widgets.tags'))
                     ? 'theme::components.widgets.tags'
                     : 'cms::frontend.widgets.tags',
-                'form' => 'cms::data.widgets.tags',
+                'form_file' => File::exists("{$dataPath}/tags.json")
+                    ? "{$dataPath}/tags.json"
+                    : __DIR__ .'/../../../resources/data/widgets/tags.json',
             ],
             'html' => [
                 'label' => trans('cms::app.html'),
@@ -172,7 +177,9 @@ class ThemeAction extends Action
                 'view' => view()->exists(theme_viewname('theme::components.widgets.html'))
                     ? 'theme::components.widgets.html'
                     : 'cms::frontend.widgets.html',
-                'form' => 'cms::data.widgets.html',
+                'form_file' => File::exists("{$dataPath}/html.json")
+                    ? "{$dataPath}/html.json"
+                    : __DIR__ .'/../../../resources/data/widgets/html.json',
             ]
         ];
 
