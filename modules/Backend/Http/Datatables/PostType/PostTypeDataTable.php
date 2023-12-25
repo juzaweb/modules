@@ -50,10 +50,8 @@ class PostTypeDataTable extends DataTable
                 'sortable' => false,
                 'align' => 'center',
                 'formatter' => function ($value, $row, $index) {
-                    return $row->thumbnail
-                        ? '<img class="lazyload w-100 img-thumbnail" data-src="'. $row->getThumbnail('150xauto') .'"'
-                        .' src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>'
-                        : '_';
+                    return '<img class="lazyload w-100 img-thumbnail" data-src="'. $row->getThumbnail('150xauto') .'"'
+                        .' src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="/>';
                 },
             ];
         }

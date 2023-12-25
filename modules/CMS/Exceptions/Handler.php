@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
     {
         if ($this->is404Exception($e)) {
             if ($request->is(config('juzaweb.admin_prefix').'/*')) {
-                return response()->view('cms::404', ['message' => $e->getMessage()], 404);
+                return response()->view('cms::404', ['message' => 'Page not found'], 404);
             }
 
             if (view()->exists(theme_viewname('theme::404'))) {

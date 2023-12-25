@@ -25,7 +25,7 @@
                 @if($required ?? false) required @endif
                 @if ($readonly ?? false) readonly @endif
                 @foreach ($data ?? [] as $key => $val)
-                {{ 'data-' . $key. '="'. $val .'"' }}
+                    data-{{ $key }}="{{ $val }}"
                 @endforeach
             />
 
@@ -35,12 +35,11 @@
                 </div>
             @endif
 
-                @if(isset($description))
-                    <small class="form-text text-muted">
-                        {{ $description }}
-                    </small>
-                @endif
-
+            @if(isset($description))
+                <small class="form-text text-muted">
+                    {{ $description }}
+                </small>
+            @endif
         </div>
     @else
         <input
@@ -54,8 +53,8 @@
             @if($disabled ?? false) disabled @endif
             @if($required ?? false) required @endif
             @if ($readonly ?? false) readonly @endif
-        @foreach ($data ?? [] as $key => $val)
-            {{ 'data-' . $key. '="'. $val .'"' }}
+            @foreach ($data ?? [] as $key => $val)
+                data-{{ $key }}="{{ $val }}"
             @endforeach
         />
     @endif

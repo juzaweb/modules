@@ -1,8 +1,9 @@
 <form
-        action="{{ $action ?? '' }}"
-        method="post"
-        class="form-ajax"
-        id="{{ random_string() }}"
+    action="{{ $action ?? '' }}"
+    method="post"
+    class="form-ajax"
+    id="{{ random_string() }}"
+    @if($success) data-success="{{ $success }}" @endif
 >
     @csrf
 

@@ -41,7 +41,11 @@ $(document).ready(function () {
             sendMessageByResponse(response, notify);
 
             if (submitSuccess) {
-                eval(submitSuccess)(form, response);
+                let handler = eval(submitSuccess)(form, response);
+
+                if (handler === false) {
+                    return false;
+                }
             }
 
             if (response.data.redirect) {
@@ -188,12 +192,11 @@ $(document).ready(function () {
     });
 
     function validate_isNumberKey(evt) {
-        let charCode = (evt.which) ? evt.which : event.keyCode;
+        let charCode = (evt.which) ? evt.which : evt.keyCode;
         if (charCode == 59 || charCode == 46)
             return true;
-        if (charCode > 31 && (charCode < 48 || charCode > 57))
-            return false;
-        return true;
+
+        return !(charCode > 31 && (charCode < 48 || charCode > 57));
     }
 
     function validate_FormatNumber(a) {

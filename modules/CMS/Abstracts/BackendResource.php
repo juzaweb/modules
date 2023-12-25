@@ -46,11 +46,14 @@ abstract class BackendResource
     {
         return [
             'label' => trans($this->label),
-            'menu' => [
-                'icon' => 'fa fa-file',
-                'position' => 1,
-                'parent' => 'ads-manager'
-            ],
+            'menu' => array_merge(
+                [
+                    'icon' => 'fa fa-file',
+                    'position' => 1,
+                    'parent' => 'ads-manager'
+                ],
+                $this->getMenu()
+            ),
             'repository' => $this->repository,
             'custom_resource' => true,
             'fields' => $this->getFields(),

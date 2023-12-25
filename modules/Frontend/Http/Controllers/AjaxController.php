@@ -14,6 +14,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -44,7 +45,7 @@ class AjaxController extends FrontendController
         $key = str_replace('/', '.', $key);
         $ajax = HookAction::getFrontendAjaxs($key);
 
-        if ($ajax === null) {
+        if (!$ajax instanceof Collection) {
             return response('Ajax function not found.', 404);
         }
 

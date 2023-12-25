@@ -1,3 +1,7 @@
+### v1.0.8 
+* :+1: Show thumbnail posts
+* :bug: Fix test modules
+
 ### v1.0.7 
 * :bug: Fix error network disable
 * :+1: Require register metas resource
