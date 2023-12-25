@@ -8,7 +8,7 @@
  * Date: 2021-03-12T21:04Z
  */
 
-$(document).ready(function () {
+$(function () {
     function sendMessageByResponse(response, notify = false) {
         if (notify) {
             if (typeof show_notify !== 'undefined' && typeof show_notify === 'function') {
@@ -124,83 +124,4 @@ $(document).ready(function () {
             currentIcon
         );
     });
-
-    $(document).on('click', '.load-modal', function(event) {
-        if (event.isDefaultPrevented()) {
-            return false;
-        }
-
-        event.preventDefault();
-        let data = $(this).data();
-        let btnsubmit = $(this);
-        let currentIcon = btnsubmit.find('i').attr('class');
-
-        btnsubmit.find('i').attr('class', 'fa fa-spinner fa-spin');
-        btnsubmit.prop("disabled", true);
-        btnsubmit.addClass("disabled");
-
-        let query_str = '';
-        $.each(data, function (index, item) {
-            if (index !== 'url') {
-                query_str += '&'+index+'='+item;
-            }
-        });
-
-        let url = $(this).data('url');
-
-        if (query_str) {
-            url = url + "?"+query_str;
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            dataType: 'json',
-            data: {},
-            cache:false,
-            contentType: false,
-            processData: false
-        }).done(function(response) {
-
-            btnsubmit.find('i').attr('class', currentIcon);
-            btnsubmit.prop("disabled", false);
-            btnsubmit.removeClass("disabled");
-
-            if (response.status === false) {
-                return false;
-            }
-
-            $('#show-modal').html(response.data.source);
-            $('#show-modal .modal').modal();
-
-            return false;
-        }).fail(function(response) {
-            btnsubmit.find('i').attr('class', currentIcon);
-            btnsubmit.prop("disabled", false);
-
-            /*show_message(response);*/
-            return false;
-        });
-    });
-
-    $(document).on('keypress', '.is-number', function () {
-        return validate_isNumberKey(this);
-    });
-
-    $(document).on('keyup', '.number-format', function () {
-        return validate_FormatNumber(this);
-    });
-
-    function validate_isNumberKey(evt) {
-        let charCode = (evt.which) ? evt.which : evt.keyCode;
-        if (charCode == 59 || charCode == 46)
-            return true;
-
-        return !(charCode > 31 && (charCode < 48 || charCode > 57));
-    }
-
-    function validate_FormatNumber(a) {
-        a.value = a.value.replace(/\,/gi, "");
-        a.value = a.value.replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-    }
 });

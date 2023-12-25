@@ -168,12 +168,12 @@ trait PostTypeModel
     }
 
     /**
-     * @param Builder $builder
-     * @param array $params
+     * @param  Builder  $builder
+     * @param  array  $params
      *
      * @return Builder
      */
-    public function scopeWhereFilter($builder, $params = []): Builder
+    public function scopeWhereFilter(Builder $builder, array $params = []): Builder
     {
         if ($keyword = Arr::get($params, 'q')) {
             $keyword = trim($keyword);

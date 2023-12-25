@@ -63,12 +63,12 @@ trait TaxonomyModel
     }
 
     /**
-     * @param Builder $builder
-     * @param array $params
+     * @param  Builder  $builder
+     * @param  array  $params
      *
      * @return Builder
      */
-    public function scopeWhereFilter($builder, $params = []): Builder
+    public function scopeWhereFilter(Builder $builder, array $params = []): Builder
     {
         if ($taxonomy = Arr::get($params, 'taxonomy')) {
             $builder->where('taxonomy', '=', $taxonomy);

@@ -20,11 +20,11 @@ trait ResourceModel
 {
     /**
      * @param  Builder  $builder
-     * @param array $params
+     * @param  array  $params
      *
      * @return Builder
      */
-    public function scopeWhereFilter($builder, $params = []): Builder
+    public function scopeWhereFilter(Builder $builder, array $params = []): Builder
     {
         if (empty($this->searchFields)) {
             $this->searchFields = [$this->getFieldName()];
@@ -33,7 +33,7 @@ trait ResourceModel
         if ($keyword = Arr::get($params, 'keyword')) {
             $builder->where(
                 function (Builder $q) use ($keyword) {
-                    foreach ($this->searchFields as $key => $attribute) {
+                    foreach ($this->searchFields as $attribute) {
                         $q->orWhere($attribute, JW_SQL_LIKE, '%'. $keyword .'%');
                     }
                 }

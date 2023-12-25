@@ -64,6 +64,8 @@ mix.combine(
         baseAsset + '/js/juzaweb-table.js',
         baseAsset + '/js/list-view.js',
         baseAsset + '/js/form-ajax.js',
+        baseAsset + '/js/helpers/load-modal.js',
+        baseAsset + '/js/helpers/number-validate.js',
         baseAsset + '/js/taxonomy.js',
         baseAsset + '/js/customs.js',
         baseAsset + '/js/setting.js',
