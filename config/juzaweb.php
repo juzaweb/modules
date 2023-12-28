@@ -71,7 +71,7 @@ return [
          * Support: sync, queue, cron
          * Default: sync
          */
-        'method' => env('JW_NOTIFICATION_METHOD', 'sync'),
+        'method' => env('JW_NOTIFICATION_METHOD', 'queue'),
 
         /**
          * Send mail via

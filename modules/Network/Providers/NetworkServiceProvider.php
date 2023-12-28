@@ -12,6 +12,7 @@ namespace Juzaweb\Network\Providers;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Support\Facades\Queue;
 use Juzaweb\CMS\Facades\ActionRegister;
 use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
@@ -31,6 +32,7 @@ use Juzaweb\Network\Support\NetworkRegistion;
 use Juzaweb\Network\Support\SiteCreater;
 use Juzaweb\Network\Support\SiteManager;
 use Juzaweb\Network\Support\SiteSetup;
+use Illuminate\Queue\Events\JobProcessing;
 
 class NetworkServiceProvider extends ServiceProvider
 {
@@ -51,6 +53,11 @@ class NetworkServiceProvider extends ServiceProvider
         Site::observe([SiteModelObserver::class]);
 
         ActionRegister::register([NetworkAction::class, ConfigAction::class]);
+
+        Queue::before(function (JobProcessing $event) {
+            // get the model from the payload
+            dd($event->job);
+        });
     }
 
     public function register(): void
