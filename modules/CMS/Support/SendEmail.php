@@ -35,6 +35,8 @@ class SendEmail
             $body = $this->mail->getBody();
             $subject = $this->mail->getSubject();
 
+            info("Send email:", [config('mail.mailers.smtp')]);
+
             Mail::send(
                 'cms::backend.email.layouts.default',
                 [
@@ -45,14 +47,6 @@ class SendEmail
                         ->subject($subject);
                 }
             );
-
-            /*if (Mail::failures()) {
-                $this->updateError(array_merge([
-                    'title' => 'Mail failures',
-                ], Mail::failures()));
-
-                return false;
-            }*/
 
             $this->updateStatus('success', $subject, $body);
 

@@ -54,10 +54,21 @@ class NetworkServiceProvider extends ServiceProvider
 
         ActionRegister::register([NetworkAction::class, ConfigAction::class]);
 
-        Queue::before(function (JobProcessing $event) {
-            // get the model from the payload
-            dd($event->job);
-        });
+        if (config('network.enable')) {
+            Queue::before(function (JobProcessing $event) {
+                if (!$event->job instanceof \Illuminate\Queue\Jobs\DatabaseJob) {
+                    return;
+                }
+
+                if (empty($event->job->getJobRecord()->__get('site_id'))) {
+                    return;
+                }
+
+                $site = $this->app['db']->table('network_sites')->find($event->job->getJobRecord()->site_id);
+
+                $this->app[SiteSetupContract::class]->setup($site);
+            });
+        }
     }
 
     public function register(): void

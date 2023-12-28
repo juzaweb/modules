@@ -17,7 +17,7 @@ use Juzaweb\Network\Models\Database;
 
 class SiteSetup implements SiteSetupContract
 {
-    protected string $rootConnection;
+    protected static string $rootConnection;
 
     public function __construct(
         protected ConfigRepository $config,
@@ -45,6 +45,8 @@ class SiteSetup implements SiteSetupContract
             $this->config->set('juzaweb.filemanager.total_size', 1024 * 1024 * 1024);
 
             $this->setCachePrefix("jw_site_{$site->id}");
+
+            $this->config->set('queue.connections.database.connection', $this->getRootConnection());
         }
     }
 
@@ -83,7 +85,7 @@ class SiteSetup implements SiteSetupContract
             )
         );
 
-        $this->rootConnection = $this->getRootConnection();
+        static::$rootConnection = $this->getRootConnection();
 
         $this->config->set('database.default', 'subsite');
 
@@ -92,7 +94,7 @@ class SiteSetup implements SiteSetupContract
 
     public function getRootConnection(): string
     {
-        return $this->rootConnection ?? $this->db->getDefaultConnection();
+        return static::$rootConnection ?? $this->db->getDefaultConnection();
     }
 
     protected function setCachePrefix($prefix): void

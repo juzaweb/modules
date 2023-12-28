@@ -52,6 +52,29 @@ class MigrateCommand extends Command
                     }
                 }
             );
+
+            // try {
+            //     Schema::table(
+            //         $tableName,
+            //         function (Blueprint $table) use ($tableName) {
+            //             $table->dropForeign(['site_id']);
+            //         }
+            //     );
+            // } catch (\Throwable $e) {
+            //     $this->warn($e->getMessage());
+            // }
+            //
+            // Schema::table(
+            //     $tableName,
+            //     function (Blueprint $table) use ($tableName) {
+            //         DB::table($tableName)->whereNull('site_id')->update(['site_id' => 0]);
+            //         $table->unsignedBigInteger('site_id')
+            //             ->nullable(false)
+            //             ->index()
+            //             ->default(0)
+            //             ->change();
+            //     }
+            // );
         }
 
         try {

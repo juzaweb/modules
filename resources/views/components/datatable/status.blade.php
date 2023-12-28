@@ -1,4 +1,4 @@
-@switch($row->status)
+@switch($status ?? $row->status)
     @case('publish')
     <span class="badge badge-success">{{ trans('cms::app.publish') }}</span>
     @break
@@ -35,7 +35,11 @@
         <span class="badge badge-secondary">{{ trans('cms::app.inactive') }}</span>
         @break
 
+    @case('error')
+        <span class="badge badge-danger">{{ trans('cms::app.error') }}</span>
+        @break
+
     @default
-    <span class="badge badge-secondary">{{ trans('cms::app.draft') }}</span>
+    <span class="badge badge-secondary">{{ $status ?? $row->status ?? trans('cms::app.draft') }}</span>
     @break
 @endswitch
