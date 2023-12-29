@@ -83,12 +83,12 @@ class Migrator
     /**
      * Get migration files.
      *
-     * @param bool $reverse
+     * @param  bool  $reverse
      * @return array
      */
-    public function getMigrations($reverse = false)
+    public function getMigrations(bool $reverse = false)
     {
-        $files = $this->laravel['files']->glob($this->getPath() . '/*_*.php');
+        $files = $this->laravel['files']->glob($this->getPath() . '/*/*_*.php');
 
         // Once we have the array of files in the directory we will just remove the
         // extension and take the basename of the file which is all we need when

@@ -33,11 +33,11 @@
 
     @case('inactive')
         <span class="badge badge-secondary">{{ trans('cms::app.inactive') }}</span>
-        @break
+    @break
 
     @case('error')
         <span class="badge badge-danger">{{ trans('cms::app.error') }}</span>
-        @break
+    @break
 
     @default
     <span class="badge badge-secondary">{{ $status ?? $row->status ?? trans('cms::app.draft') }}</span>

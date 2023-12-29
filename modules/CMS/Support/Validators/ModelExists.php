@@ -48,7 +48,7 @@ class ModelExists implements Rule
         };
     }
 
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $this->attribute = $attribute;
         $this->value = $value;
