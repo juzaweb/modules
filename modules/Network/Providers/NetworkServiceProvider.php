@@ -12,6 +12,7 @@ namespace Juzaweb\Network\Providers;
 
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Queue\Jobs\DatabaseJob;
 use Illuminate\Support\Facades\Queue;
 use Juzaweb\CMS\Facades\ActionRegister;
 use Juzaweb\CMS\Support\Application;
@@ -56,7 +57,7 @@ class NetworkServiceProvider extends ServiceProvider
 
         if (config('network.enable')) {
             Queue::before(function (JobProcessing $event) {
-                if (!$event->job instanceof \Illuminate\Queue\Jobs\DatabaseJob) {
+                if (!$event->job instanceof DatabaseJob) {
                     return;
                 }
 
