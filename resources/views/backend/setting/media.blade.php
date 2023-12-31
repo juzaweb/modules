@@ -3,7 +3,7 @@
 @section('content')
     <div class="row mt-4 mb-3">
         <div class="col-md-8">
-            <form action="{{ route('admin.theme.setting') }}" method="post" class="form-ajax">
+            <form action="{{ route('admin.setting.media.save') }}" method="post" class="form-ajax">
                 <h4>{{ trans('cms::app.media_setting.thumbnail_settings') }}</h4>
 
                 @foreach($postTypes as $key => $postType)

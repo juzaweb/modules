@@ -15,3 +15,4 @@ Route::group(
 );
 
 Route::get('/options-media', [MediaController::class, 'index'])->name('admin.setting.media');
+Route::post('/options-media', [MediaController::class, 'save'])->name('admin.setting.media.save');

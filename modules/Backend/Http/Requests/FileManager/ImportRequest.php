@@ -19,7 +19,8 @@ class ImportRequest extends FormRequest
         return [
             'url' => [
                 'required',
-                'url'
+                'url',
+                'max:150',
             ],
             'working_dir' => [
                 'nullable',

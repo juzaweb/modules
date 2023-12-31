@@ -39,7 +39,7 @@ class EventServiceProvider extends ServiceProvider
         ],
         AfterPostSave::class => [
             SaveSeoMetaPost::class,
-            //ResizeThumbnailPostListener::class,
+            ResizeThumbnailPostListener::class,
         ],
         AfterPluginBulkAction::class => [
             DeleteRequirePluginsMessageListener::class,

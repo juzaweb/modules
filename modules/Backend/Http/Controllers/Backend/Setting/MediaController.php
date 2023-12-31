@@ -11,6 +11,10 @@
 namespace Juzaweb\Backend\Http\Controllers\Backend\Setting;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Arr;
+use Juzaweb\Backend\Http\Requests\Setting\MediaSettingRequest;
 use Juzaweb\CMS\Contracts\HookActionContract as HookAction;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 
@@ -35,6 +39,24 @@ class MediaController extends BackendController
                 'thumbnailDefaults',
                 'thumbnailSizes'
             )
+        );
+    }
+
+    public function save(MediaSettingRequest $request): JsonResponse|RedirectResponse
+    {
+        $configs = Arr::only($request->post('config', []), ['thumbnail_defaults', 'auto_resize_thumbnail']);
+        $themeConfigs = Arr::only($request->post('theme', []), ['thumbnail_sizes']);
+
+        foreach ($configs as $name => $value) {
+            set_config($name, $value);
+        }
+
+        foreach ($themeConfigs as $name => $value) {
+            set_theme_config($name, $value);
+        }
+
+        return $this->success(
+            trans('cms::app.updated_successfully')
         );
     }
 }

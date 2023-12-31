@@ -158,8 +158,12 @@
             });
         });
 
-        function add_folder_success(form) {
-            window.location = "";
+        function add_folder_success(form, response) {
+            if (response.status || false) {
+                setTimeout(function () {
+                    window.location = "";
+                }, 1000);
+            }
         }
     </script>
 @endsection

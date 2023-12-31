@@ -236,11 +236,11 @@ class FileManager
             $filename
         );
 
-        if (config('juzaweb.filemanager.image-optimizer')) {
-            if (in_array($uploadedFile->getMimeType(), $this->getImageMimetype())) {
-                $optimizerChain = OptimizerChainFactory::create();
-                $optimizerChain->optimize($this->getStorage()->path($newPath));
-            }
+        if (config('juzaweb.filemanager.image-optimizer')
+            && in_array($uploadedFile->getMimeType(), $this->getImageMimetype())
+        ) {
+            $optimizerChain = OptimizerChainFactory::create();
+            $optimizerChain->optimize($this->getStorage()->path($newPath));
         }
 
         try {
@@ -256,7 +256,7 @@ class FileManager
                     'user_id' => $this->user_id ?: $jw_user->id,
                     'disk' => $this->disk ?? config('juzaweb.filemanager.disk'),
                     'parent_id' => $this->parent_id,
-                    'image_size' => $this->getImageSizeFromUploadedFile($uploadedFile),
+                    'image_size' => $this->image_size ?? $this->getImageSizeFromUploadedFile($uploadedFile),
                 ]
             );
 
@@ -358,12 +358,12 @@ class FileManager
             throw new \RuntimeException("Can't get file url: {$this->resource}");
         }
 
-        $tempName = basename($this->resource);
+        $tempName = jw_basename($this->resource);
         if (empty(File::extension($tempName))) {
             throw new \RuntimeException("Can't get file extension: {$this->resource}");
         }
 
-        $this->getStorage()->put($tempName, $content);
+        $this->getStorage('tmp')->put($tempName, $content);
         return (new UploadedFile($this->getStorage()->path($tempName), $tempName));
     }
 
@@ -475,7 +475,7 @@ class FileManager
     protected function removeUploadedFile(UploadedFile $file): void
     {
         if ($this->resource_type != 'uploaded') {
-            unlink($file->getRealPath());
+            @unlink($file->getRealPath());
         }
     }
 
@@ -494,8 +494,12 @@ class FileManager
         return null;
     }
 
-    protected function getStorage(): Filesystem|Storage|FilesystemAdapter
+    protected function getStorage(?string $disk = null): Filesystem|Storage|FilesystemAdapter
     {
+        if (isset($disk)) {
+            return Storage::disk($disk);
+        }
+
         if (isset($this->storage)) {
             return $this->storage;
         }

@@ -69,6 +69,11 @@ class MediaFile extends Model
         'metadata' => 'array',
     ];
 
+    public static function findByPath(string $path): ?self
+    {
+        return self::where('path', $path)->first();
+    }
+
     public static function totalUsed(bool $cacheable = true): int
     {
         return self::when($cacheable, fn ($q) => $q->cacheFor(3600))->sum('size');

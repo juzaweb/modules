@@ -14,6 +14,8 @@ use Illuminate\Contracts\Filesystem\Factory;
 use Intervention\Image\Facades\Image;
 use Juzaweb\Backend\Events\AfterPostSave;
 use Illuminate\Config\Repository;
+use Juzaweb\Backend\Models\MediaFile;
+use Juzaweb\CMS\Support\FileManager;
 
 class ResizeThumbnailPostListener
 {
@@ -39,16 +41,20 @@ class ResizeThumbnailPostListener
             return;
         }
 
+        $media = MediaFile::findByPath($event->post->thumbnail);
+        $filePath = get_media_image_with_size(
+            $event->post->thumbnail,
+            "{$size['width']}x{$size['height']}",
+            'path'
+        );
+
         $imgDisk = $this->config->get('juzaweb.filemanager.disk');
         $img = Image::make($this->filesystem->disk($imgDisk)->path($event->post->thumbnail));
         $img->fit($size['width'], $size['height']);
-        $img->save(
-            get_media_image_with_size(
-                $event->post->thumbnail,
-                "{$size['width']}x{$size['height']}",
-                'path'
-            ),
-            100
-        );
+        $img->save($filePath, 100);
+
+        FileManager::make($filePath)
+            ->setParentId($media?->id)
+            ->save();
     }
 }
