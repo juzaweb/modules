@@ -145,7 +145,7 @@
 </form>
 
 <script type="text/javascript">
-    $.extend( $.validator.messages, {
+    $.extend($.validator.messages, {
         required: "{{ trans('cms::app.this_field_is_required') }}",
     });
 

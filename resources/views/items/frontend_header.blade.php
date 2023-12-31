@@ -17,14 +17,9 @@
 </script>
 
 @if($googleAnalytics)
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $googleAnalytics }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    @component('cms::components.configs.google_analytics', ['ids' => $googleAnalytics])
 
-        gtag('config', '{{ $googleAnalytics }}');
-    </script>
+    @endcomponent
 @endif
 
 @if($fbAppId)
