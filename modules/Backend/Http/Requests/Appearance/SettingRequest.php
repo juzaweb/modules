@@ -44,7 +44,7 @@ class SettingRequest extends FormRequest
         }
 
         foreach ($themeConfigs as $config) {
-            if ($validators = Arr::get($config, 'validators')) {
+            if ($validators = Arr::get($config, 'data.validators')) {
                 $rules['theme.' . $config['name']] = $validators;
             } else {
                 $rules['theme.' . $config['name']] = ['nullable'];
