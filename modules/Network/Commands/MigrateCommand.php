@@ -39,6 +39,7 @@ class MigrateCommand extends Command
         'theme_configs',
         'languages',
         'post_views',
+        'language_lines',
     ];
 
     public function handle(): void

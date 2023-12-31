@@ -15,8 +15,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Juzaweb\CMS\Contracts\TranslationManager;
+use Juzaweb\CMS\Models\LanguageLine;
 use Juzaweb\CMS\Support\ArrayPagination;
-use Spatie\TranslationLoader\LanguageLine;
 
 class LocaleController extends BaseTranslationController
 {
