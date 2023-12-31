@@ -36,7 +36,7 @@ class SettingRequest extends FormRequest
             ->only($this->collect('theme')->keys());
 
         foreach ($configs as $config) {
-            if ($validators = Arr::get($config, 'validators')) {
+            if ($validators = Arr::get($config, 'data.validators')) {
                 $rules['config.' . $config['name']] = $validators;
             } else {
                 $rules['config.' . $config['name']] = ['nullable'];

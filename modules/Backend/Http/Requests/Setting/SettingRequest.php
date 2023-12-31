@@ -33,7 +33,7 @@ class SettingRequest extends FormRequest
 
         return $configs->map(
             function ($item) use ($checkboxs) {
-                if ($validators = Arr::get($item, 'validators')) {
+                if ($validators = Arr::get($item, 'data.validators')) {
                     return $validators;
                 }
 
