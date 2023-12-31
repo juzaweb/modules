@@ -24,10 +24,34 @@ class SettingRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $configs = $this->hookAction->getConfigs()
+            ->only($this->collect('config')->keys());
+
+        $rules = [
             'theme' => ['required', 'array'],
             'config' => ['required', 'array'],
         ];
+
+        $themeConfigs = $this->hookAction->getThemeSettings()
+            ->only($this->collect('theme')->keys());
+
+        foreach ($configs as $config) {
+            if ($validators = Arr::get($config, 'validators')) {
+                $rules['config.' . $config['name']] = $validators;
+            } else {
+                $rules['config.' . $config['name']] = ['nullable'];
+            }
+        }
+
+        foreach ($themeConfigs as $config) {
+            if ($validators = Arr::get($config, 'validators')) {
+                $rules['theme.' . $config['name']] = $validators;
+            } else {
+                $rules['theme.' . $config['name']] = ['nullable'];
+            }
+        }
+
+        return $rules;
     }
 
     protected function prepareForValidation(): void
