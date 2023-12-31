@@ -189,7 +189,7 @@ class MediaController extends BackendController
      */
     protected function getFiles(Collection $sQuery, int $limit = 40, ?int $folderId = null): LengthAwarePaginator
     {
-        $query = MediaFile::whereFolderId($folderId);
+        $query = MediaFile::whereFolderId($folderId)->root();
 
         if ($sQuery->get('type')) {
             $extensions = $this->getTypeExtensions($sQuery->get('type'));

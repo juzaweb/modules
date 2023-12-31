@@ -24,6 +24,7 @@ use Juzaweb\Network\Traits\Networkable;
  * @property int $user_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @method static Builder|MediaFile root()
  * @method static Builder|MediaFile newModelQuery()
  * @method static Builder|MediaFile newQuery()
  * @method static Builder|MediaFile query()
@@ -39,6 +40,7 @@ use Juzaweb\Network\Traits\Networkable;
  * @method static Builder|MediaFile whereUpdatedAt($value)
  * @method static Builder|MediaFile whereUserId($value)
  * @property int|null $site_id
+ * @property int|null $parent_id
  * @method static Builder|MediaFile whereSiteId($value)
  * @mixin Eloquent
  */
@@ -59,6 +61,8 @@ class MediaFile extends Model
         'size',
         'disk',
         'metadata',
+        'parent_id',
+        'image_size',
     ];
 
     protected $casts = [
@@ -79,6 +83,11 @@ class MediaFile extends Model
         return config('juzaweb.filemanager.total_size') - self::totalUsed($cacheable);
     }
 
+    public function scopeRoot(Builder $builder): Builder
+    {
+        return $builder->whereNull('parent_id');
+    }
+
     public function delete(): bool
     {
         $this->deleteFile();
@@ -97,5 +106,10 @@ class MediaFile extends Model
             $this->mime_type,
             config('juzaweb.filemanager.types.image.valid_mime')
         );
+    }
+
+    public function isRoot(): bool
+    {
+        return $this->parent_id === null;
     }
 }

@@ -30,6 +30,7 @@ class ItemsController extends FileManagerController
         $query = MediaFile::where('folder_id', '=', $workingDir)
             ->where('disk', '=', $disk)
             ->whereIn('extension', $extensions)
+            ->root()
             ->orderBy('id', 'DESC');
 
         $totalFiles = $query->count(['id']);

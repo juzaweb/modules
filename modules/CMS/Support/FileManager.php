@@ -32,6 +32,10 @@ class FileManager
 
     protected $user_id;
 
+    protected ?int $parent_id = null;
+
+    protected ?string $image_size = null;
+
     protected Client $client;
 
     protected bool $downloadFileUrlToServer = true;
@@ -161,6 +165,20 @@ class FileManager
         return $this;
     }
 
+    public function setParentId(int $parentId): static
+    {
+        $this->parent_id = $parentId;
+
+        return $this;
+    }
+
+    public function setImageSize(string $size): static
+    {
+        $this->image_size = $size;
+
+        return $this;
+    }
+
     /**
      * @return MediaFile
      *
@@ -237,11 +255,13 @@ class FileManager
                     'folder_id' => $this->folder_id,
                     'user_id' => $this->user_id ?: $jw_user->id,
                     'disk' => $this->disk ?? config('juzaweb.filemanager.disk'),
+                    'parent_id' => $this->parent_id,
+                    'image_size' => $this->getImageSizeFromUploadedFile($uploadedFile),
                 ]
             );
 
-            if ($media->isImage()) {
-                $this->makeThumbImage($newPath);
+            if ($media->isRoot() && $media->isImage()) {
+                $this->makeThumbImage($newPath, $media);
             }
         } catch (Exception $e) {
             $this->removeUploadedFile($uploadedFile);
@@ -253,8 +273,23 @@ class FileManager
         return $media;
     }
 
-    protected function makeThumbImage(string $path): void
+    public function getFileExtension(UploadedFile|string $file): string
     {
+        if ($file instanceof UploadedFile) {
+            $file = $file->getClientOriginalName();
+        }
+
+        return jw_basename(pathinfo($file, PATHINFO_EXTENSION));
+    }
+
+    protected function makeThumbImage(string $path, ?MediaFile $media = null): void
+    {
+        $thumbPath = get_media_image_with_size(
+            $path,
+            '150x150',
+            'path'
+        );
+
         $img = Image::make($this->getStorage()->path($path));
         $img->resize(
             150,
@@ -263,14 +298,12 @@ class FileManager
                 $constraint->aspectRatio();
             }
         );
-        $img->save(
-            get_media_image_with_size(
-                $path,
-                '150x150',
-                'path'
-            ),
-            100
-        );
+
+        $img->save($thumbPath, 100);
+
+        self::make($thumbPath)
+            ->setParentId($media?->id)
+            ->save();
     }
 
     protected function getImageMimetype()
@@ -351,15 +384,6 @@ class FileManager
         }
 
         return $this->replaceInsecureSuffix($filename);
-    }
-
-    public function getFileExtension(UploadedFile|string $file): string
-    {
-        if ($file instanceof UploadedFile) {
-            $file = $file->getClientOriginalName();
-        }
-
-        return jw_basename(pathinfo($file, PATHINFO_EXTENSION));
     }
 
     protected function replaceInsecureSuffix($name): string|null
@@ -453,6 +477,21 @@ class FileManager
         if ($this->resource_type != 'uploaded') {
             unlink($file->getRealPath());
         }
+    }
+
+    protected function getImageSizeFromUploadedFile(UploadedFile $file): ?string
+    {
+        if (in_array($file->getMimeType(), $this->getImageMimetype())) {
+            try {
+                $height = Image::make($file)->height();
+                $width = Image::make($file)->width();
+                return "{$width}x{$height}";
+            } catch (\Throwable $e) {
+                return null;
+            }
+        }
+
+        return null;
     }
 
     protected function getStorage(): Filesystem|Storage|FilesystemAdapter
