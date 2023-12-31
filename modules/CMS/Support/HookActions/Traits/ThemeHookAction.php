@@ -31,7 +31,7 @@ trait ThemeHookAction
         $args = array_merge($defaults, $args);
 
         if (empty($args['callback'])) {
-            throw new Exception('Frontend Ajax callback option is required.');
+            throw new \RuntimeException('Frontend Ajax callback option is required.');
         }
 
         $this->globalData->set('frontend_ajaxs.' . $key, new Collection($args));

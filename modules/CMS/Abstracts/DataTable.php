@@ -185,7 +185,7 @@ abstract class DataTable implements Arrayable
      * @param  string  $action  description
      * @param  array  $ids  description
      */
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
         //
     }
@@ -338,6 +338,13 @@ abstract class DataTable implements Arrayable
             'table' => Crypt::encryptString(static::class),
             'uniqueId' => $this->getUniqueId(),
         ];
+    }
+
+    public function activeFormatter($value, $row, $index): Factory|View
+    {
+        $status = $row->active ? 'active' : 'inactive';
+
+        return view('cms::components.datatable.status', compact('status'));
     }
 
     /**

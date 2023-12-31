@@ -3,7 +3,7 @@
     method="post"
     class="form-ajax"
     id="{{ random_string() }}"
-    @if($success) data-success="{{ $success }}" @endif
+    @if($success ?? false) data-success="{{ $success }}" @endif
 >
     @csrf
 

@@ -3,6 +3,7 @@
 namespace Juzaweb\CMS\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Juzaweb\CMS\Contracts\ShortCode as ShortCodeContract;
 
 /**
  * @method static static register(string $name, callable|string $callback)
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Facade;
  */
 class ShortCode extends Facade
 {
-
     /**
      * Get the registered name of the component.
      *
@@ -19,6 +19,6 @@ class ShortCode extends Facade
      */
     protected static function getFacadeAccessor(): string
     {
-        return \Juzaweb\CMS\Contracts\ShortCode::class;
+        return ShortCodeContract::class;
     }
 }

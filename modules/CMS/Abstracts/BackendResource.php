@@ -16,6 +16,7 @@ abstract class BackendResource
     protected string $repository;
     protected string $label;
     protected ?string $postType = null;
+    protected ?string $dataTable = null;
 
     public function getFields(): array
     {
@@ -42,6 +43,11 @@ abstract class BackendResource
         return $this->key;
     }
 
+    public function getDataTable(): ?string
+    {
+        return $this->dataTable;
+    }
+
     public function toArray(): array
     {
         return [
@@ -57,7 +63,8 @@ abstract class BackendResource
             'repository' => $this->repository,
             'custom_resource' => true,
             'fields' => $this->getFields(),
-            'validator' => $this->getValidator()
+            'validator' => $this->getValidator(),
+            'datatable' => $this->getDataTable(),
         ];
     }
 }

@@ -14,11 +14,7 @@ trait ResponseMessage
             $data = [$data];
         }
 
-        // if (request()->has('redirect')) {
-        //     $data['redirect'] = request()->input('redirect');
-        // }
-
-        if (request()->ajax() || request()->isJson()) {
+        if (request()?->ajax() || request()?->isJson()) {
             return response()->json(
                 [
                     'status' => $status,

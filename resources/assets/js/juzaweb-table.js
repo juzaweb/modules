@@ -5,7 +5,7 @@ class JuzawebTable {
         this.action_url = e.action_url;
         this.remove_url = e.remove_url || null;
         this.status_url = e.status_url || null;
-        this.remove_question = (e.remove_question) ? e.remove_question: juzaweb.lang.remove_question.replace(':name', juzaweb.lang.the_selected_items);
+        this.remove_question = (e.remove_question) ? e.remove_question : juzaweb.lang.remove_question.replace(':name', juzaweb.lang.the_selected_items);
         this.detete_button = (e.detete_button) ? e.detete_button : "#delete-item";
         this.status_button = (e.status_button) ? e.status_button : ".status-button";
         this.apply_button = (e.apply_button) ? e.apply_button: "#apply-action";
@@ -65,6 +65,10 @@ class JuzawebTable {
                     }
                 });
                 return params;
+            },
+            onLoadError: function (status) {
+                alert('Server Error: ' + status);
+                return false;
             }
         });
 
@@ -152,6 +156,11 @@ class JuzawebTable {
                                 show_message(response);
                                 return false;
                             }
+                        },
+                        failCallback: function (response) {
+                            btn.prop("disabled", false);
+                            btn.html(text);
+                            alert('Server Error');
                         }
                     });
                 });
@@ -250,6 +259,11 @@ class JuzawebTable {
                                 show_message(response);
                                 return false;
                             }
+                        },
+                        failCallback: function (response) {
+                            btn.prop("disabled", false);
+                            btn.html(text);
+                            alert('Server Error');
                         }
                     });
                 }
@@ -310,6 +324,11 @@ class JuzawebTable {
                                 show_message(response);
                                 return false;
                             }
+                        },
+                        failCallback: function (response) {
+                            btn.prop("disabled", false);
+                            btn.html(text);
+                            alert('Server Error');
                         }
                     });
                 });

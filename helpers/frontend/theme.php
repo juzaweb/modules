@@ -627,3 +627,10 @@ if (!function_exists('get_page_by_template')) {
         return PostResource::make($post)->toArray(request());
     }
 }
+
+if (!function_exists('short_code_render')) {
+    function short_code_render(string $value): string
+    {
+        return \Juzaweb\CMS\Facades\ShortCode::compile($value);
+    }
+}

@@ -78,6 +78,7 @@
             @endif
 
             <h4 class="font-weight-bold ml-3 text-capitalize">{{ $title }}</h4>
+            <p class="ml-3 text-muted">{{ $subTitle ?? '' }}</p>
 
             <div class="juzaweb__utils__content">
 
@@ -99,7 +100,9 @@
                 @endforeach
 
                 @if(session()->has('message'))
-                    <div class="alert alert-{{ session()->get('status') == 'error' ? 'danger' : 'success' }} jw-message">{{ session()->get('message') }}</div>
+                    <div class="alert alert-{{ session()->get('status') == 'error' ? 'danger' : 'success' }} jw-message">
+                        {{ session()->get('message') }}
+                    </div>
                 @endif
 
                 <div id="jquery-message"></div>

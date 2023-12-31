@@ -42,7 +42,7 @@ use Juzaweb\CMS\Contracts\HookActionContract;
  * @method static array getMasterAdminMenu()
  * @method static Collection getMenuBox(string $key)
  * @method static Collection getPermalinks(string $key = null)
- * @method static Collection getPostTypes($postType = null)
+ * @method static Collection|null getPostTypes($postType = null)
  * @method static Collection getTaxonomies($postType = null)
  * @method static Collection getEmailHooks($key = null)
  * @method static Collection getWidgets($key = null)

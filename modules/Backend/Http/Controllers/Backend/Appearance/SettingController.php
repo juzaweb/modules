@@ -13,7 +13,7 @@ namespace Juzaweb\Backend\Http\Controllers\Backend\Appearance;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Juzaweb\Backend\Http\Requests\Appearance\SettingRequest;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Contracts\LocalThemeRepositoryContract;
 use Juzaweb\CMS\Http\Controllers\BackendController;
@@ -46,7 +46,7 @@ class SettingController extends BackendController
         );
     }
 
-    public function save(Request $request): JsonResponse|RedirectResponse
+    public function save(SettingRequest $request): JsonResponse|RedirectResponse
     {
         $configs = $request->post('config', []);
         $themeConfigs = $request->post('theme', []);

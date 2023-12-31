@@ -33,8 +33,6 @@ use Juzaweb\CMS\Contracts\Media\Media as MediaContract;
 use Juzaweb\CMS\Contracts\OverwriteConfigContract;
 use Juzaweb\CMS\Contracts\PostImporterContract;
 use Juzaweb\CMS\Contracts\PostManagerContract;
-use Juzaweb\CMS\Contracts\ShortCode as ShortCodeContract;
-use Juzaweb\CMS\Contracts\ShortCodeCompiler as ShortCodeCompilerContract;
 use Juzaweb\CMS\Contracts\StorageDataContract;
 use Juzaweb\CMS\Contracts\TableGroupContract;
 use Juzaweb\CMS\Contracts\ThemeConfigContract;
@@ -61,8 +59,6 @@ use Juzaweb\CMS\Support\Manager\BackendMessageManager;
 use Juzaweb\CMS\Support\Manager\PostManager;
 use Juzaweb\CMS\Support\Manager\TranslationManager;
 use Juzaweb\CMS\Support\Media\Media;
-use Juzaweb\CMS\Support\ShortCode\Compilers\ShortCodeCompiler;
-use Juzaweb\CMS\Support\ShortCode\ShortCode;
 use Juzaweb\CMS\Support\StorageData;
 use Juzaweb\CMS\Support\Theme\ThemeConfig;
 use Juzaweb\CMS\Support\Translations\TranslationFinder;
@@ -70,7 +66,6 @@ use Juzaweb\CMS\Support\Validators\ModelExists;
 use Juzaweb\CMS\Support\Validators\ModelUnique;
 use Juzaweb\CMS\Support\XssCleaner;
 use Juzaweb\Frontend\Providers\FrontendServiceProvider;
-use Juzaweb\Multilang\Providers\MultilangServiceProvider;
 use Juzaweb\Network\Providers\NetworkServiceProvider;
 use Juzaweb\Translation\Providers\TranslationServiceProvider;
 use Laravel\Passport\Passport;
@@ -311,20 +306,6 @@ class CmsServiceProvider extends ServiceProvider
             Field::class,
             function ($app) {
                 return new HtmlField();
-            }
-        );
-
-        $this->app->singleton(
-            ShortCodeCompilerContract::class,
-            function ($app) {
-                return new ShortCodeCompiler();
-            }
-        );
-
-        $this->app->singleton(
-            ShortCodeContract::class,
-            function ($app) {
-                return new ShortCode($app[ShortCodeCompilerContract::class]);
             }
         );
 

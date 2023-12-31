@@ -85,12 +85,17 @@ class ShortCodeCompiler
     public function compile(string $value): string
     {
         // Only continue is laravel-shortcodes have been registered
-        if (!$this->enabled || !$this->hasShortcodes()) {
+        if (!$this->enabled) {
             return $value;
         }
+
+        if (!$this->hasShortcodes()) {
+            return '';
+        }
+
         // Set empty result
         $result = '';
-        // Here we will loop through all of the tokens returned by the Zend lexer and
+        // Here we will loop through all the tokens returned by the Zend lexer and
         // parse each one into the corresponding valid PHP. We will then have this
         // template as the correctly rendered PHP that can be rendered natively.
         foreach (token_get_all($value) as $token) {
@@ -108,37 +113,6 @@ class ShortCodeCompiler
     public function hasShortcodes(): bool
     {
         return !empty($this->registered);
-    }
-
-    /**
-     * Parse the tokens from the template.
-     *
-     * @param  array $token
-     *
-     * @return string
-     */
-    protected function parseToken(array $token): string
-    {
-        list($id, $content) = $token;
-        if ($id == T_INLINE_HTML) {
-            $content = $this->renderShortcodes($content);
-        }
-
-        return $content;
-    }
-
-    /**
-     * Render laravel-shortcodes
-     *
-     * @param  string $value
-     *
-     * @return string
-     */
-    protected function renderShortcodes(string $value): string
-    {
-        $pattern = $this->getRegex();
-
-        return preg_replace_callback("/{$pattern}/s", [$this, 'render'], $value);
     }
 
     public function viewData($viewData): static
@@ -162,16 +136,7 @@ class ShortCodeCompiler
         $viewData = $this->viewData;
 
         // Render the shortcode through the callback
-        return call_user_func_array(
-            $this->getCallback($name),
-            [
-                $compiled,
-                $compiled->getContent(),
-                $this,
-                $name,
-                $viewData
-            ]
-        );
+        return call_user_func($this->getCallback($name), $compiled, $compiled->getContent(), $this, $name, $viewData);
     }
 
     /**
@@ -236,7 +201,6 @@ class ShortCodeCompiler
     {
         return $this->data;
     }
-
 
     /**
      * Get the callback for the current shortcode (class or callback)
@@ -311,7 +275,39 @@ class ShortCodeCompiler
      */
     protected function getShortcodeNames(): string
     {
-        return join('|', array_map('preg_quote', array_keys($this->registered)));
+        return implode('|', array_map('preg_quote', array_keys($this->registered)));
+    }
+
+    /**
+     * Parse the tokens from the template.
+     *
+     * @param  array $token
+     *
+     * @return string
+     */
+    protected function parseToken(array $token): string
+    {
+        [$id, $content] = $token;
+
+        if ($id == T_INLINE_HTML) {
+            $content = $this->renderShortcodes($content);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Render laravel-shortcodes
+     *
+     * @param  string $value
+     *
+     * @return string
+     */
+    protected function renderShortcodes(string $value): string
+    {
+        $pattern = $this->getRegex();
+
+        return preg_replace_callback("/{$pattern}/s", [$this, 'render'], $value);
     }
 
     /**

@@ -542,7 +542,7 @@ class ModuleGenerator extends Generator
      *
      * @return array
      */
-    protected function getReplacement($stub)
+    protected function getReplacement($stub): array
     {
         $replacements = $this->getReplacements();
 

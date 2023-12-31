@@ -11,32 +11,45 @@
 namespace Juzaweb\Backend\Http\Requests\Setting;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Juzaweb\CMS\Facades\HookAction;
+use Illuminate\Support\Arr;
+use Juzaweb\CMS\Contracts\HookActionContract;
 
 class SettingRequest extends FormRequest
 {
+    public function __construct(
+        protected HookActionContract $hookAction
+    ) {
+        parent::__construct();
+    }
+
     public function rules(): array
     {
-        $checkboxs = HookAction::getConfigs()
+        $configs = $this->hookAction->getConfigs()->only(array_keys($this->input()));
+
+        $checkboxs = $configs
             ->where('type', 'checkbox')
-            ->whereIn('name', array_keys($this->input()))
             ->keys()
             ->toArray();
 
-        $rules = collect($checkboxs)->mapWithKeys(
-            function ($item) {
-                return [
-                    $item => 'nullable|in:1'
-                ];
+        return $configs->map(
+            function ($item) use ($checkboxs) {
+                if ($validators = Arr::get($item, 'validators')) {
+                    return $validators;
+                }
+
+                $rule = ['nullable'];
+                if (in_array($item['name'], $checkboxs)) {
+                    $rule[] = 'in:1';
+                }
+
+                return $rule;
             }
         )->toArray();
-
-        return $rules;
     }
 
-    protected function prepareForValidation()
+    protected function prepareForValidation(): void
     {
-        $checkboxs = HookAction::getConfigs()
+        $checkboxs = $this->hookAction->getConfigs()
             ->where('type', 'checkbox')
             ->whereIn('name', array_keys($this->input()))
             ->keys()

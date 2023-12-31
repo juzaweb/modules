@@ -136,7 +136,7 @@ return [
     'notify_and_email' => 'Notify & Email',
     'sended' => 'Sended',
     'resend' => 'Resend',
-    'send_for' => 'Sended for',
+    'send_for' => 'Send for',
     'sending' => 'Sending',
     'pending' => 'Pending',
     'pause' => 'Pause',
@@ -600,4 +600,5 @@ return [
     'to_sender_description' => 'If selected, this email will be sent to the person submitting the form',
     'add_repeater_item' => 'Add new :label',
     'inactivate' => 'Inactivate',
+    'send_to' => 'Send to',
 ];

@@ -16,20 +16,26 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      *
      * @var \Juzaweb\CMS\Support\ShortCode\Compilers\ShortCodeCompiler
      */
-    public $shortcode;
+    public ShortCodeCompiler $shortcode;
 
     /**
      * Create a new view instance.
      *
-     * @param \Juzaweb\CMS\Support\ShortCode\Compilers\ShortCodeCompiler       $shortcode
-     * @param \Illuminate\View\Factory|Factory                      $factory
-     * @param \Illuminate\Contracts\View\Engine|EngineInterface     $engine
-     * @param  string                                               $view
-     * @param  string                                               $path
-     * @param  array                                                $data
+     * @param  \Juzaweb\CMS\Support\ShortCode\Compilers\ShortCodeCompiler  $shortcode
+     * @param  \Illuminate\View\Factory|Factory  $factory
+     * @param  \Illuminate\Contracts\View\Engine|EngineInterface  $engine
+     * @param  string  $view
+     * @param  string  $path
+     * @param  array  $data
      */
-    public function __construct(ShortCodeCompiler $shortcode, Factory $factory, EngineInterface $engine, $view, $path, $data = [])
-    {
+    public function __construct(
+        ShortCodeCompiler $shortcode,
+        Factory $factory,
+        EngineInterface $engine,
+        $view,
+        $path,
+        array $data = []
+    ) {
         parent::__construct($factory, $engine, $view, $path, $data);
         $this->shortcode = $shortcode;
     }
@@ -66,7 +72,7 @@ class View extends IlluminateView implements ArrayAccess, Renderable
      *
      * @return string
      */
-    protected function renderContents()
+    protected function renderContents(): string
     {
         $this->shortcode->viewData($this->getData());
         // We will keep track of the amount of views being rendered so we can flush

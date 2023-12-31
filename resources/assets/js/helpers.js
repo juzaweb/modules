@@ -25,6 +25,13 @@ function confirm_message(question, callback, title = '', type = 'warning') {
 
 function get_message_response(response)
 {
+    if (typeof response === 'string' || response instanceof String) {
+        return {
+            status: false,
+            message: response
+        };
+    }
+
     // Get response message
     if (response.data) {
         if (response.data.message) {

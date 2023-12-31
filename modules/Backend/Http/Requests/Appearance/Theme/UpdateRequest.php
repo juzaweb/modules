@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Http\Requests\Theme;
+namespace Juzaweb\Backend\Http\Requests\Appearance\Theme;
 
 use Illuminate\Foundation\Http\FormRequest;
 

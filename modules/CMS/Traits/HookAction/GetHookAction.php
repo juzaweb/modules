@@ -28,7 +28,7 @@ trait GetHookAction
         return GlobalData::get('menu_boxs.'.$key);
     }
 
-    public function getPostTypes(string $postType = null): Collection
+    public function getPostTypes(string $postType = null): ?Collection
     {
         if ($postType) {
             $data = GlobalData::get('post_types.'.$postType);

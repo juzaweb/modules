@@ -1,0 +1,50 @@
+<?php
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @package    juzaweb/cms
+ * @author     The Anh Dang
+ * @link       https://juzaweb.com
+ * @license    GNU V2
+ */
+
+namespace Juzaweb\Backend\Http\Requests\Appearance;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
+use Illuminate\Validation\Rule;
+use Juzaweb\CMS\Contracts\HookActionContract;
+
+class SettingRequest extends FormRequest
+{
+    public function __construct(protected HookActionContract $hookAction)
+    {
+        parent::__construct();
+    }
+
+    public function rules(): array
+    {
+        return [
+            'theme' => ['required', 'array'],
+            'config' => ['required', 'array'],
+        ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $configs = $this->hookAction->getConfigs()
+            ->only($this->collect('config')->keys())
+            ->keys()
+            ->toArray();
+
+        $themeConfigs = $this->hookAction->getThemeSettings()
+            ->only($this->collect('theme')->keys())
+            ->keys()
+            ->toArray();
+
+        $this->merge([
+            'theme' => Arr::only($this->input('theme', []), $themeConfigs),
+            'config' => Arr::only($this->input('config', []), $configs),
+        ]);
+    }
+}

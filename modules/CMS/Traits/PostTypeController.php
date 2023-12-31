@@ -229,6 +229,7 @@ trait PostTypeController
     {
         $data = $this->DataForIndex(...$params);
         $data['setting'] = $this->getSetting();
+        $data['subTitle'] = $this->getSetting()->get('description');
         return $data;
     }
 

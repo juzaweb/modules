@@ -385,7 +385,7 @@ trait RegisterHookAction
 
     public function registerPermissionGroup(string $key, array $args = []): void
     {
-        $key = str_replace(['.'], '__', $key);
+        $key = str_replace('.', '__', $key);
 
         $defaults = [
             'name' => '',

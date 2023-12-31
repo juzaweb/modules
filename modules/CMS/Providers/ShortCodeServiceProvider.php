@@ -10,13 +10,26 @@
 
 namespace Juzaweb\CMS\Providers;
 
-use Juzaweb\CMS\Facades\ShortCode;
+use Juzaweb\CMS\Contracts\ShortCode as ShortCodeContract;
+use Juzaweb\CMS\Contracts\ShortCodeCompiler as ShortCodeCompilerContract;
 use Juzaweb\CMS\Support\ServiceProvider;
+use Juzaweb\CMS\Support\ShortCode\Compilers\ShortCodeCompiler;
+use Juzaweb\CMS\Support\ShortCode\ShortCode;
 
 class ShortCodeServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function register(): void
     {
-        //ShortCode::register('b', BoldShortcode::class);
+        $this->app->singleton(
+            ShortCodeCompilerContract::class,
+            ShortCodeCompiler::class
+        );
+
+        $this->app->singleton(
+            ShortCodeContract::class,
+            function ($app) {
+                return new ShortCode($app[ShortCodeCompilerContract::class]);
+            }
+        );
     }
 }

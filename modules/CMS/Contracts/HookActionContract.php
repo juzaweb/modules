@@ -363,10 +363,10 @@ interface HookActionContract
      *
      * @param  string|null  $postType  Key of the post type to retrieve, or null to retrieve all post types.
      *
-     * @return Collection A collection of post types if $postType is null,
+     * @return Collection|null A collection of post types if $postType is null,
      * or the data for the specified post type.
      */
-    public function getPostTypes(string $postType = null): Collection;
+    public function getPostTypes(string $postType = null): ?Collection;
 
     /**
      * Get email templates from global data by key or all templates if key is null.

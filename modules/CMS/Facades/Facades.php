@@ -114,6 +114,7 @@ class Facades
         return [
             'title' => [
                 'show_api' => true,
+                'validators' => ['required', 'string', 'max:255'],
             ],
             'description' => [
                 'show_api' => true,

@@ -27,13 +27,13 @@ function ajaxRequest(url, data = null, options = {}) {
     });
 
     jqxhr.done(function(response) {
-        if (options.callback || false) {
+        if (options.callback) {
             options.callback(response);
         }
     });
 
     jqxhr.fail(function(response) {
-        if (options.failCallback || false) {
+        if (options.failCallback) {
             options.failCallback(response);
         }
     });
