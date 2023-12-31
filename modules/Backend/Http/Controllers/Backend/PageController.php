@@ -24,9 +24,7 @@ class PageController extends BackendController
     {
         $page = HookAction::getAdminPages($this->getPageSlug());
 
-        if ($page === null) {
-            abort(404);
-        }
+        abort_if($page === null, 404);
 
         if (is_array($page)) {
             $page = $this->recursiveGetPage($page);
@@ -38,9 +36,8 @@ class PageController extends BackendController
     protected function recursiveGetPage($page)
     {
         $page = $page[$this->getPageSlug(2)];
-        if (empty($page)) {
-            abort(404);
-        }
+
+        abort_unless($page, 404);
 
         if (is_array($page)) {
             $page = $this->recursiveGetPage($page);
@@ -49,10 +46,13 @@ class PageController extends BackendController
         return $page;
     }
 
-    protected function getPageSlug($index = 1): string
+    protected function getPageSlug(int $index = 1): string
     {
         $slugs = explode('/', Route::getCurrentRoute()->uri);
+        $adminSlugs = explode('/', config('juzaweb.admin_prefix'));
 
-        return $slugs[$index];
+        $slugs = array_values(array_diff($slugs, $adminSlugs));
+
+        return $slugs[$index - 1];
     }
 }

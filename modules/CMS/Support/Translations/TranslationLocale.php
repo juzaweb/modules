@@ -83,17 +83,17 @@ class TranslationLocale
 
             foreach ($files as $file) {
                 $trans = [];
-                $lang = json_decode(File::get($file->getRealPath()), true);
+                $lang = json_decode(File::get($file->getRealPath()), true, 512, JSON_THROW_ON_ERROR);
                 if ($locale != 'en') {
                     $localePath = $this->module->get('lang_path') . "/{$file->getFilename()}";
                     if (file_exists($localePath)) {
-                        $lang = array_merge($lang, json_decode(File::get($localePath), true));
+                        $lang = array_merge($lang, json_decode(File::get($localePath), true, 512, JSON_THROW_ON_ERROR));
                     }
                 }
 
                 $langPublish = $this->module->get('publish_path') .'/'. $file->getFilename();
                 if (file_exists($langPublish)) {
-                    $langPublish = json_decode(File::get($langPublish), true);
+                    $langPublish = json_decode(File::get($langPublish), true, 512, JSON_THROW_ON_ERROR);
                     foreach ($langPublish as $langKey => $langVal) {
                         $trans[$langKey] = $langVal;
                     }

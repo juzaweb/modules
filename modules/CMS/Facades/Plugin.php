@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static getPath(string $path = '')
  * @method static string assets(string $plugin, string $path)
  * @method static bool isEnabled(string $name)
+ * @method static array allEnabled()
  *
  * @see \Juzaweb\CMS\Support\LocalPluginRepository
  */
