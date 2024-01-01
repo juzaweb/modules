@@ -18,7 +18,12 @@ class TaxonomyRepositoryEloquent extends BaseRepositoryEloquent implements Taxon
 {
     use UseSortableCriteria, UseSearchCriteria, UseFilterCriteria, UseSortableCriteria;
 
-    protected array $sortableFields = ['name', 'total_post', 'post_type', 'taxonomy'];
+    protected array $sortableFields = [
+        'name',
+        'total_post',
+        'post_type',
+        'taxonomy',
+    ];
     
     protected array $searchableFields = [
         'name',

@@ -10,15 +10,21 @@
 
 namespace Juzaweb\Backend\Http\Datatables\PostType;
 
-use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Backend\Models\Taxonomy;
+use Juzaweb\Backend\Repositories\TaxonomyRepository;
 use Juzaweb\CMS\Abstracts\DataTable;
 
 class TaxonomyDataTable extends DataTable
 {
     protected array $taxonomy;
+
+    public function __construct(
+        protected TaxonomyRepository $taxonomyRepository
+    ) {
+    }
 
     public function mount($taxonomy): void
     {
@@ -71,19 +77,22 @@ class TaxonomyDataTable extends DataTable
      */
     public function query(array $data): Builder
     {
-        /**
-         * @var Builder $query
-         */
-        $query = $this->makeModel()->query()->with('parent');
         $data['taxonomy'] = $this->taxonomy['taxonomy'];
 
         if ($this->taxonomy['taxonomy'] != 'tags') {
             $data['post_type'] = $this->taxonomy['post_type'];
         }
 
-        $query->whereFilter($data);
+        $sort = [
+            'sort_order' => Arr::get($data, 'order', 'desc'),
+            'sort_by' => Arr::get($data, 'sort', 'id')
+        ];
 
-        return $query;
+        return $this->taxonomyRepository
+            ->withSearchs(Arr::get($data, 'keyword'))
+            ->withFilters($data)
+            ->withSorts($sort)
+            ->getQuery();
     }
 
     public function rowAction(mixed $row): array

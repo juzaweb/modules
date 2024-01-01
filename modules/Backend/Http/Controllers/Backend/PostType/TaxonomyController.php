@@ -31,7 +31,7 @@ class TaxonomyController extends BackendController
     {
         [$postType, $taxonomy] = $params;
         $setting = $this->getSetting($postType, $taxonomy);
-        $dataTable = new TaxonomyDataTable();
+        $dataTable = app()->make(TaxonomyDataTable::class);
         $dataTable->mountData($setting->toArray());
         return $dataTable;
     }
