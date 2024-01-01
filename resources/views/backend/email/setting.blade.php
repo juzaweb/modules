@@ -85,6 +85,7 @@
                 'label' => trans('cms::app.email'),
                 'name' => 'email',
                 'required' => true,
+                'autocomplete' => 'on',
             ])@endcomponent
 
             <button type="submit" class="btn btn-success">

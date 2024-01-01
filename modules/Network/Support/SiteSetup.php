@@ -12,6 +12,7 @@ namespace Juzaweb\Network\Support;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
 use Illuminate\Database\ConnectionResolverInterface;
+use Juzaweb\CMS\Contracts\OverwriteConfigContract;
 use Juzaweb\Network\Contracts\SiteSetupContract;
 use Juzaweb\Network\Models\Database;
 
@@ -21,7 +22,8 @@ class SiteSetup implements SiteSetupContract
 
     public function __construct(
         protected ConfigRepository $config,
-        protected ConnectionResolverInterface $db
+        protected ConnectionResolverInterface $db,
+        protected OverwriteConfigContract $overwriteConfig
     ) {
     }
 
@@ -47,6 +49,8 @@ class SiteSetup implements SiteSetupContract
             $this->setCachePrefix("jw_site_{$site->id}");
 
             $this->config->set('queue.connections.database.connection', $this->getRootConnection());
+
+            $this->overwriteConfig->init();
         }
     }
 

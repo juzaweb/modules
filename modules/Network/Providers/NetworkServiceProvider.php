@@ -14,6 +14,7 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Queue\Jobs\DatabaseJob;
 use Illuminate\Support\Facades\Queue;
+use Juzaweb\CMS\Contracts\OverwriteConfigContract;
 use Juzaweb\CMS\Facades\ActionRegister;
 use Juzaweb\CMS\Support\Application;
 use Juzaweb\CMS\Support\ServiceProvider;
@@ -87,7 +88,8 @@ class NetworkServiceProvider extends ServiceProvider
             function ($app) {
                 return new SiteSetup(
                     $app['config'],
-                    $app['db']
+                    $app['db'],
+                    $app[OverwriteConfigContract::class]
                 );
             }
         );

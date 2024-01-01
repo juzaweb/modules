@@ -19,7 +19,7 @@
                 class="form-control {{ $class ?? '' }}"
                 id="{{ $id ?? $name }}"
                 value="{{ $value ?? $default ?? '' }}"
-                autocomplete="off"
+                autocomplete="{{ $autocomplete ?? 'off' }}"
                 placeholder="{{ $placeholder ?? '' }}"
                 @if($disabled ?? false) disabled @endif
                 @if($required ?? false) required @endif
@@ -48,7 +48,7 @@
             class="form-control {{ $class ?? '' }}"
             id="{{ $id ?? $name }}"
             value="{{ $value ?? $default ?? '' }}"
-            autocomplete="off"
+            autocomplete="{{ $autocomplete ?? 'off' }}"
             placeholder="{{ $placeholder ?? '' }}"
             @if($disabled ?? false) disabled @endif
             @if($required ?? false) required @endif

@@ -3,6 +3,7 @@
 namespace Juzaweb\CMS\Support\Config;
 
 use Illuminate\Contracts\Config\Repository as ConfigRepository;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\Support\Facades\URL;
 use Juzaweb\CMS\Contracts\OverwriteConfigContract;
 use Juzaweb\CMS\Support\Config as DbConfig;
@@ -13,13 +14,13 @@ class OverwriteConfig implements OverwriteConfigContract
     private ConfigRepository $config;
     private DbConfig $dbConfig;
     private Request $request;
-    private $locale;
+    private Translator $locale;
 
     public function __construct(
         ConfigRepository $config,
         DbConfig $dbConfig,
         Request $request,
-        $locale
+        Translator $locale
     ) {
         $this->config = $config;
         $this->dbConfig = $dbConfig;
