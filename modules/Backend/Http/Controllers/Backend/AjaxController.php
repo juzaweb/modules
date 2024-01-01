@@ -18,7 +18,7 @@ use Juzaweb\CMS\Http\Controllers\BackendController;
 
 class AjaxController extends BackendController
 {
-    public function handle(Request $request, $slug)
+    public function handle(Request $request, string $slug)
     {
         $key = str_replace('/', '.', $slug);
 

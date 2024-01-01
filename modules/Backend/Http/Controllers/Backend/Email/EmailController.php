@@ -14,12 +14,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Juzaweb\Backend\Http\Requests\Setting\EmailSettingRequest;
+use Juzaweb\Backend\Http\Requests\Setting\TestMailRequest;
 use Juzaweb\CMS\Http\Controllers\BackendController;
 use Juzaweb\CMS\Support\Email;
 
 class EmailController extends BackendController
 {
-    public function save(Request $request): JsonResponse|RedirectResponse
+    public function save(EmailSettingRequest $request): JsonResponse|RedirectResponse
     {
         $email = $request->only(
             [
@@ -44,15 +46,10 @@ class EmailController extends BackendController
         );
     }
 
-    public function sendTestMail(Request $request): JsonResponse|RedirectResponse
+    public function sendTestMail(TestMailRequest $request): JsonResponse|RedirectResponse
     {
-        $request->validate(
-            [
-                'email' => 'required|email',
-            ]
-        );
-
         $email = $request->post('email');
+
         Email::make()
             ->setEmails($email)
             ->setSubject('Send email for {{ name }}')

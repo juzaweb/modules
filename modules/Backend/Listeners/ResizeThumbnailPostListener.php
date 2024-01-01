@@ -42,6 +42,10 @@ class ResizeThumbnailPostListener
         }
 
         $media = MediaFile::findByPath($event->post->thumbnail);
+        if ($media === null) {
+            return;
+        }
+
         $filePath = get_media_image_with_size(
             $event->post->thumbnail,
             "{$size['width']}x{$size['height']}",

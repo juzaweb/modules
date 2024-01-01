@@ -56,22 +56,22 @@ class NotificationDatatable extends DataTable
         return $actions;
     }
 
-    public function bulkActions(string $action, array $ids)
+    public function bulkActions(string $action, array $ids): void
     {
+        $notifications = $this->notificationRepository->findWhereIn('id', $ids);
+
         switch ($action) {
             case 'delete':
-                foreach ($ids as $id) {
-                    $this->notificationRepository->delete($id);
-                }
+                $notifications->each(function ($notification) {
+                    $notification->delete();
+                });
                 break;
             case 'viewed':
-                foreach ($ids as $id) {
-                    $notify = $this->notificationRepository->find($id);
-
-                    if (empty($notify->read_at)) {
-                        $notify->update(['read_at' => now()]);
+                $notifications->each(function ($notification) {
+                    if (empty($notification->read_at)) {
+                        $notification->update(['read_at' => now()]);
                     }
-                }
+                });
                 break;
         }
     }
