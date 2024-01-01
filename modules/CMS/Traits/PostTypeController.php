@@ -177,7 +177,7 @@ trait PostTypeController
      */
     protected function getDataTable(...$params): PostTypeDataTable|DataTable
     {
-        $dataTable = new PostTypeDataTable();
+        $dataTable = app()->make(PostTypeDataTable::class);
         $dataTable->mountData($this->getSetting()->toArray());
         return $dataTable;
     }

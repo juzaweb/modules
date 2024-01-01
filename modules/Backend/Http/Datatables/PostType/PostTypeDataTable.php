@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Models\Language;
@@ -25,6 +26,11 @@ class PostTypeDataTable extends DataTable
     protected ?Collection $resourses = null;
 
     protected ?Collection $taxonomies = null;
+
+    public function __construct(
+        protected PostRepository $postRepository
+    ) {
+    }
 
     public function mount($postType): void
     {
@@ -206,23 +212,23 @@ class PostTypeDataTable extends DataTable
         return collect($data)->sortBy('priority')->all();
     }
 
-    public function query($data): Builder
+    public function query(array $data): Builder
     {
-        /**
-         * @var Builder $query
-         */
-        $query = $this->makeModel()->with(['taxonomies']);
-        $query->where(['type' => $this->postType['key']]);
-        $data['q'] = Arr::get($data, 'keyword');
         $data['type'] = $this->postType['key'];
 
-        if (empty($data['status'])) {
-            $query->where('status', '!=', 'trash');
-        }
+        $sort = [
+            'sort_order' => Arr::get($data, 'order', 'desc'),
+            'sort_by' => Arr::get($data, 'sort', 'id')
+        ];
 
-        $query->whereFilter($data);
-
-        return $query;
+        return $this->postRepository
+            ->withSearchs(Arr::get($data, 'keyword'))
+            ->withFilters($data)
+            ->withSorts($sort)
+            ->scopeQuery(
+                fn ($q) => $q->when(empty($data['status']), fn ($q2) => $q2->where('status', '!=', 'trash'))
+            )
+            ->getQuery();
     }
 
     public function rowActionsFormatter(mixed $value, mixed $row, int $index): string

@@ -22,7 +22,7 @@ class SortCriteria extends Criteria implements CriteriaInterface
     public function __construct(protected ?array $queries = null)
     {
         if (is_null($this->queries)) {
-            $this->queries = request()->all();
+            $this->queries = request()?->all();
         }
     }
 
