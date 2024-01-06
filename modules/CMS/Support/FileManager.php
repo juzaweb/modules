@@ -154,7 +154,7 @@ class FileManager
     public function getUserId(): ?int
     {
         global $jw_user;
-
+        dump($this->user_id);
         return $this->user_id ?? $jw_user->id;
     }
 
@@ -194,8 +194,6 @@ class FileManager
      */
     public function save(): MediaFile
     {
-        global $jw_user;
-
         if ($this->resource_type != 'url' || $this->downloadFileUrlToServer) {
             $media = $this->uploadUploadedFile();
         } else {
@@ -214,7 +212,7 @@ class FileManager
                     'size' => $fileSize,
                     'extension' => $extension,
                     'folder_id' => $this->folder_id,
-                    'user_id' => $this->user_id ?: $jw_user->id,
+                    'user_id' => $this->getUserId(),
                     'disk' => $this->disk,
                 ]
             );
