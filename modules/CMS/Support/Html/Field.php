@@ -87,6 +87,11 @@ class Field implements FieldContract
                 $data['name'],
                 Arr::get($data, 'data', [])
             ),
+            'hidden' => $this->hidden(
+                $data['label'],
+                $data['name'],
+                Arr::get($data, 'data', [])
+            ),
             'editor' => $this->editor(
                 $data['label'],
                 $data['name'],

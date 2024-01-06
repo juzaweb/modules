@@ -27,6 +27,7 @@ trait InputField
 
     public function hidden(string|Model $label, ?string $name, ?array $options = []): Factory|View
     {
+        $options['type'] = 'hidden';
         $options = $this->mapOptions($label, $name, $options);
 
         return view('cms::components.form_input', $options);

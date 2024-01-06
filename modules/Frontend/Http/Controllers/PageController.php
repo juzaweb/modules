@@ -131,8 +131,8 @@ class PageController extends FrontendController
         if (($template = $page->getMeta('template'))
             && $data = $this->getThemeRegister("templates.{$template}.data")
         ) {
-            foreach ($data as $key => $item) {
-                $params['page'][$key] = $this->getPageCustomData($request, $item, $params);
+            foreach ($data as $key => $option) {
+                $params['page'][$key] = $this->getPageCustomData($request, $option, $params);
             }
         }
 
@@ -149,38 +149,43 @@ class PageController extends FrontendController
         );
     }
 
-    protected function getPageCustomData(Request $request, array $item, array $params)
+    protected function getPageCustomData(Request $request, array $option, array $params)
     {
-        $pageData = $this->hookAction->getPageCustomDatas($item['type']);
+        $pageData = $this->hookAction->getPageCustomDatas($option['type']);
 
         if ($pageData) {
-            return $pageData->get('callback')($request, $item, $params);
+            return apply_filters(
+                'theme.get_page_custom_data',
+                $pageData->get('callback')($request, $option, $params),
+                $option,
+                $params
+            );
         }
 
-        $data = match ($item['type']) {
+        $data = match ($option['type']) {
             'post_liked' => $this->postRepository
                 ->scopeQuery(
                     fn ($query) => $query
-                        ->when(isset($item['post_type']), fn ($q) => $q->where('type', '=', $item['post_type']))
+                        ->when(isset($option['post_type']), fn ($q) => $q->where('type', '=', $option['post_type']))
                 )
                 ->getLikedPosts($request->user(), get_config('posts_per_page', 12))
                 ->appends(request()?->query()),
             'popular_posts' => get_popular_posts(
-                Arr::get($item, 'post_type'),
+                Arr::get($option, 'post_type'),
                 $params['post'],
-                Arr::get($item, 'limit', 5)
+                Arr::get($option, 'limit', 5)
             ),
             'related_posts' => get_related_posts(
                 $params['post'],
-                $item['limit'] ?? 5,
-                $item['taxonomy'] ?? null
+                $option['limit'] ?? 5,
+                $option['taxonomy'] ?? null
             ),
             'previous_post' => get_previous_post($params['post']),
             'next_post' => get_next_post($params['post']),
             default => null,
         };
 
-        return apply_filters('theme.get_page_custom_data', $data, $item, $params);
+        return apply_filters('theme.get_page_custom_data', $data, $option, $params);
     }
 
     protected function getViewPage(Post $page, $themeInfo, array $params = []): string

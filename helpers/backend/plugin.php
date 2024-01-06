@@ -8,6 +8,8 @@
  * @license    GNU V2
  */
 
+use Illuminate\Support\Str;
+
 if (! function_exists('plugin_path')) {
     function plugin_path($name, $path = ''): string
     {
@@ -30,5 +32,12 @@ if (! function_exists('installed_plugins')) {
         $plugins = app('plugins')->all();
 
         return array_keys($plugins);
+    }
+}
+
+if (! function_exists('plugin_enabled')) {
+    function plugin_enabled(string $name): bool
+    {
+        return app('plugins')->isEnabled($name);
     }
 }

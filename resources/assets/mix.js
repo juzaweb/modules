@@ -28,17 +28,18 @@ const basePublish = baseAsset + '/public';
 //     `${basePublish}/css/code-editor.min.css`
 // );
 //
-// mix.styles(
-//     [
-//         baseAsset + '/css/widget.css',
-//         baseAsset + '/css/media.css',
-//         baseAsset + '/css/menu.css',
-//         baseAsset + '/css/page.css',
-//         baseAsset + '/css/customs.css',
-//         baseAsset + '/css/theme.css',
-//     ],
-//     `${basePublish}/css/custom.min.css`
-// );
+mix.styles(
+    [
+        baseAsset + '/css/widget.css',
+        baseAsset + '/css/media.css',
+        baseAsset + '/css/menu.css',
+        baseAsset + '/css/page.css',
+        baseAsset + '/css/customs.css',
+        baseAsset + '/css/theme.css',
+        baseAsset + '/css/repeater.css',
+    ],
+    `${basePublish}/css/custom.min.css`
+);
 //
 // mix.styles(
 //     [
@@ -70,6 +71,7 @@ mix.combine(
         baseAsset + '/js/customs.js',
         baseAsset + '/js/setting.js',
         baseAsset + '/js/page.js',
+        baseAsset + '/js/repeater.js',
     ],
     `${basePublish}/js/custom.min.js`
 );
