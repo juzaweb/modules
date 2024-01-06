@@ -26,11 +26,11 @@ class FileManager
 
     protected $resource;
 
-    protected $resource_type;
+    protected string $resource_type;
 
-    protected $folder_id;
+    protected ?int $folder_id;
 
-    protected $user_id;
+    protected ?int $user_id;
 
     protected ?int $parent_id = null;
 
