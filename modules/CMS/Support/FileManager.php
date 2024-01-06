@@ -151,6 +151,13 @@ class FileManager
         return $this;
     }
 
+    public function getUserId(): ?int
+    {
+        global $jw_user;
+
+        return $this->user_id ?? $jw_user->id;
+    }
+
     public function setDisk(?string $disk): static
     {
         $this->disk = $disk;
@@ -220,8 +227,6 @@ class FileManager
 
     protected function uploadUploadedFile(): MediaFile
     {
-        global $jw_user;
-
         $uploadedFile = $this->makeUploadedFile();
         if (! $this->fileIsValid($uploadedFile)) {
             $this->removeUploadedFile($uploadedFile);
@@ -253,7 +258,7 @@ class FileManager
                     'size' => $uploadedFile->getSize(),
                     'extension' => $this->getFileExtension($uploadedFile),
                     'folder_id' => $this->folder_id,
-                    'user_id' => $this->user_id ?: $jw_user->id,
+                    'user_id' => $this->getUserId(),
                     'disk' => $this->disk ?? config('juzaweb.filemanager.disk'),
                     'parent_id' => $this->parent_id,
                     'image_size' => $this->image_size ?? $this->getImageSizeFromUploadedFile($uploadedFile),
