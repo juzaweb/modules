@@ -122,7 +122,7 @@ class FileManager
      */
     public function setFolder(?int $folderId): static
     {
-        if (empty($folderId) || $folderId <= 0) {
+        if ($folderId === null || $folderId <= 0) {
             $folderId = null;
         }
 
@@ -154,7 +154,7 @@ class FileManager
     public function getUserId(): ?int
     {
         global $jw_user;
-        dump($this->user_id);
+
         return $this->user_id ?? $jw_user->id;
     }
 
@@ -306,6 +306,10 @@ class FileManager
 
         self::make($thumbPath)
             ->setParentId($media?->id)
+            ->setFolder($this->folder_id)
+            ->setUserId($this->getUserId())
+            ->setType($this->type)
+            ->setDisk($this->disk)
             ->save();
     }
 
