@@ -78,11 +78,6 @@ class FileManager
             ->save();
     }
 
-    public function __construct()
-    {
-        $this->client = new Client();
-    }
-
     /**
      * Add resource for upload
      *
@@ -458,7 +453,7 @@ class FileManager
     protected function getContentFileUrl($url): bool|string
     {
         try {
-            $content = $this->client->get(
+            $content = $this->getHttp()->get(
                 $url,
                 [
                     'timeout' => 10,
@@ -514,5 +509,13 @@ class FileManager
         $this->storage = Storage::disk($this->disk ?? config('juzaweb.filemanager.disk'));
 
         return $this->storage;
+    }
+
+    public function getHttp(): Client
+    {
+        return $this->client ?? ($this->client = new Client([
+            'timeout' => 10,
+            'connect_timeout' => 10,
+        ]));
     }
 }
