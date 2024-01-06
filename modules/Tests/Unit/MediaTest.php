@@ -21,11 +21,15 @@ class MediaTest extends TestCase
     {
         Storage::put('tmps/test.gif', base64_decode('R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='));
 
+        $user = User::first();
+
+        $this->printText("Upload to User: " . $user->id);
+
         $media = FileManager::addFile(
             Storage::path('tmps/test.gif'),
             'file',
             null,
-            User::first()->id
+            $user->id
         );
 
         $this->assertNotEmpty($media->path);
