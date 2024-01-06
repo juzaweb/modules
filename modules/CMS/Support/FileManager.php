@@ -285,7 +285,7 @@ class FileManager
         return jw_basename(pathinfo($file, PATHINFO_EXTENSION));
     }
 
-    protected function makeThumbImage(string $path, ?MediaFile $media = null): void
+    protected function makeThumbImage(string $path, MediaFile $media): void
     {
         $thumbPath = get_media_image_with_size(
             $path,
@@ -305,7 +305,7 @@ class FileManager
         $img->save($thumbPath, 100);
 
         self::make($thumbPath)
-            ->setParentId($media?->id)
+            ->setParentId($media->id)
             ->setFolder($this->folder_id)
             ->setUserId($this->getUserId())
             ->setType($this->type)
