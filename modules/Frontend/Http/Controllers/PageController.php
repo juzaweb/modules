@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Juzaweb\Backend\Events\PostViewed;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Repositories\PostRepository;
+use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
 
@@ -15,8 +16,10 @@ class PageController extends FrontendController
 {
     protected array $themeRegister;
 
-    public function __construct(protected PostRepository $postRepository)
-    {
+    public function __construct(
+        protected PostRepository $postRepository,
+        protected HookActionContract $hookAction
+    ) {
     }
 
     public function index(Request $request, ...$slug)
@@ -98,10 +101,10 @@ class PageController extends FrontendController
     /**
      * @param  Post  $page
      * @param  array  $slug
-     * @param $request
+     * @param Request $request
      * @return array
      */
-    protected function getPageParams(Post $page, array $slug, $request): array
+    protected function getPageParams(Post $page, array $slug, Request $request): array
     {
         $image = $page->thumbnail ? upload_url($page->thumbnail) : null;
 
@@ -129,7 +132,7 @@ class PageController extends FrontendController
             && $data = $this->getThemeRegister("templates.{$template}.data")
         ) {
             foreach ($data as $key => $item) {
-                $params['page'][$key] = $this->getPageCustomData($item, $params);
+                $params['page'][$key] = $this->getPageCustomData($request, $item, $params);
             }
         }
 
@@ -146,17 +149,21 @@ class PageController extends FrontendController
         );
     }
 
-    protected function getPageCustomData(array $item, array $params)
+    protected function getPageCustomData(Request $request, array $item, array $params)
     {
-        global $jw_user;
+        $pageData = $this->hookAction->getPageCustomDatas($item['type']);
 
-        return match ($item['type']) {
+        if ($pageData) {
+            return $pageData->get('callback')($request, $item, $params);
+        }
+
+        $data = match ($item['type']) {
             'post_liked' => $this->postRepository
                 ->scopeQuery(
-                    fn($query) => $query
-                        ->when(isset($item['post_type']), fn($q) => $q->where('type', '=', $item['post_type']))
+                    fn ($query) => $query
+                        ->when(isset($item['post_type']), fn ($q) => $q->where('type', '=', $item['post_type']))
                 )
-                ->getLikedPosts($jw_user, get_config('posts_per_page', 12))
+                ->getLikedPosts($request->user(), get_config('posts_per_page', 12))
                 ->appends(request()?->query()),
             'popular_posts' => get_popular_posts(
                 Arr::get($item, 'post_type'),
@@ -172,6 +179,8 @@ class PageController extends FrontendController
             'next_post' => get_next_post($params['post']),
             default => null,
         };
+
+        return apply_filters('theme.get_page_custom_data', $data, $item, $params);
     }
 
     protected function getViewPage(Post $page, $themeInfo, array $params = []): string

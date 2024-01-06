@@ -16,12 +16,16 @@ use Juzaweb\CMS\Contracts\GlobalDataContract;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Support\HookActions\Traits\MenuHookAction;
 use Juzaweb\CMS\Support\HookActions\Traits\StyleHookAction;
-use Juzaweb\CMS\Traits\HookAction\GetHookAction;
-use Juzaweb\CMS\Traits\HookAction\RegisterHookAction;
+use Juzaweb\CMS\Traits\HookActions;
 
 class HookAction implements HookActionContract
 {
-    use Macroable, RegisterHookAction, GetHookAction, MenuHookAction, StyleHookAction;
+    use Macroable,
+        HookActions\RegisterHookAction,
+        HookActions\GetHookAction,
+        MenuHookAction,
+        StyleHookAction,
+        HookActions\PageCustomData;
 
     protected EventyContract $hook;
 

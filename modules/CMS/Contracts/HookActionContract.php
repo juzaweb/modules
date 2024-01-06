@@ -16,8 +16,8 @@ use Juzaweb\API\Support\Swagger\SwaggerDocument;
 
 /**
  * @see \Juzaweb\CMS\Support\HookAction
- * @see \Juzaweb\CMS\Traits\HookAction\RegisterHookAction
- * @see \Juzaweb\CMS\Traits\HookAction\GetHookAction
+ * @see \Juzaweb\CMS\Traits\HookActions\RegisterHookAction
+ * @see \Juzaweb\CMS\Traits\HookActions\GetHookAction
  */
 interface HookActionContract
 {
@@ -605,4 +605,25 @@ interface HookActionContract
      * @return void
      */
     public function addNetworkSettingForm(string $key, array $args = []): void;
+
+    /**
+     * Retrieves the custom data for the page.
+     *
+     * @param string|null $key The key of the custom data to retrieve. If null, retrieves all the custom data.
+     * @return Collection|null The custom data for the page, or null if the data is not found.
+     */
+    public function getPageCustomDatas(string|null $key = null): ?Collection;
+
+    /**
+     * Registers custom data for a page.
+     *
+     * @param string $key The key for the custom data.
+     * @param callable $value The callback function to retrieve the custom data.
+     * E.x: function($request, $option, $params) { }
+     * - $request: Request
+     * - $option: Option config in theme
+     * - $params: Page params
+     * @return void
+     */
+    public function registerPageCustomData(string $key, callable $value): void;
 }

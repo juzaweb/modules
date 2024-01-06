@@ -13,7 +13,8 @@ Route::match(
     [AjaxController::class, 'ajax']
 )
     ->name('ajax')
-    ->where('slug', '[a-z0-9\-\/]+');
+    ->where('slug', '[a-z0-9\-\/]+')
+    ->middleware('throttle:30,1');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

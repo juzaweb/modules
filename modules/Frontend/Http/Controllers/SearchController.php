@@ -4,6 +4,7 @@ namespace Juzaweb\Frontend\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
 use Juzaweb\Backend\Http\Resources\PostResourceCollection;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Repositories\PostRepository;
@@ -15,7 +16,7 @@ class SearchController extends FrontendController
     {
     }
     
-    public function index(Request $request): string|\Inertia\Response
+    public function index(Request $request): string|Response
     {
         $keyword = $request->input('q');
         $title = $keyword ? trans(
@@ -51,8 +52,8 @@ class SearchController extends FrontendController
     public function ajaxSearch(Request $request): JsonResponse
     {
         $limit = $request->input('limit', 5);
-        if ($limit > 100) {
-            $limit = 100;
+        if ($limit > 50) {
+            $limit = 50;
         }
         
         $paginate = Post::selectFrontendBuilder()->whereSearch($request->all())->paginate($limit);

@@ -58,7 +58,7 @@ class FrontendPostCriteria implements CriteriaInterface
                     'json_taxonomies',
                 ]
             )
-            ->when($this->type, fn($q) => $q->where('type', $this->type))
+            ->when($this->type, fn ($q) => $q->where('type', $this->type))
             ->wherePublish();
 
         return apply_filters('post.selectFrontendBuilder', $builder);
