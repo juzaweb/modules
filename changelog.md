@@ -1,3 +1,21 @@
+### v1.0.9 
+* :bug: Fix add file url media
+* :+1: Remove repeater item
+* :+1: Page custom data support
+* :+1: Filter Taxonomy datatable
+* :+1: Filter posts datatable
+* :+1: Overwrite configs sub sites
+* :+1: Fix test send mail
+* :+1: Add media on resize
+* :+1: Google analytics for CMS
+* :+1: Network support language lines
+* :+1: Fix get page admin
+* :+1: Validate setting
+* :+1: Fix dev tool
+* :+1: Custom database queue
+* :+1: JQuery helpers
+* :+1: Form ajax submit return
+
 ### v1.0.8 
 * :+1: Show thumbnail posts
 * :bug: Fix test modules
