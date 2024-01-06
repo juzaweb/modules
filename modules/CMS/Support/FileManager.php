@@ -28,9 +28,9 @@ class FileManager
 
     protected string $resource_type;
 
-    protected ?int $folder_id;
+    protected ?int $folder_id = null;
 
-    protected ?int $user_id;
+    protected ?int $user_id = null;
 
     protected ?int $parent_id = null;
 
