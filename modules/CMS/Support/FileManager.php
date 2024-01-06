@@ -364,7 +364,7 @@ class FileManager
         }
 
         $this->getStorage('tmp')->put($tempName, $content);
-        return (new UploadedFile($this->getStorage()->path($tempName), $tempName));
+        return (new UploadedFile($this->getStorage('tmp')->path($tempName), $tempName));
     }
 
     protected function makeFilename(UploadedFile $file, string $uploadFolder): string|null

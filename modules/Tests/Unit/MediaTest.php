@@ -17,7 +17,7 @@ use Juzaweb\Tests\TestCase;
 
 class MediaTest extends TestCase
 {
-    public function testUploadByPath()
+    public function testUploadByPath(): void
     {
         Storage::put('tmps/test.gif', base64_decode('R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='));
 
@@ -33,7 +33,7 @@ class MediaTest extends TestCase
         $this->assertFileDoesNotExist(Storage::path('tmps/test.gif'));
     }
 
-    public function testUploadByUrl()
+    public function testUploadByUrl(): void
     {
         $img = 'https://cdn.juzaweb.com/jw-styles/juzaweb/images/thumb-default.png';
 
