@@ -132,7 +132,7 @@ class PageController extends FrontendController
             && $data = $this->getThemeRegister("templates.{$template}.data")
         ) {
             foreach ($data as $key => $option) {
-                $params['page'][$key] = $this->getPageCustomData($request, $option, $params);
+                $params[$key] = $this->getPageCustomData($request, $option, $params);
             }
         }
 
@@ -151,7 +151,12 @@ class PageController extends FrontendController
 
     protected function getPageCustomData(Request $request, array $option, array $params)
     {
-        $pageData = $this->hookAction->getPageCustomDatas($option['type']);
+        $type = Arr::get($option, 'type');
+        if (empty($type)) {
+            return null;
+        }
+
+        $pageData = $this->hookAction->getPageCustomDatas($type);
 
         if ($pageData) {
             return apply_filters(
@@ -162,7 +167,7 @@ class PageController extends FrontendController
             );
         }
 
-        $data = match ($option['type']) {
+        $data = match ($type) {
             'post_liked' => $this->postRepository
                 ->scopeQuery(
                     fn ($query) => $query

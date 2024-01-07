@@ -83,20 +83,6 @@ class ProfileController extends FrontendController
         );
     }
 
-    public function changePassword(Request $request): View|Factory|Response|string
-    {
-        $title = trans('cms::app.change_password');
-        $user = UserResource::make($request->user())->toArray($request);
-
-        return $this->view(
-            'theme::profile.change_password',
-            compact(
-                'title',
-                'user'
-            )
-        );
-    }
-
     public function notification(): View|Factory|Response|string
     {
         global $jw_user;
