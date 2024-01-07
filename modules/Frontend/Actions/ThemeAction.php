@@ -297,13 +297,15 @@ class ThemeAction extends Action
             'index',
             [
                 'title' => trans('cms::app.profile'),
+                'contents' => 'cms::frontend.profile.index',
             ]
         );
 
         HookAction::registerProfilePage(
-            'change_password',
+            'change-password',
             [
                 'title' => trans('cms::app.change_password'),
+                'contents' => 'cms::frontend.profile.change_password',
             ]
         );
     }
