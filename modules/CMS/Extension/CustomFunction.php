@@ -89,6 +89,7 @@ class CustomFunction extends AbstractExtension
             new TwigFunction('count_unread_notifications', 'count_unread_notifications'),
             new TwigFunction('theme_filters', 'theme_filters'),
             new TwigFunction('short_code_render', 'short_code_render'),
+            new TwigFunction('view_exists', 'theme_view_exists'),
         ];
     }
 }

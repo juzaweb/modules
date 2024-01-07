@@ -1,3 +1,6 @@
+### v1.0.12 
+* :+1: Logout from id
+
 ### v1.0.11 
 * :+1: Profile pages active
 * :+1: Add site user table
