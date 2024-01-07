@@ -303,7 +303,7 @@ class Facades
     {
         return collect(
             [
-                'JWQuery' => JWQuery::class,
+                //'JWQuery' => JWQuery::class,
             ]
         );
     }

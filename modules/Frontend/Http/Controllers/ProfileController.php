@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\Backend\Repositories\UserRepository;
+use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
 use Juzaweb\Frontend\Http\Requests\ChangePasswordRequest;
@@ -20,13 +21,15 @@ use Juzaweb\Frontend\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends FrontendController
 {
-    public function __construct(protected UserRepository $userRepository)
-    {
+    public function __construct(
+        protected UserRepository $userRepository,
+        protected HookActionContract $hookAction
+    ) {
     }
 
     public function index(?string $slug = null)
     {
-        $pages = HookAction::getProfilePages()->toArray();
+        $pages = $this->hookAction->getProfilePages()->toArray();
         $page = Arr::get($pages, $slug ?? 'index');
 
         abort_unless($page, 404);
@@ -36,14 +39,23 @@ class ProfileController extends FrontendController
             return app()->call("{$callback[0]}@{$callback[1]}", ['page' => $page]);
         }
 
-        return $this->view(
-            'theme::profile.index',
-            compact(
-                'title',
-                'slug',
-                'pages'
-            )
+        $params = compact(
+            'title',
+            'slug',
+            'page'
         );
+
+        $params['pages'] = $this->filterPagesParams($pages);
+
+        $params = apply_filters(
+            'theme.profile.params',
+            array_merge($params, $this->arrayMapData(Arr::get($page, 'data', []))),
+            $page,
+            $slug,
+            $pages
+        );
+
+        return $this->view($this->getViewForPage($page), $params);
     }
 
     public function update(UpdateProfileRequest $request): JsonResponse|RedirectResponse
@@ -127,5 +139,34 @@ class ProfileController extends FrontendController
                 'message' => trans('cms::app.change_password_successfully'),
             ]
         );
+    }
+
+    protected function filterPagesParams(array $pages): array
+    {
+        return collect($pages)->map(function ($page) {
+            unset($page['data']);
+
+            return $page;
+        })->toArray();
+    }
+
+    protected function arrayMapData(array $data): array
+    {
+        return collect($data)
+            ->map(
+                function ($item) {
+                    if ($item instanceof \Closure) {
+                        return $item();
+                    }
+
+                    return $item;
+                }
+            )
+            ->toArray();
+    }
+
+    protected function getViewForPage(array $page)
+    {
+        return apply_filters('theme.profile.view', 'theme::profile.index', $page);
     }
 }

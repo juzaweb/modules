@@ -626,4 +626,16 @@ interface HookActionContract
      * @return void
      */
     public function registerPageCustomData(string $key, callable $value): void;
+
+    /**
+     * Registers a profile page.
+     *
+     * @param string $key The key of the profile page.
+     * @param array $args An array of additional arguments (optional).
+     *   - 'title' (string): The title of the profile page.
+     *   - 'slug' (string): The slug of the profile page.
+     *   - 'url' (string): The URL of the profile page.
+     * @return void
+     */
+    public function registerProfilePage(string $key, array $args = []): void;
 }

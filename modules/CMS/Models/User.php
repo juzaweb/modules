@@ -10,16 +10,21 @@
 
 namespace Juzaweb\CMS\Models;
 
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Juzaweb\Backend\Models\Notification;
 use Juzaweb\Backend\Models\PasswordReset;
 use Juzaweb\Backend\Models\SocialToken;
@@ -29,7 +34,9 @@ use Juzaweb\CMS\Traits\Permission\HasRoles;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\ResourceModel;
 use Juzaweb\Network\Facades\Network;
+use Juzaweb\Network\Models\Site;
 use Juzaweb\Network\Traits\RootNetworkUser;
+use Laravel\Passport\Client;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -41,8 +48,8 @@ use Laravel\Passport\HasApiTokens;
  * @property string|null $email_verified_at
  * @property string $password
  * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $avatar
  * @property int $is_admin
  * @property string $status unconfimred, banned, active
@@ -51,7 +58,7 @@ use Laravel\Passport\HasApiTokens;
  * @property array|null $data
  * @property-read int|null $notifications_count
  * @method static Builder|User active()
- * @method static \Juzaweb\CMS\Database\Factories\UserFactory factory(...$parameters)
+ * @method static UserFactory factory(...$parameters)
  * @method static Builder|User newModelQuery()
  * @method static Builder|User newQuery()
  * @method static Builder|User query()
@@ -70,30 +77,30 @@ use Laravel\Passport\HasApiTokens;
  * @method static Builder|User whereStatus($value)
  * @method static Builder|User whereUpdatedAt($value)
  * @method static Builder|User whereVerificationToken($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property string|null $two_factor_secret
  * @property string|null $two_factor_recovery_codes
  * @method static Builder|User whereTwoFactorRecoveryCodes($value)
  * @method static Builder|User whereTwoFactorSecret($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Permission[] $permissions
+ * @property-read Collection|\Juzaweb\Backend\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\Role[] $roles
+ * @property-read Collection|\Juzaweb\Backend\Models\Role[] $roles
  * @property-read int|null $roles_count
  * @method static Builder|User permission($permissions)
  * @method static Builder|User role($roles, $guard = null)
  * @property int|null $site_id
- * @property-read DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read \Illuminate\Database\Eloquent\Collection $tokens
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
+ * @property-read Collection $tokens
  * @property-read int|null $tokens_count
  * @method static Builder|User whereSiteId($value)
  * @property array|null $json_metas
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read Collection|Client[] $clients
  * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\CMS\Models\UserMeta[] $metas
+ * @property-read Collection|UserMeta[] $metas
  * @property-read int|null $metas_count
  * @property-read PasswordReset|null $passwordReset
  * @method static Builder|User whereJsonMetas($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|SocialToken[] $socialTokens
+ * @property-read Collection|SocialToken[] $socialTokens
  * @property-read int|null $social_tokens_count
  */
 class User extends Authenticatable
@@ -167,6 +174,18 @@ class User extends Authenticatable
     public function socialTokens(): HasMany
     {
         return $this->hasMany(SocialToken::class, 'user_id', 'id');
+    }
+
+    public function websites(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Site::class,
+            'network_site_user',
+            'user_id',
+            'site_id',
+            'id',
+            'id'
+        );
     }
 
     public function getMeta($key, $default = null): mixed

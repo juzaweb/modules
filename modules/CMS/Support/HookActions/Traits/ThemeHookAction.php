@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Support\HookActions\Traits;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 trait ThemeHookAction
 {
@@ -66,13 +67,10 @@ trait ThemeHookAction
         $slug = str_replace(['_'], ['-'], $key);
 
         $default = [
-            'title' => '',
+            'title' => Str::title($key),
             'key' => $key,
             'slug' => $slug,
-            'url' => route(
-                'profile',
-                $key == 'index' ? null : '/' . $slug
-            ),
+            'url' => route('profile', $key == 'index' ? null : $slug),
         ];
 
         $args = array_merge($default, $args);
