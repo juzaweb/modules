@@ -145,7 +145,9 @@ class ProfileController extends FrontendController
     {
         return collect($pages)->map(function ($page) {
             unset($page['data']);
-
+            $page['active'] = $page['slug'] == 'index'
+                ? request()?->is('profile')
+                : request()?->is("profile/{$page['slug']}") || request()?->is("profile/{$page['slug']}/*");
             return $page;
         })->toArray();
     }
