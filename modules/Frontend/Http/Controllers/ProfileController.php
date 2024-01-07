@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Inertia\Response;
 use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\Backend\Repositories\UserRepository;
 use Juzaweb\CMS\Contracts\HookActionContract;
-use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
 use Juzaweb\Frontend\Http\Requests\ChangePasswordRequest;
 use Juzaweb\Frontend\Http\Requests\UpdateProfileRequest;
@@ -42,10 +42,10 @@ class ProfileController extends FrontendController
         $params = compact(
             'title',
             'slug',
-            'page'
         );
 
         $params['pages'] = $this->filterPagesParams($pages);
+        $params['page'] = $this->filterPageParam($page);
 
         $params = apply_filters(
             'theme.profile.params',
@@ -141,6 +141,13 @@ class ProfileController extends FrontendController
         );
     }
 
+    protected function filterPageParam(array $page): array
+    {
+        unset($page['data']);
+
+        return $page;
+    }
+
     protected function filterPagesParams(array $pages): array
     {
         return collect($pages)->map(function ($page) {
@@ -169,6 +176,19 @@ class ProfileController extends FrontendController
 
     protected function getViewForPage(array $page)
     {
-        return apply_filters('theme.profile.view', 'theme::profile.index', $page);
+        $slugName = Str::slug(Arr::get($page, 'slug'), '_');
+        $viewName = 'theme::profile.index';
+
+        if ($slugName !== 'index') {
+            if (theme_view_exists("theme::profile.{$slugName}")) {
+                $viewName = "theme::profile.{$slugName}";
+            }
+
+            if (theme_view_exists("theme::profile.{$slugName}.index")) {
+                $viewName = "theme::profile.{$slugName}.index";
+            }
+        }
+
+        return apply_filters('theme.profile.view', $viewName, $page);
     }
 }
