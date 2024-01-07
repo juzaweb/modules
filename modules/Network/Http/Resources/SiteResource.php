@@ -11,14 +11,22 @@
 namespace Juzaweb\Network\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Juzaweb\Network\Contracts\SiteManagerContract;
 
 class SiteResource extends JsonResource
 {
     public function toArray($request): array
     {
+        global $jw_user;
+
+        $site = app()->make(SiteManagerContract::class)->find($this->resource);
+
         return [
             'id' => $this->resource->id,
-            'name' => $this->resource->name,
+            'subdomain' => $this->resource->subdomain,
+            'domain' => $this->resource->domain,
+            'status' => $this->resource->status,
+            'login_url' => $site->getLoginUrl($jw_user),
         ];
     }
 }

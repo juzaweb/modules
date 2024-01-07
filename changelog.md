@@ -1,3 +1,9 @@
+### v1.0.10 
+* :+1: Profile page dynamic
+* :+1: Profile page params
+* :bug: Fix get last tags release github
+* :bug: Fix add file url media
+
 ### v1.0.9 
 * :bug: Fix add file url media
 * :+1: Remove repeater item

@@ -56,6 +56,8 @@ class SiteCreater implements SiteCreaterContract
 
     public function setupSite(Site $site, array $args = [], ?User $user = null): void
     {
+        $site->users()->attach($site->created_by);
+
         $this->networkRegistion->init($site->id);
 
         $user = ($user ?? Auth::user())->replicate();

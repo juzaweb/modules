@@ -82,7 +82,7 @@ class SiteManager implements SiteManagerContract
             return false;
         }
 
-        return User::find($user->id);
+        return User::findByEmail($user->email);
     }
 
     public function getCreater(): SiteCreaterContract

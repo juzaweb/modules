@@ -151,6 +151,11 @@ class User extends Authenticatable
         ];
     }
 
+    public static function findByEmail(string $email): ?static
+    {
+        return static::query()->where(['email' => $email])->active()->first();
+    }
+
     /**
      * Create a new factory instance for the model.
      *
@@ -178,9 +183,11 @@ class User extends Authenticatable
 
     public function websites(): BelongsToMany
     {
-        return $this->belongsToMany(
+        $connection = Network::getRootConnection();
+
+        return $this->setConnection($connection)->belongsToMany(
             Site::class,
-            'network_site_user',
+            "network_site_user",
             'user_id',
             'site_id',
             'id',

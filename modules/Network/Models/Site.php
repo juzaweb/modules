@@ -14,10 +14,13 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Models\Model;
+use Juzaweb\CMS\Models\User;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
+use Juzaweb\Network\Facades\Network;
 use Juzaweb\Network\Interfaces\RootNetworkModelInterface;
 use Juzaweb\Network\Traits\RootNetworkModel;
 
@@ -76,6 +79,20 @@ class Site extends Model implements RootNetworkModelInterface
     public function database(): BelongsTo
     {
         return $this->belongsTo(Database::class, 'db_id', 'id');
+    }
+
+    public function users(): BelongsToMany
+    {
+        $connection = Network::getRootConnection();
+
+        return $this->setConnection($connection)->belongsToMany(
+            User::class,
+            "network_users_sites",
+            'site_id',
+            'user_id',
+            'id',
+            'id'
+        );
     }
 
     public function domainMappings(): HasMany

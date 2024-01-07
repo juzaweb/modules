@@ -77,7 +77,8 @@ class NetworkServiceProvider extends ServiceProvider
     {
         $this->app->register(RouteServiceProvider::class);
 
-        //$this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+        $paths = glob(__DIR__ . '/../Database/migrations/*', GLOB_ONLYDIR);
+        $this->loadMigrationsFrom($paths);
 
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'network');
 
