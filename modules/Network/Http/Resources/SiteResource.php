@@ -22,7 +22,7 @@ class SiteResource extends JsonResource
         $site = app()->make(SiteManagerContract::class)->find($this->resource);
 
         return [
-            'id' => $this->resource->id,
+            'uuid' => $this->resource->uuid,
             'subdomain' => $this->resource->subdomain,
             'domain' => $this->resource->domain,
             'status' => $this->resource->status,

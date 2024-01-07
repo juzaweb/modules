@@ -1,3 +1,7 @@
+### v1.0.11 
+* :+1: Profile pages active
+* :+1: Add site user table
+
 ### v1.0.10 
 * :+1: Profile page dynamic
 * :+1: Profile page params
