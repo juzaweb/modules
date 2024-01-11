@@ -21,7 +21,7 @@ class PermissionAction extends Action
     {
         $this->addAction(
             Action::BACKEND_INIT,
-            [$this, 'addAdminMenu']
+            [$this, 'addAdminMenus']
         );
 
         $this->addAction(
@@ -59,7 +59,7 @@ class PermissionAction extends Action
         );
     }
 
-    public function addAdminMenu()
+    public function addAdminMenus()
     {
         HookAction::addAdminMenu(
             trans('cms::app.roles'),

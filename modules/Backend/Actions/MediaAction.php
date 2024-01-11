@@ -17,10 +17,10 @@ class MediaAction extends Action
     public function handle()
     {
         $this->addAction(Action::INIT_ACTION, [$this, 'addMediaConfigs']);
-        $this->addAction(Action::BACKEND_INIT, [$this, 'addAdminMenu']);
+        $this->addAction(Action::BACKEND_INIT, [$this, 'addAdminMenus']);
     }
 
-    public function addAdminMenu()
+    public function addAdminMenus()
     {
         $this->hookAction->registerAdminPage(
             'options-media',

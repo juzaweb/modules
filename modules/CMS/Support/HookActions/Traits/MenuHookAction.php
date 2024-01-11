@@ -36,15 +36,11 @@ trait MenuHookAction
         if ($item['parent']) {
             $adminMenu[$item['parent']]['children'][$item['key']] = $item;
         } else {
-            if (Arr::has($adminMenu, $item['key'])) {
-                if (Arr::has($adminMenu[$item['key']], 'children')) {
-                    $item['children'] = $adminMenu[$item['key']]['children'];
-                }
-
-                $adminMenu[$item['key']] = $item;
-            } else {
-                $adminMenu[$item['key']] = $item;
+            if (Arr::has($adminMenu, $item['key']) && Arr::has($adminMenu[$item['key']], 'children')) {
+                $item['children'] = $adminMenu[$item['key']]['children'];
             }
+
+            $adminMenu[$item['key']] = $item;
         }
 
         $this->globalData->set('admin_menu', $adminMenu);
