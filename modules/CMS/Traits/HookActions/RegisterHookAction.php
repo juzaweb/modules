@@ -273,11 +273,9 @@ trait RegisterHookAction
         $this->globalData->set('configs', array_merge($key, $configs));
     }
 
-    public function registerAdminPage(string $key, #[ArrayShape()] array $args): void
+    public function registerAdminPage(string $key, array $args): void
     {
-        if (empty($args['title'])) {
-            throw new Exception('Label Admin Page is required.');
-        }
+        throw_if(empty($args['title']), new Exception('Label Admin Page is required.'));
 
         $defaults = [
             'key' => $key,

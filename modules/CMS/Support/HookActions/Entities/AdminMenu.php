@@ -13,7 +13,7 @@ namespace Juzaweb\CMS\Support\HookActions\Entities;
 use Illuminate\Support\Str;
 use Juzaweb\CMS\Abstracts\HookActions\Entity;
 
-class Menu extends Entity
+class AdminMenu extends Entity
 {
     protected string $key;
 

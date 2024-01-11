@@ -10,7 +10,12 @@
 
 namespace Juzaweb\CMS\Contracts\HookActions;
 
+use Juzaweb\CMS\Support\HookActions\Entities\AdminMenu;
+use Juzaweb\CMS\Support\HookActions\Entities\AdminPage;
+
 interface Builder
 {
+    public function adminMenu(string $title): AdminMenu;
 
+    public function adminPage(string $title): AdminPage;
 }

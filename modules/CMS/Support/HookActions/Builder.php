@@ -10,12 +10,19 @@
 
 namespace Juzaweb\CMS\Support\HookActions;
 
-use Juzaweb\CMS\Support\HookActions\Entities\Menu;
+use Juzaweb\CMS\Contracts\HookActions\Builder as BuilderAlias;
+use Juzaweb\CMS\Support\HookActions\Entities\AdminMenu;
+use Juzaweb\CMS\Support\HookActions\Entities\AdminPage;
 
-class Builder
+class Builder implements BuilderAlias
 {
-    public function menu(string $title): Menu
+    public function adminMenu(string $title): AdminMenu
     {
-        return Menu::make($title);
+        return AdminMenu::make($title);
+    }
+
+    public function adminPage(string $title): AdminPage
+    {
+        return AdminPage::make($title);
     }
 }
