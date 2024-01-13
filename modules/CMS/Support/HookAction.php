@@ -14,6 +14,8 @@ use Illuminate\Support\Traits\Macroable;
 use Juzaweb\CMS\Contracts\EventyContract;
 use Juzaweb\CMS\Contracts\GlobalDataContract;
 use Juzaweb\CMS\Contracts\HookActionContract;
+use Juzaweb\CMS\Support\HookActions\Entities\AdminMenu;
+use Juzaweb\CMS\Support\HookActions\Entities\AdminPage;
 use Juzaweb\CMS\Support\HookActions\Traits\MenuHookAction;
 use Juzaweb\CMS\Support\HookActions\Traits\StyleHookAction;
 use Juzaweb\CMS\Traits\HookActions;
@@ -171,5 +173,15 @@ class HookAction implements HookActionContract
         // Set the setting form data in the global data collection using the provided key.
         // Uses a new Collection instance created from the merged arguments.
         $this->globalData->set("network_setting_forms.{$key}", new Collection($args));
+    }
+
+    public function adminMenu(string $title): AdminMenu
+    {
+        return AdminMenu::make($title);
+    }
+
+    public function adminPage(string $title): AdminPage
+    {
+        return AdminPage::make($title);
     }
 }

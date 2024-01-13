@@ -57,7 +57,7 @@ class BackendMenuBuilder
         return [];
     }
 
-    public function render()
+    public function render(): string
     {
         $str = $this->args['container_before'];
         $items = $this->items();
@@ -77,15 +77,15 @@ class BackendMenuBuilder
      * @param  Collection  $item
      * @return string
      */
-    public function buildItem($item)
+    public function buildItem($item): string
     {
         $children = $this->items($item->id);
 
         return $this->args['item_view']->with(
             [
-            'item' => $item,
-            'children' => $children,
-            'builder' => $this,
+                'item' => $item,
+                'children' => $children,
+                'builder' => $this,
             ]
         )->render();
     }

@@ -40,7 +40,7 @@
                         'adminUrl' => $adminUrl,
                         'item' => $child,
                         'active' => $active,
-                        'icon' => false
+                        'icon' => false,
                     ])->render();
                 }
             @endphp

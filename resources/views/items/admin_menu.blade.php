@@ -23,7 +23,6 @@
             <a class="juzaweb__menuLeft__item__link" href="{{ admin_url($item->get('url')) }}">
                 <i class="juzaweb__menuLeft__item__icon {{ $item->get('icon') }}"></i>
                 <span class="juzaweb__menuLeft__item__title">{{ $item->get('title') }}</span>
-
             </a>
         </li>
     @endif

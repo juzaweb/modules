@@ -95,16 +95,6 @@ class AdminMenu extends Entity
         );
     }
 
-    protected function generateKeyByTitle(): string
-    {
-        return Str::slug($this->title);
-    }
-
-    protected function generateSlug(): string
-    {
-        return Str::replace('.', '-', $this->getKey());
-    }
-
     public function toArray(): array
     {
         return [
@@ -117,5 +107,15 @@ class AdminMenu extends Entity
             'parent' => $this->parent,
             'position' => $this->position,
         ];
+    }
+
+    protected function generateKeyByTitle(): string
+    {
+        return Str::slug($this->title);
+    }
+
+    protected function generateSlug(): string
+    {
+        return Str::replace('.', '-', $this->getKey());
     }
 }
