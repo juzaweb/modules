@@ -545,20 +545,20 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
         if (Str::contains($asset, ':') === false) {
             throw InvalidAssetPath::missingModuleName($asset);
         }
+
         [$name, $url] = explode(':', $asset);
 
         $baseUrl = str_replace(public_path() . DIRECTORY_SEPARATOR, '', $this->getAssetsPath());
 
-        $url = $this->url->asset($baseUrl . "/{$name}/" . $url);
-
-        return str_replace(['http://', 'https://'], '//', $url);
+        //return str_replace(['http://', 'https://'], '//', $url);
+        return $this->url->asset($baseUrl . "/{$name}/" . $url);
     }
 
     public function assets(string $name, string $path = null): string
     {
-        $url = $this->url->asset("jw-styles/plugins/{$name}/" . $path);
+        //return str_replace(['http://', 'https://'], '//', $url);
 
-        return str_replace(['http://', 'https://'], '//', $url);
+        return $this->url->asset("jw-styles/plugins/{$name}/" . $path);
     }
 
     /**
