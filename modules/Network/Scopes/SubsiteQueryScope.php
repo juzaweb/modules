@@ -26,6 +26,6 @@ class SubsiteQueryScope implements Scope
      */
     public function apply(Builder $builder, Model $model): void
     {
-        $builder->where('site_id', '=', Network::getCurrentSiteId());
+        $builder->where("{$model->getTable()}.site_id", '=', Network::getCurrentSiteId());
     }
 }

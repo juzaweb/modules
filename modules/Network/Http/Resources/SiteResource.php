@@ -12,7 +12,11 @@ namespace Juzaweb\Network\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Juzaweb\Network\Contracts\SiteManagerContract;
+use Juzaweb\Network\Models\Site;
 
+/**
+ * @property-read Site $resource
+ */
 class SiteResource extends JsonResource
 {
     public function toArray($request): array
@@ -25,8 +29,9 @@ class SiteResource extends JsonResource
             'uuid' => $this->resource->uuid,
             'subdomain' => $this->resource->subdomain,
             'domain' => $this->resource->domain,
+            'full_domain' => $this->resource->getFullDomain(),
             'status' => $this->resource->status,
-            'login_url' => $site->getLoginUrl($jw_user),
+            'login_url' => $site?->getLoginUrl($jw_user),
         ];
     }
 }

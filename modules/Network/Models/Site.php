@@ -76,6 +76,11 @@ class Site extends Model implements RootNetworkModelInterface
         ];
     }
 
+    public static function findByUUID(string $uuid): Site|null
+    {
+        return self::query()->where('uuid', $uuid)->first();
+    }
+
     public function database(): BelongsTo
     {
         return $this->belongsTo(Database::class, 'db_id', 'id');
@@ -87,7 +92,7 @@ class Site extends Model implements RootNetworkModelInterface
 
         return $this->setConnection($connection)->belongsToMany(
             User::class,
-            "network_users_sites",
+            "network_site_user",
             'site_id',
             'user_id',
             'id',
