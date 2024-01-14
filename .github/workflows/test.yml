@@ -4,4 +4,4 @@ on: [push, pull_request]
 
 jobs:
   uneditable:
-    uses: juzaweb/actions/workflows/mysql-test.yml@main
+    uses: juzaweb/actions/.github/workflows/mysql-test.yml@main
