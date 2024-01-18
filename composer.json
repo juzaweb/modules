@@ -28,6 +28,7 @@
         "ext-simplexml": "*",
         "ext-zip": "*",
         "ext-xmlwriter": "*",
+        "awobaz/compoships": "^2.2",
         "inertiajs/inertia-laravel": "^0.6.9",
         "intervention/imagecache": "^2.5",
         "arcanedev/log-viewer": "^9.0",

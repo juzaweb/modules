@@ -243,7 +243,7 @@ trait ResourceController
 
         $table = $this->getDataTable(...$params);
         $table->setCurrentUrl(action([static::class, 'index'], $params, false));
-        list($count, $rows) = $table->getData($request);
+        [$count, $rows] = $table->getData($request);
 
         $results = [];
         $columns = $table->columns();

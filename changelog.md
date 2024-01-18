@@ -1,3 +1,13 @@
+### v1.0.13 
+* :bug: Fix asset url
+* :+1: Mysql test example
+* :+1: Site resource
+* :+1: Subscription handler
+* :+1: Menu builder
+* :+1: Register custom page data
+* :+1: Profile get view in theme
+* :+1: Profile form layout
+
 ### v1.0.12 
 * :+1: Logout from id
 
