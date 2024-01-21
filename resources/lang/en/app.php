@@ -484,6 +484,7 @@ return [
     'size' => 'Size',
     'captcha' => 'Captcha',
     'multilingual' => 'Multilingual',
+    'success' => 'Success',
     'multilingual_settings' => [
         'multi_language' => 'Multi language',
         'add_subdomain' => 'Add subdomain',

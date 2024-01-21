@@ -5,7 +5,11 @@
 
     @case('active')
         <span class="badge badge-success">{{ trans('cms::app.active') }}</span>
-        @break
+    @break
+
+    @case('success')
+        <span class="badge badge-success">{{ trans('cms::app.success') }}</span>
+    @break
 
     @case('approved')
     <span class="badge badge-success">{{ trans('cms::app.approved') }}</span>
