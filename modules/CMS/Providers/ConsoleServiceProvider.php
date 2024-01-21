@@ -54,21 +54,6 @@ class ConsoleServiceProvider extends ServiceProvider
                 if (get_config('jw_auto_submit_url_bing')) {
                     $schedule->command(SEO\AutoSubmitUrlBing::class)->dailyAt('01:00');
                 }
-
-                if (get_config('jw_backup_enable')) {
-                    $schedule->command('backup:clean')->daily();
-                    $time = get_config('jw_backup_time', 'daily');
-                    switch ($time) {
-                        case 'weekly':
-                            $schedule->command('backup:run')->weekly();
-                            break;
-                        case 'monthly':
-                            $schedule->command('backup:run')->monthly();
-                            break;
-                        default:
-                            $schedule->command('backup:run')->daily();
-                    }
-                }
             }
         );
     }
