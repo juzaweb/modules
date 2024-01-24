@@ -31,7 +31,7 @@ class PostResource extends JsonResource
             }
         );
 
-        return [
+        $data = [
             'id' => $this->resource->id,
             'title' => $this->resource->getTitle(),
             'description' => $this->resource->description,
