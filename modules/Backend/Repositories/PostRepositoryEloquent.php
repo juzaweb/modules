@@ -177,6 +177,8 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
             $q->limit(10);
         };*/
 
+        $with = apply_filters('post.withFrontendDetailBuilder', $with);
+
         $builder = $this->model->newQuery()->with($with)
             ->cacheFor(config('juzaweb.performance.query_cache.lifetime', 3600))
             ->whereIn('status', [Post::STATUS_PUBLISH, Post::STATUS_PRIVATE]);
@@ -186,11 +188,14 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
 
     public function withFrontendDefaults(): array
     {
-        return [
-            'createdBy' => function ($q) {
-                $q->cacheFor(3600);
-            },
-        ];
+        return apply_filters(
+            'post.withFrontendDefaults',
+            [
+                'createdBy' => function ($q) {
+                    $q->cacheFor(3600);
+                },
+            ]
+        );
     }
 
     public function frontend(?string $type): static

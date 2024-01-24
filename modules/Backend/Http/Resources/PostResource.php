@@ -56,5 +56,9 @@ class PostResource extends JsonResource
             'updated_at' => jw_date_format($this->resource->updated_at),
             'taxonomies' => $taxonomies,
         ];
+
+        $data = apply_filters('jw.resource.post', $data, $this->resource);
+
+        return apply_filters("jw.resource.post.{$this->resource->type}", $data, $this->resource);
     }
 }

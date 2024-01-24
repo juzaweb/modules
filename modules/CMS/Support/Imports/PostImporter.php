@@ -225,6 +225,10 @@ class PostImporter implements PostImporterContract
     {
         $html = str_get_html($content);
 
+        if (empty($html)) {
+            return $content;
+        }
+
         $imgs = $html->find('img');
 
         if (empty($imgs)) {

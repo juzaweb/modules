@@ -99,6 +99,10 @@ function show_message(response, append = false)
 
 function show_notify(response) {
     let msg = get_message_response(response);
+    if (!msg) {
+        return;
+    }
+
     toastr_message(msg.message, msg.status);
 }
 

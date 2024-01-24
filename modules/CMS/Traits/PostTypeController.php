@@ -112,6 +112,7 @@ trait PostTypeController
         /** @var Post $model */
         $model->syncTaxonomies($data);
 
+        $data['meta']['block_content'] = [];
         if ($blocks = Arr::get($data, 'blocks', [])) {
             $data['meta']['block_content'] = collect($blocks)
                 ->mapWithKeys(fn ($item, $key) => [$key => array_values($item)])

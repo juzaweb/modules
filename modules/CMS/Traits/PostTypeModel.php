@@ -25,6 +25,7 @@ use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\Backend\Support\PostContentParser;
 use Juzaweb\CMS\Facades\HookAction;
 use Juzaweb\CMS\Facades\ShortCode;
+use Juzaweb\CMS\Traits\Models\UseMeta;
 
 /**
  * @method Builder wherePublish()
@@ -40,6 +41,7 @@ trait PostTypeModel
     use UseThumbnail;
     use UseChangeBy;
     use UseDescription;
+    use UseMeta;
 
     public static function selectFrontendBuilder(): Builder
     {
@@ -157,16 +159,6 @@ trait PostTypeModel
         return $this->hasMany(PostMeta::class, 'post_id', 'id');
     }
 
-    public function getMeta(string $key, mixed $default = null): mixed
-    {
-        return $this->json_metas[$key] ?? $default;
-    }
-
-    public function getMetas(): ?array
-    {
-        return $this->json_metas;
-    }
-
     /**
      * @param  Builder  $builder
      * @param  array  $params
@@ -247,44 +239,7 @@ trait PostTypeModel
         return $builder;
     }
 
-    /**
-     * @param Builder $builder
-     * @param string $key
-     * @param string|array|int $value
-     *
-     * @return Builder
-     */
-    public function scopeWhereMeta(Builder $builder, string $key, string|array|int $value): Builder
-    {
-        return $builder->whereHas(
-            'metas',
-            function (Builder $q) use (
-                $key,
-                $value
-            ) {
-                $q->where('meta_key', '=', $key);
-                if (is_array($value)) {
-                    $q->whereIn('meta_value', $value);
-                } else {
-                    $q->where('meta_value', '=', $value);
-                }
-            }
-        );
-    }
 
-    public function scopeWhereMetaIn($builder, $key, $values)
-    {
-        return $builder->whereHas(
-            'metas',
-            function (Builder $q) use (
-                $key,
-                $values
-            ) {
-                $q->where('meta_key', '=', $key);
-                $q->whereIn('meta_value', $values);
-            }
-        );
-    }
 
     /**
      * @param Builder $builder
@@ -415,94 +370,6 @@ trait PostTypeModel
         }
 
         return true;
-    }
-
-    public function setMeta($key, $value): void
-    {
-        $metas = $this->getMetas();
-        $this->metas()->updateOrCreate(
-            [
-                'meta_key' => $key
-            ],
-            [
-                'meta_value' => is_array($value) ? json_encode($value, JSON_THROW_ON_ERROR) : $value
-            ]
-        );
-
-        $metas[$key] = $value;
-
-        $this->update(
-            [
-                'json_metas' => $metas
-            ]
-        );
-    }
-
-    public function deleteMeta($key): bool
-    {
-        $this->metas()->where('meta_key', $key)->delete();
-
-        $metas = $this->getMetas();
-
-        unset($metas[$key]);
-
-        $this->update(
-            [
-                'json_metas' => $metas
-            ]
-        );
-
-        return true;
-    }
-
-    public function deleteMetas(array $keys): bool
-    {
-        $this->metas()->whereIn('meta_key', $keys)->delete();
-
-        $metas = $this->getMetas();
-
-        foreach ($keys as $key) {
-            unset($metas[$key]);
-        }
-
-        $this->update(
-            [
-                'json_metas' => $metas
-            ]
-        );
-
-        return true;
-    }
-
-    public function syncMetas(array $data = []): void
-    {
-        $this->syncMetasWithoutDetaching($data);
-
-        $this->metas()->whereNotIn('meta_key', array_keys($data))->delete();
-    }
-
-    public function syncMetasWithoutDetaching(array $data = []): void
-    {
-        $metas = $this->json_metas;
-
-        foreach ($data as $key => $val) {
-            $this->metas()->updateOrCreate(
-                [
-                    'meta_key' => $key
-                ],
-                [
-                    'meta_value' => is_array($val) ? json_encode($val) : $val
-                ]
-            );
-
-            $metas[$key] = $val;
-        }
-
-        $this->update(
-            [
-                'json_metas' => $metas
-            ]
-        );
     }
 
     /**
