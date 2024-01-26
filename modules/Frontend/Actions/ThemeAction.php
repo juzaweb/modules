@@ -298,6 +298,7 @@ class ThemeAction extends Action
             [
                 'title' => trans('cms::app.profile'),
                 'contents' => 'cms::frontend.profile.index',
+                'icon' => 'user',
             ]
         );
 
@@ -306,6 +307,7 @@ class ThemeAction extends Action
             [
                 'title' => trans('cms::app.change_password'),
                 'contents' => 'cms::frontend.profile.change_password',
+                'icon' => 'lock',
             ]
         );
     }

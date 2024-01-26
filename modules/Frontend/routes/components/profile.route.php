@@ -24,6 +24,7 @@ Route::group(
         Route::put('/', [ProfileController::class, 'update'])
             ->name('profile.update');
         Route::get('/{slug?}', [ProfileController::class, 'index'])
-            ->name('profile');
+            ->name('profile')
+            ->where('slug', '.*');
     }
 );

@@ -6,13 +6,11 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Inertia\Response;
-use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\Backend\Repositories\UserRepository;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
@@ -30,7 +28,9 @@ class ProfileController extends FrontendController
     public function index(?string $slug = null)
     {
         $pages = $this->hookAction->getProfilePages()->toArray();
-        $page = Arr::get($pages, $slug ?? 'index');
+
+        $key = Str::replace('/', '_', $slug ?? 'index');
+        $page = Arr::get($pages, $key);
 
         abort_unless($page, 404);
 

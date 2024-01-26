@@ -64,17 +64,19 @@ trait ThemeHookAction
 
     public function registerProfilePage(string $key, array $args = []): void
     {
-        $slug = str_replace(['_'], ['-'], $key);
+        $slug = Str::replace(['_', '.'], ['-', '/'], $key);
+        $key = Str::replace(['.'], ['_'], $key);
 
         $default = [
             'title' => Str::title($key),
             'key' => $key,
             'slug' => $slug,
             'url' => route('profile', $key == 'index' ? null : $slug),
+            'icon' => null,
         ];
 
         $args = array_merge($default, $args);
 
-        $this->globalData->set('profile_pages.' . $key, new Collection($args));
+        $this->globalData->set("profile_pages.{$key}", new Collection($args));
     }
 }
