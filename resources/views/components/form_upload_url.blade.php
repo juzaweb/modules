@@ -1,17 +1,28 @@
+@php
+    $show_label = $show_label ?? true;
+@endphp
+
+@if($show_label)
 <div class="form-group">
+
     <label class="col-form-label" for="{{ $id  ?? $name }}">
-        {{ $label ?? $name }} @if($required ?? false) <abbr>*</abbr> @endif
+        {{ $label ?? $name }} @if($required ?? false)
+            <abbr>*</abbr>
+        @endif
     </label>
-    <div class="row">
+@endif
+
+    <div class="row upload-url-row">
         <div class="col-md-9">
             <input
-                type="text"
-                name="{{ $name }}"
-                class="form-control"
-                id="{{ $id  ?? $name }}"
-                value="{{ $value ?? $default ?? '' }}"
-                autocomplete="off"
-                @if($required ?? false) required @endif
+                    type="text"
+                    name="{{ $name }}"
+                    class="form-control"
+                    id="{{ $id  ?? $name }}"
+                    value="{{ $value ?? $default ?? '' }}"
+                    autocomplete="off"
+                    @if($required ?? false) required @endif
+                    @if($placeholder ?? false) placeholder="{{ $placeholder }}" @endif
             >
         </div>
 
@@ -26,4 +37,6 @@
             </a>
         </div>
     </div>
+    @if($show_label)
 </div>
+@endif

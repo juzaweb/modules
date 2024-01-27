@@ -30,6 +30,7 @@ use Juzaweb\CMS\Contracts\Field as FieldContract;
  * @method static editor(string|Model $label, ?string $name, ?array $options = [])
  * @method static image(string|Model $label, ?string $name, ?array $options = [])
  * @method static checkbox(string|Model $label, ?string $name, ?array $options = [])
+ * @method static uploadUrl(string|Model $label, ?string $name, ?array $options = [])
  * @see \Juzaweb\CMS\Support\Html\Field
 */
 class Field extends Facade

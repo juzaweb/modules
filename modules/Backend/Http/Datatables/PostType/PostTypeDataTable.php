@@ -160,12 +160,12 @@ class PostTypeDataTable extends DataTable
                 'label' => trans('cms::app.status'),
                 'options' => $this->makeModel()->getStatuses(),
             ],
-            'locale' => [
-                'type' => 'select',
-                'width' => '100px',
-                'label' => trans('cms::app.language'),
-                'options' => Language::cacheFor(3600)->pluck('name', 'code')->all(),
-            ],
+            // 'locale' => [
+            //     'type' => 'select',
+            //     'width' => '100px',
+            //     'label' => trans('cms::app.language'),
+            //     'options' => Language::cacheFor(3600)->pluck('name', 'code')->all(),
+            // ],
         ];
 
         $taxonomies = HookAction::getTaxonomies($this->postType['key']);

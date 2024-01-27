@@ -48,7 +48,7 @@
                 {{ Field::fieldByType($meta) }}
             @endforeach
 
-            {{ Field::render($setting->get('fields', []), $model) }}
+                {{ Field::render($setting->get('fields', []), $model) }}
 
                 @do_action('post_type.'. $postType .'.form.left', $model)
 

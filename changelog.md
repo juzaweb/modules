@@ -1,3 +1,14 @@
+### v1.0.15 
+* :+1: Support sub slug profile pages
+
+### v1.0.14 
+* :+1: Support sub slug profile pages
+* :bug: Fix save product metas
+* :bug: Fix save multiple page blocks
+* :+1: Move Backup to plugin
+* :+1: Add status success
+* :+1: Add Compoships package
+
 ### v1.0.13 
 * :bug: Fix asset url
 * :+1: Mysql test example
