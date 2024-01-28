@@ -90,6 +90,7 @@ class CustomFunction extends AbstractExtension
             new TwigFunction('theme_filters', 'theme_filters'),
             new TwigFunction('short_code_render', 'short_code_render'),
             new TwigFunction('view_exists', 'theme_view_exists'),
+            new TwigFunction('number_format', 'number_format'),
         ];
     }
 }

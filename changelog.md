@@ -1,3 +1,6 @@
+### v1.0.16 
+* :+1: Remove google api package
+
 ### v1.0.15 
 * :+1: Support sub slug profile pages
 
