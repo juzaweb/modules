@@ -1,3 +1,6 @@
+### v1.0.17 
+* :+1: Add number format twig
+
 ### v1.0.16 
 * :+1: Remove google api package
 
