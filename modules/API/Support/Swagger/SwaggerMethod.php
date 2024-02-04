@@ -10,6 +10,7 @@ class SwaggerMethod implements Arrayable
     protected array $tags = [];
     protected string $summary;
     protected string $operationId;
+    protected array $securities;
     protected Collection $parameters;
     protected Collection $responses;
     protected Collection $requestBody;
@@ -115,11 +116,23 @@ class SwaggerMethod implements Arrayable
         );
     }
     
-    public function setRequestBody(array $data)
+    public function setRequestBody(array $data): void
     {
         $this->requestBody = new Collection($data);
     }
-    
+
+    public function addSecurity(string $key, string|array $value): static
+    {
+        $this->securities[$key] = $value;
+
+        return $this;
+    }
+
+    public function addSecurityBearer(): static
+    {
+        return $this->addSecurity('bearerAuth', []);
+    }
+
     public function toArray(): array
     {
         $data = [
@@ -135,6 +148,10 @@ class SwaggerMethod implements Arrayable
         
         if (isset($this->requestBody)) {
             $data['requestBody'] = $this->requestBody;
+        }
+
+        if (isset($this->securities)) {
+            $data['security'] = [$this->securities];
         }
         
         return $data;
