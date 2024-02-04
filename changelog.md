@@ -1,3 +1,7 @@
+### v1.0.18 
+* :+1: Api support auth method
+* :+1: Api support
+
 ### v1.0.17 
 * :+1: Add number format twig
 
