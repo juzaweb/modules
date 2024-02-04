@@ -39,7 +39,7 @@ class LoginController extends ApiController
                 'access_token' => $token->accessToken,
                 'token_type' => 'Bearer',
                 'expires_at' => $token->token->expires_at,
-                'user' => new UserResource($user),
+                'user' => UserResource::make($user)->withAdminField(false),
             ],
             'Successfully login.'
         );

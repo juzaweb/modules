@@ -19,6 +19,15 @@ use Juzaweb\CMS\Models\User;
  */
 class UserResource extends JsonResource
 {
+    protected bool $withAdminField = true;
+
+    public function withAdminField(bool $withAdminField): static
+    {
+        $this->withAdminField = $withAdminField;
+
+        return $this;
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -30,11 +39,14 @@ class UserResource extends JsonResource
         $data = [
             'name' => $this->resource->name,
             'email' => $this->resource->email,
-            'is_admin' => (bool) $this->resource->is_admin,
             'created_at' => jw_date_format($this->resource->created_at),
             'avatar' => $this->resource->getAvatar(),
             'metas' => (array) $this->resource->getMetas(),
         ];
+
+        if ($this->withAdminField) {
+            $data['is_admin'] = (bool) $this->resource->is_admin;
+        }
 
         return apply_filters('user.resouce_data', $data, $this->resource);
     }
