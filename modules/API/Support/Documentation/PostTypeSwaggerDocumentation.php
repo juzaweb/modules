@@ -39,7 +39,7 @@ class PostTypeSwaggerDocumentation implements APISwaggerDocumentation
         return $document;
     }
 
-    private function addPathPostType(string $key, Collection $postType, $document)
+    private function addPathPostType(string $key, Collection $postType, $document): void
     {
         $document->path(
             "post-type/{$key}",
@@ -77,7 +77,7 @@ class PostTypeSwaggerDocumentation implements APISwaggerDocumentation
         );
     }
 
-    private function addPathTaxonomy(string $key, Collection $taxonomy, Collection $postType, $document)
+    private function addPathTaxonomy(string $key, Collection $taxonomy, Collection $postType, $document): void
     {
         $document->path(
             "taxonomy/{$postType->get('key')}/{$key}",

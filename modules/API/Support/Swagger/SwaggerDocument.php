@@ -394,6 +394,7 @@ class SwaggerDocument implements Arrayable
                     ],
                     "query_limit" => [
                         "name" => "limit",
+                        'description' => 'Limit of items to be displayed (max: 100)',
                         "in" => "query",
                         "schema" => [
                             "type" => "integer"

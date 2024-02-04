@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     
-        if (get_config('captcha')) {
+        if (get_config('captcha') && $this->is('api/*')) {
             $rules['g-recaptcha-response'] = 'bail|required|recaptcha';
         }
         
@@ -89,7 +89,7 @@ class LoginRequest extends FormRequest
      *
      * @return string
      */
-    public function throttleKey()
+    public function throttleKey(): string
     {
         return Str::lower($this->input('email')).'|'.$this->ip();
     }

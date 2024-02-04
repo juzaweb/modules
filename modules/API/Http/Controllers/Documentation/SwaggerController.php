@@ -52,8 +52,7 @@ class SwaggerController extends BackendController
                     'urls' => $urls,
                     'useAbsolutePath' => $useAbsolutePath,
                 ]
-            ),
-            200
+            )
         );
     }
 

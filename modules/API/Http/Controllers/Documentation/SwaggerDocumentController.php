@@ -26,7 +26,7 @@ class SwaggerDocumentController extends BackendController
     {
         $documentation = $this->hookAction->getAPIDocuments($document);
 
-        if (empty($documentation)) {
+        if ($documentation === null) {
             abort(404);
         }
 

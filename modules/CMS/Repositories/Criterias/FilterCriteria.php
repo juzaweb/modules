@@ -53,7 +53,7 @@ class FilterCriteria extends Criteria implements CriteriaInterface
                         $condition = $condition[$column];
                         $value = $this->getValueRequest($field, $condition);
                     } else {
-                        $condition = trim(strtolower($condition));
+                        $condition = strtolower(trim($condition));
                         $value = $this->getValueRequest($field, $condition);
                         $column = $field;
                     }

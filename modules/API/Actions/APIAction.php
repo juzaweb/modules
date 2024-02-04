@@ -26,7 +26,7 @@ class APIAction extends Action
         }
     }
 
-    public function addAPIDocumentation()
+    public function addAPIDocumentation(): void
     {
         $document = SwaggerDocument::make('frontend');
         $document->setTitle('Frontend');
@@ -35,7 +35,7 @@ class APIAction extends Action
         $this->hookAction->registerAPIDocument($document);
     }
 
-    public function addAdminDocumentation()
+    public function addAdminDocumentation(): void
     {
         $apiAdmin = SwaggerDocument::make('admin');
         $apiAdmin->setTitle('Admin');
@@ -44,7 +44,7 @@ class APIAction extends Action
         $this->hookAction->registerAPIDocument($apiAdmin);
     }
 
-    public function addAdminMenus()
+    public function addAdminMenus(): void
     {
         $this->hookAction->registerAdminPage(
             'api.documentation',
