@@ -45,6 +45,7 @@ class AuthSwaggerDocumentation implements APISwaggerDocumentation
                                                 'password' => [
                                                     'description' => 'password',
                                                     'type' => 'string',
+                                                    'format' => 'password',
                                                 ],
                                                 'g-recaptcha-response' => [
                                                     'description' => '(Optional) Token of Google Recaptcha V2',
