@@ -25,7 +25,7 @@ class LoginController extends ApiController
     {
         $request->authenticate();
 
-        $user = $request->user('api');
+        $user = $request->user();
 
         $token = $user->createToken('auth_token');
 

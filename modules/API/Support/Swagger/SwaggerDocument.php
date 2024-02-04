@@ -419,6 +419,12 @@ class SwaggerDocument implements Arrayable
                         'description' => '(Optional) Token of Google Recaptcha V2',
                         'type' => 'string',
                     ]
+                ],
+                'securitySchemes' => [
+                    'bearer' => [
+                        'type' => 'http',
+                        'scheme' => 'bearer',
+                    ]
                 ]
             ]
         ];
