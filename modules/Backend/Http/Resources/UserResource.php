@@ -42,6 +42,7 @@ class UserResource extends JsonResource
             'created_at' => jw_date_format($this->resource->created_at),
             'avatar' => $this->resource->getAvatar(),
             'metas' => (array) $this->resource->getMetas(),
+            'role' => $this->resource->is_admin ? 'admin' : 'user',
         ];
 
         if ($this->withAdminField) {
