@@ -634,3 +634,10 @@ if (!function_exists('short_code_render')) {
         return \Juzaweb\CMS\Facades\ShortCode::compile($value);
     }
 }
+
+if (!function_exists('generate_uuid')) {
+    function generate_uuid(): string
+    {
+        return Str::uuid()->toString();
+    }
+}
