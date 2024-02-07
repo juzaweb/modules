@@ -16,7 +16,6 @@ use Juzaweb\API\Http\Requests\Auth\LoginRequest;
 use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\CMS\Http\Controllers\ApiController;
 use Juzaweb\CMS\Models\User;
-use Laravel\Passport\PersonalAccessTokenResult;
 
 class LoginController extends ApiController
 {

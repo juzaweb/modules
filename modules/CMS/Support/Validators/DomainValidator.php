@@ -14,6 +14,10 @@ class DomainValidator
 {
     public function validate($attribute, $value, $parameters, $validator)
     {
-        return filter_var($value, FILTER_VALIDATE_DOMAIN);
+        return filter_var($value, FILTER_VALIDATE_DOMAIN)
+            && (bool) preg_match(
+                '/^(?:[a-z0-9](?:[a-z0-9-æøå]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]$/isu',
+                $value
+            );
     }
 }
