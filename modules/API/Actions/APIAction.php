@@ -10,6 +10,7 @@
 
 namespace Juzaweb\API\Actions;
 
+use Juzaweb\API\Http\Controllers\Frontend\ApiTokenController;
 use Juzaweb\API\Support\Documentation\AuthSwaggerDocumentation;
 use Juzaweb\API\Support\Documentation\PostTypeAdminSwaggerDocumentation;
 use Juzaweb\API\Support\Documentation\PostTypeSwaggerDocumentation;
@@ -18,9 +19,11 @@ use Juzaweb\CMS\Abstracts\Action;
 
 class APIAction extends Action
 {
-    public function handle()
+    public function handle(): void
     {
         $this->addAction(Action::BACKEND_INIT, [$this, 'addAdminMenus']);
+        $this->addAction(Action::FRONTEND_INIT, [$this, 'addFrontendAjaxs']);
+
         if (config('juzaweb.api.frontend.enable')) {
             $this->addAction(Action::API_DOCUMENT_INIT, [$this, 'addAPIDocumentation'], 1);
         }
@@ -54,6 +57,18 @@ class APIAction extends Action
                     'icon' => 'fa fa-book',
                     'position' => 95,
                 ],
+            ]
+        );
+    }
+
+    public function addFrontendAjaxs(): void
+    {
+        $this->registerFrontendAjax(
+            'api-token.generate',
+            [
+                'method' => 'POST',
+                'auth' => true,
+                'callback' => [ApiTokenController::class, 'generateApiToken'],
             ]
         );
     }
