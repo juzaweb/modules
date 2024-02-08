@@ -34,10 +34,15 @@ class FilterCriteria extends Criteria implements CriteriaInterface
             return $model;
         }
 
+        if ($model instanceof Model) {
+            $model = $model->newQuery();
+        }
+
         $fields = $repository->getFieldFilterable();
+        $table = $model->getModel()->getTable();
 
         return $model->where(
-            function ($query) use ($fields, $repository) {
+            function ($query) use ($fields, $repository, $table) {
                 foreach ($fields as $field => $condition) {
                     if (is_numeric($field)) {
                         $field = $condition;
@@ -68,13 +73,13 @@ class FilterCriteria extends Criteria implements CriteriaInterface
 
                     switch ($condition) {
                         case 'in':
-                            $query->whereIn($column, $value);
+                            $query->whereIn("{$table}.{$column}", $value);
                             break;
                         case 'between':
-                            $query->whereBetween($column, $value[0], $value[1]);
+                            $query->whereBetween("{$table}.{$column}", $value[0], $value[1]);
                             break;
                         default:
-                            $query->where($column, $condition, $value);
+                            $query->where("{$table}.{$column}", $condition, $value);
                     }
                 }
 
