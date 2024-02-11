@@ -1,3 +1,11 @@
+### v1.0.19 
+* :+1: Content management
+* :+1: API token support
+* :bug: Fix domain validate
+* :+1: Add custom function generate uuid
+* :bug: Fix profile api
+* :+1: Api support auth method
+
 ### v1.0.18 
 * :+1: Api support auth method
 * :+1: Api support
