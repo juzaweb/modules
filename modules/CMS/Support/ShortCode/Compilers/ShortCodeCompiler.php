@@ -85,12 +85,8 @@ class ShortCodeCompiler
     public function compile(string $value): string
     {
         // Only continue is laravel-shortcodes have been registered
-        if (!$this->enabled) {
+        if (!$this->enabled || !$this->hasShortcodes()) {
             return $value;
-        }
-
-        if (!$this->hasShortcodes()) {
-            return '';
         }
 
         // Set empty result
