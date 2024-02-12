@@ -130,7 +130,7 @@ class SwaggerMethod implements Arrayable
 
     public function addSecurityBearer(): static
     {
-        return $this->addSecurity('bearerAuth', []);
+        return $this->addSecurity('bearer', []);
     }
 
     public function toArray(): array
