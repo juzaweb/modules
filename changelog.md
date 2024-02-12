@@ -1,3 +1,6 @@
+### v1.0.20 
+* :+1: Fix short code compiler
+
 ### v1.0.19 
 * :+1: Content management
 * :+1: API token support
