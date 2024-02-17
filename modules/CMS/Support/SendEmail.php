@@ -35,8 +35,6 @@ class SendEmail
             $body = $this->mail->getBody();
             $subject = $this->mail->getSubject();
 
-            info("Send email:", [config('mail.mailers.smtp')]);
-
             Mail::send(
                 'cms::backend.email.layouts.default',
                 [

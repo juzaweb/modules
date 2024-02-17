@@ -30,7 +30,11 @@ class SocialLoginController extends FrontendController
 
     public function callback(string $method): RedirectResponse
     {
-        $authUser = $this->getProvider($method)->user();
+        try {
+            $authUser = $this->getProvider($method)->user();
+        } catch (Exception $e) {
+            return redirect()->to('/login');
+        }
 
         $register = false;
         DB::beginTransaction();
