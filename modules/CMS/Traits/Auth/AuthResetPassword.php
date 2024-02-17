@@ -57,11 +57,8 @@ trait AuthResetPassword
 
         DB::beginTransaction();
         try {
-            $user->update(
-                [
-                    'password' => Hash::make($request->post('password')),
-                ]
-            );
+            $user->setAttribute('password', Hash::make($request->post('password')));
+            $user->save();
 
             $passwordReset->delete();
             DB::commit();

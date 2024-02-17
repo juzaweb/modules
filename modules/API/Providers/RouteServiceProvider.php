@@ -15,10 +15,11 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 
 class RouteServiceProvider extends ServiceProvider
 {
-    public function map()
+    public function map(): void
     {
         $this->mapAdminRoutes();
         $this->mapApiRoutes();
+        $this->mapThemeRoutes();
     }
 
     protected function mapApiRoutes(): void
@@ -34,5 +35,12 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix(config('juzaweb.admin_prefix'))
             ->middleware('admin')
             ->group(__DIR__.'/../routes/admin.php');
+    }
+
+    protected function mapThemeRoutes(): void
+    {
+        Route::middleware('theme')
+            ->prefix(config('theme.route_prefix'))
+            ->group(__DIR__ . '/../routes/theme.php');
     }
 }
