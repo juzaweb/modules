@@ -2,6 +2,8 @@
 
 namespace Juzaweb\Backend\Http\Controllers\Auth;
 
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -21,17 +23,12 @@ use Laravel\Socialite\Two\LinkedInProvider;
 
 class SocialLoginController extends FrontendController
 {
-    public function redirect($method)
+    public function redirect(string $method): RedirectResponse
     {
-        $config = $this->getConfig($method);
-
-        return Socialite::buildProvider(
-            FacebookProvider::class,
-            $config
-        )->redirect();
+        return $this->getProvider($method)->redirect();
     }
 
-    public function callback($method)
+    public function callback(string $method): RedirectResponse
     {
         $authUser = $this->getProvider($method)->user();
 
@@ -41,7 +38,7 @@ class SocialLoginController extends FrontendController
             $user = $this->updateOrCreateUser($authUser, $method, $register);
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             throw $e;
         }
@@ -144,7 +141,7 @@ class SocialLoginController extends FrontendController
         }
 
         if (empty($provider)) {
-            return abort(404);
+            abort(404);
         }
 
         return Socialite::buildProvider(
@@ -161,7 +158,7 @@ class SocialLoginController extends FrontendController
             || empty($config['client_secret'])
             || empty($config['enable'])
         ) {
-            return abort(404);
+            abort(404);
         }
 
         return [
