@@ -145,7 +145,7 @@ class SocialLoginController extends FrontendController
         }
 
         return Socialite::buildProvider(
-            FacebookProvider::class,
+            $provider,
             $config
         );
     }
