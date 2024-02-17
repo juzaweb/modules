@@ -70,6 +70,7 @@ class SitemapController extends BaseSitemapController
             $this->cacheTimeout,
             fn() => Post::selectFrontendBuilder()
                 ->where('type', '=', $type)
+                ->when($type == 'pages', fn ($q) => $q->where('id', '!=', jw_home_page()))
                 ->orderBy('id', 'ASC')
                 ->paginate(
                     $this->perPage,
