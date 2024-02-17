@@ -1,3 +1,8 @@
+### v1.0.21 
+* :bug: Fix api document route
+* :bug: Fix social login
+* :bug: Fix auth swagger
+
 ### v1.0.20 
 * :+1: Fix short code compiler
 
