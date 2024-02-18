@@ -635,6 +635,8 @@ interface HookActionContract
      *   - 'title' (string): The title of the profile page.
      *   - 'slug' (string): The slug of the profile page.
      *   - 'url' (string): The URL of the profile page.
+     *   - 'icon' (string): The Icon of the profile page.
+     *   - 'contents' (string): View/contents profile page.
      * @return void
      */
     public function registerProfilePage(string $key, array $args = []): void;

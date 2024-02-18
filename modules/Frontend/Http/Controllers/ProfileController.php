@@ -55,6 +55,8 @@ class ProfileController extends FrontendController
             $pages
         );
 
+        do_action('theme.profile.index', $page, $params);
+
         return $this->view($this->getViewForPage($page), $params);
     }
 
