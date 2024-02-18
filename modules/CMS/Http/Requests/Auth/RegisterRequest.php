@@ -14,6 +14,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Juzaweb\Backend\Events\Users\RegisterCompleted;
 use Juzaweb\Backend\Events\Users\RegisterSuccessful;
 use Juzaweb\CMS\Models\User;
 
@@ -72,6 +73,10 @@ class RegisterRequest extends FormRequest
         }
 
         event(new RegisterSuccessful($user));
+
+        if (!get_config('user_verification')) {
+            event(new RegisterCompleted($user));
+        }
 
         do_action('register.success', $user);
 

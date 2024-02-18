@@ -14,6 +14,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Backend\Events\Users\RegisterCompleted;
 use Juzaweb\Backend\Events\Users\VerifyUserBeforeCommit;
 use Juzaweb\Backend\Events\Users\VerifyUserSuccessful;
 use Juzaweb\CMS\Http\Requests\Auth\RegisterRequest;
@@ -94,6 +95,8 @@ trait AuthRegisterForm
         }
 
         event(new VerifyUserSuccessful($user));
+
+        event(new RegisterCompleted($user));
 
         return redirect()->route('login');
     }

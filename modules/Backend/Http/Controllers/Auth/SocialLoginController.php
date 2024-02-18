@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Juzaweb\Backend\Events\Users\RegisterCompleted;
 use Juzaweb\Backend\Events\Users\RegisterSuccessful;
 use Juzaweb\Backend\Models\SocialToken;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
@@ -49,6 +50,8 @@ class SocialLoginController extends FrontendController
 
         if ($register) {
             event(new RegisterSuccessful($user));
+
+            event(new RegisterCompleted($user));
         }
 
         Auth::login($user, true);
