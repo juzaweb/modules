@@ -1,3 +1,6 @@
+### v1.0.23 
+* :+1: Disable reload on register
+
 ### v1.0.22 
 * :+1: Add RegisterCompleted event
 * :+1: Add profile index action
