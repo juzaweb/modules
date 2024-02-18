@@ -1,3 +1,9 @@
+### v1.0.22 
+* :+1: Add RegisterCompleted event
+* :+1: Add profile index action
+* :bug: Fix site map with home pages
+* :bug: Fix social login
+
 ### v1.0.21 
 * :bug: Fix api document route
 * :bug: Fix social login
