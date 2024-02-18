@@ -57,7 +57,7 @@ trait AuthRegisterForm
         if (get_config('user_verification')) {
             return $this->success(
                 [
-                    'redirect' => route('register'),
+                    //'redirect' => route('register'),
                     'message' => trans('cms::app.registered_success_verify'),
                 ]
             );
