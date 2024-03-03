@@ -1,3 +1,7 @@
+### v1.0.24 
+* :+1: Generate Personal access tokens
+* :+1: Add sanctum
+
 ### v1.0.23 
 * :+1: Disable reload on register
 
