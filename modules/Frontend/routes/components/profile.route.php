@@ -23,6 +23,8 @@ Route::group(
         Route::post('change-password', [ProfileController::class, 'doChangePassword']);
         Route::put('/', [ProfileController::class, 'update'])
             ->name('profile.update');
+        Route::post('personal-access-tokens', [ProfileController::class, 'generatePersonalAccessToken']);
+
         Route::get('/{slug?}', [ProfileController::class, 'index'])
             ->name('profile')
             ->where('slug', '.*');

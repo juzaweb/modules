@@ -602,4 +602,5 @@ return [
     'add_repeater_item' => 'Add new :label',
     'inactivate' => 'Inactivate',
     'send_to' => 'Send to',
+    'generate_token_successfully' => 'Generate token successfully. Your token: :token, please copy it!',
 ];

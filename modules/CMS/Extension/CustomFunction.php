@@ -92,6 +92,7 @@ class CustomFunction extends AbstractExtension
             new TwigFunction('view_exists', 'theme_view_exists'),
             new TwigFunction('number_format', 'number_format'),
             new TwigFunction('generate_uuid', 'generate_uuid'),
+            new TwigFunction('date_format', 'jw_date_format'),
         ];
     }
 }

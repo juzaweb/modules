@@ -6,6 +6,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -15,6 +16,7 @@ use Juzaweb\Backend\Repositories\UserRepository;
 use Juzaweb\CMS\Contracts\HookActionContract;
 use Juzaweb\CMS\Http\Controllers\FrontendController;
 use Juzaweb\Frontend\Http\Requests\ChangePasswordRequest;
+use Juzaweb\Frontend\Http\Requests\Profile\GeneratePersonalAccessTokenRequest;
 use Juzaweb\Frontend\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends FrontendController
@@ -25,7 +27,7 @@ class ProfileController extends FrontendController
     ) {
     }
 
-    public function index(?string $slug = null)
+    public function index(Request $request, ?string $slug = null)
     {
         $pages = $this->hookAction->getProfilePages()->toArray();
 
@@ -39,10 +41,18 @@ class ProfileController extends FrontendController
             return app()->call("{$callback[0]}@{$callback[1]}", ['page' => $page]);
         }
 
+        $apiEnable = config('juzaweb.api.enable');
+
         $params = compact(
             'title',
             'slug',
+            'apiEnable'
         );
+
+        if ($apiEnable) {
+            $params['accessTokens'] = $request->user()->tokens()->orderBy('id', 'DESC')->limit(3)->get()->toArray();
+            //dd($params['accessTokens']);
+        }
 
         $params['pages'] = $this->filterPagesParams($pages);
         $params['page'] = $this->filterPageParam($page);
@@ -66,13 +76,17 @@ class ProfileController extends FrontendController
 
         DB::transaction(
             function () use ($user, $request) {
-                $update = $request->only(['name']);
+                $update = $request->safe()->except('password', 'password_confirmation');
 
                 if ($password = $request->input('password')) {
                     $update['password'] = Hash::make($password);
                 }
 
                 $this->userRepository->update($update, $user->id);
+
+                if ($birthday = $request->input('metas.birthday')) {
+                    $user->setMeta('birthday', $birthday);
+                }
 
                 do_action('theme.profile.update', $user, $request->all());
             }
@@ -125,6 +139,18 @@ class ProfileController extends FrontendController
         return $this->success(
             [
                 'message' => trans('cms::app.change_password_successfully'),
+            ]
+        );
+    }
+
+    public function generatePersonalAccessToken(GeneratePersonalAccessTokenRequest $request): JsonResponse|RedirectResponse
+    {
+        $token = DB::transaction(fn () => $request->user()->createToken($request->input('name')));
+
+        return $this->success(
+            [
+                'message' => trans('cms::app.generate_token_successfully', ['token' => $token->plainTextToken]),
+                'token' => $token,
             ]
         );
     }

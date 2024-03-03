@@ -21,6 +21,7 @@ class UpdateProfileRequest extends FormRequest
             'phone' => 'nullable|string|max:20',
             'password' => 'nullable|confirmed|string|max:32|min:6',
             'password_confirmation' => 'nullable|required_if:password,!=,|string|max:32|min:6',
+            'metas[birthday]' => 'nullable|date',
         ];
     }
 }

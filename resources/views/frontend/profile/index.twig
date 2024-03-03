@@ -29,6 +29,62 @@
             </div>
         </div>
 
+        {% if apiEnable %}
+            <div class="col-md-12">
+                <hr />
+
+                <h5>{{ __('Personal access tokens') }}</h5>
+                <p>{{ __('Tokens you have generated that can be used to access the APIs') }}</p>
+                {#<p>{{ __('You do not have a Personal access token yet,') }}
+                    <a href="javascript:void(0)" class="text-primary show-generate-personal-access-token">{{ __('generate now') }}</a>
+                </p>#}
+
+                <div id="box-generate-personal-access-token">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input class="form-control"
+                                       type="text"
+                                       id="token-name"
+                                       value=""
+                                       placeholder="{{ __('Token Name') }}"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button type="button" class="generate-personal-access-token btn btn-info">{{ __('Generate Token') }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3" id="token-result"></div>
+
+                <h6>{{ __('Your Personal access tokens') }}</h6>
+                <table class="table mt-3">
+                    <thead>
+                        <tr>
+                            <td>{{ __('Token Name') }}</td>
+                            <td>{{ __('Last Used') }}</td>
+                            <td>{{ __('Expires At') }}</td>
+                            <td>{{ __('Created At') }}</td>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for token in accessTokens %}
+                            <tr>
+                                <td>{{ token.name }}</td>
+                                <td>{{ token.last_used_at ? date_format(token.last_used_at) : 'Never' }}</td>
+                                <td>{{ token.expires_at ? date_format(token.expires_at) : 'Never' }}</td>
+                                <td>{{ date_format(token.created_at) }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
         <hr>
 
         <div class="col-12">
@@ -43,4 +99,36 @@
             </div>
         </div>
     </form>
+
+    {% if apiEnable %}
+        <script type="text/javascript">
+            $(function () {
+                /*$(document).on('click', '.show-generate-personal-access-token', function () {
+                    $('#box-generate-personal-access-token').toggle('slow');
+                });*/
+
+                $(document).on('click', '.generate-personal-access-token', function () {
+                    let name = $('#token-name').val();
+
+                    if (!name) {
+                        return false;
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ url('profile/personal-access-tokens') }}",
+                        dataType: 'json',
+                        data: {
+                            name: name,
+                        },
+                        success: function (res) {
+                            $('#token-result').html(get_message_response(res).message);
+                        }
+                    });
+                });
+            })
+        </script>
+    {% endif %}
+
 {% endblock %}
+
