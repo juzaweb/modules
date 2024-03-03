@@ -23,7 +23,7 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     
-        if (get_config('captcha') && $this->is('api/*')) {
+        if (get_config('captcha') && !$this->is('api/*')) {
             $rules['g-recaptcha-response'] = 'bail|required|recaptcha';
         }
         

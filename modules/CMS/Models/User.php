@@ -37,7 +37,7 @@ use Juzaweb\Network\Facades\Network;
 use Juzaweb\Network\Models\Site;
 use Juzaweb\Network\Traits\RootNetworkUser;
 use Laravel\Passport\Client;
-use Laravel\Passport\HasApiTokens;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * Juzaweb\CMS\Models\User
