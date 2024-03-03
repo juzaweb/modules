@@ -51,7 +51,6 @@ class ProfileController extends FrontendController
 
         if ($apiEnable) {
             $params['accessTokens'] = $request->user()->tokens()->orderBy('id', 'DESC')->limit(3)->get()->toArray();
-            //dd($params['accessTokens']);
         }
 
         $params['pages'] = $this->filterPagesParams($pages);
