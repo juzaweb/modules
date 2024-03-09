@@ -88,7 +88,7 @@ class GoogleTranslate implements GoogleTranslateContract
                 'form_params' => [
                     'sl' => $source,
                     'tl' => $target,
-                    'q' => $text
+                    'q' => $text,
                 ]
             ]
         );
@@ -166,7 +166,7 @@ class GoogleTranslate implements GoogleTranslateContract
                 CURLOPT_SSL_VERIFYPEER => false,
                 CURLOPT_SSL_VERIFYHOST => false,
             ],
-            'timeout' => 20,
+            'timeout' => 10,
             'connect_timeout' => 10,
         ];
 
