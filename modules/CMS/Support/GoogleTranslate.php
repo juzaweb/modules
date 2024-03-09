@@ -93,7 +93,22 @@ class GoogleTranslate implements GoogleTranslateContract
             ]
         );
 
-        return $client->getBody()->getContents();
+        $contents = $client->getBody()->getContents();
+
+        if ($client->getBody()->getSize() > 1024 * 1024 * 1) {
+            info(
+                'Google translate response too large:',
+                [
+                    'size' => $client->getBody()->getSize(),
+                    'source' => $source,
+                    'target' => $target,
+                    'text' => $text,
+                    'content' => $contents,
+                ]
+            );
+        }
+
+        return $contents;
     }
 
     /**
