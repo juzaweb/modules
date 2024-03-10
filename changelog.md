@@ -1,3 +1,8 @@
+### v1.0.25 
+* :+1: Make Demo Content Command
+* :+1: Post Factory
+* :+1: Log Google translate response too large
+
 ### v1.0.24 
 * :+1: Generate Personal access tokens
 * :+1: Add sanctum
