@@ -174,7 +174,7 @@ trait GetHookAction
         return new Collection(GlobalData::get('templates'));
     }
 
-    public function getResource($key = null)
+    public function getResource($key = null): ?Collection
     {
         if ($key) {
             return Arr::get(GlobalData::get('resources'), $key);

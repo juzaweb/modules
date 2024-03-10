@@ -640,4 +640,6 @@ interface HookActionContract
      * @return void
      */
     public function registerProfilePage(string $key, array $args = []): void;
+
+    public function getResource($key = null): ?Collection;
 }
