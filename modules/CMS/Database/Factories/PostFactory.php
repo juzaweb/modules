@@ -29,7 +29,7 @@ class PostFactory extends Factory
         return [
             'title' => $title,
             'content' => $this->randomContent(),
-            'thumbnail' => $this->randomThumbnail(),
+            'thumbnail' => $this->randomThumbnailUrl(),
             'status' => 'publish',
             'type' => 'posts',
             'locale' => 'en',
@@ -41,29 +41,17 @@ class PostFactory extends Factory
         ];
     }
 
-    protected function randomThumbnail($width = 640, $height = 480): string
+    protected function randomThumbnailUrl($width = 640, $height = 480): string
     {
-        $date = date('Y/m/d');
-        $imageFolder = storage_path("app/public/". $date);
-
-        if (!is_dir($imageFolder)) {
-            if (!mkdir($imageFolder, 0777, true) && !is_dir($imageFolder)) {
-                throw new \RuntimeException(sprintf('Directory "%s" was not created', $imageFolder));
-            }
-        }
-
-        $thumbnail = $this->faker->image(
-            $imageFolder,
+        return $this->faker->imageUrl(
             $width,
             $height,
             null,
             false,
+            null,
             false,
-            "{$width}x{$height}",
-            true
+            'jpg'
         );
-
-        return $date . "/{$thumbnail}";
     }
 
     protected function randomContent(): string

@@ -2,8 +2,11 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Database\Factories\TaxonomyFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,15 +28,15 @@ use Juzaweb\Network\Traits\Networkable;
  * @property string $taxonomy
  * @property int|null $parent_id
  * @property int $total_post
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property int $level
- * @property-read \Illuminate\Database\Eloquent\Collection|Taxonomy[] $children
+ * @property-read Collection|Taxonomy[] $children
  * @property-read int|null $children_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Juzaweb\Backend\Models\MenuItem[] $menuItems
+ * @property-read Collection|MenuItem[] $menuItems
  * @property-read int|null $menu_items_count
  * @property-read Taxonomy|null $parent
- * @method static \Juzaweb\CMS\Database\Factories\TaxonomyFactory factory(...$parameters)
+ * @method static TaxonomyFactory factory(...$parameters)
  * @method static Builder|Taxonomy newModelQuery()
  * @method static Builder|Taxonomy newQuery()
  * @method static Builder|Taxonomy query()
@@ -52,12 +55,12 @@ use Juzaweb\Network\Traits\Networkable;
  * @method static Builder|Taxonomy whereUpdatedAt($value)
  * @property int|null $site_id
  * @method static Builder|Taxonomy whereSiteId($value)
- * @property-read \Illuminate\Database\Eloquent\Collection|Taxonomy[] $recursiveChildren
+ * @property-read Collection|Taxonomy[] $recursiveChildren
  * @property-read int|null $recursive_children_count
  * @property string|null $uuid
  * @method static Builder|Taxonomy whereUuid($value)
  * @property-read Taxonomy|null $recursiveParents
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Taxonomy extends Model
 {
