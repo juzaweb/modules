@@ -10,6 +10,9 @@
 
 namespace Juzaweb\Backend\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Juzaweb\CMS\Models\Model;
 
 /**
@@ -19,15 +22,15 @@ use Juzaweb\CMS\Models\Model;
  * @property int $resource_id
  * @property string $meta_key
  * @property string|null $meta_value
- * @property-read \Juzaweb\Backend\Models\Resource $resource
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta query()
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta whereMetaKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta whereMetaValue($value)
- * @method static \Illuminate\Database\Eloquent\Builder|ResourceMeta whereResourceId($value)
- * @mixin \Eloquent
+ * @property-read Resource $resource
+ * @method static Builder|ResourceMeta newModelQuery()
+ * @method static Builder|ResourceMeta newQuery()
+ * @method static Builder|ResourceMeta query()
+ * @method static Builder|ResourceMeta whereId($value)
+ * @method static Builder|ResourceMeta whereMetaKey($value)
+ * @method static Builder|ResourceMeta whereMetaValue($value)
+ * @method static Builder|ResourceMeta whereResourceId($value)
+ * @mixin Eloquent
  */
 class ResourceMeta extends Model
 {
@@ -40,7 +43,7 @@ class ResourceMeta extends Model
         'resource_id',
     ];
 
-    public function resource(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function resource(): BelongsTo
     {
         return $this->belongsTo(Resource::class, 'resource_id', 'id');
     }

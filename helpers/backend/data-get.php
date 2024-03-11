@@ -113,14 +113,16 @@ function get_post_resources(string $resource, array $options = []): array
         }
 
         $data = $query->paginate($paginate);
-    } else {
-        $limit = Arr::get($options, 'limit', 10);
-        if ($limit > 100) {
-            $limit = 10;
-        }
 
-        $data = $query->limit($limit)->get();
+        return ResourceResource::collection($data)->response()->getData(true);
     }
+
+    $limit = Arr::get($options, 'limit', 10);
+    if ($limit > 100) {
+        $limit = 10;
+    }
+
+    $data = $query->limit($limit)->get();
 
     return ResourceResource::collection($data)->toArray(request());
 }
@@ -133,8 +135,12 @@ function get_post_resources(string $resource, array $options = []): array
  *
  * @return array|null An array of the resource data, or null if not found.
  */
-function get_post_resource(string $resource, int $id): ?array
+function get_post_resource(string $resource, ?int $id): ?array
 {
+    if (!$id) {
+        return null;
+    }
+
     $query = Resource::selectFrontendBuilder()
         ->where('type', '=', $resource)
         ->where('id', '=', $id);
