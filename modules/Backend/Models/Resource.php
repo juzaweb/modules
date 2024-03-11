@@ -11,9 +11,11 @@
 namespace Juzaweb\Backend\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Juzaweb\CMS\Database\Factories\ResourceFactory;
 use Juzaweb\CMS\Models\Model;
 use Juzaweb\CMS\Traits\UseSlug;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
@@ -68,7 +70,7 @@ use Juzaweb\Network\Traits\Networkable;
  */
 class Resource extends Model
 {
-    use UseSlug, UseUUIDColumn, Networkable;
+    use UseSlug, UseUUIDColumn, Networkable, HasFactory;
 
     protected $table = 'resources';
 
@@ -106,6 +108,11 @@ class Resource extends Model
     public static function selectFrontendBuilder(): Builder
     {
         return self::query()->wherePublish();
+    }
+
+    protected static function newFactory(): ResourceFactory
+    {
+        return ResourceFactory::new();
     }
 
     public function post(): BelongsTo

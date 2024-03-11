@@ -22,7 +22,7 @@ class TaxonomyFactory extends Factory
      */
     public function definition(): array
     {
-        $name = $this->faker->sentence(3);
+        $name = $this->faker->words(3, true);
         $taxonomies = ['categories', 'tags'];
         $taxonomy = $taxonomies[array_rand($taxonomies, 1)];
         $parents = [
