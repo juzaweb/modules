@@ -46,6 +46,9 @@ class PostResource extends JsonResource
             'status' => $this->resource->status,
             'rating' => $this->resource->rating,
             'total_rating' => $this->resource->total_rating,
+            'star' => $this->resource->total_rating > 0
+                ? $this->resource->rating
+                : round($this->resource->rating / 2, 2),
             'total_comment' => $this->resource->total_comment,
             'metas' => $this->resource->json_metas,
             'author' => [

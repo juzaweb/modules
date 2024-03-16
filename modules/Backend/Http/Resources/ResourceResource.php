@@ -14,17 +14,18 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ResourceResource extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'type' => $this->type,
-            'thumbnail' => $this->thumbnail,
-            'description' => $this->description,
-            'metas' => $this->json_metas,
-            'created_at' => jw_date_format($this->created_at),
-            'updated_at' => jw_date_format($this->updated_at),
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'type' => $this->resource->type,
+            'thumbnail' => $this->resource->thumbnail,
+            'display_order' => $this->resource->display_order,
+            'description' => $this->resource->description,
+            'metas' => $this->resource->json_metas,
+            'created_at' => jw_date_format($this->resource->created_at),
+            'updated_at' => jw_date_format($this->resource->updated_at),
         ];
     }
 }
