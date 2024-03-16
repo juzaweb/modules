@@ -1,3 +1,7 @@
+### v1.0.26 
+* :+1: Add rating star Post Resource
+* :+1: Make Demo Content Command
+
 ### v1.0.25 
 * :+1: Make Demo Content Command
 * :+1: Post Factory
