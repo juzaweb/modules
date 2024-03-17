@@ -73,7 +73,7 @@ trait PostQuery
         }
 
         foreach ($orderBy as $col => $val) {
-            if (!in_array($col, ['id', 'views'])) {
+            if (!in_array($col, ['id', 'views', 'rating', 'created_at', 'updated_at'])) {
                 continue;
             }
 
@@ -87,7 +87,7 @@ trait PostQuery
         if ($paginate) {
             $posts = $query->paginate($paginate);
 
-            $posts->appends(request()->query());
+            $posts->appends(request()?->query());
 
             return PostResourceCollection::make($posts)
                 ->response()

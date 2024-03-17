@@ -4,6 +4,7 @@ namespace Juzaweb\CMS\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Filesystem\Factory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\RateLimiter;
@@ -123,6 +124,8 @@ class CmsServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
         OverwriteConfig::init();
+
+        Model::preventLazyLoading(!$this->app->isProduction());
 
         /*$this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);

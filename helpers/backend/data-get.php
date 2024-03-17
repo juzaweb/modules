@@ -19,7 +19,7 @@ function get_posts_by_filter(?array $options): ?array
         $options['order_by'] = [$sortBy => Arr::get($options, 'sort_order', 'asc')];
     }
 
-    return JWQuery::posts($options['type'] ?? 'posts', $options);
+    return JWQuery::posts($options['type'] ?? 'posts', $options ?? []);
 }
 
 function get_post_taxonomy($post, $taxonomy = null, $params = []): ?array

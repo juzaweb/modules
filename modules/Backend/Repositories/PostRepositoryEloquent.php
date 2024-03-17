@@ -153,6 +153,8 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
                     'description',
                     'thumbnail',
                     'slug',
+                    'rating',
+                    'total_rating',
                     'views',
                     'total_rating',
                     'total_comment',

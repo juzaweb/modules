@@ -218,7 +218,7 @@ class PostTypeDataTable extends DataTable
 
         $sort = [
             'sort_order' => Arr::get($data, 'order', 'desc'),
-            'sort_by' => Arr::get($data, 'sort', 'id')
+            'sort_by' => Arr::get($data, 'sort', 'id'),
         ];
 
         return $this->postRepository
@@ -228,7 +228,8 @@ class PostTypeDataTable extends DataTable
             ->scopeQuery(
                 fn ($q) => $q->when(empty($data['status']), fn ($q2) => $q2->where('status', '!=', 'trash'))
             )
-            ->getQuery();
+            ->getQuery()
+            ->with(['taxonomies']);
     }
 
     public function rowActionsFormatter(mixed $value, mixed $row, int $index): string

@@ -61,6 +61,8 @@ trait PostTypeModel
                     'description',
                     'thumbnail',
                     'slug',
+                    'rating',
+                    'total_rating',
                     'views',
                     'total_rating',
                     'total_comment',
@@ -238,8 +240,6 @@ trait PostTypeModel
 
         return $builder;
     }
-
-
 
     /**
      * @param Builder $builder

@@ -40,6 +40,9 @@ class PostResourceCollection extends ResourceCollection
                     'status' => $item->status,
                     'rating' => $item->rating,
                     'total_rating' => $item->total_rating,
+                    'star' => $item->total_rating > 0
+                        ? $item->rating
+                        : round($item->rating / 2, 2),
                     'total_comment' => $item->total_comment,
                     'metas' => $item->json_metas,
                     'author' => [

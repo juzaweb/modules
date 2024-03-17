@@ -41,7 +41,10 @@
             [
                 'options' => [
                     'id' => 'ID',
-                    'views' => 'Views'
+                    'views' => 'Views',
+                    'rating' => 'Rating',
+                    'created_at' => 'Created Date',
+                    'updated_at' => 'Updated Date',
                 ],
                  'value' => $value['sort_by'] ?? null
             ],
@@ -57,7 +60,7 @@
                 [
                     'options' => [
                         'asc' => 'ASC',
-                        'desc' => 'DESC'
+                        'desc' => 'DESC',
                     ],
                      'value' => $value['sort_order'] ?? null
                 ],
