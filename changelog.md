@@ -1,3 +1,8 @@
+### v1.0.27 
+* :bug: Fix show class select
+* :+1: Add title html widget
+* :+1: Add rating star Post Resource
+
 ### v1.0.26 
 * :+1: Add rating star Post Resource
 * :+1: Make Demo Content Command
