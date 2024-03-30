@@ -10,8 +10,8 @@
 
 namespace Juzaweb\CMS\Traits;
 
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Juzaweb\CMS\Models\Model;
 
 trait UseDescription
 {
@@ -19,7 +19,8 @@ trait UseDescription
     {
         static::saving(
             function ($model) {
-                if (Schema::hasColumns($model->getTable(), ['description'])) {
+                /** @var Model $model */
+                if (!$model->getAttribute('description')) {
                     $model->description = seo_string($model->content, 190);
                 }
             }

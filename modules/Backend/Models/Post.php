@@ -125,6 +125,7 @@ class Post extends Model implements Feedable, ExportSupport
 
     protected $fillable = [
         'title',
+        'description',
         'content',
         'status',
         'views',
