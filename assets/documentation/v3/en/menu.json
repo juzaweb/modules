@@ -1,0 +1,113 @@
+[
+  {
+    "label": "Quick Start",
+    "children": [
+      {
+        "label": "Installation",
+        "url": "start/installation"
+      },
+      {
+        "label": "Config",
+        "url": "start/config"
+      },
+      {
+        "label": "Update Guide",
+        "url": "start/update"
+      },
+      {
+        "label": "Image optimizer",
+        "url": "start/image-optimizer"
+      },
+      {
+        "label": "Changelog",
+        "url": "changelog"
+      }
+    ]
+  },
+  {
+    "label": "Plugin Development",
+    "children": [
+      {
+        "label": "Create plugin",
+        "url": "plugin/create"
+      },
+      {
+        "label": "Hook actions",
+        "url": "plugin/hook-actions"
+      },
+      {
+        "label": "Post type",
+        "url": "plugin/post-type"
+      },
+      {
+        "label": "Resource",
+        "url": "plugin/resource"
+      },
+      {
+        "label": "Config Form",
+        "url": "plugin/config-form"
+      },
+      {
+        "label": "Services",
+        "url": "plugin/services"
+      },
+      {
+        "label": "Helpers",
+        "url": "plugin/helpers"
+      },
+      {
+        "label": "Translation",
+        "url": "plugin/translation"
+      },
+      {
+        "label": "Assets",
+        "url": "plugin/assets-and-mix-assets"
+      },
+      {
+        "label": "Commands",
+        "url": "plugin/commands"
+      }
+    ]
+  },
+  {
+    "label": "Theme Development",
+    "children": [
+      {
+        "label": "Create Theme",
+        "url": "theme/create"
+      },
+      {
+        "label": "Twig Template",
+        "url": "theme/about-twig"
+      },
+      {
+        "label": "Register Data",
+        "url": "theme/register"
+      },
+      {
+        "label": "Custom Page Templates",
+        "url": "theme/custom-page"
+      },
+      {
+        "label": "Setting",
+        "url": "theme/helpers"
+      },
+      {
+        "label": "Helpers",
+        "url": "theme/helpers"
+      },
+      {
+        "label": "Translation",
+        "url": "theme/translation"
+      },
+      {
+        "label": "Assets",
+        "url": "theme/assets-and-mix-assets"
+      },
+      {
+        "label": "Commands",
+        "url": "theme/commands"
+      }
+    ]
+  }
+]
