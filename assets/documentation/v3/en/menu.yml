@@ -1,0 +1,25 @@
+pages:
+  "Quick Start":
+    - Installation: start/installation
+    - Config: start/config
+    - Update Guide: start/update
+    - Image optimizer: start/image-optimizer
+    - Changelog: changelog
+  "Plugin Development":
+    - Create plugin: plugin/create
+    - Hook actions: plugin/hook-actions
+    - Post type: plugin/post-type
+    - Resource: plugin/resource
+    - Config Form: plugin/config-form
+    - Services: plugin/services
+    - Helpers: plugin/helpers
+    - Translation: plugin/translation
+  "Theme Development":
+    - Create theme: theme/create
+    - Twig Template: theme/about-twig
+    - Register Data: theme/register
+    - Custom Page Templates: theme/custom-page
+    - Helpers: theme/helpers
+    - Translation: theme/translation
+    - Assets: theme/assets-and-mix-assets
+    - Commands: theme/commands

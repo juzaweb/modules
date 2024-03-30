@@ -8,6 +8,9 @@
             "providers": [
                 "Juzaweb\\CMS\\Providers\\CmsServiceProvider"
             ]
+        },
+        "juzaweb": {
+            "name": "Juzaweb CMS"
         }
     },
     "autoload": {
