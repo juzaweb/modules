@@ -258,7 +258,7 @@ class FileManager
                 ]
             );
 
-            if ($media->isRoot() && $media->isImage()) {
+            if ($this->canMakeThumb($media)) {
                 $this->makeThumbImage($newPath, $media);
             }
         } catch (Exception $e) {
@@ -278,6 +278,11 @@ class FileManager
         }
 
         return jw_basename(pathinfo($file, PATHINFO_EXTENSION));
+    }
+
+    protected function canMakeThumb(MediaFile $media): bool
+    {
+        return $media->isRoot() && $media->isImage() && $media->disk === 'public';
     }
 
     protected function makeThumbImage(string $path, MediaFile $media): void

@@ -19,7 +19,7 @@ class FrontendController extends Controller
 
     protected string $template;
 
-    public function callAction($method, $parameters): Response|string|View|InertiaResponse|JsonResource
+    public function callAction($method, $parameters): mixed
     {
         $this->template = Theme::currentTheme()->getTemplate();
 
