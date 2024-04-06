@@ -169,7 +169,7 @@ class ProfileController extends FrontendController
                 ? request()?->is('profile')
                 : request()?->is("profile/{$page['slug']}") || request()?->is("profile/{$page['slug']}/*");
             return $page;
-        })->toArray();
+        })->where('show_menu', true)->toArray();
     }
 
     protected function arrayMapData(array $data): array

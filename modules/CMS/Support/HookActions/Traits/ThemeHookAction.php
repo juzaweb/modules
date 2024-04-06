@@ -72,6 +72,7 @@ trait ThemeHookAction
             'key' => $key,
             'slug' => $slug,
             'url' => route('profile', $key == 'index' ? null : $slug),
+            'show_menu' => true,
             'icon' => null,
         ];
 
