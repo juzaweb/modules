@@ -1,3 +1,9 @@
+### v1.0.28 
+* :+1: Rename CMSServiceProvider
+* :+1: Show menu profile pages
+* :+1: Set description for post
+* :+1: Add documentation
+
 ### v1.0.27 
 * :bug: Fix show class select
 * :+1: Add title html widget
