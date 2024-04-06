@@ -6,7 +6,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Juzaweb\\CMS\\Providers\\CmsServiceProvider"
+                "Juzaweb\\CMS\\Providers\\CMSServiceProvider"
             ]
         },
         "juzaweb": {

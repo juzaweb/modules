@@ -72,7 +72,7 @@ use Juzaweb\Translation\Providers\TranslationServiceProvider;
 use Laravel\Passport\Passport;
 use TwigBridge\Facade\Twig;
 
-class CmsServiceProvider extends ServiceProvider
+class CMSServiceProvider extends ServiceProvider
 {
     protected string $basePath = __DIR__.'/../../..';
 
@@ -115,7 +115,7 @@ class CmsServiceProvider extends ServiceProvider
         );
 
         // Prevent lazy loading in local environment
-        //Model::preventLazyLoading(!$this->app->isProduction());
+        Model::preventLazyLoading(!$this->app->isProduction());
 
         Schema::defaultStringLength(150);
 
@@ -124,8 +124,6 @@ class CmsServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
 
         OverwriteConfig::init();
-
-        Model::preventLazyLoading(!$this->app->isProduction());
 
         /*$this->app->booted(function () {
             $schedule = $this->app->make(Schedule::class);
