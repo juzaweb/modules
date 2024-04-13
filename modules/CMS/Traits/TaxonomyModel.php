@@ -50,7 +50,7 @@ trait TaxonomyModel
 
     public function recursiveChildren(): HasMany
     {
-        return $this->children()->with('recursiveChildren');
+        return $this->children()->with(['recursiveChildren']);
     }
 
     public function posts($postType = null): BelongsToMany

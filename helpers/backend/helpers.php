@@ -521,6 +521,7 @@ if (!function_exists('recursive_level_model')) {
             return;
         }
 
+        $model->load(['parent']);
         if ($model->parent) {
             $level++;
             recursive_level_model($level, $model->parent);

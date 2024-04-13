@@ -3,9 +3,9 @@
         <input type="checkbox" name="{{ $taxonomy->get('taxonomy') }}[]" class="custom-control-input" id="{{ $taxonomy->get('taxonomy') }}-{{ $item->id }}" value="{{ $item->id }}" @if(in_array($item->id, $value ?? [])) checked @endif>
         <label class="custom-control-label" for="{{ $taxonomy->get('taxonomy') }}-{{ $item->id }}">{{ $item->name }}</label>
     </div>
-    @if($item->children->isNotEmpty())
+    @if($item->recursiveChildren->isNotEmpty())
     <ul class="ml-3 p-0">
-        @foreach($item->children as $child)
+        @foreach($item->recursiveChildren as $child)
             @component('cms::components.form.taxonomy_item', [
                 'taxonomy' => $taxonomy,
                 'item' => $child,

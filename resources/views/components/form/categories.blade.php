@@ -9,7 +9,9 @@
     </label>
 
     @php
-        $items = \Juzaweb\Backend\Models\Taxonomy::with(['children'])
+        /** @var \Juzaweb\Backend\Models\Post $model */
+
+        $items = \Juzaweb\Backend\Models\Taxonomy::with(['recursiveChildren'])
             ->whereNull('parent_id')
             ->where('taxonomy', '=', $taxonomy->get('taxonomy'))
             ->where('post_type', '=', $taxonomy->get('post_type'))
