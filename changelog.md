@@ -1,3 +1,10 @@
+### v1.0.29 
+* :bug: Fix lazy load
+* :bug: Fix test mysql
+* :bug: Fix Taxonomy seeder
+* :+1: Short code in widget
+* :bug: Fix upload media protected disk
+
 ### v1.0.28 
 * :+1: Rename CMSServiceProvider
 * :+1: Show menu profile pages
