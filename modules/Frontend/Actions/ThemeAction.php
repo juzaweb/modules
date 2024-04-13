@@ -302,14 +302,14 @@ class ThemeAction extends Action
             ]
         );
 
-        HookAction::registerProfilePage(
-            'change-password',
-            [
-                'title' => trans('cms::app.change_password'),
-                'contents' => 'cms::frontend.profile.change_password',
-                'icon' => 'lock',
-            ]
-        );
+        // HookAction::registerProfilePage(
+        //     'change-password',
+        //     [
+        //         'title' => trans('cms::app.change_password'),
+        //         'contents' => 'cms::frontend.profile.change_password',
+        //         'icon' => 'lock',
+        //     ]
+        // );
     }
 
     public function addFrontendAjax(): void

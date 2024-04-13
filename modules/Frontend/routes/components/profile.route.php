@@ -20,7 +20,7 @@ Route::group(
             ->name('profile.notification');
         // Route::get('change-password', [ProfileController::class, 'changePassword'])
         //     ->name('profile.change_password');
-        Route::post('change-password', [ProfileController::class, 'doChangePassword']);
+        //Route::post('change-password', [ProfileController::class, 'doChangePassword']);
         Route::put('/', [ProfileController::class, 'update'])
             ->name('profile.update');
         Route::post('personal-access-tokens', [ProfileController::class, 'generatePersonalAccessToken']);
