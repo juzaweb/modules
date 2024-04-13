@@ -27,7 +27,8 @@ class TaxonomyFactory extends Factory
         $taxonomy = $taxonomies[array_rand($taxonomies, 1)];
         $parents = [
             null,
-            Taxonomy::where('taxonomy', '=', $taxonomy)
+            Taxonomy::with(['parent'])
+                ->where('taxonomy', '=', $taxonomy)
                 ->orderBy('id', 'DESC')
                 ->first()->id ?? null
         ];
