@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Abstracts;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Juzaweb\CMS\Facades\ThemeLoader;
 use TwigBridge\Facade\Twig;
@@ -63,7 +64,7 @@ abstract class Widget
         return Twig::render($view, $params);
     }
 
-    public function getJsonForm(): array|\Illuminate\Support\Collection
+    public function getJsonForm(): array|Collection
     {
         if ($form = Arr::get($this->data, 'form')) {
             $resourcePath = base_path('packages/backend/src/resources');
@@ -81,6 +82,6 @@ abstract class Widget
             return [];
         }
 
-        return collect(json_decode(file_get_contents($dataFile), true));
+        return collect(json_decode(file_get_contents($dataFile), true, 512, JSON_THROW_ON_ERROR));
     }
 }
