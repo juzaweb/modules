@@ -1,3 +1,6 @@
+### v1.0.30 
+* :+1: Update styles
+
 ### v1.0.29 
 * :bug: Fix lazy load
 * :bug: Fix test mysql
