@@ -89,6 +89,7 @@ class TaxonomyDataTable extends DataTable
         ];
 
         return $this->taxonomyRepository
+            ->with(['parent'])
             ->withSearchs(Arr::get($data, 'keyword'))
             ->withFilters($data)
             ->withSorts($sort)

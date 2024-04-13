@@ -76,12 +76,17 @@ class ShortCode implements Arrayable
         return $this->content;
     }
 
+    public function getAttribute(string $key): ?string
+    {
+        return $this->attributes[$key] ?? null;
+    }
+
     /**
      * Return array of attributes;
      *
      * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         return $this->attributes;
     }

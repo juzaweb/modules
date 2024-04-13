@@ -357,7 +357,7 @@ if (!function_exists('dynamic_sidebar')) {
     function dynamic_sidebar($key): Factory|ViewContract|string
     {
         $sidebar = HookAction::getSidebars($key);
-        if (empty($sidebar)) {
+        if ($sidebar === null) {
             return '';
         }
 

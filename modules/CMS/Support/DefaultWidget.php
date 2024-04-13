@@ -12,6 +12,7 @@ namespace Juzaweb\CMS\Support;
 
 use Illuminate\View\View;
 use Juzaweb\CMS\Abstracts\Widget;
+use Juzaweb\CMS\Facades\ShortCode;
 
 class DefaultWidget extends Widget
 {
@@ -43,10 +44,12 @@ class DefaultWidget extends Widget
      */
     public function show($data)
     {
-        return $this->view(
-            $this->data['view'],
-            compact(
-                'data'
+        return ShortCode::compile(
+            $this->view(
+                $this->data['view'],
+                compact(
+                    'data'
+                )
             )
         );
     }

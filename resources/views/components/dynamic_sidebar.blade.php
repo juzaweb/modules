@@ -3,7 +3,7 @@
         $widgetData = \Juzaweb\CMS\Facades\HookAction::getWidgets($widget['widget'] ?? 'null');
     @endphp
 
-    @if(empty($widgetData))
+    @if($widgetData === null)
         @continue
     @endif
 
