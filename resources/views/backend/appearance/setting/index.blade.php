@@ -23,6 +23,9 @@
                     @php
                         $config['data']['value'] = get_theme_config($config['name']);
                         $config['name'] = "theme[{$config['name']}]";
+                        if ($config['type'] == 'checkbox') {
+                            $config['data']['checked'] = (bool) $config['data']['value'];
+                        }
                     @endphp
 
                     {{ Field::fieldByType($config) }}
