@@ -1,3 +1,6 @@
+### v1.0.31 
+* :+1: Disabled change password Profile Page
+
 ### v1.0.30 
 * :+1: Update styles
 
