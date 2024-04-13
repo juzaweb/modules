@@ -3,5 +3,5 @@ name: Run phpunit test suite
 on: [push, pull_request]
 
 jobs:
-  uneditable:
+  testing:
     uses: juzaweb/actions/.github/workflows/mysql-test.yml@main
