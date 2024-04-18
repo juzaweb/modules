@@ -38,6 +38,8 @@ if (! function_exists('installed_plugins')) {
 if (! function_exists('plugin_enabled')) {
     function plugin_enabled(string $name): bool
     {
-        return app('plugins')->isEnabled($name);
+        $plugin = app('plugins')->find($name);
+
+        return $plugin && $plugin->isEnabled();
     }
 }
