@@ -13,6 +13,9 @@ namespace Juzaweb\CMS\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
+/**
+ * @deprecated
+ */
 class PluginAutoloadCommand extends Command
 {
     protected $signature = 'juzacms:plugin-autoload';

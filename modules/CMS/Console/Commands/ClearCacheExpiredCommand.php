@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Storage;
 
 class ClearCacheExpiredCommand extends Command
 {
-    protected $signature = 'juzacms:clear-cache-expired';
+    protected $signature = 'cms:clear-cache-expired';
+
     protected $description = 'Remove all expired cache files and folders';
 
     private int $expiredFileCount = 0;

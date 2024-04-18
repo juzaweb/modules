@@ -14,6 +14,9 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * @deprecated
+ */
 class AutoClearSlotCommand extends Command
 {
     protected $signature = 'juzacms:clear-command-slots';
