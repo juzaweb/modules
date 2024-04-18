@@ -605,4 +605,5 @@ return [
     'send_to' => 'Send to',
     'generate_token_successfully' => 'Generate token successfully. Your token: <code>:token</code>, please copy it!',
     'short_code' => 'Short Code',
+    'admin_bar' => 'Admin Bar',
 ];

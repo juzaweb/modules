@@ -41,7 +41,7 @@
                     'value' => get_config('icon')
                 ]) }}
 
-                {{ Field::select(trans('Admin Bar'), 'config[admin_bar]', [
+                {{ Field::select(trans('cms::app.admin_bar'), 'config[admin_bar]', [
                     'value' => get_config('admin_bar'),
                     'options' => [
                         '1' => trans('cms::app.enable'),
