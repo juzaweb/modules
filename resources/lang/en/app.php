@@ -15,6 +15,7 @@ return [
     'status' => 'Status',
     'search' => 'Search',
     'enabled' => 'Enabled',
+    'disable' => 'Disable',
     'disabled' => 'Disabled',
     'created_at' => 'Created at',
     'created_by' => 'Created by',

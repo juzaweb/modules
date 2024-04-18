@@ -38,6 +38,11 @@ function get_full_url(string $url, string $currentUrl, ?string $baseUrlMeta = nu
         $currentUrl = preg_replace("/{$split[count($split) - 1]}/", '', $currentUrl, -1);
     }
 
+    if (str_starts_with($url, '../') && !str_ends_with($currentUrl, '/')) {
+        $split = explode('/', $currentUrl);
+        $currentUrl = preg_replace("/{$split[count($split) - 2]}/", '', $currentUrl, -1);
+    }
+
     if ($baseUrlMeta) {
         return abs_url("{$baseUrlMeta}/{$url}", $currentUrl);
     }

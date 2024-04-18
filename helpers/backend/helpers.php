@@ -933,3 +933,10 @@ if (!function_exists('is_admin_page')) {
         return request()?->segment(1) == $adminPrefix;
     }
 }
+
+if (!function_exists('basename_without_extension')) {
+    function basename_without_extension(string $path): ?string
+    {
+        return pathinfo(basename($path), PATHINFO_FILENAME);
+    }
+}

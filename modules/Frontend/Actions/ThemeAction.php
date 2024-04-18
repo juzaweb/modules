@@ -52,7 +52,7 @@ class ThemeAction extends Action
         HookAction::addAction(Action::BLOCKS_INIT, [$this, 'blocks']);
         HookAction::addAction(Action::INIT_ACTION, [$this, 'settingFields']);
 
-        if (config('juzaweb.adminbar.enable')) {
+        if (filter_var(get_config('admin_bar', config('juzaweb.adminbar.enable')), FILTER_VALIDATE_BOOLEAN)) {
             HookAction::addAction(Action::FRONTEND_AFTER_BODY, [$this, 'addThemeHeader']);
         }
 

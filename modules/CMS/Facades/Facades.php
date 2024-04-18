@@ -208,6 +208,9 @@ class Facades
             'google_captcha' => [
                 'show_api' => false,
             ],
+            'admin_bar' => [
+                'show_api' => true,
+            ],
         ];
     }
 

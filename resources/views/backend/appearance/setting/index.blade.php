@@ -40,6 +40,15 @@
                 {{ Field::image(trans('cms::app.icon'), 'config[icon]', [
                     'value' => get_config('icon')
                 ]) }}
+
+                {{ Field::select(trans('cms::app.icon'), 'config[admin_bar]', [
+                    'value' => get_config('admin_bar'),
+                    'options' => [
+                        '1' => trans('cms::app.enable'),
+                        '0' => trans('cms::app.disable'),
+                    ],
+                    'description' => __('Show admin-bar in frontend.'),
+                ]) }}
             </div>
         </div>
     </form>
