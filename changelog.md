@@ -1,3 +1,9 @@
+### v1.0.32 
+* :+1: Shortcode filter
+* :+1: Rename cms command
+* :+1: Admin bar setup admin
+* :bug: Fix editor missing
+
 ### v1.0.31 
 * :+1: Disabled change password Profile Page
 
