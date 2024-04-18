@@ -4,7 +4,7 @@
  *
  * @package    juzaweb/cms
  * @author     The Anh Dang
- * @link       https://juzaweb.com/cms
+ * @link       https://juzaweb.com
  * @license    GNU V2
  */
 

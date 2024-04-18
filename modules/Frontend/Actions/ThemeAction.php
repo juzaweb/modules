@@ -115,6 +115,19 @@ class ThemeAction extends Action
                 $index++;
             }
 
+            foreach ($styles['js_footer'] ?? [] as $key => $js) {
+                $inFooter = true;
+                $options = [];
+                if (is_array($js)) {
+                    $inFooter = Arr::get($js, 'footer', false);
+                    $options = $js;
+                    $js = $key;
+                }
+
+                HookAction::enqueueFrontendScript('js-main-' . $index, $js, $version, $inFooter, $options);
+                $index++;
+            }
+
             $index = 0;
             foreach ($styles['css'] ?? [] as $key => $css) {
                 /*if (!is_url($css)) {
