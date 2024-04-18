@@ -16,7 +16,6 @@ use Juzaweb\Backend\Http\Resources\UserResource;
 use Juzaweb\CMS\Abstracts\Action;
 use Juzaweb\CMS\Facades\ThemeLoader as ThemeFacade;
 use Juzaweb\CMS\Support\Installer;
-use Juzaweb\Network\Facades\Network;
 
 class Theme
 {
@@ -27,6 +26,7 @@ class Theme
             function ($view) use ($request) {
                 global $jw_user;
                 $user = $jw_user ? UserResource::make($jw_user)->toArray($request) : null;
+                $user = apply_filters('frontend.view_share_user_data', $user);
 
                 $view->with('user', $user);
                 $view->with('is_admin', $user ? $user['is_admin'] : false);

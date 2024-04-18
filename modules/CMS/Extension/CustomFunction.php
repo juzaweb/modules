@@ -11,6 +11,7 @@
 
 namespace Juzaweb\CMS\Extension;
 
+use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\Extension\AbstractExtension;
 
@@ -93,6 +94,13 @@ class CustomFunction extends AbstractExtension
             new TwigFunction('number_format', 'number_format'),
             new TwigFunction('generate_uuid', 'generate_uuid'),
             new TwigFunction('date_format', 'jw_date_format'),
+        ];
+    }
+
+    public function getFilters(): array
+    {
+        return [
+            new TwigFilter('shortcode', 'short_code_render', ['is_safe' => ['html']]),
         ];
     }
 }
