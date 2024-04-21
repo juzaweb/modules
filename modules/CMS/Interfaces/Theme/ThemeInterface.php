@@ -39,5 +39,7 @@ interface ThemeInterface extends Arrayable
 
     public function getRegister($key = null, $default = null): string|array|null;
 
+    public function putRegister(array $register): bool|int;
+
     public function getPath(string $path = ''): string;
 }

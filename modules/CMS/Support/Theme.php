@@ -209,6 +209,14 @@ class Theme implements ThemeInterface
         return $this->register;
     }
 
+    public function putRegister(array $register): bool|int
+    {
+        return File::put(
+            $this->getPath('register.json'),
+            json_encode($register, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
+        );
+    }
+
     /**
      * Get version theme
      *
