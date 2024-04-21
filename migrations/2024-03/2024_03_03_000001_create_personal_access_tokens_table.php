@@ -12,9 +12,11 @@ return new class extends Migration {
     {
         Schema::dropIfExists('personal_access_tokens');
 
-        Schema::create('personal_access_tokens', function (Blueprint $table) {
+        $prefix = DB::getTablePrefix();
+
+        Schema::create('personal_access_tokens', function (Blueprint $table) use ($prefix) {
             $table->id();
-            $table->morphs('tokenable');
+            $table->morphs('tokenable', "{$prefix}personal_access_tokens_tokenable_index");
             $table->string('name');
             $table->string('token', 64)->unique();
             $table->text('abilities')->nullable();

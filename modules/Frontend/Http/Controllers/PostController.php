@@ -147,6 +147,8 @@ class PostController extends FrontendController
         $image = $post->thumbnail ? upload_url($post->thumbnail) : null;
         $postType = HookAction::getPostTypes($permalink->get('post_type'));
 
+        abort_if($postType === null, 404, 'Post type not found.');
+
         $comments = Comment::with(['user'])
             ->cacheFor(config('juzaweb.performance.query_cache.lifetime'))
             ->where(['object_id' => $post['id']])

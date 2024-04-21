@@ -70,6 +70,7 @@ use Juzaweb\Frontend\Providers\FrontendServiceProvider;
 use Juzaweb\Network\Providers\NetworkServiceProvider;
 use Juzaweb\Translation\Providers\TranslationServiceProvider;
 use Laravel\Passport\Passport;
+use Laravel\Sanctum\Sanctum;
 use TwigBridge\Facade\Twig;
 
 class CMSServiceProvider extends ServiceProvider
@@ -167,6 +168,7 @@ class CMSServiceProvider extends ServiceProvider
         $this->registerConfigs();
         $this->registerProviders();
         Passport::ignoreMigrations();
+        Sanctum::ignoreMigrations();
     }
 
     protected function registerSingleton(): void
