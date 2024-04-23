@@ -70,7 +70,9 @@ class PageController extends FrontendController
         $params = apply_filters('theme.get_params_page', $params, $page);
         $view = $this->getViewPage($page, $theme, $params);
 
-        event(new PostViewed($page));
+        if (!is_bot_request()) {
+            event(new PostViewed($page));
+        }
 
         /* Add pages filter */
         $result = apply_filters(

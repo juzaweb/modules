@@ -97,7 +97,9 @@ class PostController extends FrontendController
 
         Facades::$post = $post;
 
-        event(new PostViewed($post));
+        if (!is_bot_request()) {
+            event(new PostViewed($post));
+        }
 
         $type = $post->getPostType('singular');
 

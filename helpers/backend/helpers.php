@@ -940,3 +940,10 @@ if (!function_exists('basename_without_extension')) {
         return pathinfo(basename($path), PATHINFO_FILENAME);
     }
 }
+
+if (!function_exists('is_bot_request')) {
+    function is_bot_request(): bool
+    {
+        return Str::contains(request()?->userAgent(), 'bot');
+    }
+}
