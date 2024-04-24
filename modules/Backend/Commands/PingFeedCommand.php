@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputOption;
 
 class PingFeedCommand extends Command
 {
-    protected $name = 'juzacms:ping-feed';
+    protected $name = 'cms:ping-feed';
 
     protected $description = 'Auto ping sitemap and submit url for SEO.';
 

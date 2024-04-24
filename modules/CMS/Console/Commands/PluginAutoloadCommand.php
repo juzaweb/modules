@@ -18,7 +18,7 @@ use Illuminate\Support\Str;
  */
 class PluginAutoloadCommand extends Command
 {
-    protected $signature = 'juzacms:plugin-autoload';
+    protected $signature = 'cms:plugin-autoload';
 
     public function handle(): int
     {

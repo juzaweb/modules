@@ -14,6 +14,6 @@ class DumpAutoloadPluginListener
      */
     public function handle($event): void
     {
-        Artisan::call('juzacms:plugin-autoload');
+        Artisan::call('cms:plugin-autoload');
     }
 }

@@ -51,7 +51,7 @@ class UpdateTest extends TestCase
 
         $this->assertEquals('v2.0', $this->getCMSVersion());
 
-        $this->artisan('juzacms:update')
+        $this->artisan('cms:update')
             ->assertExitCode(0);
 
         $this->assertNotEquals('v2.0', $this->getCMSVersion());

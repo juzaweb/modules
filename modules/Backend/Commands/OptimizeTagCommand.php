@@ -17,7 +17,7 @@ use Juzaweb\Backend\Models\Post;
 
 class OptimizeTagCommand extends Command
 {
-    protected $name = 'juzacms:optimize-tags';
+    protected $name = 'cms:optimize-tags';
 
     public function handle(): void
     {

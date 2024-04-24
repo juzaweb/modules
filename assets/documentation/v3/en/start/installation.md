@@ -33,7 +33,7 @@ composer create-project --prefer-dist juzaweb/juzacms blog
 
 - Go to folder `path/to/source` and run command
 ```shell
-php artisan juzacms:install
+php artisan cms:install
 ```
 
 #### Manual install

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class ShowSlotCommand extends Command
 {
-    protected $signature = 'juzacms:command-slots';
+    protected $signature = 'cms:command-slots';
 
     protected $description = 'Show list command slots.';
 

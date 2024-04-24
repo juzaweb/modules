@@ -19,7 +19,7 @@ class InstallTest extends TestCase
     {
         $this->resetTestData();
 
-        $this->artisan('juzacms:install')
+        $this->artisan('cms:install')
             ->expectsQuestion('Full Name?', 'Taylor Otwell')
             ->expectsQuestion('Email?', 'demo@gmail.com')
             ->expectsQuestion('Password?', '12345678')

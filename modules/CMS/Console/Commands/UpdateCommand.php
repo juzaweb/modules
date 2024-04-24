@@ -15,7 +15,7 @@ use Juzaweb\CMS\Support\Updater\CmsUpdater;
 
 class UpdateCommand extends Command
 {
-    protected $signature = 'juzacms:update';
+    protected $signature = 'cms:update';
 
     public function handle(CmsUpdater $updater): int
     {

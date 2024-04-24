@@ -11,7 +11,7 @@
 
 ### Update with command
 
-- Run command to update CMS `php artisan juzacms:update`
+- Run command to update CMS `php artisan cms:update`
 
 - Run command `composer dump-autoload` to autoload vendor
 

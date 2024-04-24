@@ -18,7 +18,7 @@ use Juzaweb\CMS\Support\Manager\InstalledFileManager;
 
 class InstallCommand extends Command
 {
-    protected $signature = 'juzacms:install';
+    protected $signature = 'cms:install';
 
     public function handle(
         DatabaseManager $databaseManager,

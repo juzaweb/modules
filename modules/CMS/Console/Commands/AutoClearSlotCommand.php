@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
  */
 class AutoClearSlotCommand extends Command
 {
-    protected $signature = 'juzacms:clear-command-slots';
+    protected $signature = 'cms:clear-command-slots';
 
     protected $description = 'Auto clear command slots.';
 
