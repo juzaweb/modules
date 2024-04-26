@@ -1,3 +1,11 @@
+### v1.0.33 
+* :+1: Rename namespace CMS command
+* :+1: Ignore bot view
+* :+1: Put register Theme
+* :bug: Fix Sanctum migrate
+* :+1: Js footer register
+* :bug: Fix check plugin enable
+
 ### v1.0.32 
 * :+1: Shortcode filter
 * :+1: Rename cms command
