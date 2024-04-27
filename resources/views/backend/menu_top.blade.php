@@ -3,8 +3,10 @@
         global $jw_user;
     @endphp
     <div class="mr-3">
-        <a href="{{ apply_filters('admin.home_url', home_url()) }}" class="mr-2" target="_blank" title="{{ trans('cms::app.view_site') }}">
-            <i class="dropdown-toggle-icon fa fa-home" data-toggle="tooltip" data-placement="bottom" data-original-title="Visit website"></i> {{ trans('cms::app.view_site') }}
+        <a href="{{ apply_filters('admin.home_url', home_url()) }}" class="mr-2" target="_blank"
+           title="{{ trans('cms::app.view_site') }}">
+            <i class="dropdown-toggle-icon fa fa-home" data-toggle="tooltip" data-placement="bottom"
+               data-original-title="Visit website"></i> {{ trans('cms::app.view_site') }}
         </a>
     </div>
 
@@ -16,9 +18,11 @@
             </a>
 
             <div class="dropdown-menu" role="menu">
-                <a class="dropdown-item" href="{{ route('admin.posts.create', ['posts']) }}">{{ trans('cms::app.post') }}</a>
+                <a class="dropdown-item"
+                   href="{{ route('admin.posts.create', ['posts']) }}">{{ trans('cms::app.post') }}</a>
 
-                <a class="dropdown-item" href="{{ route('admin.posts.create', ['pages']) }}">{{ trans('cms::app.page') }}</a>
+                <a class="dropdown-item"
+                   href="{{ route('admin.posts.create', ['pages']) }}">{{ trans('cms::app.page') }}</a>
 
                 <a class="dropdown-item" href="{{ route('admin.users.create') }}">{{ trans('cms::app.user') }}</a>
             </div>
@@ -28,12 +32,12 @@
     @do_action('backend.menu_top')
 
     <div class="mr-auto"></div>
-    @php
+    {{--@php
         $langs = \Illuminate\Support\Facades\Cache::remember(
             'top_menu_languages',
             3600,
             function () {
-                return app(\Juzaweb\CMS\Support\Manager\TranslationManager::class)->locale('cms')
+                return app(\Juzaweb\Translation\Support\TranslationManager::class)->locale('cms')
                     ->languages()
                     ->values();
             }
@@ -56,12 +60,12 @@
                     @continue
                 @endif
 
-            <a class="dropdown-item " href="{{ url()->current() }}?hl={{ $lang['code'] }}">
-                <span class="text-uppercase font-size-12 mr-1">{{ $lang['code'] }}</span>
-                {{ $lang['name'] }}</a>
+                <a class="dropdown-item " href="{{ url()->current() }}?hl={{ $lang['code'] }}">
+                    <span class="text-uppercase font-size-12 mr-1">{{ $lang['code'] }}</span>
+                    {{ $lang['name'] }}</a>
             @endforeach
         </div>
-    </div>
+    </div>--}}
 
     @php
         $total = count_unread_notifications();
@@ -75,7 +79,8 @@
     @endphp
 
     <div class="juzaweb__topbar__notify dropdown mr-4 d-none d-sm-block">
-        <a href="javascript:void(0)" class="dropdown-toggle text-nowrap" data-toggle="dropdown" aria-expanded="false" data-offset="0,15">
+        <a href="javascript:void(0)" class="dropdown-toggle text-nowrap" data-toggle="dropdown" aria-expanded="false"
+           data-offset="0,15">
             <i class="dropdown-toggle-icon fa fa-bell-o"></i> <span>{{ $total }}</span>
         </a>
 
@@ -84,7 +89,9 @@
                 <div class="card-body">
                     <div class="tab-content">
                         <div class="jw__l1">
-                            <div class="text-uppercase mb-2 text-gray-6 mb-2 font-weight-bold">{{ trans('cms::app.notifications') }} ({{ $total }})</div>
+                            <div class="text-uppercase mb-2 text-gray-6 mb-2 font-weight-bold">{{ trans('cms::app.notifications') }}
+                                ({{ $total }})
+                            </div>
                             <hr>
                             <ul class="list-unstyled">
                                 @if($items->isEmpty())
@@ -92,7 +99,8 @@
                                 @else
                                     @foreach($items as $notify)
                                         <li class="jw__l8__item">
-                                            <a href="{{ route('admin.profile.notification', [$notify->id]) }}" class="jw__l8__itemLink" data-turbolinks="false">
+                                            <a href="{{ route('admin.profile.notification', [$notify->id]) }}"
+                                               class="jw__l8__itemLink" data-turbolinks="false">
                                                 <div class="jw__l8__itemPic bg-success">
                                                     @if(empty($notify->data['image']))
                                                         <i class="fa fa-envelope-square"></i>
@@ -118,7 +126,8 @@
 
     <div class="dropdown">
         <a href="" class="dropdown-toggle text-nowrap" data-toggle="dropdown" aria-expanded="false" data-offset="5,15">
-            <img class="dropdown-toggle-avatar" src="{{ $jw_user->getAvatar() }}" alt="User avatar" width="30" height="30"/>
+            <img class="dropdown-toggle-avatar" src="{{ $jw_user->getAvatar() }}" alt="User avatar" width="30"
+                 height="30"/>
         </a>
 
         <div class="dropdown-menu dropdown-menu-right" role="menu">

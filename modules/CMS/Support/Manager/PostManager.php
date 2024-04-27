@@ -15,6 +15,9 @@ use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\CMS\Contracts\PostManagerContract;
 
+/**
+ * @deprecated
+ */
 class PostManager implements PostManagerContract
 {
     protected PostRepository $postRepository;

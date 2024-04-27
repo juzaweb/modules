@@ -23,6 +23,10 @@ class AddCustomInformation
 
     public function __invoke($logger): void
     {
+        if (app()->runningInConsole()) {
+            return;
+        }
+
         foreach ($logger->getHandlers() as $handler) {
             $handler->pushProcessor([$this, 'processLogRecord']);
         }

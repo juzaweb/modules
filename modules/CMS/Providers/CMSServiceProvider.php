@@ -37,8 +37,6 @@ use Juzaweb\CMS\Contracts\PostManagerContract;
 use Juzaweb\CMS\Contracts\StorageDataContract;
 use Juzaweb\CMS\Contracts\TableGroupContract;
 use Juzaweb\CMS\Contracts\ThemeConfigContract;
-use Juzaweb\CMS\Contracts\TranslationFinder as TranslationFinderContract;
-use Juzaweb\CMS\Contracts\TranslationManager as TranslationManagerContract;
 use Juzaweb\CMS\Contracts\XssCleanerContract;
 use Juzaweb\CMS\Extension\CustomFunction;
 use Juzaweb\CMS\Facades\OverwriteConfig;
@@ -58,17 +56,14 @@ use Juzaweb\CMS\Support\JWQuery;
 use Juzaweb\CMS\Support\MacroableModel;
 use Juzaweb\CMS\Support\Manager\BackendMessageManager;
 use Juzaweb\CMS\Support\Manager\PostManager;
-use Juzaweb\CMS\Support\Manager\TranslationManager;
 use Juzaweb\CMS\Support\Media\Media;
 use Juzaweb\CMS\Support\StorageData;
 use Juzaweb\CMS\Support\Theme\ThemeConfig;
-use Juzaweb\CMS\Support\Translations\TranslationFinder;
 use Juzaweb\CMS\Support\Validators\ModelExists;
 use Juzaweb\CMS\Support\Validators\ModelUnique;
 use Juzaweb\CMS\Support\XssCleaner;
 use Juzaweb\Frontend\Providers\FrontendServiceProvider;
 use Juzaweb\Network\Providers\NetworkServiceProvider;
-use Juzaweb\Translation\Providers\TranslationServiceProvider;
 use Laravel\Passport\Passport;
 use Laravel\Sanctum\Sanctum;
 use TwigBridge\Facade\Twig;
@@ -314,25 +309,6 @@ class CMSServiceProvider extends ServiceProvider
 
         $this->app->singleton(MediaContract::class, Media::class);
 
-        $this->app->singleton(
-            TranslationFinderContract::class,
-            function ($app) {
-                return new TranslationFinder();
-            }
-        );
-
-        $this->app->singleton(
-            TranslationManagerContract::class,
-            function ($app) {
-                return new TranslationManager(
-                    $app[LocalPluginRepositoryContract::class],
-                    $app[LocalThemeRepositoryContract::class],
-                    $app[TranslationFinderContract::class],
-                    $app[GoogleTranslateContract::class]
-                );
-            }
-        );
-
         $this->app->bind(
             GoogleTranslateContract::class,
             fn ($app) => new GoogleTranslate($app[Factory::class])
@@ -387,10 +363,6 @@ class CMSServiceProvider extends ServiceProvider
         $this->app->register(BackendServiceProvider::class);
         $this->app->register(FrontendServiceProvider::class);
         $this->app->register(ShortCodeServiceProvider::class);
-
-        if (config('juzaweb.translation.enable')) {
-            $this->app->register(TranslationServiceProvider::class);
-        }
 
         if (config('juzaweb.api.enable')) {
             $this->app->register(APIServiceProvider::class);

@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Juzaweb\CMS\Models\TableGroupData
+ * @deprecated
  *
  * @property-read \Juzaweb\CMS\Models\TableGroupTable|null $tableGroupTable
  * @method static \Illuminate\Database\Eloquent\Builder|TableGroupData newModelQuery()

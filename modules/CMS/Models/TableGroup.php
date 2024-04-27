@@ -12,6 +12,7 @@ namespace Juzaweb\CMS\Models;
 
 /**
  * Juzaweb\CMS\Models\TableGroup
+ * @deprecated
  *
  * @method static \Illuminate\Database\Eloquent\Builder|TableGroup newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TableGroup newQuery()

@@ -36,13 +36,6 @@ return [
      */
     'logs_viewer' => env('JW_LOGS_VIEWER', true),
 
-    'translation' => [
-        /**
-         * Enable translation CMS/Plugins/Themes
-         */
-        'enable' => env('JW_ENABLE_TRANSLATE', true)
-    ],
-
     'email' => [
         /**
          * Method send email
