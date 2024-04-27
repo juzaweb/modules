@@ -17,7 +17,6 @@ use Juzaweb\Backend\Commands\AutoTagCommand;
 use Juzaweb\Backend\Commands\EmailTemplateGenerateCommand;
 use Juzaweb\Backend\Commands\Helper\CacheSizeCommand;
 use Juzaweb\Backend\Commands\Helper\MakeAdminCommand;
-use Juzaweb\Backend\Commands\ImportTranslationCommand;
 use Juzaweb\Backend\Commands\OptimizeTagCommand;
 use Juzaweb\Backend\Commands\PermissionGenerateCommand;
 use Juzaweb\Backend\Commands\PingFeedCommand;
@@ -25,7 +24,6 @@ use Juzaweb\Backend\Commands\Post\GeneratePostUUIDCommand;
 use Juzaweb\Backend\Commands\Publish\CMSPublishCommand;
 use Juzaweb\Backend\Commands\SEO\AutoPingSitemapCommand;
 use Juzaweb\Backend\Commands\ThemePublishCommand;
-use Juzaweb\Backend\Commands\TransFromEnglish;
 use Juzaweb\Backend\Models\Comment;
 use Juzaweb\Backend\Models\Menu;
 use Juzaweb\Backend\Models\Post;
@@ -59,6 +57,8 @@ use Juzaweb\CMS\Facades\Field;
 use Juzaweb\CMS\Http\Middleware\Admin;
 use Juzaweb\CMS\Support\Macros\RouterMacros;
 use Juzaweb\CMS\Support\ServiceProvider;
+use Juzaweb\Translation\Commands\ImportTranslationCommand;
+use Juzaweb\Translation\Commands\TranslateCMSFromEnglishCommand;
 
 class BackendServiceProvider extends ServiceProvider
 {
@@ -101,8 +101,6 @@ class BackendServiceProvider extends ServiceProvider
         $this->commands(
             [
                 PermissionGenerateCommand::class,
-                ImportTranslationCommand::class,
-                TransFromEnglish::class,
                 EmailTemplateGenerateCommand::class,
                 ThemePublishCommand::class,
                 AutoPingSitemapCommand::class,
