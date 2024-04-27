@@ -37,14 +37,6 @@
 
     <link rel="canonical" href="{{ url()->current() }}" />
 
-    @if(get_config('jw_enable_post_feed', 1))
-    <link rel="alternate" type="application/atom+xml" title="{{ get_config('title') }} &raquo; Feed" href="{{ url('feed') }}">
-    @endif
-
-    @if($taxonomy ?? null && get_config('jw_enable_taxonomy_feed', 1))
-    <link rel="alternate" type="application/atom+xml" title="{{ $name }} &raquo; Feed" href="{{ url('taxonomy/'. $taxonomy->slug .'/feed') }}">
-    @endif
-
     @if($icon)
     <link rel="icon" href="{{ upload_url($icon) }}" />
     @endif

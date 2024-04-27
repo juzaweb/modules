@@ -9,20 +9,16 @@ use Juzaweb\Backend\Actions\EnqueueStyleAction;
 use Juzaweb\Backend\Actions\MediaAction;
 use Juzaweb\Backend\Actions\MenuAction;
 use Juzaweb\Backend\Actions\PermissionAction;
-use Juzaweb\Backend\Actions\SeoAction;
 use Juzaweb\Backend\Actions\SocialLoginAction;
 use Juzaweb\Backend\Actions\ToolAction;
 use Juzaweb\Backend\Commands;
-use Juzaweb\Backend\Commands\AutoTagCommand;
 use Juzaweb\Backend\Commands\EmailTemplateGenerateCommand;
 use Juzaweb\Backend\Commands\Helper\CacheSizeCommand;
 use Juzaweb\Backend\Commands\Helper\MakeAdminCommand;
 use Juzaweb\Backend\Commands\OptimizeTagCommand;
 use Juzaweb\Backend\Commands\PermissionGenerateCommand;
-use Juzaweb\Backend\Commands\PingFeedCommand;
 use Juzaweb\Backend\Commands\Post\GeneratePostUUIDCommand;
 use Juzaweb\Backend\Commands\Publish\CMSPublishCommand;
-use Juzaweb\Backend\Commands\SEO\AutoPingSitemapCommand;
 use Juzaweb\Backend\Commands\ThemePublishCommand;
 use Juzaweb\Backend\Models\Comment;
 use Juzaweb\Backend\Models\Menu;
@@ -90,7 +86,6 @@ class BackendServiceProvider extends ServiceProvider
                 PermissionAction::class,
                 SocialLoginAction::class,
                 ToolAction::class,
-                SeoAction::class,
                 MediaAction::class,
                 EmailAction::class,
             ]
@@ -101,10 +96,7 @@ class BackendServiceProvider extends ServiceProvider
                 PermissionGenerateCommand::class,
                 EmailTemplateGenerateCommand::class,
                 ThemePublishCommand::class,
-                AutoPingSitemapCommand::class,
-                AutoTagCommand::class,
                 OptimizeTagCommand::class,
-                PingFeedCommand::class,
                 GeneratePostUUIDCommand::class,
                 CMSPublishCommand::class,
                 CacheSizeCommand::class,

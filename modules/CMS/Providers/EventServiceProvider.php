@@ -12,7 +12,6 @@ use Juzaweb\Backend\Listeners\CountViewPost;
 use Juzaweb\Backend\Listeners\DeleteRequirePluginsMessageListener;
 use Juzaweb\Backend\Listeners\DumpAutoloadPluginListener;
 use Juzaweb\Backend\Listeners\ResizeThumbnailPostListener;
-use Juzaweb\Backend\Listeners\SaveSeoMetaPost;
 use Juzaweb\Backend\Listeners\SendMailRegisterSuccessful;
 use Juzaweb\CMS\Events\EmailHook;
 use Juzaweb\CMS\Listeners\SendEmailHook;
@@ -38,7 +37,6 @@ class EventServiceProvider extends ServiceProvider
             DumpAutoloadPluginListener::class,
         ],
         AfterPostSave::class => [
-            SaveSeoMetaPost::class,
             ResizeThumbnailPostListener::class,
         ],
         AfterPluginBulkAction::class => [
