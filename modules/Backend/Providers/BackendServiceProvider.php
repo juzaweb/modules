@@ -57,8 +57,6 @@ use Juzaweb\CMS\Facades\Field;
 use Juzaweb\CMS\Http\Middleware\Admin;
 use Juzaweb\CMS\Support\Macros\RouterMacros;
 use Juzaweb\CMS\Support\ServiceProvider;
-use Juzaweb\Translation\Commands\ImportTranslationCommand;
-use Juzaweb\Translation\Commands\TranslateCMSFromEnglishCommand;
 
 class BackendServiceProvider extends ServiceProvider
 {

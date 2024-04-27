@@ -19,6 +19,9 @@ use Juzaweb\CMS\Models\TableGroup;
 use Juzaweb\CMS\Models\TableGroupData;
 use Juzaweb\CMS\Models\TableGroupTable;
 
+/**
+ * @deprecated
+ */
 class DatabaseTableGroup implements TableGroupContract
 {
     protected int $maxRows = 3000000;
