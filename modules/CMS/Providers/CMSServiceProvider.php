@@ -388,10 +388,6 @@ class CMSServiceProvider extends ServiceProvider
         $this->app->register(FrontendServiceProvider::class);
         $this->app->register(ShortCodeServiceProvider::class);
 
-        if (config('juzaweb.translation.enable')) {
-            $this->app->register(TranslationServiceProvider::class);
-        }
-
         if (config('juzaweb.api.enable')) {
             $this->app->register(APIServiceProvider::class);
         }
