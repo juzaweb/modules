@@ -166,26 +166,28 @@ if (!function_exists('count_unread_notifications')) {
     }
 }
 
-function user_avatar($user = null): string
-{
-    if ($user) {
-        if (!$user instanceof User) {
-            $user = User::find($user);
+if (!function_exists('user_avatar')) {
+    function user_avatar($user = null): string
+    {
+        if ($user) {
+            if (!$user instanceof User) {
+                $user = User::find($user);
+            }
+
+            return $user->getAvatar();
         }
 
-        return $user->getAvatar();
+        if (Auth::check()) {
+            /**
+             * @var User $user
+             */
+            $user = Auth::user();
+
+            return $user->getAvatar();
+        }
+
+        return asset('jw-styles/juzaweb/images/thumb-default.png');
     }
-
-    if (Auth::check()) {
-        /**
-         * @var User $user
-         */
-        $user = Auth::user();
-
-        return $user->getAvatar();
-    }
-
-    return asset('jw-styles/juzaweb/images/thumb-default.png');
 }
 
 if (!function_exists('jw_breadcrumb')) {
@@ -945,5 +947,15 @@ if (!function_exists('is_bot_request')) {
     function is_bot_request(): bool
     {
         return Str::contains(request()?->userAgent(), 'bot');
+    }
+}
+
+if (!function_exists('cms_languages')) {
+    function cms_languages(): Collection
+    {
+        $folders = File::directories(base_path('vendor/juzaweb/modules/resources/lang'));
+
+        return collect(config('locales'))
+            ->whereIn('code', collect($folders)->map(fn ($item) => basename($item))->values()->toArray());
     }
 }

@@ -10,7 +10,10 @@
 
 namespace Juzaweb\CMS\Models;
 
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Carbon;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\Network\Traits\Networkable;
 
@@ -21,19 +24,19 @@ use Juzaweb\Network\Traits\Networkable;
  * @property string $code
  * @property string $name
  * @property bool $default
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|Language newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Language newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Language query()
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereDefault($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereSiteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Language whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Language newModelQuery()
+ * @method static Builder|Language newQuery()
+ * @method static Builder|Language query()
+ * @method static Builder|Language whereCode($value)
+ * @method static Builder|Language whereCreatedAt($value)
+ * @method static Builder|Language whereDefault($value)
+ * @method static Builder|Language whereId($value)
+ * @method static Builder|Language whereName($value)
+ * @method static Builder|Language whereSiteId($value)
+ * @method static Builder|Language whereUpdatedAt($value)
+ * @mixin Eloquent
  * @property int|null $site_id
  */
 class Language extends Model
@@ -55,7 +58,7 @@ class Language extends Model
 
     public static function existsCode($code): bool
     {
-        return Language::whereCode($code)->exists();
+        return self::whereCode($code)->exists();
     }
 
     public static function setDefault($code): void

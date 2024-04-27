@@ -32,14 +32,12 @@
     @do_action('backend.menu_top')
 
     <div class="mr-auto"></div>
-    {{--@php
+    @php
         $langs = \Illuminate\Support\Facades\Cache::remember(
             'top_menu_languages',
             3600,
             function () {
-                return app(\Juzaweb\Translation\Support\TranslationManager::class)->locale('cms')
-                    ->languages()
-                    ->values();
+                return cms_languages()->values();
             }
         );
 
@@ -65,7 +63,7 @@
                     {{ $lang['name'] }}</a>
             @endforeach
         </div>
-    </div>--}}
+    </div>
 
     @php
         $total = count_unread_notifications();
