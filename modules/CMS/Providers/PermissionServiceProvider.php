@@ -2,6 +2,7 @@
 
 namespace Juzaweb\CMS\Providers;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Route;
 use Illuminate\Support\Arr;
@@ -230,7 +231,9 @@ class PermissionServiceProvider extends ServiceProvider
     /**
      * Returns existing migration file if found, else uses the current timestamp.
      *
+     * @param $migrationFileName
      * @return string
+     * @throws BindingResolutionException
      */
     protected function getMigrationFileName($migrationFileName): string
     {
