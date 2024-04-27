@@ -75,7 +75,7 @@
                     let y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
                     let cmsURL = '/'+ juzaweb.adminPrefix +'/file-manager?editor=' + meta.fieldname;
 
-                    if (meta.filetype == 'image') {
+                    if (meta.filetype === 'image') {
                         cmsURL = cmsURL + "&type=image";
                     } else {
                         cmsURL = cmsURL + "&type=file";
