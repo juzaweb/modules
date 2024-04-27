@@ -7,8 +7,8 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 use Juzaweb\CMS\Facades\HookAction;
-use Juzaweb\CMS\Support\Manager\TranslationManager;
 use Juzaweb\CMS\Support\MenuCollection;
+use Juzaweb\Translation\Support\TranslationManager;
 
 class HandleInertiaRequests extends Middleware
 {

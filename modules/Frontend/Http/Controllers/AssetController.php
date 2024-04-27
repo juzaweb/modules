@@ -9,17 +9,12 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageCache;
-use Juzaweb\CMS\Contracts\TranslationManager;
 use Juzaweb\CMS\Facades\ThemeLoader;
 use Juzaweb\CMS\Http\Controllers\Controller;
 
 class AssetController extends Controller
 {
     private int $cacheAge = 86400;
-
-    public function __construct(protected TranslationManager $translationManager)
-    {
-    }
 
     public function assetCMS(string $path): HttpResponse
     {
