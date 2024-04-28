@@ -8,7 +8,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Backend\Models\Email;
+namespace Juzaweb\Backend\Models;
 
 use Juzaweb\CMS\Models\Model;
 

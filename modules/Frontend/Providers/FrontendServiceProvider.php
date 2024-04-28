@@ -10,11 +10,18 @@
 
 namespace Juzaweb\Frontend\Providers;
 
+use Illuminate\Console\Events\CommandFinished;
 use Juzaweb\CMS\Contracts\LocalThemeRepositoryContract;
 use Juzaweb\CMS\Support\ServiceProvider;
 
 class FrontendServiceProvider extends ServiceProvider
 {
+    // protected array $listen = [
+    //     CommandFinished::class => [
+    //         'Juzaweb\Frontend\Console\Commands\ClearCompiledViews',
+    //     ],
+    // ];
+
     public function boot(): void
     {
         $currentTheme = $this->app[LocalThemeRepositoryContract::class]->currentTheme();

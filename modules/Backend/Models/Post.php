@@ -20,8 +20,6 @@ use Juzaweb\CMS\Traits\PostTypeModel;
 use Juzaweb\CMS\Traits\QueryCache\QueryCacheable;
 use Juzaweb\CMS\Traits\UseUUIDColumn;
 use Juzaweb\Network\Traits\Networkable;
-use Spatie\Feed\Feedable;
-use Spatie\Feed\FeedItem;
 
 /**
  * Juzaweb\Backend\Models\Post
@@ -108,7 +106,7 @@ use Spatie\Feed\FeedItem;
  * @method static Builder|Post whereUuid($value)
  * @mixin Eloquent
  */
-class Post extends Model implements Feedable, ExportSupport
+class Post extends Model implements ExportSupport
 {
     protected static bool $flushCacheOnUpdate = true;
 
@@ -218,23 +216,6 @@ class Post extends Model implements Feedable, ExportSupport
         }
 
         return round($total * 5 / ($count * 5), 2);
-    }
-
-    public function toFeedItem(): FeedItem
-    {
-        $name = $this->getCreatedByName();
-        $updated = $this->updated_at ?: now();
-        if (empty($name)) {
-            $name = 'Admin';
-        }
-
-        return FeedItem::create()
-            ->id($this->id)
-            ->title($this->title)
-            ->summary(seo_string($this->content, 500) ?? '')
-            ->updated($updated)
-            ->link($this->getLink())
-            ->authorName($name);
     }
 
     public function exportWith(): array
