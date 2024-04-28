@@ -28,7 +28,7 @@
 @endif
 
 @if($bingKey)
-<meta name="msvalidate.01" content="{{ $bingKey }}" />
+    <meta name="msvalidate.01" content="{{ $bingKey }}" />
 @endif
 
 @if($googleKey)
