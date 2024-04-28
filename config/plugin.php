@@ -21,6 +21,7 @@ return [
         'files' => [
             'routes/admin' => 'src/routes/admin.php',
             'routes/api' => 'src/routes/api.php',
+            'routes/theme' => 'src/routes/theme.php',
             'views/index' => 'src/resources/views/index.blade.php',
             'lang/en' => 'src/resources/lang/en/content.php',
             'composer' => 'composer.json',
