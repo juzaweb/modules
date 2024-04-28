@@ -63,7 +63,7 @@ return [
         'generator' => [
             'config' => ['path' => 'Config', 'generate' => false],
             'command' => ['path' => 'src/Commands', 'generate' => false],
-            'action' => ['path' => 'src/Actions', 'generate' => false],
+            'action' => ['path' => 'src/Actions', 'generate' => true],
             'migration' => ['path' => 'database/migrations', 'generate' => true],
             'seeder' => ['path' => 'database/seeders', 'generate' => true],
             'factory' => ['path' => 'database/factories', 'generate' => true],
