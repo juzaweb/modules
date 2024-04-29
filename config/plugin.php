@@ -25,6 +25,7 @@ return [
             'views/index' => 'src/resources/views/index.blade.php',
             'lang/en' => 'src/resources/lang/en/content.php',
             'composer' => 'composer.json',
+            'readme' => 'readme.md',
             //'webpack' => 'webpack.mix.js',
             //'package' => 'package.json',
         ],
