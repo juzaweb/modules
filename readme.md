@@ -46,7 +46,7 @@
     - [x] Make templates
     - [ ] Make child theme
   - [x] Download theme command
-  - Activity logs
+  - [ ] Activity logs
 
 # Modules for Juzaweb CMS
 
