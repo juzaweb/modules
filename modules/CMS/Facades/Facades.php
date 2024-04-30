@@ -11,6 +11,7 @@
 namespace Juzaweb\CMS\Facades;
 
 use Illuminate\Support\Collection;
+use Illuminate\Validation\Rule;
 use Juzaweb\Backend\Models\Post;
 use Juzaweb\Backend\Models\Taxonomy;
 
@@ -174,6 +175,9 @@ class Facades
             ],
             'timezone' => [
                 'show_api' => true,
+                'data' => [
+                    'validators' => ['nullable', 'string', Rule::in(timezone_identifiers_list())],
+                ],
             ],
             'date_format' => [
                 'show_api' => true,
