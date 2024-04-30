@@ -2,6 +2,9 @@
     "/js/libs.js": "/js/libs.js",
     "/css/vendor.min.css": "/css/vendor.min.css",
     "/js/vendor.min.js": "/js/vendor.min.js",
+    "/css/backend.min.css": "/css/backend.min.css",
+    "/js/backend.min.js": "/js/backend.min.js",
+    "/css/admin-bar.css": "/css/admin-bar.css",
     "/css/custom.min.css": "/css/custom.min.css",
     "/js/custom.min.js": "/js/custom.min.js"
 }

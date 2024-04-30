@@ -3,7 +3,8 @@ const mix = require('laravel-mix');
 const baseAsset = 'vendor/juzaweb/modules/resources/assets';
 const basePublish = baseAsset + '/public';
 
-require (`${__dirname}/vendor-mix.js`);
+require (`${__dirname}/vendor.mix.js`);
+require (`${__dirname}/backend.mix.js`);
 
 // mix.combine(
 //      [
