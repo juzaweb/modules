@@ -12,7 +12,8 @@ mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.css',
     `${baseAsset}/vendors/perfect-scrollbar/css/perfect-scrollbar.min.css`,
     `${baseAsset}/vendors/bootstrap-select/dist/css/bootstrap-select.min.css`,
-    `${baseAsset}/vendors/select2/dist/css/select2.min.css`,
+    //`${baseAsset}/vendors/select2/dist/css/select2.min.css`,
+    `node_modules/select2/dist/css/select2.min.css`,
     `${baseAsset}/vendors/bootstrap-datepicker/css/bootstrap-datepicker.min.css`,
     `${baseAsset}/vendors/sweetalert2/animate.min.css`,
     `${baseAsset}/vendors/font-awesome/css/font-awesome.min.css`,
@@ -21,8 +22,6 @@ mix.styles([
     `${baseAsset}/vendors/nestable2/jquery.nestable.min.css`,
     `${baseAsset}/vendors/accordion/accordion.css`,
     `${baseAsset}/vendors/codemirror/codemirror.css`,
-    `${baseAsset}/filemanager/css/cropper.min.css`,
-    `${baseAsset}/filemanager/css/dropzone.min.css`,
 ], `${basePublish}/css/vendor.min.css`);
 
 mix.combine([
@@ -30,7 +29,7 @@ mix.combine([
     `${baseAsset}/vendors/jquery-ui/jquery-ui.min.js`,
     `${baseAsset}/vendors/lazysizes/js/lazysizes.min.js`,
     `${baseAsset}/vendors/perfect-scrollbar/js/perfect-scrollbar.jquery.min.js`,
-    `${baseAsset}/vendors/select2/dist/js/select2.full.min.js`,
+    `node_modules/select2/dist/js/select2.full.min.js`,
     `${baseAsset}/vendors/jquery-validation/jquery.validate.min.js`,
     `${baseAsset}/vendors/bootstrap-table/bootstrap-table.min.js`,
     `${baseAsset}/vendors/sweetalert2/sweetalert2.js`,

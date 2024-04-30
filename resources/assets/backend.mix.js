@@ -48,9 +48,11 @@ mix.styles([
     `${baseAsset}/js/components/layout/menu-top/style.css`,
     `${baseAsset}/js/components/layout/sidebar/style.css`,
     `${baseAsset}/js/components/layout/topbar/style.css`,
+    `${baseAsset}/filemanager/css/cropper.min.css`,
+    `${baseAsset}/filemanager/css/dropzone.min.css`,
     //`update/styles/codemirror/codemirror.css`,
     //`update/styles/codemirror/addon/hint/show-hint.css`,
-], `css/backend.min.css`);
+], `${basePublish}/css/backend.min.css`);
 
 mix.combine([
     `${baseAsset}/js/components/core/index.js`,
@@ -58,8 +60,8 @@ mix.combine([
     `${baseAsset}/js/components/layout/menu-top/index.js`,
     `${baseAsset}/js/components/layout/sidebar/index.js`,
     `${baseAsset}/js/components/layout/topbar/index.js`,
-], `js/backend.min.js`);
+], `${basePublish}/js/backend.min.js`);
 
 mix.styles([
     `${baseAsset}/css/admin-bar.css`,
-], 'css/admin-bar.css');
+], `${basePublish}/css/admin-bar.css`);
