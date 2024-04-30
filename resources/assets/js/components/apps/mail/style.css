@@ -1,0 +1,70 @@
+/* MAIL APP */
+.jw__mail {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+@media (max-width: 575px) {
+    .jw__mail {
+        flex-direction: column;
+    }
+}
+
+.jw__mail__sidebar {
+    width: 16.66rem;
+    flex-shrink: 0;
+}
+
+@media (max-width: 575px) {
+    .jw__mail__sidebar {
+        width: auto;
+    }
+}
+
+.jw__mail__searchIcon {
+    position: absolute;
+    color: #c8c4db;
+    font-size: 1.13rem;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1rem;
+}
+
+.jw__mail__searchInput {
+    border: 1px solid #e4e9f0;
+    border-radius: 5px;
+    background-color: #fff;
+    padding-left: 3rem;
+    padding-right: 1.33rem;
+    padding-top: 0.33rem;
+    padding-bottom: 0.26rem;
+    width: 100%;
+}
+
+.jw__mail__categories {
+    height: 100%;
+}
+
+@media (max-width: 575px) {
+    .jw__mail__categories {
+        max-height: 16rem;
+        margin-bottom: 1rem;
+    }
+}
+
+.jw__mail__category {
+    padding-top: 0.33rem;
+    padding-bottom: 0.53rem;
+    padding-left: 0.66rem;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.jw__mail__category:hover, .jw__mail__category--current {
+    background-color: #f2f4f8;
+}
+
+[data-kit-theme='dark'] .jw__mail__category:hover, [data-kit-theme='dark'] .jw__mail__category--current {
+    background-color: #232135;
+}

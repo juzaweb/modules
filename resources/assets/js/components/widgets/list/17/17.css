@@ -1,0 +1,30 @@
+.jw__l17__item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-bottom: 1.33rem;
+}
+
+.jw__l17__item .jw__utils__control {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.jw__l17__item .jw__utils__control__indicator {
+    flex-shrink: 0;
+}
+
+.jw__l17__item:last-child {
+    margin-bottom: 0;
+}
+
+.jw__l17__separator {
+    height: 2.13rem;
+    width: 4px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    background-color: #e4e9f0;
+}

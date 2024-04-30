@@ -172,6 +172,9 @@ class Facades
             ],
             'language' => [
                 'show_api' => true,
+                'data' => [
+                    'validators' => ['nullable', 'string'],
+                ],
             ],
             'timezone' => [
                 'show_api' => true,

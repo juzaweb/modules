@@ -1,0 +1,64 @@
+.juzaweb__layout {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    min-height: 100vh;
+    min-width: 0;
+    /* SETTINGS */
+}
+
+.juzaweb__layout--hasSider {
+    flex-direction: row;
+}
+
+.juzaweb__layout__content {
+    flex: auto;
+    min-height: 0;
+}
+
+.juzaweb__layout__footer {
+    flex: 0 0 auto;
+}
+
+.juzaweb__layout__header {
+    flex: 0 0 auto;
+    height: 64px;
+}
+
+.juzaweb__layout__header {
+    background: #fff !important;
+}
+
+.juzaweb__layout--grayBackground {
+    background: #f2f4f8;
+}
+
+.juzaweb__layout--contentMaxWidth .juzaweb__utils__content {
+    max-width: 1420px;
+    margin: 0 auto;
+}
+
+.juzaweb__layout--appMaxWidth {
+    max-width: 1420px;
+    margin: 0 auto;
+}
+
+.juzaweb__layout--squaredBorders .card {
+    border-radius: 0 !important;
+}
+
+.juzaweb__layout--cardsShadow .card {
+    box-shadow: 0 4px 10px 0 rgba(20, 19, 34, 0.03), 0 0 10px 0 rgba(20, 19, 34, 0.02);
+}
+
+.juzaweb__layout--cardsShadow .card .card {
+    box-shadow: none;
+}
+
+.juzaweb__layout--borderless .card {
+    border: none !important;
+}
+
+[data-kit-theme='dark'] .juzaweb__layout__grayBackground, [data-kit-theme='dark'] .juzaweb__layout__headerGray {
+    background: transparent !important;
+}
