@@ -82,8 +82,9 @@ function show_message(response, append = false)
         return;
     }
 
+    let close = typeof juzaweb === 'undefined' ? 'Close' : (juzaweb?.lang?.close || 'Close');
     let msgHTML = `<div class="alert alert-${msg.status ? 'success' : 'danger' } jw-message">
-        <button type="button" class="close" data-dismiss="alert" aria-label="${juzaweb.lang.close}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="${close}">
             <span aria-hidden="true">&times;</span>
         </button>
 
