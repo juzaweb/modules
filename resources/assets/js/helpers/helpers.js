@@ -75,7 +75,7 @@ function get_message_response(response)
     }
 }
 
-function show_message(response, append = false)
+function show_message(response, append = false, form = null)
 {
     let msg = get_message_response(response);
     if (!msg) {
@@ -91,10 +91,15 @@ function show_message(response, append = false)
         ${msg.status ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>' } ${msg.message}
     </div>`;
 
+    let el = $('#jquery-message');
+    if (form && form.find('.form-mesage').length > 0) {
+        el = form.find('.form-mesage');
+    }
+
     if (append) {
-        $('#jquery-message').append(msgHTML);
+        el.append(msgHTML);
     } else {
-        $('#jquery-message').html(msgHTML);
+        el.html(msgHTML);
     }
 }
 

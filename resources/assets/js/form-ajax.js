@@ -9,14 +9,14 @@
  */
 
 $(function () {
-    function sendMessageByResponse(response, notify = false) {
+    function sendMessageByResponse(response, notify = false, form = null) {
         if (notify) {
             if (typeof show_notify !== 'undefined' && typeof show_notify === 'function') {
                 show_notify(response);
             }
         } else {
             if (typeof show_message !== 'undefined' && typeof show_message === 'function') {
-                show_message(response);
+                show_message(response, false, form);
             }
         }
     }
@@ -38,7 +38,7 @@ $(function () {
             contentType: false,
             processData: false
         }).done(function(response) {
-            sendMessageByResponse(response, notify);
+            sendMessageByResponse(response, notify, form);
 
             if (submitSuccess) {
                 let handler = eval(submitSuccess)(form, response);
@@ -75,7 +75,7 @@ $(function () {
                 btnsubmit.html(currentText);
             }
 
-            sendMessageByResponse(response, notify);
+            sendMessageByResponse(response, notify, form);
             return false;
         });
     }

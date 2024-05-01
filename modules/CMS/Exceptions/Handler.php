@@ -65,25 +65,27 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($this->is404Exception($e)) {
+            $message = $e->getMessage() ?: 'Page not found';
+
             if ($request->expectsJson()) {
-                return response()->json(['message' => 'Page not found'], 404);
+                return response()->json(['message' => $message], 404);
             }
 
             if ($request->is(config('juzaweb.admin_prefix').'/*')) {
-                return response()->view('cms::404', ['message' => 'Page not found'], 404);
+                return response()->view('cms::404', ['message' => $message], 404);
             }
 
             if (view()->exists(theme_viewname('theme::404'))) {
                 return response()->view(
                     theme_viewname('theme::404'),
-                    ['message' => 'Page not found'],
+                    ['message' => $message],
                     404
                 );
             }
 
             return response()->view(
                 'cms::404',
-                ['message' => 'Page not found'],
+                ['message' => $message],
                 404
             );
         }
