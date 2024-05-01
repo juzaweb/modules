@@ -5,6 +5,8 @@
     "/css/backend.min.css": "/css/backend.min.css",
     "/js/backend.min.js": "/js/backend.min.js",
     "/css/admin-bar.css": "/css/admin-bar.css",
+    "/css/frontend-support.min.css": "/css/frontend-support.min.css",
+    "/js/frontend-support.min.js": "/js/frontend-support.min.js",
     "/css/custom.min.css": "/css/custom.min.css",
     "/js/custom.min.js": "/js/custom.min.js"
 }

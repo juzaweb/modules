@@ -5,6 +5,7 @@ const basePublish = baseAsset + '/public';
 
 require (`${__dirname}/vendor.mix.js`);
 require (`${__dirname}/backend.mix.js`);
+require (`${__dirname}/frontend.mix.js`);
 
 // mix.combine(
 //      [
@@ -54,8 +55,8 @@ mix.styles(
 mix.combine(
     [
         baseAsset + '/js/load-ajax.js',
-        baseAsset + '/js/recaptcha.js',
-        baseAsset + '/js/helpers.js',
+        baseAsset + '/js/helpers/recaptcha.js',
+        baseAsset + '/js/helpers/helpers.js',
         baseAsset + '/js/custom-seo.js',
         baseAsset + '/js/filemanager.js',
         baseAsset + '/js/widget.js',

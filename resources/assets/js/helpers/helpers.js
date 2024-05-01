@@ -1,7 +1,7 @@
 toastr.options.timeOut = 3000;
 
 function toastr_message(message, status, title = null) {
-    if (status == true) {
+    if (status === true) {
         toastr.success(message, title || juzaweb.lang.successfully + ' !!');
     } else {
         toastr.error(message, title || juzaweb.lang.error + ' !!');

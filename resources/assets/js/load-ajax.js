@@ -5,7 +5,7 @@ $(function () {
         },
     });
 
-    $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+    $(document).ajaxError(function (event, jqxhr) {
         if (jqxhr.status === 401) {
             window.location = "/";
         }
