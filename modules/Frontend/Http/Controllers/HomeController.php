@@ -20,7 +20,7 @@ class HomeController extends FrontendController
         do_action('theme.home.index');
 
         if ($pageId = jw_home_page()) {
-            $page = $this->postRepository->scopeQuery(fn($q) => $q->where(['id' => $pageId]))->first();
+            $page = $this->postRepository->frontendFind($pageId);
 
             if ($page) {
                 return App::call(PageController::class .'@detail', ['id' => $page]);

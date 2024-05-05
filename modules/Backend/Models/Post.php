@@ -281,6 +281,16 @@ class Post extends Model implements ExportSupport
         return $formater;
     }
 
+    public function getAttribute($key)
+    {
+        return apply_filters(
+            'post-type.get-attribute',
+            parent::getAttribute($key),
+            $this,
+            $key
+        );
+    }
+
     protected function getCacheBaseTags(): array
     {
         return [

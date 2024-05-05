@@ -547,9 +547,9 @@ function get_locale(): string
 
 function home_url(?string $path = null, bool $absolute = true): string
 {
-    $homeUrl = apply_filters('home_url', '/');
+    $homeUrl = apply_filters('home_url', route('home'));
 
-    $homeUrl = $path ? rtrim($homeUrl, '/').'/'.ltrim($path, '/') : $homeUrl;
+    $homeUrl = ($path && $path !== '/') ? rtrim($homeUrl, '/').'/'.ltrim($path, '/') : $homeUrl;
 
     return $absolute ? url($homeUrl) : '/'.ltrim($homeUrl, '/');
 }

@@ -29,10 +29,6 @@ class PageController extends FrontendController
         /**
          * @var Post $page
          */
-        /*$page = Post::createFrontendDetailBuilder()
-            ->where('slug', '=', $pageSlug)
-            ->firstOrFail();*/
-
         $page = $this->postRepository->frontendFindBySlug($pageSlug);
 
         return $this->handlePage($request, $page, $slug);

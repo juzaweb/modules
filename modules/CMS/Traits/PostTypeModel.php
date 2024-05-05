@@ -510,7 +510,7 @@ trait PostTypeModel
             return false;
         }
 
-        return home_url(route('post', ["{$permalink}/{$this->slug}"], false), $absolute);
+        return route('post', ["{$permalink}/{$this->slug}"], $absolute);
     }
 
     public function getThumbnail(string|bool $thumb = true): string

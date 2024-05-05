@@ -28,7 +28,6 @@ use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use RuntimeException;
 
 trait PostTypeController
 {
@@ -240,8 +239,11 @@ trait PostTypeController
         $attributes['type'] = $setting->get('key');
 
         return apply_filters(
-            "post_type.{$this->getPostType()}.parseDataForSave",
-            $attributes
+            'post_type.parseDataForSave',
+            apply_filters(
+                "post_type.{$this->getPostType()}.parseDataForSave",
+                $attributes
+            )
         );
     }
 
