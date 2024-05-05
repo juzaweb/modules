@@ -19,7 +19,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 use Juzaweb\Backend\Events\PostViewed;
-use Juzaweb\Backend\Http\Resources\CommentResource;
 use Juzaweb\Backend\Http\Resources\PostResourceCollection;
 use Juzaweb\Backend\Models\Comment;
 use Juzaweb\Backend\Models\Post;
@@ -72,15 +71,14 @@ class PostController extends FrontendController
             $permalink
         );
 
-        $post = $this->postRepository->findBySlug($postSlug, false);
-        if ($post === null && count($slug) > 2) {
-            $post = $this->postRepository->findBySlug($slug[1]);
-        }
+        $post = $this->getPostBySlug($slug, $postSlug);
 
-        abort_if($post === null, 404);
+        abort_if($post == null, 404);
+
+        $post->load(Post::frontendSelectWith());
 
         do_action(
-            "frontend.post_type.detail.post",
+            'frontend.post_type.detail.post',
             $post
         );
 
@@ -138,6 +136,16 @@ class PostController extends FrontendController
         do_action('post_type.comment.saved', $comment, $post);
 
         return $this->success(trans('cms::app.comment_success'));
+    }
+
+    protected function getPostBySlug(array $slug, string $postSlug)
+    {
+        $post = $this->postRepository->findBySlug($postSlug, false);
+        if ($post === null && count($slug) > 2) {
+            $post = $this->postRepository->findBySlug($slug[1]);
+        }
+
+        return apply_filters('frontend.getPostBySlug', $post, $slug);
     }
 
     private function getParamDetail(Post $post, array $slug, Collection $permalink): array
