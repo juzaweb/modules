@@ -145,27 +145,7 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
     {
         $builder = $this->model->newQuery()->with($this->withFrontendDefaults())
             ->cacheFor(3600)
-            ->select(
-                [
-                    'id',
-                    'uuid',
-                    'title',
-                    'description',
-                    'thumbnail',
-                    'slug',
-                    'rating',
-                    'total_rating',
-                    'views',
-                    'total_rating',
-                    'total_comment',
-                    'type',
-                    'status',
-                    'created_by',
-                    'created_at',
-                    'json_metas',
-                    'json_taxonomies',
-                ]
-            )
+            ->select(Post::frontendSelectColumns())
             ->wherePublish();
 
         return apply_filters('post.selectFrontendBuilder', $builder);

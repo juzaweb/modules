@@ -43,7 +43,7 @@ trait PostQuery
         $query = Post::selectFrontendBuilder();
 
         if ($type) {
-            $query->where('type', '=', $type);
+            $query->where('posts.type', '=', $type);
         }
 
         if ($hasThumbnail) {
@@ -126,15 +126,15 @@ trait PostQuery
             ->toArray();
 
         $posts = Post::selectFrontendBuilder()
-            ->where('type', $post['type'])
+            ->where('posts.type', $post['type'])
             ->whereHas(
                 'taxonomies',
                 function (Builder $q) use ($ids) {
                     $q->whereIn("{$q->getModel()->getTable()}.id", $ids);
                 }
             )
-            ->where('id', '!=', $post['id'])
-            ->orderBy('id', 'DESC')
+            ->where('posts.id', '!=', $post['id'])
+            ->orderBy('posts.id', 'DESC')
             ->take($limit)
             ->get();
 
@@ -154,14 +154,14 @@ trait PostQuery
         $query = Post::selectFrontendBuilder();
 
         if ($post) {
-            $query->where('id', '!=', Arr::get($post, 'id'));
+            $query->where('posts.id', '!=', Arr::get($post, 'id'));
         }
 
         if ($type) {
-            $query->where('type', '=', $type);
+            $query->where('posts.type', '=', $type);
         }
 
-        $query->orderBy('views', 'DESC');
+        $query->orderBy('posts.views', 'DESC');
 
         $posts = $query->take($limit)->get();
 

@@ -39,25 +39,7 @@ class FrontendPostCriteria implements CriteriaInterface
 
         $builder = $model->with($repository->withFrontendDefaults())
             ->cacheFor(3600)
-            ->select(
-                [
-                    'id',
-                    'uuid',
-                    'title',
-                    'description',
-                    'thumbnail',
-                    'slug',
-                    'views',
-                    'total_rating',
-                    'total_comment',
-                    'type',
-                    'status',
-                    'created_by',
-                    'created_at',
-                    'json_metas',
-                    'json_taxonomies',
-                ]
-            )
+            ->select(Post::frontendSelectColumns())
             ->when($this->type, fn ($q) => $q->where('type', $this->type))
             ->wherePublish();
 

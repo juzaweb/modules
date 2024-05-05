@@ -47,27 +47,8 @@ trait PostTypeModel
     {
         $builder = static::with(static::frontendSelectWith())
             ->cacheFor(3600)
-            ->select(
-                [
-                    'id',
-                    'uuid',
-                    'title',
-                    'description',
-                    'thumbnail',
-                    'slug',
-                    'rating',
-                    'total_rating',
-                    'views',
-                    'total_rating',
-                    'total_comment',
-                    'type',
-                    'status',
-                    'created_by',
-                    'created_at',
-                    'json_metas',
-                    'json_taxonomies',
-                ]
-            )->wherePublish();
+            ->select(static::frontendSelectColumns())
+            ->wherePublish();
 
         return apply_filters('post.selectFrontendBuilder', $builder);
     }
@@ -76,7 +57,7 @@ trait PostTypeModel
     {
         $builder = static::with(static::frontendSelectWith())
             ->cacheFor(3600)
-            ->whereIn('status', [Post::STATUS_PUBLISH, Post::STATUS_PRIVATE]);
+            ->whereIn('posts.status', [Post::STATUS_PUBLISH, Post::STATUS_PRIVATE]);
 
         return apply_filters('post.createFrontendDetailBuilder', $builder);
     }
@@ -93,6 +74,29 @@ trait PostTypeModel
             ->wherePublish();
 
         return apply_filters('post.createFrontendBuilder', $builder);
+    }
+
+    public static function frontendSelectColumns(): array
+    {
+        return [
+            'posts.id',
+            'posts.uuid',
+            'posts.title',
+            'posts.description',
+            'posts.thumbnail',
+            'posts.slug',
+            'posts.rating',
+            'posts.total_rating',
+            'posts.views',
+            'posts.total_rating',
+            'posts.total_comment',
+            'posts.type',
+            'posts.status',
+            'posts.created_by',
+            'posts.created_at',
+            'posts.json_metas',
+            'posts.json_taxonomies',
+        ];
     }
 
     public static function frontendSelectWith(): array

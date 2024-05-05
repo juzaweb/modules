@@ -57,14 +57,14 @@ function get_popular_posts(string $type = null, array $post = null, int $limit =
     $query = Post::selectFrontendBuilder();
 
     if ($post) {
-        $query->where('id', '!=', Arr::get($post, 'id'));
+        $query->where('posts.id', '!=', Arr::get($post, 'id'));
     }
 
     if ($type) {
-        $query->where('type', '=', $type);
+        $query->where('posts.type', '=', $type);
     }
 
-    $query->orderBy('views', 'DESC');
+    $query->orderBy('posts.views', 'DESC');
 
     $posts = $query->take($limit)->get();
 
@@ -188,9 +188,9 @@ if (!function_exists('get_previous_post')) {
         }
 
         $post = Post::selectFrontendBuilder()
-            ->where('id', '<', $postId)
-            ->where('type', '=', $postType)
-            ->orderBy('id', 'DESC')
+            ->where('posts.id', '<', $postId)
+            ->where('posts.type', '=', $postType)
+            ->orderBy('posts.id', 'DESC')
             ->first();
 
         return Theme::parseParam($post);
@@ -208,9 +208,9 @@ if (!function_exists('get_next_post')) {
     function get_next_post(null|array $post): mixed
     {
         $post = Post::selectFrontendBuilder()
-            ->where('id', '>', Arr::get($post, 'id', 0))
-            ->where('type', '=', Arr::get($post, 'type', 'posts'))
-            ->orderBy('id', 'ASC')
+            ->where('posts.id', '>', Arr::get($post, 'id', 0))
+            ->where('posts.type', '=', Arr::get($post, 'type', 'posts'))
+            ->orderBy('posts.id', 'ASC')
             ->first();
 
         if (empty($post)) {
