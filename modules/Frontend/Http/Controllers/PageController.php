@@ -70,6 +70,11 @@ class PageController extends FrontendController
             event(new PostViewed($page));
         }
 
+        do_action(
+            'frontend.post_type.detail.post',
+            $page
+        );
+
         /* Add pages filter */
         $result = apply_filters(
             'theme.page.handle',

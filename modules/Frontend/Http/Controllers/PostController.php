@@ -80,10 +80,8 @@ class PostController extends FrontendController
         abort_if($post === null, 404);
 
         do_action(
-            "frontend.post_type.detail",
-            $post,
-            $postSlug,
-            $permalink
+            "frontend.post_type.detail.post",
+            $post
         );
 
         do_action(

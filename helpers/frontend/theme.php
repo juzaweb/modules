@@ -337,6 +337,13 @@ if (!function_exists('is_home')) {
     }
 }
 
+if (!function_exists('is_home_page')) {
+    function is_home_page(Post $page): bool
+    {
+        return $page->id == get_config('home_page');
+    }
+}
+
 if (!function_exists('jw_get_sidebar')) {
     function jw_get_sidebar($key): Collection
     {

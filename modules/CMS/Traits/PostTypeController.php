@@ -205,9 +205,8 @@ trait PostTypeController
             $editor = 'cms::backend.page-block.block';
         }
         $data['editor'] = $editor;
-
-        return apply_filters(
-            "post_type.{$this->getPostType()}.getDataForForm",
+        $data = apply_filters(
+            'post_type.getDataForForm',
             array_merge(
                 $data,
                 [
@@ -217,6 +216,11 @@ trait PostTypeController
                     'templateData' => $templateData,
                 ]
             )
+        );
+
+        return apply_filters(
+            "post_type.{$this->getPostType()}.getDataForForm",
+            $data
         );
     }
 
