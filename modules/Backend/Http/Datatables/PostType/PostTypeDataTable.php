@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\CMS\Abstracts\DataTable;
 use Juzaweb\CMS\Facades\HookAction;
-use Juzaweb\CMS\Models\Language;
 
 class PostTypeDataTable extends DataTable
 {

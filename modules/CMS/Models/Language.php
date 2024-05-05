@@ -84,8 +84,15 @@ class Language extends Model
     public static function languages(): Collection
     {
         return self::cacheFor(config('juzaweb.performance.query_cache.lifetime'))
-            ->all()
+            ->get()
             ->keyBy('code');
+    }
+
+    public static function default(): ?self
+    {
+        return self::cacheFor(config('juzaweb.performance.query_cache.lifetime'))
+            ->where(['default' => true])
+            ->first();
     }
 
     public function isDefault(): bool

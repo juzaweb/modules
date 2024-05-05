@@ -45,13 +45,7 @@ trait PostTypeModel
 
     public static function selectFrontendBuilder(): Builder
     {
-        $builder = static::with(
-            [
-                'createdBy' => function ($q) {
-                    $q->cacheFor(3600);
-                }
-            ]
-        )
+        $builder = static::with(static::frontendSelectWith())
             ->cacheFor(3600)
             ->select(
                 [
@@ -80,13 +74,7 @@ trait PostTypeModel
 
     public static function createFrontendDetailBuilder(): Builder
     {
-        $builder = static::with(
-            [
-                'createdBy' => function ($q) {
-                    $q->cacheFor(3600);
-                },
-            ]
-        )
+        $builder = static::with(static::frontendSelectWith())
             ->cacheFor(3600)
             ->whereIn('status', [Post::STATUS_PUBLISH, Post::STATUS_PRIVATE]);
 
@@ -100,17 +88,23 @@ trait PostTypeModel
      */
     public static function createFrontendBuilder(): Builder
     {
-        $builder = static::with(
+        $builder = static::with(static::frontendSelectWith())
+            ->cacheFor(3600)
+            ->wherePublish();
+
+        return apply_filters('post.createFrontendBuilder', $builder);
+    }
+
+    public static function frontendSelectWith(): array
+    {
+        return apply_filters(
+            'post.withFrontendDefaults',
             [
                 'createdBy' => function ($q) {
                     $q->cacheFor(3600);
                 },
             ]
-        )
-            ->cacheFor(3600)
-            ->wherePublish();
-
-        return apply_filters('post.createFrontendBuilder', $builder);
+        );
     }
 
     public static function getStatuses($type = 'posts'): array
@@ -122,7 +116,9 @@ trait PostTypeModel
             'trash' => trans('cms::app.trash'),
         ];
 
-        return apply_filters($type . '.statuses', $statuses);
+        $statuses = apply_filters("post-type.statuses", $statuses);
+
+        return apply_filters("{$type}.statuses", $statuses);
     }
 
     public function attributeLabels(): array

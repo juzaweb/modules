@@ -190,14 +190,7 @@ class PostRepositoryEloquent extends BaseRepositoryEloquent implements PostRepos
 
     public function withFrontendDefaults(): array
     {
-        return apply_filters(
-            'post.withFrontendDefaults',
-            [
-                'createdBy' => function ($q) {
-                    $q->cacheFor(3600);
-                },
-            ]
-        );
+        return Post::frontendSelectWith();
     }
 
     public function frontend(?string $type): static
