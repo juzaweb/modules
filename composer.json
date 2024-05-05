@@ -45,6 +45,8 @@
         "laravel/passport": "^10.4",
         "rcrowe/twigbridge": "^0.14",
         "spatie/image-optimizer": "^1.4",
+        "spatie/laravel-activitylog": "^4.7",
+        "performing/twig-components": "^0.5.3",
         "league/fractal": "^0.20.1",
         "laravel/sanctum": "^3.3"
     },

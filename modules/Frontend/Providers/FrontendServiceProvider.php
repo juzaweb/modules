@@ -13,6 +13,7 @@ namespace Juzaweb\Frontend\Providers;
 use Illuminate\Console\Events\CommandFinished;
 use Juzaweb\CMS\Contracts\LocalThemeRepositoryContract;
 use Juzaweb\CMS\Support\ServiceProvider;
+use Performing\TwigComponents\Configuration;
 
 class FrontendServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,12 @@ class FrontendServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $currentTheme = $this->app[LocalThemeRepositoryContract::class]->currentTheme();
+
+        Configuration::make($this->app['twig'])
+            ->setTemplatesPath($currentTheme->getPath('views/components'))
+            ->setTemplatesExtension('twig')
+            ->useCustomTags()
+            ->setup();
 
         if ($currentTheme->getTemplate() == 'inertia') {
             config(['inertia.ssr.bundle' => $currentTheme->getPath('assets/ssr/ssr.mjs')]);
