@@ -556,7 +556,9 @@ class LocalPluginRepository implements LocalPluginRepositoryContract, Countable
 
     public function assets(string $name, string $path = null): string
     {
-        //return str_replace(['http://', 'https://'], '//', $url);
+        if ($path) {
+            $path = 'assets/'. ltrim(ltrim($path, '/'), 'assets');
+        }
 
         return $this->url->asset("jw-styles/plugins/{$name}/" . $path);
     }
