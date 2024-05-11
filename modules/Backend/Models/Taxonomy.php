@@ -81,6 +81,7 @@ class Taxonomy extends Model
         'post_type',
         'parent_id',
         'total_post',
+        'locale',
     ];
 
     public string $cachePrefix = 'taxonomies_';

@@ -71,7 +71,10 @@ class TaxonomyRepositoryEloquent extends BaseRepositoryEloquent implements Taxon
     
     public function createFrontendBuilder(): Builder
     {
-        return $this->model->newQuery();
+        return apply_filters(
+            'taxonomy.selectFrontendBuilder',
+            $this->model->newQuery()->with(Taxonomy::frontendSelectWith())
+        );
     }
 
     public function appendCustomFilter(Builder $builder, array $input): Builder

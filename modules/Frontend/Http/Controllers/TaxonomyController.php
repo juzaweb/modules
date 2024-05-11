@@ -5,6 +5,7 @@ namespace Juzaweb\Frontend\Http\Controllers;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Juzaweb\Backend\Http\Resources\PostResourceCollection;
+use Juzaweb\Backend\Models\Taxonomy;
 use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\Backend\Repositories\TaxonomyRepository;
 use Juzaweb\CMS\Facades\Facades;
@@ -32,11 +33,18 @@ class TaxonomyController extends FrontendController
 
         $taxonomy = apply_filters(
             'frontend.getTaxonomyBySlug',
-            $this->taxonomyRepository->frontendDetail($taxSlug),
+            $this->taxonomyRepository->findBySlug($taxSlug),
             $slug
         );
 
         abort_if($taxonomy === null, 404);
+
+        $taxonomy->load(Taxonomy::frontendSelectWith());
+
+        do_action(
+            'frontend.taxonomy.detail',
+            $taxonomy
+        );
 
         Facades::$isTaxonomyPage = true;
 
