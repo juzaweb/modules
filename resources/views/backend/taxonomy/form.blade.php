@@ -2,6 +2,7 @@
 
 @section('content')
     @php
+        /** @var \Illuminate\Support\Collection $setting */
         $type = $setting->get('type');
         $postType = $setting->get('post_type');
     @endphp
@@ -28,6 +29,10 @@
                     </select>
                 </div>
                 @endif
+
+                @do_action('taxonomies.'. $taxonomy .'.form.left', $model)
+
+                @do_action('taxonomies.form.left', $model)
             </div>
 
             @if(in_array('thumbnail', $setting->get('supports', [])))
@@ -42,6 +47,8 @@
 
             <input type="hidden" name="post_type" value="{{ $postType }}">
             <input type="hidden" name="taxonomy" value="{{ $taxonomy }}">
+
+
         </div>
     @endcomponent
 

@@ -7,8 +7,10 @@
         <div class="col-md-4">
             <h5>{{ trans('cms::app.add_new') }}</h5>
             @php
+                /** @var \Illuminate\Support\Collection $setting */
                 $type = $setting->get('type');
                 $postType = $setting->get('post_type');
+                $model = new \Juzaweb\Backend\Models\Taxonomy();
             @endphp
 
             <form method="post" action="{{ route('admin.taxonomies.store', [$postType, $taxonomy]) }}" class="form-ajax" data-success="reload_data" id="form-add">
@@ -29,16 +31,20 @@
                 ])
                 @endcomponent
 
-                @if(in_array('hierarchical', $setting->get('supports', [])))
-                    <div class="form-group">
-                        <label class="col-form-label" for="parent_id">{{ trans('cms::app.parent') }}</label>
-                        <select name="parent_id" id="parent_id" class="form-control load-taxonomies" data-post-type="{{ $setting->get('post_type') }}" data-taxonomy="{{ $setting->get('taxonomy') }}" data-placeholder="{{ trans('cms::app.parent') }}">
-                        </select>
-                    </div>
-                @endif
+                    @if(in_array('hierarchical', $setting->get('supports', [])))
+                        <div class="form-group">
+                            <label class="col-form-label" for="parent_id">{{ trans('cms::app.parent') }}</label>
+                            <select name="parent_id" id="parent_id" class="form-control load-taxonomies" data-post-type="{{ $setting->get('post_type') }}" data-taxonomy="{{ $setting->get('taxonomy') }}" data-placeholder="{{ trans('cms::app.parent') }}">
+                            </select>
+                        </div>
+                    @endif
 
                     <input type="hidden" name="post_type" value="{{ $postType }}">
                     <input type="hidden" name="taxonomy" value="{{ $taxonomy }}">
+
+                    @do_action('taxonomies.'. $taxonomy .'.form.left', $model)
+
+                    @do_action('taxonomies.form.left', $model)
 
                 <button type="submit" class="btn btn-success"><i class="fa fa-plus"></i>
                     {{ trans('cms::app.add') }} {{ $setting->get('label') }}

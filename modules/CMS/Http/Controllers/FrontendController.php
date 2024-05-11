@@ -17,7 +17,7 @@ class FrontendController extends Controller
 {
     use ResponseMessage;
 
-    protected string $template;
+    protected string $template = 'twig';
 
     public function callAction($method, $parameters): mixed
     {
