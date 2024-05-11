@@ -92,7 +92,12 @@ class Taxonomy extends Model
      */
     public static function selectFrontendBuilder(): Builder
     {
-        return self::query();
+        return apply_filters('taxonomy.selectFrontendBuilder', self::with(self::frontendSelectWith()));
+    }
+
+    public static function frontendSelectWith(): array
+    {
+        return apply_filters('taxonomy.withFrontendDefaults', []);
     }
 
     /**

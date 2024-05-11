@@ -5,7 +5,6 @@ namespace Juzaweb\Frontend\Http\Controllers;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Juzaweb\Backend\Http\Resources\PostResourceCollection;
-use Juzaweb\Backend\Http\Resources\TaxonomyResource;
 use Juzaweb\Backend\Repositories\PostRepository;
 use Juzaweb\Backend\Repositories\TaxonomyRepository;
 use Juzaweb\CMS\Facades\Facades;
@@ -31,7 +30,11 @@ class TaxonomyController extends FrontendController
 
         abort_unless($taxSlug, 404);
 
-        $taxonomy = $this->taxonomyRepository->findBySlug($taxSlug);
+        $taxonomy = apply_filters(
+            'frontend.getTaxonomyBySlug',
+            $this->taxonomyRepository->frontendDetail($taxSlug),
+            $slug
+        );
 
         abort_if($taxonomy === null, 404);
 
