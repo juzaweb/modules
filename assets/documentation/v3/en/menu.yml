@@ -1,25 +1,49 @@
-pages:
-  "Quick Start":
-    - Installation: start/installation
-    - Config: start/config
-    - Update Guide: start/update
-    - Image optimizer: start/image-optimizer
-    - Changelog: changelog
-  "Plugin Development":
-    - Create plugin: plugin/create
-    - Hook actions: plugin/hook-actions
-    - Post type: plugin/post-type
-    - Resource: plugin/resource
-    - Config Form: plugin/config-form
-    - Services: plugin/services
-    - Helpers: plugin/helpers
-    - Translation: plugin/translation
-  "Theme Development":
-    - Create theme: theme/create
-    - Twig Template: theme/about-twig
-    - Register Data: theme/register
-    - Custom Page Templates: theme/custom-page
-    - Helpers: theme/helpers
-    - Translation: theme/translation
-    - Assets: theme/assets-and-mix-assets
-    - Commands: theme/commands
+main:
+  - title: Getting Started
+    children:
+      - title: Installation
+        url: /getting-started/installation
+      - title: Config
+        url: /getting-started/config
+      - title: Update
+        url: /getting-started/update
+      - title: Image optimizer
+        url: /getting-started/image-optimizer
+      - title: Changelog
+        url: /getting-started/changelog
+  - title: Plugin Development
+    children:
+      - title: Create plugin
+        url: /plugin/create
+      - title: Hook actions
+        url: /plugin/hook-actions
+      - title: Post type
+        url: /plugin/post-type
+      - title: Resource
+        url: /plugin/resource
+      - title: Config Form
+        url: /plugin/config-form
+      - title: Services
+        url: /plugin/services
+      - title: Helpers
+        url: /plugin/helpers
+      - title: Translation
+        url: /plugin/translation
+  - title: Theme Development
+    children:
+      - title: Create theme
+        url: /theme/create
+      - title: Twig Template
+        url: /theme/about-twig
+      - title: Register Data
+        url: /theme/register
+      - title: Custom Page Templates
+        url: /theme/custom-page
+      - title: Helpers
+        url: /theme/helpers
+      - title: Translation
+        url: /theme/translation
+      - title: Assets
+        url: /theme/assets-and-mix-assets
+      - title: Commands
+        url: /theme/commands
