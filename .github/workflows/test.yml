@@ -32,28 +32,52 @@ jobs:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
           coverage: none
+
       - uses: actions/checkout@v2
+
       - name: Install Dependencies
         run: composer create-project --prefer-dist juzaweb/cms blog ${{ matrix.version }}
+
+      - name: Prepare CMS Environment
+        working-directory: blog
+        run: |
+          # Remove conflicting default modules to prevent class/constant collisions
+          rm -rf modules
+
+          # Create an empty helper file because juzaweb/cms composer.json explicitly requires it
+          mkdir -p modules/CMS/Helpers
+          echo "<?php" > modules/CMS/Helpers/helpers.php
+
+          # Configure composer to use the local checkout of the package
+          composer config repositories.local path ".."
+          composer config minimum-stability dev
+          composer config prefer-stable true
+
+      - name: Install Package
+        working-directory: blog
+        # Require the local package (juzaweb/modules) and compatible dev-tool
+        run: composer require juzaweb/modules:* juzaweb/dev-tool:^1.0
+
       - name: Generate key
         working-directory: blog
         run: php artisan key:generate
+
       - name: Clear Configuration
         working-directory: blog
         run: php artisan config:clear
+
       - name: Directory Permissions
         working-directory: blog
         run: chmod -R 777 storage bootstrap/cache
-      - name: Update package
-        working-directory: blog
-        # Using version ^1.0 for dev-tool to allow PHP 8.0/8.1 compatibility
-        run: composer require juzaweb/modules:dev-master juzaweb/dev-tool:^1.0
+
       - name: Install Example plugin for Testing
         working-directory: blog
         run: composer require juzaweb/example:dev-master
+
       - name: Execute tests Install
         working-directory: blog
         run: php artisan test vendor/juzaweb/modules/modules/Tests/InstallTest.php
+
       - name: Execute tests (Unit and Feature tests)
         working-directory: blog
         run: php artisan test
